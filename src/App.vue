@@ -40,6 +40,7 @@
     <v-main>
       <Header/>
       <QuestionBox/>
+      <Try/>
     </v-main>
   </v-app>
 </template>
@@ -47,13 +48,15 @@
 <script>
 import Header from './components/Header';
 import QuestionBox from "@/components/QuestionBox";
+import Try from './components/Try';
 
 export default {
   name: 'App',
 
   components: {
     Header,
-    QuestionBox
+    QuestionBox,
+    Try
   },
 
   data: () => ({
