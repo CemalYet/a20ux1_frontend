@@ -1,5 +1,5 @@
 <template>
-  <h1>NPM SERVE DEV SERVER big heart </h1>
+  <h1> cool </h1>
 </template>
 
 <script>
