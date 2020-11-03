@@ -1,3 +1,7 @@
+<style>
+@import '../styles.css';
+</style>ja
+
 <template>
   <v-app>
     <!--Bar at the top of the page-->
@@ -17,7 +21,7 @@
 
       <!-- Page title -->
       <v-spacer></v-spacer>
-      <v-toolbar-title>snAPP</v-toolbar-title>
+      <v-toolbar-title id="Title">snAPP</v-toolbar-title>
       <v-spacer></v-spacer>
 
       <!--Profile icon-->
