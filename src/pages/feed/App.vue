@@ -1,6 +1,6 @@
 <style>
 @import '../styles.css';
-</style>ja
+</style>
 
 <template>
   <v-app>
@@ -15,7 +15,7 @@
 
       <!--Hamburger menu-->
       <v-app-bar-nav-icon @click.stop="drawer = !drawer">
-        <v-icon large color="black">mdi-menu</v-icon>
+        <v-icon large color=var(--dark-color)>mdi-menu</v-icon>
         <v-badge color="red" :content="notifications"></v-badge>
       </v-app-bar-nav-icon>
 
@@ -26,43 +26,59 @@
 
       <!--Profile icon-->
       <v-btn icon>
-        <v-icon large color="black">mdi-account-outline</v-icon>
+        <v-icon large color=var(--dark-color)>mdi-account-outline</v-icon>
       </v-btn>
     </v-app-bar>
 
     <!--Page-->
     <v-main>
-      <!--Afbeeldingen om het scherm ff mee te vullen, zodat ik het scrollen kon testen-->
-      <template>
-        <v-row>
+      <br/>
+      <br/>
+
+      <!--Grid of Leaves-->
+      <v-container>
+        <v-row
+            v-for="n in 5"
+            :key="n"
+            cols="12"
+            sm="3"
+        >
           <v-col
-              v-for="n in 9"
+              v-for="n in 4"
               :key="n"
-              class="d-flex child-flex"
-              cols="4"
+              cols="12"
+              sm="3"
           >
-            <v-img
-                :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-                :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
-                aspect-ratio="1"
-                class="grey lighten-2"
-            >
-              <template v-slot:placeholder>
-                <v-row
-                    class="fill-height ma-0"
-                    align="center"
-                    justify="center"
-                >
-                  <v-progress-circular
-                      indeterminate
-                      color="grey lighten-5"
-                  ></v-progress-circular>
-                </v-row>
-              </template>
-            </v-img>
+            <svg viewBox="0 0 600 600">
+              <defs>
+                <clipPath id="leaf">
+                  <path :d="leaf_shape" transform="translate(0 50)"/>
+                </clipPath>
+              </defs>
+
+              <path :d="leaf_shape" transform="translate(0 50)"/>
+
+              <g clip-path="url(#leaf)">
+                <image preserveAspectRatio="xMidYMid slice" :xlink:href="picture" transform="translate(0 50)"/>
+              </g>
+
+              <defs>
+                <clipPath id="profile">
+                  <circle r=77 cx=450 cy=475></circle>
+                </clipPath>
+              </defs>
+
+              <circle r=77 cx=450 cy=475></circle>
+
+              <g clip-path="url(#profile)">
+                <image preserveAspectRatio="xMidYMid slice" :xlink:href="avatar"/>
+              </g>
+            </svg>
           </v-col>
         </v-row>
-      </template>
+      </v-container>
+      <br/>
+      <br/>
 
       <!--Navigation menu on the left side-->
       <v-navigation-drawer
@@ -86,28 +102,28 @@
           </v-list-item>
 
           <!--Menu options-->
-          <v-list-item link>
+          <v-list-item link :ripple="false">
             <v-list-item-icon>
-              <v-icon large color="teal darken-4">mdi-tree-outline</v-icon>
+              <v-icon large color=var(--main-color)>mdi-tree-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-title>My Discoveries</v-list-item-title>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item link :ripple="false">
             <v-list-item-icon>
-              <v-icon large color="teal darken-4">mdi-account-plus-outline</v-icon>
+              <v-icon large color=var(--main-color)>mdi-account-plus-outline</v-icon>
               <v-badge color="red" :content="notifications" overlap></v-badge>
             </v-list-item-icon>
             <v-list-item-title>Friends</v-list-item-title>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item link :ripple="false">
             <v-list-item-icon>
-              <v-icon large color="teal darken-4">mdi-shield-star-outline</v-icon>
+              <v-icon large color=var(--main-color)>mdi-shield-star-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Badges</v-list-item-title>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item link :ripple="false">
             <v-list-item-icon>
-              <v-icon large color="teal darken-4">mdi-map-outline</v-icon>
+              <v-icon large color=var(--main-color)>mdi-map-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Map</v-list-item-title>
           </v-list-item>
@@ -116,8 +132,8 @@
         <!-- Settings button-->
         <template v-slot:append>
           <div class="pa-2">
-            <v-btn text>
-              <v-icon large color="teal darken-4" left>mdi-cog-outline</v-icon>
+            <v-btn text :ripple="false">
+              <v-icon large color=var(--main-color) left>mdi-cog-outline</v-icon>
               Settings
             </v-btn>
           </div>
@@ -129,30 +145,26 @@
           fixed
           grow
           extended>
-        <v-btn color="white">
-          <v-icon large color="teal darken-4">mdi-shield-star-outline</v-icon>
+        <v-btn color="white" :ripple="false">
+          <v-icon large color=var(--main-color)>mdi-shield-star-outline</v-icon>
         </v-btn>
         <v-btn
-            color="#00251a"
-              fab
-              elevation="2"
-              raised
-              rounded
+            color=var(--dark-color)
+            fab
+            elevation="2"
+            raised
+            rounded
+            :ripple="false"
         >
           <v-icon x-large color="white">mdi-camera-plus-outline</v-icon>
         </v-btn>
-        <v-btn color="white">
-          <v-icon large color="teal darken-4">mdi-map-outline</v-icon>
+        <v-btn color="white" :ripple="false">
+          <v-icon large color=var(--main-color)>mdi-map-outline</v-icon>
         </v-btn>
       </v-bottom-navigation>
     </v-main>
   </v-app>
 </template>
-
-<style>
-  @import '../styles.css';
-</style>
-
 <script>
 
 export default {
@@ -165,6 +177,8 @@ export default {
     group: null,
     notifications: 2,
     avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/27907755_964224010401572_4566376548678829171_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=2wrEVoQrdBkAX9MBLOP&_nc_ht=scontent-bru2-1.xx&oh=81c5c254570b087bda35d1ced5624cac&oe=5FC6E541",
+    leaf_shape: "M503.141,8.696c-0.016,0-215.215-56.483-390.225,118.511 C-31.579,271.711,96.155,415.69,96.155,415.69s143.979,127.742,288.476-16.775C559.64,223.928,503.156,8.728,503.141,8.696z",
+    picture: "https://img.freepik.com/vrije-photo/close-up-van-een-giftige-rode-muhamor-paddestoel-in-het-bos_75145-275.jpg?size=626&ext=jpg",
   }),
   watch: {
     group() {
