@@ -1,76 +1,90 @@
 <template>
   <v-app>
     <v-app-bar
-      app
-      color="primary"
-      dark
+        hide-on-scroll
+        absolute
+        color="white"
+        scroll-target="#scrolling-techniques-4"
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+      <v-app-bar-nav-icon
+          @click.stop="drawer = !drawer"
+      ></v-app-bar-nav-icon>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+      <v-toolbar-title>snAPP</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+      <v-btn icon>
+        <v-icon>mdi-account-outline</v-icon>
       </v-btn>
     </v-app-bar>
 
     <v-main>
-      <v-navigation-drawer permanent>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title class="title">
-              Application
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              subtext
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-
-        <v-divider></v-divider>
-
+      <v-navigation-drawer
+          v-model="drawer"
+          absolute
+          temporary
+      >
         <v-list
-            dense
             nav
+            dense
         >
-          <v-list-item
-              v-for="item in items"
-              :key="item.title"
-              link
+          <v-list-item-group
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
           >
-            <v-list-item-icon>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
+            <v-list-item>
+              <v-list-item-title>Foo</v-list-item-title>
+            </v-list-item>
 
-            <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+            <v-list-item>
+              <v-list-item-title>Bar</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item>
+              <v-list-item-title>Fizz</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item>
+              <v-list-item-title>Buzz</v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
         </v-list>
       </v-navigation-drawer>
+
+      <v-bottom-navigation
+          absolute
+          hide-on-scroll
+          horizontal
+          scroll-target="#hide-on-scroll-example"
+      >
+        <v-btn
+            color="deep-purple accent-4"
+            text
+        >
+          <span>Recents</span>
+
+          <v-icon>mdi-history</v-icon>
+        </v-btn>
+
+        <v-btn
+            color="deep-purple accent-4"
+            text
+        >
+          <span>Favorites</span>
+
+          <v-icon>mdi-heart</v-icon>
+        </v-btn>
+
+        <v-btn
+            color="deep-purple accent-4"
+            text
+        >
+          <span>Nearby</span>
+
+          <v-icon>mdi-map-marker</v-icon>
+        </v-btn>
+      </v-bottom-navigation>
     </v-main>
   </v-app>
 </template>
@@ -85,7 +99,13 @@ export default {
   },
 
   data: () => ({
-    //
+    drawer: false,
+    group: null,
   }),
+  watch: {
+    group () {
+      this.drawer = false
+    },
+  },
 };
 </script>
