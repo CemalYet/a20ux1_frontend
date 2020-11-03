@@ -88,26 +88,26 @@
           <!--Menu options-->
           <v-list-item link>
             <v-list-item-icon>
-              <v-icon large color="green">mdi-tree-outline</v-icon>
+              <v-icon large color="teal darken-4">mdi-tree-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-title>My Discoveries</v-list-item-title>
           </v-list-item>
           <v-list-item link>
             <v-list-item-icon>
-              <v-icon large color="green">mdi-account-plus-outline</v-icon>
+              <v-icon large color="teal darken-4">mdi-account-plus-outline</v-icon>
               <v-badge color="red" :content="notifications" overlap></v-badge>
             </v-list-item-icon>
             <v-list-item-title>Friends</v-list-item-title>
           </v-list-item>
           <v-list-item link>
             <v-list-item-icon>
-              <v-icon large color="green">mdi-shield-star-outline</v-icon>
+              <v-icon large color="teal darken-4">mdi-shield-star-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Badges</v-list-item-title>
           </v-list-item>
           <v-list-item link>
             <v-list-item-icon>
-              <v-icon large color="green">mdi-map-outline</v-icon>
+              <v-icon large color="teal darken-4">mdi-map-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Map</v-list-item-title>
           </v-list-item>
@@ -117,32 +117,43 @@
         <template v-slot:append>
           <div class="pa-2">
             <v-btn text>
-              <v-icon large color="green" left>mdi-cog-outline</v-icon>
+              <v-icon large color="teal darken-4" left>mdi-cog-outline</v-icon>
               Settings
             </v-btn>
           </div>
         </template>
       </v-navigation-drawer>
 
-
       <!--Navigation menu at the bottom-->
-      <v-bottom-navigation fixed grow>
+      <v-bottom-navigation
+          fixed
+          grow
+          extended>
         <v-btn color="white">
-          <v-icon large color="green">mdi-shield-star-outline</v-icon>
+          <v-icon large color="teal darken-4">mdi-shield-star-outline</v-icon>
         </v-btn>
-        <v-btn x-large color="black">
+        <v-btn
+            color="#00251a"
+              fab
+              elevation="2"
+              raised
+              rounded
+        >
           <v-icon x-large color="white">mdi-camera-plus-outline</v-icon>
         </v-btn>
         <v-btn color="white">
-          <v-icon large color="green">mdi-map-outline</v-icon>
+          <v-icon large color="teal darken-4">mdi-map-outline</v-icon>
         </v-btn>
       </v-bottom-navigation>
     </v-main>
   </v-app>
 </template>
 
-<script>
+<style>
+  @import '../styles.css';
+</style>
 
+<script>
 
 export default {
   name: 'App',
