@@ -12,8 +12,8 @@ new Vue({
 Vue.component('leaf', {
   //props: ['leafSVG', 'userData'],
   props: {
-    leafSVG: Array,
-    userData: Array
+    leafSVG: Object,
+    discoveries: Object
   },
   template: '<leaf/>'
 })
