@@ -1,7 +1,3 @@
-<style>
-@import '../styles.css';
-</style>
-
 <template>
   <v-app>
     <!--Bar at the top of the page-->
@@ -148,14 +144,7 @@
         <v-btn color="white" :ripple="false">
           <v-icon large color=var(--main-color)>mdi-shield-star-outline</v-icon>
         </v-btn>
-        <v-btn
-            color=var(--dark-color)
-            fab
-            elevation="2"
-            raised
-            rounded
-            :ripple="false"
-        >
+        <v-btn color=var(--dark-color) :ripple="false">
           <v-icon x-large color="white">mdi-camera-plus-outline</v-icon>
         </v-btn>
         <v-btn color="white" :ripple="false">
@@ -187,3 +176,7 @@ export default {
   },
 };
 </script>
+
+<style>
+@import '../styles.css';
+</style>
