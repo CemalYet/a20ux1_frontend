@@ -31,23 +31,29 @@
       <br/>
       <br/>
 
-      <!--Grid of Leaves-->
+      <!--Camera-->
       <v-container>
-        <v-row
-            v-for="n in 5"
-            :key="n"
-            cols="12"
-            sm="3"
-        >
-          <v-col
-              v-for="n in 4"
-              :key="n"
-              cols="12"
-              sm="3"
-          >
-            <leaf/>
-          </v-col>
-        </v-row>
+        <div id="app">
+          <h1>Camera</h1>
+          <div><video ref="video" id="video" width="640" height="480" autoplay></video></div>
+          <div id="button">
+            <v-btn @click='capture' class="mx-2" fab dark color=var(--dark-color) :ripple="false">
+              <v-icon x-large color="white">mdi-camera-outline</v-icon>
+            </v-btn>
+          <!--  <span>
+
+            </span>
+            <v-btn @click='stopCameraStream' class="mx-2" fab dark color="indigo">
+              <v-icon large color=var(&#45;&#45;dark-color)>mdi-camera-outline</v-icon>
+            </v-btn>-->
+          </div>
+          <canvas ref="canvas" id="canvas" width="640" height="480"></canvas>
+          <ul>
+            <li v-for="c in captures" :key="c.id">
+              <img v-bind:src="c" height="100" />
+            </li>
+          </ul>
+        </div>
       </v-container>
       <br/>
       <br/>
@@ -132,28 +138,78 @@
 </template>
 
 <script>
-import leaf from "@/components/leaf";
-
 export default {
   name: 'App',
-
-  template: '<leaf/>',
-  components: {leaf},
-
   data: () => ({
-    drawer: false,
-    group: null,
-    notifications: 2,
-    avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/27907755_964224010401572_4566376548678829171_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=2wrEVoQrdBkAX9MBLOP&_nc_ht=scontent-bru2-1.xx&oh=81c5c254570b087bda35d1ced5624cac&oe=5FC6E541",
+
+      video: {},
+      canvas: {},
+      captures: [],
+      drawer: false,
+      group: null,
+      notifications: 2,
+      avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/27907755_964224010401572_4566376548678829171_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=2wrEVoQrdBkAX9MBLOP&_nc_ht=scontent-bru2-1.xx&oh=81c5c254570b087bda35d1ced5624cac&oe=5FC6E541",
   }),
   watch: {
     group() {
       this.drawer = false
     },
   },
-};
+  mounted() {
+    this.video = this.$refs.video;
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(mediaStream => {
+          this.mediaStream = mediaStream
+          this.video.srcObject = mediaStream
+          this.video.play()
+        })
+
+
+  },
+  methods: {
+    capture() {
+      this.canvas = this.$refs.canvas;
+      let context = this.canvas.getContext("2d")
+      context .drawImage(this.video, 0, 0, 640, 480);
+      this.captures.push(this.canvas.toDataURL("image/png"));
+
+      const mediaStreamTrack = this.mediaStream.getVideoTracks()[0]
+      const imageCapture = new window.ImageCapture(mediaStreamTrack)
+      return imageCapture.takePhoto().then(blob => {
+        console.log(blob)
+      })
+    },
+    stopCameraStream() {
+      let tracks = this.$refs.video.srcObject.getTracks();
+      tracks.forEach(track => {
+        track.stop();
+      });
+    }
+  }
+}
 </script>
 
 <style>
 @import '../styles.css';
+
+#app {
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 35px;
+}
+#video{
+  text-align: center;
+}
+
+#video {
+  background-color: #000000;
+}
+#canvas {
+  display: none;
+
+}
+li {
+  display: inline;
+  padding: 5px;
+}
 </style>
