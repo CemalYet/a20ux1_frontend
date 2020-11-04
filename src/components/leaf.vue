@@ -22,7 +22,6 @@ export default {
 
   }),
 
-  //props: ['leafSVG', 'userData'],
   props: {
     leafSVG: Object,
     discoveries: Object
@@ -41,19 +40,9 @@ image {
   height: 100%;
 }
 
-svg:active > circle {
-  stroke: var(--dark-color);
-}
-
 svg:hover > path {
-  fill: var(--main-color);
-  stroke: var(--main-color);
-  stroke-width: 20px;
-}
-
-svg > circle {
-  fill: var(--main-color);
-  stroke: var(--main-color);
-  stroke-width: 15px;
+  fill: var(--light-color);
+  stroke: var(--light-color);
+  stroke-width: 10px;
 }
 </style>

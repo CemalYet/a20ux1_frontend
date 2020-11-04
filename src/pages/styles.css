@@ -13,3 +13,7 @@
     font-size: 35px;
     color: var(--dark-color);
 }
+
+body {
+    background-color: white;
+}

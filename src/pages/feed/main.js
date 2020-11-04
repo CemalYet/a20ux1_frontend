@@ -10,7 +10,6 @@ new Vue({
 }).$mount('#app')
 
 Vue.component('leaf', {
-  //props: ['leafSVG', 'userData'],
   props: {
     leafSVG: Object,
     discoveries: Object
