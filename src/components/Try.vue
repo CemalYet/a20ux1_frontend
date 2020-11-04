@@ -16,7 +16,9 @@
         <img v-bind:src="c" height="100" />
       </li>
     </ul>
+
   </div>
+
 </template>
 
 <script>
