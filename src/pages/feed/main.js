@@ -8,3 +8,12 @@ new Vue({
   vuetify,
   render: h => h(App)
 }).$mount('#app')
+
+Vue.component('leaf', {
+  //props: ['leafSVG', 'userData'],
+  props: {
+    leafSVG: Array,
+    userData: Array
+  },
+  template: '<leaf/>'
+})
