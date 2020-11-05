@@ -9,10 +9,37 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-Vue.component('leaf', {
+Vue.component('leaf1', {
   props: {
     leafSVG: Object,
     discoveries: Object
   },
-  template: '<leaf/>'
+})
+
+Vue.component('leaf2', {
+  props: {
+    leafSVG: Object,
+    discoveries: Object
+  },
+})
+
+Vue.component('leaf3', {
+  props: {
+    leafSVG: Object,
+    discoveries: Object
+  },
+})
+
+Vue.component('leaf4', {
+  props: {
+    leafSVG: Object,
+    discoveries: Object
+  },
+})
+
+Vue.component('leaf5', {
+  props: {
+    leafSVG: Object,
+    discoveries: Object
+  },
 })
