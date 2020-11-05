@@ -29,19 +29,5 @@ export default {
 </script>
 
 <style scoped>
-svg {
-  max-height: 300px;
-  max-width: 300px;
-}
-
-image {
-  width: 100%;
-  height: 100%;
-}
-
-svg:hover > path {
-  fill: var(--light-color);
-  stroke: var(--light-color);
-  stroke-width: 10px;
-}
+@import "leaf.css";
 </style>
