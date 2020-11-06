@@ -32,42 +32,34 @@
 
       <!--Grid of Leaves-->
       <v-container>
-        <v-row
-            v-for="j in (discoveries.length/itemsPerRow)"
-            :key="j"
-            justify="center"
+        <div class="leaf_grid"
+             :style="{'grid-template-columns': itemsPerRow}"
         >
-          <v-col
-              v-for="k in itemsPerRow"
-              :key="k"
-              align="center"
-          >
-            <div class="discovery_container">
+          <div class="discovery_container" v-for="j in discoveries.length" :key="j">
 
-              <leaf1 class="leaf" v-if="discoveries[j-1].leafID === 0" v-bind:discoveries="discoveries[j-1]"/>
-              <leaf2 class="leaf" v-if="discoveries[j-1].leafID === 1" v-bind:discoveries="discoveries[j-1]"/>
-              <leaf3 class="leaf" v-if="discoveries[j-1].leafID === 2" v-bind:discoveries="discoveries[j-1]"/>
-              <leaf4 class="leaf" v-if="discoveries[j-1].leafID === 3" v-bind:discoveries="discoveries[j-1]"/>
-              <leaf5 class="leaf" v-if="discoveries[j-1].leafID === 4" v-bind:discoveries="discoveries[j-1]"/>
+            <leaf1 class="leaf" v-if="discoveries[j-1].leafID === 0" v-bind:discoveries="discoveries[j-1]"/>
+            <leaf2 class="leaf" v-if="discoveries[j-1].leafID === 1" v-bind:discoveries="discoveries[j-1]"/>
+            <leaf3 class="leaf" v-if="discoveries[j-1].leafID === 2" v-bind:discoveries="discoveries[j-1]"/>
+            <leaf4 class="leaf" v-if="discoveries[j-1].leafID === 3" v-bind:discoveries="discoveries[j-1]"/>
+            <leaf5 class="leaf" v-if="discoveries[j-1].leafID === 4" v-bind:discoveries="discoveries[j-1]"/>
 
-              <div class="info_container">
-                <div class="avatar_container">
-                  <v-avatar
-                      class="elevation-8"
-                      size="56"
-                  >
-                    <img :src="discoveries[j-1].avatar" alt="PF">
-                  </v-avatar>
-                </div>
-                <div class="discovery_text_container text-truncate">
-                  <h6>{{ discoveries[j - 1].date }}</h6>
-                  <h4>{{ discoveries[j - 1].title }}</h4>
-                  <h6>{{ discoveries[j - 1].username }}</h6>
-                </div>
+            <div class="info_container">
+              <div class="avatar_container">
+                <v-avatar
+                    class="elevation-8"
+                    size="56"
+                >
+                  <img :src="discoveries[j-1].avatar" alt="PF">
+                </v-avatar>
+              </div>
+              <div class="discovery_text_container text-truncate">
+                <h6>{{ discoveries[j - 1].date }}</h6>
+                <h4>{{ discoveries[j - 1].title }}</h4>
+                <h6>{{ discoveries[j - 1].username }}</h6>
               </div>
             </div>
-          </v-col>
-        </v-row>
+          </div>
+        </div>
       </v-container>
 
       <br/>
@@ -234,15 +226,15 @@ export default {
     itemsPerRow() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':
-          return 1
+          return "repeat(1, 400px)"
         case 'sm':
-          return 1
+          return "repeat(1, 400px)"
         case 'md':
-          return 1
+          return "repeat(1, 400px)"
         case 'lg':
-          return 1
+          return "repeat(3, 400px)"
         case 'xl':
-          return 1
+          return "repeat(3, 400px)"
       }
       return 1;
     },
@@ -252,6 +244,15 @@ export default {
 
 <style>
 @import '../styles.css';
+
+.leaf_grid{
+  display: grid;
+  grid-template-rows: auto;
+
+  place-items: center center;
+  justify-content: center;
+}
+
 
 .discovery_container {
   position: relative;
