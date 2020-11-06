@@ -29,7 +29,7 @@ module.exports = {
       // the source template
       template: 'public/index.html',
       // output as dist/index.html
-      filename: 'app/Views/feed.html',
+      filename: 'app/Views/feed.php',
       // when using title option,
       // template title tag needs to be <title><%= htmlWebpackPlugin.options.title %></title>
       title: 'Feed page',

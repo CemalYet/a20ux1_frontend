@@ -30,6 +30,11 @@
       <br/>
       <br/>
 
+      <h1>{{data}}</h1>
+
+      <br/>
+      <br/>
+      <br/>
       <!--Grid of Leaves-->
       <v-container>
         <div class="leaf_grid"
@@ -150,6 +155,8 @@ import leaf2 from "@/components/leaf2";
 import leaf3 from "@/components/leaf3";
 import leaf4 from "@/components/leaf4";
 import leaf5 from "@/components/leaf5";
+import axios from 'axios'
+
 
 export default {
   name: 'App',
@@ -157,7 +164,9 @@ export default {
   components: {leaf1, leaf2, leaf3, leaf4, leaf5},
 
   data: () => ({
-    i: 1,
+
+    data : null,
+
     discoveries: [
       {
         avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/27907755_964224010401572_4566376548678829171_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=2wrEVoQrdBkAX9MBLOP&_nc_ht=scontent-bru2-1.xx&oh=81c5c254570b087bda35d1ced5624cac&oe=5FC6E541",
@@ -216,6 +225,11 @@ export default {
     avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/27907755_964224010401572_4566376548678829171_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=2wrEVoQrdBkAX9MBLOP&_nc_ht=scontent-bru2-1.xx&oh=81c5c254570b087bda35d1ced5624cac&oe=5FC6E541",
 
   }),
+
+  mounted() {
+    axios.get('/public/feedcontroller/getDiscoveries').then(response => (this.data = response))
+  },
+
   watch: {
     group() {
       this.drawer = false
