@@ -228,9 +228,9 @@ export default {
         case 'xs':
           return "repeat(1, 400px)"
         case 'sm':
-          return "repeat(1, 400px)"
+          return "repeat(2, 400px)"
         case 'md':
-          return "repeat(1, 400px)"
+          return "repeat(2, 400px)"
         case 'lg':
           return "repeat(3, 400px)"
         case 'xl':
@@ -256,7 +256,8 @@ export default {
 
 .discovery_container {
   position: relative;
-  width: 400px;
+  width: 90%;
+  max-width: 400px;
   height: auto;
 }
 
