@@ -227,7 +227,7 @@ export default {
   }),
 
   mounted() {
-    axios.get('/public/feedcontroller/getDiscoveries').then(response => (this.data = response))
+    axios.get('/public/feedcontroller/getDiscoveries').then(response => (this.data = response["data"]))
   },
 
   watch: {
