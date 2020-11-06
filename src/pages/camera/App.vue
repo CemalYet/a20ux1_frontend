@@ -36,7 +36,7 @@
         <div id="app">
           <h1>Camera</h1>
           <v-container>
-            <v-layout justify-center >
+            <v-layout class="justify-center mr-xs-1" >
               <v-card  shaped flat>
             <video ref="video" id="video"  :width="getWidth" :height="getHeight" autoplay></video>
               </v-card>
@@ -49,7 +49,7 @@
           </div>
           <canvas ref="canvas" id="canvas" width="640" height="480"></canvas>
           <v-layout row wrap>
-             <v-flex xs12 sm6 md4 lg3 v-for="c in captures" :key="c.id" >
+             <v-flex xs6 sm6 md4 lg3 v-for="c in captures" :key="c.id" >
                <v-card shaped flat class="text-xs-center ma-3">
                  <v-img v-bind:src="c" height="200" >
                  </v-img>
