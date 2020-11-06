@@ -15,35 +15,30 @@ Vue.use(VueAxios, axios)
 
 Vue.component('leaf1', {
   props: {
-    leafSVG: Object,
-    discoveries: Object
+    picture: String
   },
 })
 
 Vue.component('leaf2', {
   props: {
-    leafSVG: Object,
-    discoveries: Object
+    picture: String
   },
 })
 
 Vue.component('leaf3', {
   props: {
-    leafSVG: Object,
-    discoveries: Object
+    picture: String
   },
 })
 
 Vue.component('leaf4', {
   props: {
-    leafSVG: Object,
-    discoveries: Object
+    picture: String
   },
 })
 
 Vue.component('leaf5', {
   props: {
-    leafSVG: Object,
-    discoveries: Object
+    picture: String
   },
 })

@@ -13,7 +13,7 @@
         transform="translate(-200 -100)"/>
 
     <g clip-path="url(#leaf2)">
-      <image preserveAspectRatio="xMidYMid slice" :xlink:href="this.discoveries.picture"/>
+      <image preserveAspectRatio="xMidYMid slice" :xlink:href="this.picture"/>
     </g>
   </svg>
 </template>
@@ -25,7 +25,7 @@ export default {
   data: () => ({}),
 
   props: {
-    discoveries: Object
+    picture: String
   }
 }
 </script>
