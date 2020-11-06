@@ -53,9 +53,9 @@
                 </v-avatar>
               </div>
               <div class="discovery_text_container text-truncate">
-                <h6>{{ discoveries[j - 1].date }}</h6>
-                <h4>{{ discoveries[j - 1].title }}</h4>
-                <h6>{{ discoveries[j - 1].username }}</h6>
+                <h6 class="text-truncate">{{ discoveries[j - 1].date }}</h6>
+                <h4 class="text-truncate">{{ discoveries[j - 1].title }}</h4>
+                <h6 class="text-truncate">{{ discoveries[j - 1].username }}</h6>
               </div>
             </div>
           </div>
@@ -181,7 +181,7 @@ export default {
         leafID: 2,
         username: "Helena Majoor",
         date: "Yesterday 12:43",
-        title: "Walking with the girls"
+        title: "Walking with the girls dit is een veel te lange tekst"
       },
       {
         avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/64679357_2322740734614282_6203291312234430464_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=PitKaogm5B8AX8yIcyY&_nc_ht=scontent-bru2-1.xx&oh=479eea55195404be5f5296a91c782c10&oe=5FC9BBE7",
