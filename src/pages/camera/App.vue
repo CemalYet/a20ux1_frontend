@@ -35,24 +35,31 @@
       <v-container>
         <div id="app">
           <h1>Camera</h1>
-          <div><video ref="video" id="video" width="640" height="480" autoplay></video></div>
+          <v-container>
+            <v-layout justify-center >
+              <v-card  shaped flat>
+            <video ref="video" id="video"  :width="getWidth" :height="getHeight" autoplay></video>
+              </v-card>
+            </v-layout>
+          </v-container>
           <div id="button">
             <v-btn @click='capture' class="mx-2" fab dark color=var(--dark-color) :ripple="false">
               <v-icon x-large color="white">mdi-camera-outline</v-icon>
             </v-btn>
-          <!--  <span>
-
-            </span>
-            <v-btn @click='stopCameraStream' class="mx-2" fab dark color="indigo">
-              <v-icon large color=var(&#45;&#45;dark-color)>mdi-camera-outline</v-icon>
-            </v-btn>-->
           </div>
           <canvas ref="canvas" id="canvas" width="640" height="480"></canvas>
-          <ul>
-            <li v-for="c in captures" :key="c.id">
-              <img v-bind:src="c" height="100" />
-            </li>
-          </ul>
+          <v-layout row wrap>
+             <v-flex xs12 sm6 md4 lg3 v-for="c in captures" :key="c.id" >
+               <v-card shaped flat class="text-xs-center ma-3">
+                 <v-img v-bind:src="c" height="200" >
+                 </v-img>
+               </v-card>
+              </v-flex>
+          </v-layout>
+
+
+
+
         </div>
       </v-container>
       <br/>
@@ -126,9 +133,6 @@
         <v-btn color="white" :ripple="false">
           <v-icon large color=var(--main-color)>mdi-shield-star-outline</v-icon>
         </v-btn>
-        <v-btn color=var(--dark-color) :ripple="false">
-          <v-icon x-large color="white">mdi-camera-plus-outline</v-icon>
-        </v-btn>
         <v-btn color="white" :ripple="false">
           <v-icon large color=var(--main-color)>mdi-map-outline</v-icon>
         </v-btn>
@@ -155,15 +159,35 @@ export default {
       this.drawer = false
     },
   },
+  computed :{
+    getWidth() {
+      if(this.$vuetify.breakpoint.mobile){
+        return 426
+      } else {
+        return 640
+      }
+
+    },
+    getHeight() {
+      if(this.$vuetify.breakpoint.mobile){
+        return 320
+      } else {
+        return 480
+      }
+    }
+  },
   mounted() {
+    const constraints = (window.constraints = {
+      audio: false,
+      video: { facingMode: "environment" }
+    });
     this.video = this.$refs.video;
-    navigator.mediaDevices.getUserMedia({ video: true })
+    navigator.mediaDevices.getUserMedia(constraints)
         .then(mediaStream => {
           this.mediaStream = mediaStream
           this.video.srcObject = mediaStream
           this.video.play()
         })
-
 
   },
   methods: {
@@ -184,7 +208,8 @@ export default {
       tracks.forEach(track => {
         track.stop();
       });
-    }
+    },
+
   }
 }
 </script>
@@ -195,7 +220,6 @@ export default {
 #app {
   text-align: center;
   color: #2c3e50;
-  margin-top: 35px;
 }
 #video{
   text-align: center;
