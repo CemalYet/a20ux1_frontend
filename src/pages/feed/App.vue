@@ -30,23 +30,18 @@
       <br/>
       <br/>
 
-      <h1>{{data}}</h1>
-
-      <br/>
-      <br/>
-      <br/>
       <!--Grid of Leaves-->
       <v-container>
         <div class="leaf_grid"
              :style="{'grid-template-columns': itemsPerRow}"
         >
           <div class="discovery_container" v-for="j in discoveries.length" :key="j">
-            <h1>{{discoveries[j-1].photoPath}}</h1>
-            <leaf1 class="leaf" v-if="discoveries[j-1].leafId === 0" v-bind:picture="discoveries[j-1].photoPath"/>
-            <leaf2 class="leaf" v-if="discoveries[j-1].leafId === 1" v-bind:picture="discoveries[j-1].photoPath"/>
-            <leaf3 class="leaf" v-if="discoveries[j-1].leafId === 2" v-bind:picture="discoveries[j-1].photoPath"/>
-            <leaf4 class="leaf" v-if="discoveries[j-1].leafId === 3" v-bind:picture="discoveries[j-1].photoPath"/>
-            <leaf5 class="leaf" v-if="discoveries[j-1].leafId === 4" v-bind:picture="discoveries[j-1].photoPath"/>
+
+            <leaf1 class="leaf" v-if="discoveries[j-1].leafId === '0'" v-bind:picture="discoveries[j-1].photoPath"/>
+            <leaf2 class="leaf" v-else-if="discoveries[j-1].leafId === '1'" v-bind:picture="discoveries[j-1].photoPath"/>
+            <leaf3 class="leaf" v-else-if="discoveries[j-1].leafId === '2'" v-bind:picture="discoveries[j-1].photoPath"/>
+            <leaf4 class="leaf" v-else-if="discoveries[j-1].leafId === '3'" v-bind:picture="discoveries[j-1].photoPath"/>
+            <leaf5 class="leaf" v-else-if="discoveries[j-1].leafId === '4'" v-bind:picture="discoveries[j-1].photoPath"/>
 
             <div class="info_container">
               <div class="avatar_container">
@@ -54,7 +49,7 @@
                     class="elevation-8"
                     size="56"
                 >
-                  <img :src="discoveries[j-1].avatar" alt="PF">
+                  <img :src="discoveries[j-1].avatar" alt="">
                 </v-avatar>
               </div>
               <div class="discovery_text_container text-truncate">
@@ -83,11 +78,11 @@
           <!--Avatar + name-->
           <v-list-item two-line>
             <v-list-item-avatar size="70">
-              <v-img :src="avatar"></v-img>
+              <v-img :src="userData[0].avatar"></v-img>
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title>Seppe Fleerackers</v-list-item-title>
-              <v-list-item-subtitle>@seppe.f</v-list-item-subtitle>
+              <v-list-item-title>{{userData[0].emailAddress}}</v-list-item-title>
+              <v-list-item-subtitle>{{userData[0].userName}}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
 
@@ -164,18 +159,16 @@ export default {
   components: {leaf1, leaf2, leaf3, leaf4, leaf5},
 
   data: () => ({
-    url : "https://media.npr.org/assets/img/2017/04/25/istock-115796521-fcf434f36d3d0865301cdcb9c996cfd80578ca99.jpg",
     discoveries: null,
-
     drawer: false,
     group: null,
     notifications: 2,
-    avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/27907755_964224010401572_4566376548678829171_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=2wrEVoQrdBkAX9MBLOP&_nc_ht=scontent-bru2-1.xx&oh=81c5c254570b087bda35d1ced5624cac&oe=5FC6E541",
-
+    userData: null,
   }),
 
   mounted() {
     axios.get('/public/feedcontroller/getDiscoveries').then(response => (this.discoveries = response["data"]))
+    axios.get('/public/feedcontroller/getUserData').then(response => (this.userData = response["data"]))
   },
 
   watch: {
@@ -201,13 +194,17 @@ export default {
       return 1;
     },
   },
+
+  methods: {
+
+  }
 };
 </script>
 
 <style>
 @import '../styles.css';
 
-.leaf_grid{
+.leaf_grid {
   display: grid;
   grid-template-rows: auto;
 

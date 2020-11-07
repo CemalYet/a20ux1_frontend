@@ -20,10 +20,8 @@
 export default {
   name: "leaf3",
 
-  data: () => ({}),
-
   props: {
-    picture: String
+    picture: Object
   }
 }
 </script>

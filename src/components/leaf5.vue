@@ -18,12 +18,8 @@
 export default {
   name: "leaf5",
 
-  data: () => ({
-
-  }),
-
   props: {
-    picture: String
+    picture: Object
   }
 }
 </script>

@@ -22,10 +22,8 @@
 export default {
   name: "leaf2",
 
-  data: () => ({}),
-
   props: {
-    picture: String
+    picture: Object
   }
 }
 </script>
