@@ -244,7 +244,7 @@ export default {
 }
 
 #main {
-  background-image: url(leaves.png);
+  background-image: url(../leaves.png);
   background-color: rgba(255, 255, 255, 0.4);
   background-blend-mode: lighten;
   background-repeat: repeat;
