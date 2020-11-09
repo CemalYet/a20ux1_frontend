@@ -290,7 +290,7 @@
             text
             :ripple="false"
             color="var(--dark-color)"
-            v-on:click="getDate"
+            v-on:click="save"
         >
           <h3>CONFIRM</h3>
         </v-btn>
@@ -326,6 +326,9 @@ export default {
   created() {
     this.getTime();
     this.getDate();
+    axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    axios.defaults.baseURL='http://localhost:8888/';
+
   },
 
   mounted() {
@@ -341,6 +344,31 @@ export default {
       const today = new Date();
       this.current_date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     },
+    save: function (){axios.post('/public/sharecontroller/save', {
+      my_title: this.title,
+      my_timestamp: this.timestamp,
+      my_current_date:this.current_date,
+      my_location:this.location,
+      my_description:this.description
+    })
+        .then(res => {
+          // handle success
+
+              this.title='';
+              this.timestamp='';
+              this.current_date='';
+              this.location='';
+              this.description='';
+              this.time_modal= false;
+              this.date_modal=false
+              console.log(res);
+        })
+        .catch(err => {
+          // handle error
+          console.log(err);
+        })
+
+    }
   },
 };
 </script>
