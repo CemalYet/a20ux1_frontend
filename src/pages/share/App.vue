@@ -315,7 +315,7 @@ export default {
     location: null,
 
     leaf_dialog: false,
-    chosen_leaf: '',
+    chosen_leaf: null,
 
     description: null,
 
@@ -330,6 +330,7 @@ export default {
 
   mounted() {
     axios.get('/public/sharecontroller/getFriends').then(response => (this.data = response["data"]))
+    axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
   },
 
   methods: {
@@ -339,7 +340,7 @@ export default {
     },
     getDate: function () {
       const today = new Date();
-      this.current_date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+      this.current_date = today.getFullYear() + '-' + ('0' + (today.getMonth()+1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
     },
     save: function () {
       const json = JSON.stringify({
@@ -347,14 +348,15 @@ export default {
         my_time: this.timestamp,
         my_date: this.current_date,
         my_location: this.location,
-        my_description: this.description
+        my_description: this.description,
+        my_leaf: this.chosen_leaf
       });
       const res = axios.post('/public/sharecontroller/save', json,
           {
             headers: {'Content-Type': 'application/json'}
           });
       console.log(res)
-    }
+    },
   },
 };
 </script>
