@@ -41,7 +41,7 @@
           <!--Modal input HOUR-->
           <div class="hour">
             <v-dialog
-                ref="dialog"
+                ref="dialog1"
                 v-model="time_modal"
                 :return-value.sync="timestamp"
                 persistent
@@ -78,7 +78,7 @@
                 <v-btn
                     text
                     color=var(--dark-color)
-                    @click="$refs.dialog.save(timestamp);"
+                    @click="$refs.dialog1.save(timestamp);"
                 >
                   OK
                 </v-btn>
@@ -124,7 +124,7 @@
                 <v-btn
                     text
                     color=var(--dark-color)
-                    @click="$refs.dialog.save(current_date);"
+                    @click="$refs.dialog.save(current_date); "
                 >
                   OK
                 </v-btn>
@@ -306,8 +306,8 @@ export default {
   name: 'App',
 
   data: () => ({
-    time_modal: false,
-    date_modal: false,
+   time_modal: false,
+   date_modal: false,
 
     title: null,
     timestamp: null,
@@ -326,10 +326,12 @@ export default {
   created() {
     this.getTime();
     this.getDate();
+
   },
 
   mounted() {
     axios.get('/public/sharecontroller/getFriends').then(response => (this.data = response["data"]))
+    //axios.defaults.baseURL='http://localhost:8081/';
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
   },
 
@@ -337,6 +339,7 @@ export default {
     getTime: function () {
       const today = new Date();
       this.timestamp = today.getHours() + ":" + (today.getMinutes() < 10 ? '0' : '') + today.getMinutes();
+
     },
     getDate: function () {
       const today = new Date();
