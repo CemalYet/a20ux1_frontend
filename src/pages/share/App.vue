@@ -236,11 +236,11 @@
           </div>
 
           <div class="leafId">
-              <leaf1 class="small_leaf" v-if="chosen_leaf === 1"/>
-              <leaf2 class="small_leaf" v-else-if="chosen_leaf === 2"/>
-              <leaf3 class="small_leaf" v-else-if="chosen_leaf === 3"/>
-              <leaf4 class="small_leaf" v-else-if="chosen_leaf === 4"/>
-              <leaf5 class="small_leaf" v-else-if="chosen_leaf === 5"/>
+            <leaf1 class="small_leaf" v-if="chosen_leaf === 1"/>
+            <leaf2 class="small_leaf" v-else-if="chosen_leaf === 2"/>
+            <leaf3 class="small_leaf" v-else-if="chosen_leaf === 3"/>
+            <leaf4 class="small_leaf" v-else-if="chosen_leaf === 4"/>
+            <leaf5 class="small_leaf" v-else-if="chosen_leaf === 5"/>
           </div>
 
           <!--Text input DESCRIPTION-->
