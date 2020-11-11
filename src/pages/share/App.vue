@@ -329,6 +329,7 @@ export default {
 
   mounted() {
     axios.get('/public/sharecontroller/getFriends').then(response => (this.data = response["data"]))
+    //axios.defaults.baseURL='http://localhost:8081/';
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     navigator.geolocation.getCurrentPosition(
         position => {
