@@ -23,6 +23,7 @@
       <br/>
       <br/>
       <br/>
+
       <!--Text fields aka user input-->
       <v-container>
         <div class="wrapper">
@@ -35,13 +36,14 @@
                 v-model="title"
                 outlined
                 color=var(--dark-color)
+                hide-details
             ></v-text-field>
           </div>
 
           <!--Modal input HOUR-->
           <div class="hour">
             <v-dialog
-                ref="dialog"
+                ref="time_dialog"
                 v-model="time_modal"
                 :return-value.sync="timestamp"
                 persistent
@@ -58,6 +60,7 @@
                     v-on="on"
                     outlined
                     color=var(--dark-color)
+                    hide-details
                 ></v-text-field>
               </template>
               <v-time-picker
@@ -78,7 +81,7 @@
                 <v-btn
                     text
                     color=var(--dark-color)
-                    @click="$refs.dialog.save(timestamp);"
+                    @click="$refs.time_dialog.save(timestamp);"
                 >
                   OK
                 </v-btn>
@@ -89,7 +92,7 @@
           <!--Modal input DATE-->
           <div class="day">
             <v-dialog
-                ref="dialog"
+                ref="date_dialog"
                 v-model="date_modal"
                 :return-value.sync="current_date"
                 persistent
@@ -106,12 +109,14 @@
                     v-on="on"
                     outlined
                     color=var(--dark-color)
+                    hide-details
                 ></v-text-field>
               </template>
               <v-date-picker
                   v-model="current_date"
                   scrollable
                   color=var(--main-color)
+                  :max="getMaxDate()"
               >
                 <v-spacer></v-spacer>
                 <v-btn
@@ -124,7 +129,7 @@
                 <v-btn
                     text
                     color=var(--dark-color)
-                    @click="$refs.dialog.save(current_date);"
+                    @click="$refs.date_dialog.save(current_date);"
                 >
                   OK
                 </v-btn>
@@ -141,6 +146,7 @@
                 v-model="location"
                 outlined
                 color=var(--dark-color)
+                hide-details
             ></v-text-field>
           </div>
 
@@ -165,7 +171,6 @@
                 elevation="2"
                 rounded
                 :ripple="false"
-                v-bind="attrs"
                 v-on="on"
             >
               <v-icon color="white">mdi-plus</v-icon>
@@ -177,7 +182,7 @@
             <v-dialog
                 v-model="leaf_dialog"
                 scrollable
-                max-width="300px"
+                max-width="80vw"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -193,36 +198,21 @@
                 </v-btn>
               </template>
               <v-card>
-                <v-card-title>Chose leaf shape</v-card-title>
+                <v-card-title align="center">Chose leaf shape</v-card-title>
                 <v-divider></v-divider>
-                <v-card-text style="height: 300px;">
-                  <v-radio-group v-model="chosen_leaf" mandatory>
-                    <v-radio
-                        color=var(--main-color)
-                        v-for="n in 5"
-                        :key="n"
-                        :label="`Leaf ${n}`"
-                        :value="n"
-                    ></v-radio>
-                  </v-radio-group>
+                <v-card-text style="height: 40vw;">
+                  <div class="parent">
+                    <div class="top_row">
+                      <leaf1 class="leaf" @click.native="select_leaf(1); leaf_dialog = false"/>
+                      <leaf2 class="leaf" @click.native="select_leaf(2); leaf_dialog = false"/>
+                      <leaf3 class="leaf" @click.native="select_leaf(3); leaf_dialog = false"/>
+                    </div>
+                    <div class="bottom_row">
+                      <leaf4 class="leaf" @click.native="select_leaf(4); leaf_dialog = false"/>
+                      <leaf5 class="leaf" @click.native="select_leaf(5); leaf_dialog = false"/>
+                    </div>
+                  </div>
                 </v-card-text>
-                <v-divider></v-divider>
-                <v-card-actions>
-                  <v-btn
-                      color=var(--dark-color)
-                      text
-                      @click="leaf_dialog = false"
-                  >
-                    Close
-                  </v-btn>
-                  <v-btn
-                      color=var(--dark-color)
-                      text
-                      @click="leaf_dialog = false"
-                  >
-                    Save
-                  </v-btn>
-                </v-card-actions>
               </v-card>
             </v-dialog>
           </div>
@@ -246,32 +236,30 @@
           </div>
 
           <div class="leafId">
-            <v-card
-                color=var(--light-color)
-                elevation="2"
-                rounded
-            >
-              <h5 class="button_text">{{ chosen_leaf }}</h5>
-            </v-card>
+              <leaf1 class="small_leaf" v-if="chosen_leaf === 1"/>
+              <leaf2 class="small_leaf" v-else-if="chosen_leaf === 2"/>
+              <leaf3 class="small_leaf" v-else-if="chosen_leaf === 3"/>
+              <leaf4 class="small_leaf" v-else-if="chosen_leaf === 4"/>
+              <leaf5 class="small_leaf" v-else-if="chosen_leaf === 5"/>
           </div>
 
           <!--Text input DESCRIPTION-->
           <div class="description">
             <v-textarea
-                class="text_field"
+                class="text_area"
                 id="description_box"
                 label="DESCRIPTION"
                 v-model="description"
                 outlined
                 color=var(--dark-color)
+                no-resize
+                rows="3"
                 dense
+                hide-details
             ></v-textarea>
           </div>
         </div>
       </v-container>
-      <br/>
-      <br/>
-      <br/>
 
       <!--Navigation menu at the bottom-->
       <v-bottom-navigation
@@ -300,10 +288,16 @@
 </template>
 
 <script>
+import leaf1 from "@/components/leaf1";
+import leaf2 from "@/components/leaf2";
+import leaf3 from "@/components/leaf3";
+import leaf4 from "@/components/leaf4";
+import leaf5 from "@/components/leaf5";
 import axios from "axios";
 
 export default {
   name: 'App',
+  components: {leaf1, leaf2, leaf3, leaf4, leaf5},
 
   data: () => ({
     time_modal: false,
@@ -314,10 +308,15 @@ export default {
     current_date: null,
     location: null,
 
+    time_dialog: false,
+    date_dialog: false,
     leaf_dialog: false,
     chosen_leaf: null,
 
     description: null,
+
+    latitude: null,
+    longitude:null,
 
     group: null,
     data: null,
@@ -331,6 +330,15 @@ export default {
   mounted() {
     axios.get('/public/sharecontroller/getFriends').then(response => (this.data = response["data"]))
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    navigator.geolocation.getCurrentPosition(
+        position => {
+          this.latitude = position.coords.latitude;
+          this.longitude = position.coords.longitude;
+        },
+        error => {
+          console.log(error.message);
+        },
+    )
   },
 
   methods: {
@@ -342,6 +350,10 @@ export default {
       const today = new Date();
       this.current_date = today.getFullYear() + '-' + ('0' + (today.getMonth()+1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
     },
+    getMaxDate: function () {
+      const today = new Date();
+      return today.getFullYear() + '-' + ('0' + (today.getMonth()+1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    },
     save: function () {
       const json = JSON.stringify({
         my_title: this.title,
@@ -349,13 +361,18 @@ export default {
         my_date: this.current_date,
         my_location: this.location,
         my_description: this.description,
-        my_leaf: this.chosen_leaf
+        my_leaf: this.chosen_leaf,
+        my_latitude: this.latitude,
+        my_longitude: this.longitude,
       });
       const res = axios.post('/public/sharecontroller/save', json,
           {
             headers: {'Content-Type': 'application/json'}
           });
       console.log(res)
+    },
+    select_leaf: function (int) {
+      this.chosen_leaf = int;
     },
   },
 };
@@ -384,7 +401,7 @@ export default {
 .wrapper {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(6, 0.5fr) 3fr;
+  grid-template-rows: repeat(4, 0.7fr) 0.2fr 1fr 2fr;
 }
 
 .title {
@@ -410,22 +427,22 @@ export default {
 
 .plus_button {
   grid-area: 5 / 1 / 6 / 7;
-  margin: auto
+  margin: auto;
 }
 
 .leaf_button {
   grid-area: 5 / 7 / 6 / 13;
-  margin: auto
+  margin: auto;
 }
 
 .tags {
   grid-area: 6 / 1 / 7 / 7;
-  margin: auto
+  margin: auto;
 }
 
 .leafId {
   grid-area: 6 / 7 / 7 / 13;
-  margin: auto
+  margin: auto;
 }
 
 .description {
@@ -433,7 +450,42 @@ export default {
   display: flex;
 }
 
+.text_area {
+  background-color: white;
+  max-width: 100%;
+}
+
 .avatars {
   margin: 6px -6px 20px;
+}
+
+.leaf {
+  width: 15vw;
+  height: 15vw;
+  margin: 1vw 1vw;
+}
+
+.parent {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 0;
+  grid-row-gap: 1vw;
+}
+
+.top_row {
+  grid-area: 1 / 1 / 2 / 7;
+  margin: auto;
+}
+
+.bottom_row {
+  grid-area: 2 / 2 / 3 / 6;
+  margin: auto;
+}
+
+.small_leaf {
+  margin: 6px 20px;
+  height: 48px;
+  width: auto;
 }
 </style>
