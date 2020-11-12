@@ -1,13 +1,17 @@
 import Vue from 'vue'
 import App from './App.vue'
-import vuetify from '../../plugins/vuetify';
+import vuetify from './plugins/vuetify';
+import router from "./routes";
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import store from "@/store";
 
 Vue.config.productionTip = false
 
 new Vue({
   vuetify,
+  router,
+  store,
   render: h => h(App)
 }).$mount('#app')
 
@@ -42,3 +46,7 @@ Vue.component('leaf5', {
     picture: Object
   },
 })
+
+Vue.component('appBar')
+
+Vue.component('navDrawer')

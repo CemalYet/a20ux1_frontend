@@ -215,7 +215,7 @@ export default {
 </script>
 
 <style>
-@import '../styles.css';
+@import '../../styles.css';
 
 #app {
   text-align: center;
