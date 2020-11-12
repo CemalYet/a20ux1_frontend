@@ -51,7 +51,6 @@ module.exports = {
       // extracted common chunks and vendor chunks.
       chunks: ['chunk-vendors', 'chunk-common', 'reglog']
     },
-
     'camera':{
       // entry for the page
       entry: './src/pages/camera/main.js',
@@ -65,6 +64,20 @@ module.exports = {
       // chunks to include on this page, by default includes
       // extracted common chunks and vendor chunks.
       chunks: ['chunk-vendors', 'chunk-common', 'camera']
+    },
+    'profile':{
+      // entry for the page
+      entry: './src/pages/profile/main.js',
+      // the source template
+      template: 'public/index.html',
+      // output as dist/index.html
+      filename: 'app/Views/profile.php',
+      // when using title option,
+      // template title tag needs to be <title><%= htmlWebpackPlugin.options.title %></title>
+      title: 'profile page',
+      // chunks to include on this page, by default includes
+      // extracted common chunks and vendor chunks.
+      chunks: ['chunk-vendors', 'chunk-common', 'profile']
     }
   }
 
