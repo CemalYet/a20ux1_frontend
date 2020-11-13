@@ -5,11 +5,8 @@
       elevation="1"
   >
 
-    <!--Hamburger menu-->
-    <v-app-bar-nav-icon @click.stop="toggleDrawer">
-      <v-icon large color=var(--dark-color)>mdi-menu</v-icon>
-      <v-badge color="red" :content="this.$store.getters.getNotifications"></v-badge>
-    </v-app-bar-nav-icon>
+    <!--left button menu-->
+    <router-view name="buttonLeft"></router-view>
 
     <!-- Page title -->
     <v-spacer></v-spacer>
@@ -24,13 +21,13 @@
 </template>
 
 <script>
+import hamburgerButton from "@/components/hamburgerButton";
 export default {
   name: "navBar",
 
-  methods:{
-    toggleDrawer(){
-      this.$store.commit("toggleDrawer");
-    }
+  components:{
+    // eslint-disable-next-line vue/no-unused-components
+    hamburgerButton
   }
 
 }

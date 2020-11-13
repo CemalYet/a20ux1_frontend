@@ -7,7 +7,4 @@ module.exports = {
   : '/',
   outputDir: '../a20ux1/',
   assetsDir: 'public',
-
-
-
 }
