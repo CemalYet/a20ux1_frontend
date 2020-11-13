@@ -37,6 +37,7 @@
                 outlined
                 color=var(--dark-color)
                 hide-details
+                :rules="[rules.required]"
             ></v-text-field>
           </div>
 
@@ -261,6 +262,23 @@
         </div>
       </v-container>
 
+      <v-snackbar
+          v-model="snackbar"
+          centered="true"
+          color="error"
+      >
+        Please fill in a title and choose a leaf.
+        <template v-slot:action="{ attrs }">
+          <v-btn
+              text
+              v-bind="attrs"
+              @click="snackbar = false"
+          >
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
+
       <!--Navigation menu at the bottom-->
       <v-bottom-navigation
           fixed
@@ -278,7 +296,7 @@
             text
             :ripple="false"
             color="var(--dark-color)"
-            v-on:click="save"
+            v-on:click="check_data"
         >
           <h3>CONFIRM</h3>
         </v-btn>
@@ -304,6 +322,9 @@ export default {
     date_modal: false,
 
     title: null,
+    rules: {
+      required: value => !!value || 'Title required.',
+    },
     timestamp: null,
     current_date: null,
     location: null,
@@ -317,6 +338,8 @@ export default {
 
     latitude: null,
     longitude:null,
+
+    snackbar: false,
 
     group: null,
     data: null,
@@ -375,6 +398,14 @@ export default {
     select_leaf: function (int) {
       this.chosen_leaf = int;
     },
+    check_data: function() {
+      if (this.title === null || this.chosen_leaf === null) {
+        this.snackbar = true;
+      }
+      else {
+        this.save();
+      }
+    }
   },
 };
 </script>
