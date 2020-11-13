@@ -7,6 +7,9 @@ import bottomNavBar from "@/components/bottomNavBar";
 import hamburgerButton from "@/components/hamburgerButton";
 import backButton from "@/components/backButton";
 import camera from "@/components/camera";
+import share from "@/components/share";
+import cancelConfirmBottomNavBar from "@/components/cancelConfirmBottomNavBar";
+
 
 
 Vue.use(VueRouter);
@@ -29,6 +32,11 @@ const router = new VueRouter({
                     }
                 }
             ],
+            props:{
+                appBar:{
+                    title: "snAPP"
+                }
+            },
         },
         {
             path: '/camera',
@@ -44,10 +52,34 @@ const router = new VueRouter({
                         buttonLeft: backButton,
                     }
                 }
-            ]
+            ],
+            props:{
+                appBar:{
+                    title: "Camera"
+                }
+            },
         },
         {
-            path: '/empty'
+            path: '/share',
+            components:{
+                appBar: appBar,
+                pageContent: share,
+                bottomNavBar: cancelConfirmBottomNavBar
+            },
+            children:[
+                {
+                    path: '',
+                    components: {
+                        buttonLeft: backButton,
+                    }
+                }
+            ],
+            props:{
+                appBar:{
+                    title: "Share"
+                }
+            },
+
         }
     ],
 });

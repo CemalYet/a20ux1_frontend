@@ -10,7 +10,7 @@
 
     <!-- Page title -->
     <v-spacer></v-spacer>
-    <v-toolbar-title id="Title">snAPP</v-toolbar-title>
+    <v-toolbar-title id="Title">{{ title }}</v-toolbar-title>
     <v-spacer></v-spacer>
 
     <!--Profile icon-->
@@ -24,6 +24,10 @@
 import hamburgerButton from "@/components/hamburgerButton";
 export default {
   name: "navBar",
+
+  props: {
+    title: String
+  },
 
   components:{
     // eslint-disable-next-line vue/no-unused-components

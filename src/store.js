@@ -8,8 +8,25 @@ const store = new Vuex.Store({
 
     state:{
         //data
+
+        //navbar
         drawer: false,
+
+        //notifications
         notifications: 2,
+
+        //share data
+        title: null,
+        timestamp: null,
+        current_date: null,
+        location: null,
+        chosen_leaf: null,
+        description: null,
+        latitude: null,
+        longitude:null,
+        snackbar: false,
+
+        //templates
         userData: [
             {
                 avatar: 'https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/72281335_3233116936715489_818658218732421120_o.jpg?_nc_cat=109&ccb=2&_nc_sid=09cbfe&_nc_ohc=Ag-ed4FZ5DsAX_OoYsw&_nc_ht=scontent-bru2-1.xx&oh=7566a5438a01f20dcb8c0f5a9c3abf67&oe=5FC98598',
@@ -80,6 +97,35 @@ const store = new Vuex.Store({
         },
         updateUserData(state, userData){
             state.userData = userData;
+        },
+
+        //share data
+        updateSnackbar(state, value){
+            state.snackbar = value;
+        },
+        updateChosen_leaf(state, value){
+            state.chosen_leaf = value;
+        },
+        updateTitle(state, value){
+            state.title = value;
+        },
+        updateTimestamp(state, value){
+            state.timestamp = value;
+        },
+        updateCurrent_date(state, value){
+            state.current_date = value;
+        },
+        updateLocation(state, value){
+            state.location = value;
+        },
+        updateDiscription(state, value){
+            state.description = value;
+        },
+        updateLongitude(state, value){
+            state.longitude = value;
+        },
+        updateLatitude(state, value){
+            state.latitude = value;
         }
     },
 
@@ -89,6 +135,26 @@ const store = new Vuex.Store({
             axios.get('/public/feedcontroller/getUserData').then(response => {
                 context.commit('updateUserData', response["data"].userData)
             })
+        },
+
+        //share data
+        sharePost(context){
+            const json = JSON.stringify({
+                my_title: context.getters.getTitle,
+                my_time: context.getters.getTimestamp,
+                my_date: context.getters.getCurrent_date,
+                my_location: context.getters.getLocation,
+                my_description: context.getters.getDescription,
+                my_leaf: context.getters.getChosen_leaf,
+                my_latitude: context.getters.getLatitude,
+                my_longitude: context.getters.getLongitude,
+            });
+            const res = axios.post('/public/sharecontroller/save', json,
+                {
+                    headers: {'Content-Type': 'application/json'}
+                });
+            console.log(res)
+            console.log(json)
         }
     },
 
@@ -105,6 +171,35 @@ const store = new Vuex.Store({
         },
         getDiscoveries(state){
             return state.discoveries;
+        },
+
+        //share data
+        getTitle(state){
+            return state.title;
+        },
+        getChosen_leaf(state){
+            return state.chosen_leaf;
+        },
+        getSnackbar(state){
+            return state.snackbar;
+        },
+        getTimestamp(state){
+            return state.timestamp;
+        },
+        getCurrent_date(state){
+            return state.current_date;
+        },
+        getLatitude(state){
+            return state.latitude;
+        },
+        getLongitude(state){
+            return state.longitude;
+        },
+        getLocation(state){
+            return state.location;
+        },
+        getDescription(state){
+            return state.description;
         }
     }
 })
