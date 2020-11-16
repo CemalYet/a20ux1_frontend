@@ -9,6 +9,7 @@ import backButton from "@/components/backButton";
 import camera from "@/components/camera";
 import share from "@/components/share";
 import cancelConfirmBottomNavBar from "@/components/cancelConfirmBottomNavBar";
+import map from "@/components/map"
 
 
 
@@ -80,6 +81,12 @@ const router = new VueRouter({
                 }
             },
 
+        },
+        {
+            path: '/map',
+            components:{
+                pageContent: map,
+            },
         }
     ],
 });
