@@ -92,8 +92,8 @@ const store = new Vuex.Store({
         toggleDrawer(state){
             state.drawer = !state.drawer;
         },
-        drawerFalse(state){
-            state.drawer = false;
+        updateDrawer(state, value){
+            state.drawer = value;
         },
         updateUserData(state, userData){
             state.userData = userData;

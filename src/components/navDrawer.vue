@@ -66,8 +66,13 @@ export default {
 
 
   computed:{
-    updateDrawer(){
-      return this.$store.getters.getDrawerState;
+    updateDrawer: {
+      get() {
+        return this.$store.getters.getDrawerState;
+      },
+      set(value) {
+        this.$store.commit("updateDrawer", value)
+      }
     },
     userData(){
       return this.$store.getters.getUserDate;

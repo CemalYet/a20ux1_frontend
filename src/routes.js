@@ -9,7 +9,9 @@ import backButton from "@/components/backButton";
 import camera from "@/components/camera";
 import share from "@/components/share";
 import cancelConfirmBottomNavBar from "@/components/cancelConfirmBottomNavBar";
-import map from "@/components/map"
+import mapLayout from "./layouts/mapLayout"
+import map from "@/components/map";
+import defaultLayout from "./layouts/defaultLayout"
 
 
 
@@ -20,17 +22,25 @@ const router = new VueRouter({
         {
             path: '/',
             components:{
-                appBar: appBar,
-                navDrawer: navDrawer,
-                pageContent: feed,
-                bottomNavBar: bottomNavBar,
+                layout: defaultLayout,
             },
             children:[
                 {
                     path: '',
                     components:{
-                        buttonLeft: hamburgerButton,
-                    }
+                        appBar: appBar,
+                        navDrawer: navDrawer,
+                        pageContent: feed,
+                        bottomNavBar: bottomNavBar,
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: hamburgerButton,
+                            }
+                        }
+                    ]
                 }
             ],
             props:{
@@ -41,17 +51,25 @@ const router = new VueRouter({
         },
         {
             path: '/camera',
-            components: {
-                appBar: appBar,
-                pageContent: camera,
-                bottomNavBar: bottomNavBar,
+            components:{
+                layout: defaultLayout,
             },
             children:[
                 {
                     path: '',
-                    components: {
-                        buttonLeft: backButton,
-                    }
+                    components:{
+                        appBar: appBar,
+                        pageContent: camera,
+                        bottomNavBar: bottomNavBar,
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+                            }
+                        }
+                    ]
                 }
             ],
             props:{
@@ -63,16 +81,24 @@ const router = new VueRouter({
         {
             path: '/share',
             components:{
-                appBar: appBar,
-                pageContent: share,
-                bottomNavBar: cancelConfirmBottomNavBar
+                layout: defaultLayout,
             },
             children:[
                 {
                     path: '',
-                    components: {
-                        buttonLeft: backButton,
-                    }
+                    components:{
+                        appBar: appBar,
+                        pageContent: share,
+                        bottomNavBar: cancelConfirmBottomNavBar
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+                            }
+                        }
+                    ]
                 }
             ],
             props:{
@@ -80,13 +106,21 @@ const router = new VueRouter({
                     title: "Share"
                 }
             },
-
         },
         {
             path: '/map',
-            components:{
-                pageContent: map,
+            components: {
+                layout: mapLayout,
             },
+            children: [
+                {
+                    path: '',
+                    components: {
+                        map: map,
+                    }
+                }
+            ]
+
         }
     ],
 });

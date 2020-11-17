@@ -13,7 +13,7 @@
     <GmapMap
         :center="center"
         :zoom="12"
-        style="width:100vw; height:70vh;"
+        style="width:100vw; height:100vh;"
     >
       <GmapInfoWindow></GmapInfoWindow>
 
