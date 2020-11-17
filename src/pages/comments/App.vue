@@ -30,13 +30,12 @@
          <!-- Caption from the author -->
          <div class="commentBox">
            <div class="avatarBox">
-             <v-avatar color="primary" size="56" class="avatar"> {{ discovery.initials }} </v-avatar>
+             <v-avatar size="52"><v-img :src="userInfo[0].avatar"></v-img></v-avatar>
            </div>
            <div class="infoBox">
              <v-list-item>
                <v-list-item-content>
-                 <v-list-item-title> {{ discovery.userName }} </v-list-item-title>
-                 <p> {{ discovery.description }} </p>
+                 <p> {{ discovery[0].description }} </p>
                </v-list-item-content>
              </v-list-item>
            </div>
@@ -44,14 +43,13 @@
          <v-divider></v-divider>
 
          <!-- Comments -->
-         <div class="commentBox" v-for="comment in comments" :key="comment.username">
+         <div class="commentBox" v-for="comment in comments" :key="comment.commentedByUserIdFk">
            <div class="avatarBox">
-             <v-avatar color="primary" size="56" class="avatar"> {{ comment.initials }} </v-avatar>
+             <v-avatar size="52"><v-img :src="comment.avatar"></v-img></v-avatar>
            </div>
            <div class="infoBox">
-             <v-list-item two-line>
+             <v-list-item>
                <v-list-item-content>
-                 <v-list-item-title> {{ comment.username }} </v-list-item-title>
                  <p> {{ comment.comment }} </p>
                </v-list-item-content>
              </v-list-item>
@@ -61,10 +59,11 @@
          <!-- Write a new comment -->
          <div class="newComment">
            <div class="avatarBox">
-             <v-avatar color="primary" size="46" class="avatar"> {{ user.initials }} </v-avatar>
+             <v-avatar color="primary" size="46" class="avatar"> HM </v-avatar>
            </div>
            <v-text-field
                solo
+               v-model = "newComment"
                label="Write a comment"
                append-icon="mdi-send"
                @click:append="sendCommentToDb"
@@ -79,22 +78,33 @@
 
 <script>
 
+import axios from "axios";
+
 export default {
   name: "App",
 
   data: () => ({
-    discovery: {userName: 'Marnix Lijnen', initials: 'ML', photoPath: 'src/assets/Flowers.jpg', takenDate: '2020-11-06 11:54:11', title: 'Hydrangea', description: 'Look at these flowers! They are so magnificent and I really like them, just testing the length'},
-    comments: [
-      {initials: 'SF', username: 'Seppe Fleerackers', comment: 'Cool picture!'},
-      {initials: 'HM', username: 'Helena Majoor', comment: 'Wow so pretty'},
-      {initials: 'ML', username: 'Marnix Lijnen', comment: 'I know, right?!'}
-    ],
-    user: {userName: 'Benno Debals', initials: 'BD'}
+    userInfo: null,
+    discovery: null,
+    comments: null,
+    newComment: null,
   }),
 
+  mounted() {
+    axios.get('/public/discovery/getUserInfo').then(response => (this.userInfo = response["data"]))
+    axios.get('/public/discovery/getDiscoInfo').then(response => (this.discovery = response["data"]))
+    axios.get('/public/discovery/getComments').then(response => (this.comments = response["data"]))
+  },
+
   methods: {
-    sendCommentToDb() {
-      //send the comment to the database
+    sendCommentToDb: function() {
+      const json = JSON.stringify({
+        my_comment: this.newComment
+      });
+      const res = axios.post('public/Discovery/saveComment', json, {
+        headers: {'Content-Type': 'application/json'}
+      });
+      console.log(res);
     }
   }
 };

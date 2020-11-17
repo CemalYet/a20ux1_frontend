@@ -14,13 +14,13 @@
       <v-spacer></v-spacer>
       <div class="userInfoBox">
         <div class="avatarBox">
-          <v-avatar color="primary" size="52"> HM </v-avatar>
+          <v-avatar size="52"><v-img :src="userInfo[0].avatar"></v-img></v-avatar>
         </div>
         <div class="infoBox">
           <v-list-item two-line>
             <v-list-item-content>
-              <v-list-item-title> UserName </v-list-item-title>
-              <v-list-item-subtitle> takenDate </v-list-item-subtitle>
+              <v-list-item-title> {{ userInfo[0].userName }} </v-list-item-title>
+              <v-list-item-subtitle> {{ discovery[0].takenDate }} </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </div>
@@ -59,7 +59,7 @@
       </v-menu>
     </v-app-bar>
 
-    <v-main>
+    <v-main id="main">
       <v-overlay :value="overlay"></v-overlay>
       <br/>
       <br/>
@@ -70,7 +70,7 @@
 
           <!-- Image and leaf button -->
           <div class="img">
-            <!--<img :src="">-->
+            <v-img height="350" :src="discovery[0].photoPath"></v-img>
             <v-btn icon>
             </v-btn>
             <v-btn
@@ -123,21 +123,21 @@
             <!-- Caption from the author-->
             <div class="commentBox">
               <div class="avatarBox">
-                <v-avatar color="primary" size="56" class="avatar"> HM </v-avatar>
+                <v-avatar size="52"><v-img :src="userInfo[0].avatar"></v-img></v-avatar>
               </div>
               <div class="infoBox">
                 <v-list-item>
                   <v-list-item-content>
-                    <p> {{ discovery.takenDate }} </p>
+                    <p> {{ discovery[0].description }} </p>
                   </v-list-item-content>
                 </v-list-item>
               </div>
             </div>
             <v-divider></v-divider>
             <!-- For loop to show the comments -->
-            <div class="commentBox" v-for="comment in comments" :key="comment.username">
+            <div class="commentBox" v-for="comment in comments" :key="comment.commentedByUserIdFk">
               <div class="avatarBox">
-                <v-avatar color="primary" size="56" class="avatar"> {{ comment.initials }} </v-avatar>
+                <v-avatar size="52"><v-img :src="comment.avatar"></v-img></v-avatar>
               </div>
               <div class="infoBox">
                 <v-list-item>
@@ -147,7 +147,6 @@
                 </v-list-item>
               </div>
             </div>
-            <img src="/src/assets/Helena.jpg">
           </div>
 
         </div>
@@ -170,10 +169,8 @@ export default {
     tagClicked: false,
     favorited: false,
     discovery: null,
-    comments: [
-      {initials: 'SF', username: 'Seppe Fleerackers', comment: 'Cool picture!'},
-      {initials: 'HM', username: 'Helena Majoor', comment: 'Wow so pretty'}
-    ]
+    userInfo: null,
+    comments: null
   }),
 
   watch: {
@@ -185,8 +182,9 @@ export default {
   },
 
   mounted() {
-    //axios.defaults.baseURL='http://localhost:8080/';
+    axios.get('/public/discovery/getUserInfo').then(response => (this.userInfo = response["data"]))
     axios.get('/public/discovery/getDiscoInfo').then(response => (this.discovery = response["data"]))
+    axios.get('/public/discovery/getComments').then(response => (this.comments = response["data"]))
   },
 
 };
@@ -202,15 +200,19 @@ export default {
 
 }
 
+#main {
+  background-image: url(leaves.png);
+  background-color: rgba(255, 255, 255, 0.4);
+  background-blend-mode: lighten;
+  background-repeat: repeat;
+  background-position: center;
+}
+
 .img {
   margin: auto;
-  background-color: coral;
   width: 350px;
-  height: 350px;
-  display: flex;
-  justify-content: space-between;
-  padding: 3px;
 }
+
 
 .middlecontainer {
   width: 350px;
@@ -226,9 +228,6 @@ export default {
 .icons2 {
   display: flex;
   justify-content: flex-end;
-}
-
-.leaficon {
 }
 
 .iconbox {
