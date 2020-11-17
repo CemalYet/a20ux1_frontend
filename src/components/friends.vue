@@ -44,18 +44,18 @@
       <v-divider class="divider"></v-divider>
       <v-list subheader>
         <v-list-item
-            v-for="friend in friends"
-            :key="friend.title"
+            v-for="friend in ali"
+            :key="friend.userName"
         >
           <v-list-item-avatar>
             <v-img
-                :alt="`${friend.title} avatar`"
+                :alt="`${friend.userName} avatar`"
                 :src="friend.avatar"
             ></v-img>
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title v-text="friend.title"></v-list-item-title>
+            <v-list-item-title v-text="friend.userName"></v-list-item-title>
           </v-list-item-content>
 
           <v-list-item-icon>
@@ -76,32 +76,16 @@ import axios from "axios";
 export default {
   name: "friends",
   data: () => ({
-    ali:null,
-    friends: [
-      {
-        active: true,
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-        title: 'Jason Oner',
-      },
-      {
-        active: true,
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-        title: 'Mike Carlson',
-      },
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-        title: 'Cindy Baker',
-      },
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-        title: 'Ali Connors',
-      },
-    ],
+    ali: null,
+    drawer: false,
+    group: null,
+    notifications: 2,
+    userData: null,
   }),
 
   mounted() {
     //axios.defaults.baseURL='http://localhost:8080/';
-    axios.get('/public/sharecontroller/getFriends').then(response => (this.ali = response.data))
+    axios.get('/public/sharecontroller/getFriends').then(response => (this.ali = response["data"]))
 
     //axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     console.log(this.ali)
