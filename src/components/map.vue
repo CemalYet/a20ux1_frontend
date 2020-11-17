@@ -16,19 +16,23 @@
         style="width:100vw; height:70vh;"
     >
       <GmapInfoWindow></GmapInfoWindow>
-      <GmapMarker
+
+      <gmap-custom-marker
           :key="index"
           v-for="(m, index) in markers"
-          :position="m.position"
-          :clickable="true"
-          @click="getDiscoInfo(m.id)"
-      ></GmapMarker>
-
+          :marker="m.position"
+          @click.native="getDiscoInfo(m.id)"
+      >
+        <img class="custom_pin" src="../assets/pin.png"/>
+        <my-component></my-component>
+      </gmap-custom-marker>
     </GmapMap>
   </div>
 </template>
 
 <script>
+import GmapCustomMarker from 'vue2-gmap-custom-marker';
+
 export default {
   name: "map",
   data() {
@@ -37,6 +41,9 @@ export default {
       center: {lat: 50.87959, lng: 4.70093}, //Leuven default value
       markers: [],
     };
+  },
+  components: {
+    'gmap-custom-marker': GmapCustomMarker
   },
 
   mounted() {
@@ -121,4 +128,8 @@ export default {
 </script>
 
 <style>
+.custom_pin {
+  max-height: 40px;
+  width: auto;
+}
 </style>
