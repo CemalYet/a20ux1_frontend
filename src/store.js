@@ -14,6 +14,9 @@ const store = new Vuex.Store({
 
         //notifications
         notifications: 2,
+        //friends data
+        friendsData:[],
+
 
         //share data
         title: null,
@@ -134,6 +137,12 @@ const store = new Vuex.Store({
         fetchUserData(context){
             axios.get('/public/feedcontroller/getUserData').then(response => {
                 context.commit('updateUserData', response["data"].userData)
+            })
+        },
+        //get friends
+        fetchFriends(context){
+            axios.get('/public/sharecontroller/getFriends').then(response => {
+                context.commit('updateUserData', response["data"].friendsData)
             })
         },
 

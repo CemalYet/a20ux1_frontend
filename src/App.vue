@@ -6,6 +6,7 @@
     <!--Navigation menu on the left side-->
     <router-view name="navDrawer"></router-view>
 
+
     <!--Page-->
     <v-main id="main">
       <br/>

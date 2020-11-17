@@ -9,6 +9,9 @@ import backButton from "@/components/backButton";
 import camera from "@/components/camera";
 import share from "@/components/share";
 import cancelConfirmBottomNavBar from "@/components/cancelConfirmBottomNavBar";
+import friends from "@/components/friends";
+import friendsRequest from "@/components/friendsRequest";
+
 
 
 
@@ -56,6 +59,50 @@ const router = new VueRouter({
             props:{
                 appBar:{
                     title: "Camera"
+                }
+            },
+        },
+        {
+            path: '/friends',
+            components: {
+                appBar: appBar,
+                pageContent: friends,
+
+
+            },
+            children:[
+                {
+                    path: '',
+                    components: {
+                        buttonLeft: backButton,
+
+                    }
+                }
+            ],
+            props:{
+                appBar:{
+                    title: "Friends"
+                }
+            },
+        },
+        {
+            path: '/friendsRequest',
+            components: {
+                appBar: appBar,
+                pageContent: friendsRequest,
+
+            },
+            children:[
+                {
+                    path: '',
+                    components: {
+                        buttonLeft: backButton,
+                    }
+                }
+            ],
+            props:{
+                appBar:{
+                    title: "Friends"
                 }
             },
         },
