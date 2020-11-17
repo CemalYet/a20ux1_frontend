@@ -1,16 +1,19 @@
 <template>
   <div>
-    <h1>Selected marker: {{ this.chosen_marker }}</h1>
-    <h4
-        v-for="m in markers.length"
-        :key="m"
-    >
-      {{ markers[m - 1] }}
-    </h4>
-    <v-btn @click="Me" rounded>Me</v-btn>
-    <v-btn @click="Friends" rounded>Friends</v-btn>
-    <v-btn @click="Popular" rounded>Popular</v-btn>
-    <div id="Map">
+    <div id="top_nav">
+      <v-text-field
+          solo
+          label="Search"
+          clearable
+      ></v-text-field>
+      <v-chip-group
+          mandatory
+          active-class="--main-color">
+        <v-chip @click="getMyDiscoveries">Mine</v-chip>
+        <v-chip @click="getFriendsDiscoveries">Friends</v-chip>
+        <v-chip @click="getPopularDiscoveries">Popular</v-chip>
+      </v-chip-group>    </div>
+    <div id="discovery_map">
       <GmapMap
           :center=getMapCenter
           :zoom="12"
@@ -18,19 +21,18 @@
       >
         <gmap-custom-marker
             :key="index"
-            v-for="(m, index) in markers"
+            v-for="(m, index) in getMarkers"
             :marker="m.position"
-            @click.native="getDiscoInfo(m.id)"
+            @click.native="getDiscoInfo(m)"
         >
           <img class="custom_pin" src="../assets/pin.png"/>
-          <my-component></my-component>
         </gmap-custom-marker>
       </GmapMap>
     </div>
 
-    <router-link to="/feed">
-      <div id="Disco_info"
-           v-if="chosen_marker"
+    <router-link to="/">
+      <v-bottom-sheet id="Disco_info"
+           v-model="updateMarkerDiscoveryOverlay"
       >
         <v-sheet
             class="mx-auto"
@@ -38,10 +40,10 @@
             max-width="100vw"
         >
           <v-slide-group
-              v-model="model"
+              v-if="updateMarkerDiscoveryOverlay"
           >
             <v-slide-item
-                v-for="image in markers[chosen_marker-1].images"
+                v-for="image in getSelectedMarker.images"
                 :key="image"
             >
               <img
@@ -55,7 +57,7 @@
           <h5>Name - Date</h5>
           <h5>Location</h5>
         </v-sheet>
-      </div>
+      </v-bottom-sheet>
     </router-link>
   </div>
 </template>
@@ -65,121 +67,56 @@ import GmapCustomMarker from 'vue2-gmap-custom-marker';
 
 export default {
   name: "map",
-  data() {
-    return {
-      chosen_marker: null,
-      markers: [],
-      model: null,
-    };
-  },
+
   components: {
     'gmap-custom-marker': GmapCustomMarker
   },
 
   mounted() {
-    this.$store.dispatch('getMapCenter');
-    this.Me();
+    this.$store.dispatch('MapCenter');
+    this.$store.dispatch('discoveriesMe');
   },
 
   computed: {
     getMapCenter() {
       return this.$store.getters.getMapCenter;
+    },
+    getMarkers(){
+      return this.$store.getters.getMapMarkers;
+    },
+    getSelectedMarker:{
+      get(){
+        return this.$store.getters.getSelectedMarker;
+      },
+      set(value){
+        this.$store.commit("updateSelectedMarker", value)
+
+      }
+    },
+    updateMarkerDiscoveryOverlay:{
+      get(){
+        return this.$store.getters.getMarkerDiscoveryOverlay;
+      },
+      set(value){
+        this.$store.commit("updateMarkerDiscoveryOverlay", value)
+
+      }
     }
   },
 
   methods: {
-    getDiscoInfo: function (int) {
-      this.chosen_marker = int;
+    getDiscoInfo(disco) {
+      this.$store.commit("updateSelectedMarker", disco);
+      this.$store.commit("updateMarkerDiscoveryOverlay",true);
     },
-    Me: function () {
-      this.chosen_marker = null;
-      this.markers =
-          [
-            {
-              position: {
-                lat: 51.3167,
-                lng: 4.9833
-              },
-              id: 2,
-              images: [
-                "http://lorempixel.com/200/200/nature/",
-                "http://lorempixel.com/200/200/nature/",
-                "http://lorempixel.com/200/200/nature/",
-              ],
-            },
-          ]
+    getMyDiscoveries(){
+      this.$store.dispatch('discoveriesMe');
     },
-    Friends: function () {
-      this.chosen_marker = null;
-      this.markers =
-          [
-            {
-              position: {
-                lat: 51.32254,
-                lng: 4.94471
-              },
-              id: 1,
-              images: [
-                "http://lorempixel.com/200/200/nature/",
-                "http://lorempixel.com/200/200/nature/",
-                "http://lorempixel.com/200/200/nature/",
-              ],
-            },
-            {
-              position: {
-                lat: 51.3567,
-                lng: 4.9783
-              },
-              id: 3,
-              images: [
-                "http://lorempixel.com/200/200/nature/",
-                "http://lorempixel.com/200/200/nature/",
-                "http://lorempixel.com/200/200/nature/",
-              ],
-            },
-          ]
+    getFriendsDiscoveries(){
+      this.$store.dispatch('discoveriesFriends');
     },
-    Popular: function () {
-      this.chosen_marker = null;
-      this.markers =
-          [
-            {
-              position: {
-                lat: 51.32254,
-                lng: 4.94471
-              },
-              id: 1,
-              images: [
-                "http://lorempixel.com/200/200/nature/",
-                "http://lorempixel.com/200/200/nature/",
-                "http://lorempixel.com/200/200/nature/",
-              ],
-            },
-            {
-              position: {
-                lat: 51.3167,
-                lng: 4.9833
-              },
-              id: 2,
-              images: [
-                "http://lorempixel.com/200/200/nature/",
-                "http://lorempixel.com/200/200/nature/",
-                "http://lorempixel.com/200/200/nature/",
-              ],
-            },
-            {
-              position: {
-                lat: 51.3567,
-                lng: 4.9783
-              },
-              id: 3,
-              images: [
-                "http://lorempixel.com/200/200/nature/",
-                "http://lorempixel.com/200/200/nature/",
-                "http://lorempixel.com/200/200/nature/",
-              ],
-            },
-          ]
+    getPopularDiscoveries(){
+      this.$store.dispatch('discoveriesPopular');
     },
   }
 };
@@ -191,13 +128,12 @@ export default {
   width: auto;
 }
 
-.picture_card {
-  margin: 0 4px;
-  height: 200px;
+#discovery_map, #top_nav {
+  position: absolute;
 }
 
-#Map {
-  position: absolute;
+#top_nav {
+  z-index: 2;
 }
 
 #Disco_info {
