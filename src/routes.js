@@ -117,7 +117,15 @@ const router = new VueRouter({
                     path: '',
                     components: {
                         map: map,
-                    }
+                    },
+                    children:[
+                        {
+                            path:'',
+                            components:{
+                                backButton:backButton,
+                            }
+                        }
+                    ]
                 }
             ]
 

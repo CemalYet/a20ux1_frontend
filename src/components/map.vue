@@ -4,15 +4,16 @@
       <v-text-field
           solo
           label="Search"
-          clearable
-      ></v-text-field>
+          clearable></v-text-field>
       <v-chip-group
           mandatory
           active-class="--main-color">
         <v-chip @click="getMyDiscoveries">Mine</v-chip>
         <v-chip @click="getFriendsDiscoveries">Friends</v-chip>
         <v-chip @click="getPopularDiscoveries">Popular</v-chip>
-      </v-chip-group>    </div>
+      </v-chip-group>
+      <router-view name="backButton"></router-view>
+    </div>
     <div id="discovery_map">
       <GmapMap
           :center=getMapCenter
@@ -134,6 +135,7 @@ export default {
 
 #top_nav {
   z-index: 2;
+  width: 80%;
 }
 
 #Disco_info {
