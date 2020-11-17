@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -25,6 +26,9 @@ const store = new Vuex.Store({
         latitude: null,
         longitude:null,
         snackbar: false,
+
+        // Map screen
+        map_center: {lat: 50.87959, lng: 4.70093}, //Leuven default value
 
         //templates
         userData: [
@@ -126,6 +130,12 @@ const store = new Vuex.Store({
         },
         updateLatitude(state, value){
             state.latitude = value;
+        },
+
+        // Map screen
+        updateMapCenter(state,value){
+            state.map_center.lat=value.coords.latitude;
+            state.map_center.lng=value.coords.longitude;
         }
     },
 
@@ -155,7 +165,14 @@ const store = new Vuex.Store({
                 });
             console.log(res)
             console.log(json)
-        }
+        },
+
+        // Map screen
+        getMapCenter (context) {
+            navigator.geolocation.getCurrentPosition(position => {
+                context.commit('updateMapCenter', position);
+            });
+        },
     },
 
     getters:{
@@ -200,6 +217,11 @@ const store = new Vuex.Store({
         },
         getDescription(state){
             return state.description;
+        },
+
+        // Map screen
+        getMapCenter(state){
+            return state.map_center;
         }
     }
 })

@@ -10,23 +10,53 @@
     <v-btn @click="Me" rounded>Me</v-btn>
     <v-btn @click="Friends" rounded>Friends</v-btn>
     <v-btn @click="Popular" rounded>Popular</v-btn>
-    <GmapMap
-        :center="center"
-        :zoom="12"
-        style="width:100vw; height:100vh;"
-    >
-      <GmapInfoWindow></GmapInfoWindow>
-
-      <gmap-custom-marker
-          :key="index"
-          v-for="(m, index) in markers"
-          :marker="m.position"
-          @click.native="getDiscoInfo(m.id)"
+    <div id="Map">
+      <GmapMap
+          :center=getMapCenter
+          :zoom="12"
+          style="width:100vw; height:100vh;"
       >
-        <img class="custom_pin" src="../assets/pin.png"/>
-        <my-component></my-component>
-      </gmap-custom-marker>
-    </GmapMap>
+        <gmap-custom-marker
+            :key="index"
+            v-for="(m, index) in markers"
+            :marker="m.position"
+            @click.native="getDiscoInfo(m.id)"
+        >
+          <img class="custom_pin" src="../assets/pin.png"/>
+          <my-component></my-component>
+        </gmap-custom-marker>
+      </GmapMap>
+    </div>
+
+    <router-link to="/feed">
+      <div id="Disco_info"
+           v-if="chosen_marker"
+      >
+        <v-sheet
+            class="mx-auto"
+            elevation="8"
+            max-width="100vw"
+        >
+          <v-slide-group
+              v-model="model"
+          >
+            <v-slide-item
+                v-for="image in markers[chosen_marker-1].images"
+                :key="image"
+            >
+              <img
+                  :src="image"
+                  alt=""
+                  height="200"
+              >
+            </v-slide-item>
+          </v-slide-group>
+          <h3>Title</h3>
+          <h5>Name - Date</h5>
+          <h5>Location</h5>
+        </v-sheet>
+      </div>
+    </router-link>
   </div>
 </template>
 
@@ -38,8 +68,8 @@ export default {
   data() {
     return {
       chosen_marker: null,
-      center: {lat: 50.87959, lng: 4.70093}, //Leuven default value
       markers: [],
+      model: null,
     };
   },
   components: {
@@ -47,19 +77,17 @@ export default {
   },
 
   mounted() {
-    this.getLocation();
+    this.$store.dispatch('getMapCenter');
     this.Me();
   },
 
+  computed: {
+    getMapCenter() {
+      return this.$store.getters.getMapCenter;
+    }
+  },
+
   methods: {
-    getLocation: function () {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-      });
-    },
     getDiscoInfo: function (int) {
       this.chosen_marker = int;
     },
@@ -72,7 +100,12 @@ export default {
                 lat: 51.3167,
                 lng: 4.9833
               },
-              id: 2
+              id: 2,
+              images: [
+                "http://lorempixel.com/200/200/nature/",
+                "http://lorempixel.com/200/200/nature/",
+                "http://lorempixel.com/200/200/nature/",
+              ],
             },
           ]
     },
@@ -85,14 +118,24 @@ export default {
                 lat: 51.32254,
                 lng: 4.94471
               },
-              id: 1
+              id: 1,
+              images: [
+                "http://lorempixel.com/200/200/nature/",
+                "http://lorempixel.com/200/200/nature/",
+                "http://lorempixel.com/200/200/nature/",
+              ],
             },
             {
               position: {
                 lat: 51.3567,
                 lng: 4.9783
               },
-              id: 3
+              id: 3,
+              images: [
+                "http://lorempixel.com/200/200/nature/",
+                "http://lorempixel.com/200/200/nature/",
+                "http://lorempixel.com/200/200/nature/",
+              ],
             },
           ]
     },
@@ -105,21 +148,36 @@ export default {
                 lat: 51.32254,
                 lng: 4.94471
               },
-              id: 1
+              id: 1,
+              images: [
+                "http://lorempixel.com/200/200/nature/",
+                "http://lorempixel.com/200/200/nature/",
+                "http://lorempixel.com/200/200/nature/",
+              ],
             },
             {
               position: {
                 lat: 51.3167,
                 lng: 4.9833
               },
-              id: 2
+              id: 2,
+              images: [
+                "http://lorempixel.com/200/200/nature/",
+                "http://lorempixel.com/200/200/nature/",
+                "http://lorempixel.com/200/200/nature/",
+              ],
             },
             {
               position: {
                 lat: 51.3567,
                 lng: 4.9783
               },
-              id: 3
+              id: 3,
+              images: [
+                "http://lorempixel.com/200/200/nature/",
+                "http://lorempixel.com/200/200/nature/",
+                "http://lorempixel.com/200/200/nature/",
+              ],
             },
           ]
     },
@@ -131,5 +189,19 @@ export default {
 .custom_pin {
   max-height: 40px;
   width: auto;
+}
+
+.picture_card {
+  margin: 0 4px;
+  height: 200px;
+}
+
+#Map {
+  position: absolute;
+}
+
+#Disco_info {
+  position: relative;
+  top: 400px;
 }
 </style>
