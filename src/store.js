@@ -101,6 +101,10 @@ const store = new Vuex.Store({
         updateUserData(state, userData){
             state.userData = userData;
         },
+        //friends data
+        updateFriendsData(state, friendsData){
+            state.friendsData = friendsData;
+        },
 
         //share data
         updateSnackbar(state, value){
@@ -142,7 +146,7 @@ const store = new Vuex.Store({
         //get friends
         fetchFriends(context){
             axios.get('/public/sharecontroller/getFriends').then(response => {
-                context.commit('updateUserData', response["data"].friendsData)
+                context.commit('updateFriendsData', response["data"].friendsData)
             })
         },
 

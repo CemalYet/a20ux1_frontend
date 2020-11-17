@@ -71,9 +71,12 @@
 </template>
 
   <script>
+import axios from "axios";
+
 export default {
   name: "friends",
   data: () => ({
+    ali:null,
     friends: [
       {
         active: true,
@@ -94,11 +97,15 @@ export default {
         title: 'Ali Connors',
       },
     ],
-    previous: [{
-      title: 'Travis Howard',
-      avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-    }],
   }),
+
+  mounted() {
+    //axios.defaults.baseURL='http://localhost:8080/';
+    axios.get('/public/sharecontroller/getFriends').then(response => (this.ali = response.data))
+
+    //axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    console.log(this.ali)
+  },
 
 }
 </script>
