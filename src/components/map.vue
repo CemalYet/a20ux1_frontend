@@ -29,23 +29,23 @@
       </v-text-field>
     </div>
     <div id="Buttons">
-      <v-btn @click="getMyDiscoveries" rounded small>Mine</v-btn>
-      <v-btn @click="getFriendsDiscoveries" rounded small>Friends</v-btn>
-      <v-btn @click="getPopularDiscoveries" rounded small>Popular</v-btn>
+      <v-btn @click="getMyDiscoveries" small rounded>Mine</v-btn>
+      <v-btn @click="getFriendsDiscoveries" small rounded>Friends</v-btn>
+      <v-btn @click="getPopularDiscoveries" small rounded>Popular</v-btn>
     </div>
 
 
     <router-link to="/">
-      <div id="Disco_info"
-           v-if="updateMarkerDiscoveryOverlay"
-      >
+      <v-bottom-sheet id="Disco_info"
+        v-model="updateMarkerDiscoveryOverlay"
+        inset>
         <v-sheet
             class="mx-auto"
             elevation="8"
             max-width="100vw"
         >
           <v-slide-group
-              v-model="updateMarkerDiscoveryOverlay"
+              v-if="updateMarkerDiscoveryOverlay"
           >
             <v-slide-item
                 v-for="image in getSelectedMarker.images"
@@ -64,7 +64,7 @@
             <h5>De Liereman</h5>
           </div>
         </v-sheet>
-      </div>
+      </v-bottom-sheet>
     </router-link>
   </div>
 </template>
