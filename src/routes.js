@@ -40,14 +40,14 @@ const router = new VueRouter({
                                 buttonLeft: hamburgerButton,
                             }
                         }
-                    ]
+                    ],
+                    props:{
+                        appBar:{
+                            title: "snAPP"
+                        }
+                    },
                 }
             ],
-            props:{
-                appBar:{
-                    title: "snAPP"
-                }
-            },
         },
         {
             path: '/camera',
@@ -69,14 +69,14 @@ const router = new VueRouter({
                                 buttonLeft: backButton,
                             }
                         }
-                    ]
+                    ],
+                    props:{
+                        appBar:{
+                            title: "Camera"
+                        }
+                    },
                 }
             ],
-            props:{
-                appBar:{
-                    title: "Camera"
-                }
-            },
         },
         {
             path: '/share',

@@ -25,13 +25,18 @@
       <v-text-field
           solo
           label="Search"
-          clearable>
+          clearable
+          rounded>
       </v-text-field>
     </div>
-    <div id="Buttons">
-      <v-btn @click="getMyDiscoveries" small rounded>Mine</v-btn>
-      <v-btn @click="getFriendsDiscoveries" small rounded>Friends</v-btn>
-      <v-btn @click="getPopularDiscoveries" small rounded>Popular</v-btn>
+    <div class="chip_group_container">
+      <v-chip-group
+          id="Buttons"
+          >
+        <v-chip @click="getMyDiscoveries" color="var(--light-color)" text-color="white">Mine</v-chip>
+        <v-chip @click="getFriendsDiscoveries" color="var(--light-color)" text-color="white">Friends</v-chip>
+        <v-chip @click="getPopularDiscoveries" color="var(--light-color)" text-color="white">Popular</v-chip>
+      </v-chip-group>
     </div>
 
 
@@ -138,6 +143,7 @@ export default {
 </script>
 
 <style>
+
 .custom_pin {
   max-height: 40px;
   width: auto;
@@ -151,6 +157,9 @@ export default {
   position: relative;
   display: flex;
   flex-direction: row;
+  padding-top: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 #Back_button {
@@ -158,15 +167,7 @@ export default {
 }
 
 #Buttons {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
   margin-top: -25px;
-}
-
-#Buttons button {
-  margin: 4px;
 }
 
 #Disco_info {
@@ -183,6 +184,11 @@ export default {
 
 #images_text {
   padding: 0 10px 6px;
+}
+
+.chip_group_container{
+  width: 225px;
+  margin: auto;
 }
 
 @media screen and (min-width: 600px) {
