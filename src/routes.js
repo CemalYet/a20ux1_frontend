@@ -11,6 +11,7 @@ import share from "@/components/share";
 import cancelConfirmBottomNavBar from "@/components/cancelConfirmBottomNavBar";
 import friends from "@/components/friends";
 import friendsRequest from "@/components/friendsRequest";
+import friendsAdd from "@/components/friendsAdd";
 
 
 
@@ -90,6 +91,27 @@ const router = new VueRouter({
             components: {
                 appBar: appBar,
                 pageContent: friendsRequest,
+
+            },
+            children:[
+                {
+                    path: '',
+                    components: {
+                        buttonLeft: backButton,
+                    }
+                }
+            ],
+            props:{
+                appBar:{
+                    title: "Friends"
+                }
+            },
+        },
+        {
+            path: '/friendsAdd',
+            components: {
+                appBar: appBar,
+                pageContent: friendsAdd,
 
             },
             children:[
