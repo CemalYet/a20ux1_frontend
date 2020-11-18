@@ -1,39 +1,30 @@
 <template>
   <v-container>
     <div class="content">
+
       <!--User Info-->
-      <div class="w-full p-10 user_container">
-        <div class="avatar_container">
-          <v-avatar
-              class="elevation-8"
-              size="152"
-          >
-            <img :src="this.$store.getters.getUserData[0].avatar" alt="">
-          </v-avatar>
-        </div>
-        <div class="user_info">
-          <p class="user_info_header">{{ $store.getters.getUserData[0].userName }}</p>
-          <p class="user_info_subheader">@{{ $store.getters.getUserData[0].userName.replace(/\s/g, '') }}</p>
-        </div>
-      </div>
+      <userAvatarPlusInfo></userAvatarPlusInfo>
 
-      <v-container id="profile_content">
-        <!--Navigation menu at the top-->
-        <spam class="topMenu">
-          <button class="topMenuButton" @click="tab = 'my_pictures'" :class="[tab == 'my_pictures' ? 'pressed':'unpressed']" :ripple="false">
-            My pictures
-          </button>
-          <button class="topMenuButton" @click="tab = 'tags'" :class="[tab == 'tags' ? 'pressed':'unpressed']" :ripple="false">
-            Tags
-          </button>
-          <button class="topMenuButton" @click="tab = 'badges'" :class="[tab == 'badges' ? 'pressed':'unpressed']" :ripple="false">
-            Badges
-          </button>
-        </spam>
+      <v-tabs
+          v-model="tab"
+          background-color="transparent"
+          fixed-tabs
+          color=var(--dark-color)>
+        <v-tab>
+          My pictures
+        </v-tab>
+        <v-tab>
+          Tags
+        </v-tab>
+        <v-tab>
+          Badges
+        </v-tab>
+      </v-tabs>
 
-        <!--My Pictures tab-->
-        <div v-if="tab == 'my_pictures'">
-          <div class="photo_grid" :style="{'grid-template-columns': itemsPerRow}">
+      <v-tabs-items
+          v-model="tab">
+        <v-tab-item>
+          <div class="photo_grid tab_item_container" :style="{'grid-template-columns': itemsPerRow}">
             <div class="photo_container" v-for="j in $store.getters.getDiscoveries.length" :key="j">
               <img class="photo" :src="$store.getters.getDiscoveries[j-1].photoPath" alt="">
             </div>
@@ -47,11 +38,9 @@
               <img class="photo" src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Bloodroot_%28Sanguinaria_canadensis%29.jpeg" alt="">
             </div>
           </div>
-        </div>
-
-        <!--Tags tab-->
-        <div v-if="tab == 'tags'">
-          <div class="photo_grid" :style="{'grid-template-columns': itemsPerRow}">
+        </v-tab-item>
+        <v-tab-item>
+          <div class="photo_grid tab_item_container" :style="{'grid-template-columns': itemsPerRow}">
             <div class="photo_container">
               <img class="photo" src="https://www.differencebetween.com/wp-content/uploads/2019/11/Difference-Between-Stem-Tendril-and-Leaf-Tendril_2.jpg" alt="">
             </div>
@@ -65,12 +54,9 @@
               <img class="photo" :src="tags[j-1].photoPath" alt="">
             </div> -->
           </div>
-        </div>
-
-        <!--Badges Tab-->
-        <div v-if="tab == 'badges'">
-          <!-- <div class="badgeContainer" v-for="j in badges.length" :key="j"> -->
-          <div class="badgesContainer" :style="{'grid-template-columns': badgesPerRow}">
+        </v-tab-item>
+        <v-tab-item>
+          <div class="badgesContainer tab_item_container" :style="{'grid-template-columns': badgesPerRow}">
             <!-- <Badge title="badges[j-1].title"/> -->
             <Badge title="Made 10 Discoveries"/>
             <Badge title="Scanned a wild animal"/>
@@ -79,8 +65,8 @@
             <Badge title="Scanned a wild animal"/>
             <Badge title="Scanned 10 Oak Trees"/>
           </div>
-        </div>
-      </v-container>
+        </v-tab-item>
+      </v-tabs-items>
 
     </div>
   </v-container>
@@ -88,18 +74,20 @@
 
 <script>
 import Badge from "@/components/Badge";
+import userAvatarPlusInfo from "@/components/userAvatarPlusInfo";
 
 export default {
   name: "profileContent",
 
   components:{
-    Badge
+    Badge,
+    userAvatarPlusInfo
   },
 
   data: () => ({
     tags: null,
     badges: null,
-    tab: 'my_pictures',
+    tab: null,
   }),
 
   computed: {
@@ -219,6 +207,10 @@ export default {
 .avatar_container {
   display: inline-block;
   margin: 1.5rem;
+}
+
+.tab_item_container{
+  margin-top: 12px;
 }
 
 

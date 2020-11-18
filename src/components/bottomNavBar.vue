@@ -7,22 +7,27 @@
       <v-icon large color=var(--main-color)>mdi-shield-star-outline</v-icon>
     </v-btn>
 
-    <v-btn color=var(--dark-color) :ripple="false" window.location.href="/camera">
-      <router-link to="/camera">
-        <v-icon x-large color="white">mdi-camera-plus-outline</v-icon>
-      </router-link>
+    <v-btn color=var(--dark-color) :ripple="false" @click.native="goToCamera">
+      <v-icon x-large color="white">mdi-camera-plus-outline</v-icon>
     </v-btn>
-    <v-btn color="white" :ripple="false">
-      <router-link to="/map">
-        <v-icon large color=var(--main-color)>mdi-map-outline</v-icon>
-      </router-link>
+    <v-btn color="white" :ripple="false" @click.native="goToMap">
+      <v-icon large color=var(--main-color)>mdi-map-outline</v-icon>
     </v-btn>
   </v-bottom-navigation>
 </template>
 
 <script>
 export default {
-  name: "bottomNavBar"
+  name: "bottomNavBar",
+
+  methods:{
+    goToCamera(){
+      this.$router.push({path:'camera'})
+    },
+    goToMap(){
+      this.$router.push({path:'map'})
+    },
+  }
 }
 </script>
 

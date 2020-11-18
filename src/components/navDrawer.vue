@@ -10,15 +10,7 @@
         dense
     >
       <!--Avatar + name-->
-      <v-list-item two-line>
-        <v-list-item-avatar size="70">
-          <v-img :src="userData[0].avatar"></v-img>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>{{userData[0].emailAddress}}</v-list-item-title>
-          <v-list-item-subtitle>{{userData[0].userName}}</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
+      <userAvatarPlusInfo></userAvatarPlusInfo>
 
       <!--Menu options-->
       <v-list-item link :ripple="false">
@@ -40,7 +32,7 @@
         </v-list-item-icon>
         <v-list-item-title>Badges</v-list-item-title>
       </v-list-item>
-      <v-list-item link :ripple="false">
+      <v-list-item link :ripple="false" @click.native="goToMap">
         <v-list-item-icon>
           <v-icon large color=var(--main-color)>mdi-map-outline</v-icon>
         </v-list-item-icon>
@@ -61,9 +53,14 @@
 </template>
 
 <script>
+import userAvatarPlusInfo from "@/components/userAvatarPlusInfo";
+
 export default {
   name: "navDrawer",
 
+  components:{
+    userAvatarPlusInfo
+  },
 
   computed:{
     updateDrawer: {
@@ -77,6 +74,12 @@ export default {
     userData(){
       return this.$store.getters.getUserData;
     }
+  },
+
+  methods:{
+    goToMap(){
+      this.$router.push({path:'map'})
+    },
   }
 }
 </script>
