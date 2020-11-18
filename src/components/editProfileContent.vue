@@ -2,64 +2,109 @@
   <v-container>
     <div class="content">
 
-      <!--Update profile Tab-->
-      <div v-if="tab == 'update'" class="tabs">
-        <!--User Avatar-->
-        <image-input class="avatar" @input="changeAvatar($event)">
-          <div slot="activator">
-            <v-avatar size="200px" v-ripple >
-              <img :src="$store.getters.getUserData[0].avatar">
-            </v-avatar>
-          </div>
-        </image-input>
+      <image-input class="avatar" @input="changeAvatar($event)">
+        <div slot="activator">
+          <v-avatar size="200px" v-ripple >
+            <img :src="updatedUserData[0].avatar">
+          </v-avatar>
+        </div>
+      </image-input>
 
-        <form @submit.prevent="updateProfile()" class="settingsForm">
-          <div class="field" >
-            <label>Username</label>
-            <input type="text" name="username" v-model="username">
-          </div>
-
-          <div class="field" >
-            <label>Email</label>
-            <input type="email" name="email" v-model="email" v-validate="'required|email'">
-          </div>
-
-          <button type="submit" class="submitButton">Update Profile</button>
-          <button type="button" @click="tab = 'password', output = ''" class="submitButton">Change Password</button>
-        </form>
-      </div>
-
-      <!--Update Password Tab-->
-      <div v-if="tab == 'password'" class="tabs">
-        <form @submit.prevent="changePassword()" class="settingsForm">
-          <div class="field" >
-            <label>Current Password</label>
-            <input type="password" name="password" v-model="password" data-vv-as="current password" v-validate="'required'">
-          </div>
-
-          <div class="field" >
-            <label>New Password</label>
-            <input type="password" name="newPassword" v-model="newPassword" data-vv-as="new password" v-validate="'required'">
-          </div>
-
-          <div class="field" >
-            <label>Confirm New Password</label>
-            <input type="password" name="confirmPassword" v-model="confirmPassword" data-vv-as="confirm password" v-validate="'required|confirmed:newPassword'">
-          </div>
-
-          <button type="submit" class="submitButton">Update Password</button>
-
-          <button type="button" @click="tab = 'update', output = ''" class="submitButton" :loading="saving">Go Back</button>
-        </form>
-      </div>
+      <v-form v-model="valid" v-if="!changePassword">
+        <v-container>
+          <v-text-field
+              v-model="updatedUserData[0].userName"
+              :rules="nameRules"
+              label="username"
+              :counter=25
+              required
+          ></v-text-field>
+          <v-text-field
+              width="300px"
+              v-model="updatedUserData[0].emailAddress"
+              :rules="emailRules"
+              label="E-mail"
+              required
+          ></v-text-field>
+          <v-btn
+              width="250px"
+              rounded
+              color=var(--dark-color)
+              class="white--text"
+              @click.native="updateProfile"
+          >
+            Update profile
+          </v-btn>
+        </v-container>
+      </v-form>
+      <v-form v-model="valid" v-if="changePassword">
+        <v-container>
+          <v-text-field
+              v-model="password"
+              :rules="passwordRules"
+              :append-icon="showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="showPassword1 = !showPassword1"
+              :type="showPassword1 ? 'text' : 'password'"
+              label="Current password"
+              required
+          ></v-text-field>
+          <v-text-field
+              v-model="newPassword"
+              :rules="passwordRules"
+              :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="showPassword2 = !showPassword2"
+              :type="showPassword2 ? 'text' : 'password'"
+              label="New password"
+              required
+          ></v-text-field>
+          <v-text-field
+              v-model="confirmPassword"
+              :rules="passwordRules"
+              :append-icon="showPassword3 ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="showPassword3 = !showPassword3"
+              :type="showPassword3 ? 'text' : 'password'"
+              label="Repeat new password"
+              required
+          ></v-text-field>
+          <v-btn
+              width="250px"
+              rounded
+              color=var(--dark-color)
+              class="white--text"
+              @click.native="updatePassword"
+          >
+            Update password
+          </v-btn>
+        </v-container>
+      </v-form>
+      <v-btn
+          v-if="!changePassword"
+          width="200px"
+          rounded
+          color=var(--dark-color)
+          class="white--text"
+          @click.native="toggleChangePassword"
+      >
+        Change password
+      </v-btn>
+      <v-btn
+          v-if="changePassword"
+          width="200px"
+          rounded
+          color=var(--dark-color)
+          class="white--text"
+          @click.native="toggleChangePassword"
+      >
+        Go back
+      </v-btn>
 
       <!-- Error dialog displays any potential error messages -->
-      <v-dialog v-model="errorDialog" max-width="300">
+      <v-dialog v-model="this.errorDialog" max-width="300">
         <v-card>
-          <v-card-text class="subheading">{{errorText}}</v-card-text>
+          <v-card-text class="subheading">{{this.errorText}}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn @click="errorDialog = false" text>Got it!</v-btn>
+            <v-btn @click="this.errorDialog = false" text>Got it!</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -70,19 +115,50 @@
 
 <script>
 import axios from "axios";
+import ImageInput from "@/components/ImageInput";
 
 export default {
   name: "editProfileContent",
 
+  components:{
+    ImageInput
+  },
+
   data: () => ({
-    userData: null,
-    username: "",
-    email: "",
+    valid: false,
+    nameRules: [
+      v => !!v || 'Name is required',
+      v => v.length <= 25 || 'Name must be less than 25 characters',
+  ],
+    emailRules: [
+      v => !!v || 'E-mail is required',
+      v => /.+@.+/.test(v) || 'E-mail must be valid',
+      v => v.length <= 45 || 'Email must be less than 45 characters',
+    ],
+    passwordRules: [
+      v => !!v || 'Field required',
+      v => v.length >= 6 || 'Must be longer than 6 characters',
+    ],
+
+    updatedUserData:[{
+      avatar: '',
+      emailAddress:'',
+      userName:''
+    }],
+
+    showPassword1:false,
+    showPassword2:false,
+    showPassword3:false,
+
+    changePassword:false,
+
     password: '',
     newPassword: '',
     confirmPassword: '',
-    errorDialog: null,
-    errorText: '',
+
+    errorDialog: false,
+    errorText:'',
+
     saving: false,
     saved: false,
     tab: 'update'
@@ -94,12 +170,15 @@ export default {
   },
 
   methods:{
+    toggleChangePassword(){
+      this.changePassword = !this.changePassword
+    },
     initForm() {
-      this.username = this.$store.getters.getUserData[0].userName
-      this.email = this.$store.getters.getUserData[0].emailAddress
+      this.updatedUserData = this.$store.getters.getUserData
     },
     changeAvatar(array){
-      this.userData.avatar = array
+      this.updatedUserData[0].avatar = array
+      this.$store.commit('updateUserAvatar', array)
     },
 
     uploadImage() {
@@ -113,12 +192,11 @@ export default {
     },
 
     updateProfile(){
-      this.userData.userName = this.username
-      this.userData.emailAddress = this.email
+      this.$store.dispatch('uploadUserData', this.updatedUserData);
 
       let currentObj = this;
 
-      let rawData = JSON.stringify(this.userData)
+      let rawData = JSON.stringify(this.updatedUserData)
       let formData = new FormData()
       formData.append('data', rawData)
 
@@ -130,7 +208,7 @@ export default {
 
     },
 
-    changePassword(){
+    updatePassword(){
       let currentObj = this;
 
       if (this.newPassword != this.confirmPassword){
@@ -159,37 +237,15 @@ export default {
 <style scoped>
 
 .content{
-  margin-top: 8rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.tabs{
-  margin: 1rem 0 1rem 0;
-}
-
 .avatar{
   text-align: center;
   margin-bottom: 1rem;
-}
-
-.settingsForm {
-  margin: auto;
-  /* align-content: center;
-  align-items: center; */
-  justify-content: center;
-}
-
-.field {
-  display: block;
-  margin-bottom: 1rem;
-  /* margin-left: auto;
-  margin-right: auto;
-  padding: 20px 50px 10px 10px;
-  border-bottom: 3px solid white;
-  width: 150px; */
 }
 
 label{
@@ -201,16 +257,6 @@ input {
   border: 0.05rem solid black;
   border-radius: 0.35rem;
   color: black;
-  outline: none;
-}
-
-.submitButton{
-  display: block;
-  background: #00251A;
-  color: white;
-  border-radius: 20px;
-  width: 100%;
-  margin: 1.5rem 0 1.5rem 0;
   outline: none;
 }
 

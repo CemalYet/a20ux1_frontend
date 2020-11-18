@@ -3,7 +3,7 @@
     <div class="content">
 
       <!--User Info-->
-      <userAvatarPlusInfo></userAvatarPlusInfo>
+      <userAvatarPlusInfo :style="{width:avatarWidth}" style="margin: auto;" ></userAvatarPlusInfo>
 
       <v-tabs
           v-model="tab"
@@ -120,7 +120,22 @@ export default {
           return "auto auto"
       }
       return 1;
-    }
+    },
+    avatarWidth() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return "100%"
+        case 'sm':
+          return "100%"
+        case 'md':
+          return "50%"
+        case 'lg':
+          return "50%"
+        case 'xl':
+          return "50%"
+      }
+      return 1;
+    },
   },
 
 
@@ -128,31 +143,6 @@ export default {
 </script>
 
 <style scoped>
-
-.topMenu{
-  display: flex;
-  padding: 0px;
-  width: 100%;
-  margin-bottom: 3rem;
-  border: 2px solid black;
-  text-align: center;
-  font-family: 'Lato', sans-serif;
-  line-height: 3rem;
-  font-size: 18px;
-}
-
-.topMenuButton, .unpressed{
-  flex-grow: 1;
-  width: 100%;
-  background-color: white;
-}
-
-.topMenuButton:focus, .pressed{
-  flex-grow: 1;
-  width: 100%;
-  background-color: #00251A;
-  color: white;
-}
 
 .photo_grid {
   display: grid;
@@ -183,35 +173,7 @@ export default {
   /* grid-template-columns: auto auto;  */
 }
 
-.user_container {
-  margin-top: 3.5rem;
-}
-
-.user_info, {
-  display: inline-block;
-  line-height: 6pt;
-  top: 80%;
-  font-family: 'Lato', sans-serif;
-}
-
-.user_info_header{
-  font-size: 30px;
-  font-weight: 700;
-}
-
-.user_info_subheader{
-  font-size: 20px;
-  font-weight: 300;
-}
-
-.avatar_container {
-  display: inline-block;
-  margin: 1.5rem;
-}
-
 .tab_item_container{
   margin-top: 12px;
 }
-
-
 </style>

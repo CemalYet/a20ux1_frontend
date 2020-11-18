@@ -105,6 +105,9 @@ const store = new Vuex.Store({
         updateUserData(state, userData){
             state.userData = userData;
         },
+        updateUserAvatar(state, avatar){
+            state.userData[0].avatar = avatar
+        },
 
         //share data
         updateSnackbar(state, value){
@@ -157,6 +160,11 @@ const store = new Vuex.Store({
             axios.get('/public/feedcontroller/getUserData').then(response => {
                 context.commit('updateUserData', response["data"].userData)
             })
+        },
+
+        uploadUserData(context, updatedUserData){
+            context.commit('updateUserData', updatedUserData);
+
         },
 
         //share data
