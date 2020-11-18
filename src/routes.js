@@ -9,6 +9,9 @@ import backButton from "@/components/backButton";
 import camera from "@/components/camera";
 import share from "@/components/share";
 import cancelConfirmBottomNavBar from "@/components/cancelConfirmBottomNavBar";
+import mapLayout from "./layouts/mapLayout"
+import map from "@/components/map";
+import defaultLayout from "./layouts/defaultLayout"
 
 
 
@@ -19,59 +22,83 @@ const router = new VueRouter({
         {
             path: '/',
             components:{
-                appBar: appBar,
-                navDrawer: navDrawer,
-                pageContent: feed,
-                bottomNavBar: bottomNavBar,
+                layout: defaultLayout,
             },
             children:[
                 {
                     path: '',
                     components:{
-                        buttonLeft: hamburgerButton,
-                    }
+                        appBar: appBar,
+                        navDrawer: navDrawer,
+                        pageContent: feed,
+                        bottomNavBar: bottomNavBar,
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: hamburgerButton,
+                            }
+                        }
+                    ],
+                    props:{
+                        appBar:{
+                            title: "snAPP"
+                        }
+                    },
                 }
             ],
-            props:{
-                appBar:{
-                    title: "snAPP"
-                }
-            },
         },
         {
             path: '/camera',
-            components: {
-                appBar: appBar,
-                pageContent: camera,
-                bottomNavBar: bottomNavBar,
+            components:{
+                layout: defaultLayout,
             },
             children:[
                 {
                     path: '',
-                    components: {
-                        buttonLeft: backButton,
-                    }
+                    components:{
+                        appBar: appBar,
+                        pageContent: camera,
+                        bottomNavBar: bottomNavBar,
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+                            }
+                        }
+                    ],
+                    props:{
+                        appBar:{
+                            title: "Camera"
+                        }
+                    },
                 }
             ],
-            props:{
-                appBar:{
-                    title: "Camera"
-                }
-            },
         },
         {
             path: '/share',
             components:{
-                appBar: appBar,
-                pageContent: share,
-                bottomNavBar: cancelConfirmBottomNavBar
+                layout: defaultLayout,
             },
             children:[
                 {
                     path: '',
-                    components: {
-                        buttonLeft: backButton,
-                    }
+                    components:{
+                        appBar: appBar,
+                        pageContent: share,
+                        bottomNavBar: cancelConfirmBottomNavBar
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+                            }
+                        }
+                    ]
                 }
             ],
             props:{
@@ -79,6 +106,28 @@ const router = new VueRouter({
                     title: "Share"
                 }
             },
+        },
+        {
+            path: '/map',
+            components: {
+                layout: mapLayout,
+            },
+            children: [
+                {
+                    path: '',
+                    components: {
+                        map: map,
+                    },
+                    children:[
+                        {
+                            path:'',
+                            components:{
+                                backButton:backButton,
+                            }
+                        }
+                    ]
+                }
+            ]
 
         }
     ],

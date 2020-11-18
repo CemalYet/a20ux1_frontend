@@ -13,7 +13,9 @@
       </router-link>
     </v-btn>
     <v-btn color="white" :ripple="false">
-      <v-icon large color=var(--main-color)>mdi-map-outline</v-icon>
+      <router-link to="/map">
+        <v-icon large color=var(--main-color)>mdi-map-outline</v-icon>
+      </router-link>
     </v-btn>
   </v-bottom-navigation>
 </template>

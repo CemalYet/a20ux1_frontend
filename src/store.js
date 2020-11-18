@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -25,6 +26,12 @@ const store = new Vuex.Store({
         latitude: null,
         longitude:null,
         snackbar: false,
+
+        // Map screen
+        map_center: {lat: 50.87959, lng: 4.70093}, //Leuven default value
+        map_markers: null,
+        chosen_marker: null,
+        marker_discovery_overlay: false,
 
         //templates
         userData: [
@@ -92,8 +99,8 @@ const store = new Vuex.Store({
         toggleDrawer(state){
             state.drawer = !state.drawer;
         },
-        drawerFalse(state){
-            state.drawer = false;
+        updateDrawer(state, value){
+            state.drawer = value;
         },
         updateUserData(state, userData){
             state.userData = userData;
@@ -126,6 +133,21 @@ const store = new Vuex.Store({
         },
         updateLatitude(state, value){
             state.latitude = value;
+        },
+
+        // Map screen
+        updateMapCenter(state,value){
+            state.map_center.lat=value.coords.latitude;
+            state.map_center.lng=value.coords.longitude;
+        },
+        updateMapMarkers(state, value){
+            state.map_markers = value;
+        },
+        updateSelectedMarker(state, value){
+            state.chosen_marker = value;
+        },
+        updateMarkerDiscoveryOverlay(state,value){
+            state.marker_discovery_overlay = value;
         }
     },
 
@@ -155,7 +177,113 @@ const store = new Vuex.Store({
                 });
             console.log(res)
             console.log(json)
+        },
+
+        // Map screen
+        MapCenter (context) {
+            navigator.geolocation.getCurrentPosition(position => {
+                context.commit('updateMapCenter', position);
+            });
+        },
+        discoveriesMe(context){
+            //make axios statement here
+
+            const markers =
+                [
+                    {
+                        position: {
+                            lat: 51.3167,
+                            lng: 4.9833
+                        },
+                        id: 2,
+                        images: [
+                            "http://lorempixel.com/200/200/nature/",
+                            "http://lorempixel.com/200/200/nature/",
+                            "http://lorempixel.com/200/200/nature/",
+                        ],
+                    },
+                ];
+
+            context.commit("updateMapMarkers", markers);
+        },
+
+        discoveriesFriends(context){
+            //make axios statement here
+
+            const markers = [
+                {
+                    position: {
+                        lat: 51.32254,
+                        lng: 4.94471
+                    },
+                    id: 1,
+                    images: [
+                        "http://lorempixel.com/200/200/nature/",
+                        "http://lorempixel.com/200/200/nature/",
+                        "http://lorempixel.com/200/200/nature/",
+                    ],
+                },
+                {
+                    position: {
+                        lat: 51.3567,
+                        lng: 4.9783
+                    },
+                    id: 3,
+                    images: [
+                        "http://lorempixel.com/200/200/nature/",
+                        "http://lorempixel.com/200/200/nature/",
+                        "http://lorempixel.com/200/200/nature/",
+                    ],
+                },
+            ];
+
+            context.commit('updateMapMarkers', markers);
+        },
+
+        discoveriesPopular(context){
+            const markers =
+                [
+                    {
+                        position: {
+                            lat: 51.32254,
+                            lng: 4.94471
+                        },
+                        id: 1,
+                        images: [
+                            "https://www.gardeningknowhow.com/wp-content/uploads/2017/07/hardwood-tree.jpg",
+                            "http://lorempixel.com/200/200/nature/",
+                            "http://lorempixel.com/200/200/nature/",
+                        ],
+                    },
+                    {
+                        position: {
+                            lat: 51.3167,
+                            lng: 4.9833
+                        },
+                        id: 2,
+                        images: [
+                            "http://lorempixel.com/200/200/nature/",
+                            "https://www.gardeningknowhow.com/wp-content/uploads/2017/07/hardwood-tree.jpg",
+                            "http://lorempixel.com/200/200/nature/",
+                        ],
+                    },
+                    {
+                        position: {
+                            lat: 51.3567,
+                            lng: 4.9783
+                        },
+                        id: 3,
+                        images: [
+                            "http://lorempixel.com/200/200/nature/",
+                            "http://lorempixel.com/200/200/nature/",
+                            "http://lorempixel.com/200/200/nature/",
+                        ],
+                    },
+                ];
+
+            context.commit('updateMapMarkers', markers);
         }
+
     },
 
     getters:{
@@ -200,6 +328,23 @@ const store = new Vuex.Store({
         },
         getDescription(state){
             return state.description;
+        },
+
+        // Map screen
+        getMapCenter(state){
+            return state.map_center;
+        },
+
+        getMapMarkers(state){
+            return state.map_markers;
+        },
+
+        getSelectedMarker(state){
+            return state.chosen_marker;
+        },
+
+        getMarkerDiscoveryOverlay(state){
+            return state.marker_discovery_overlay;
         }
     }
 })
