@@ -7,22 +7,26 @@
       <v-row
           align="center"
           justify="space-around">
-        <v-btn icon>
+        <v-btn
+            icon
+            window.location.href="/friendsAdd"
+        >
+          <router-link class="router" to="/friendsAdd">
           <v-icon x-large color=var(--main-color)>mdi-account-multiple-plus</v-icon>
+          </router-link>
         </v-btn>
 
         <v-btn
             color=var(--dark-color)
             icon
-            window.location.href="/friendsrequest"
+            window.location.href="/friendsRequest"
         >
-          <router-link to="/friendsrequest">
+          <router-link class="router" to="/friendsRequest">
             <v-icon style="vertical-align: middle" x-large color=var(--main-color)>mdi-account-question</v-icon>
           </router-link>
         </v-btn>
 
       </v-row>
-
       <v-row
           align="center"
           justify="space-around">
@@ -42,9 +46,10 @@
 
       </v-row>
       <v-divider class="divider"></v-divider>
-      <v-list subheader>
+      <v-list subheader
+              class="list">
         <v-list-item
-            v-for="friend in ali"
+            v-for="friend in friends"
             :key="friend.userName"
         >
           <v-list-item-avatar>
@@ -60,7 +65,8 @@
 
           <v-list-item-icon>
             <v-btn depressed
-                   class="text-capitalize">
+                   class="text-capitalize"
+                   v-on:click="postUnFriendId(friend)">
              Unfriend
             </v-btn>
           </v-list-item-icon>
@@ -76,25 +82,46 @@ import axios from "axios";
 export default {
   name: "friends",
   data: () => ({
-    ali: null,
-    drawer: false,
-    group: null,
-    notifications: 2,
-    userData: null,
+    friends: null,
+
   }),
 
   mounted() {
-    //axios.defaults.baseURL='http://localhost:8080/';
-    axios.get('/public/sharecontroller/getFriends').then(response => (this.ali = response["data"]))
 
-    //axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-    console.log(this.ali)
+    axios.get('/public/friends/getFriends').then(response => (this.friends = response["data"]))
+    console.log(this.friends)
   },
+  methods:{
+    postUnFriendId:function (friend){
+      const unFriendId = JSON.stringify({
+      userId_2:friend.userId
+      });
+      const res = axios.post('/public/friends/unfriend', unFriendId,
+          {
+            headers: {'Content-Type': 'application/json'}
+          });
+      console.log(friend.userId)
+      console.log(unFriendId)
+      console.log(res)
+    }
+  }
 
 }
 </script>
 
 
 <style scoped>
+
+.divider{
+  border-color: var(--main-color);
+  border-bottom-width:thin;
+}
+.list{
+   background: transparent;
+ }
+
+.router{
+  text-decoration: none;
+}
 
 </style>
