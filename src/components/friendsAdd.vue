@@ -44,31 +44,36 @@
     <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
-        label="Search News"
+        label="Search Friends"
         single-line
     ></v-text-field>
     <v-list three-line>
       <v-list-item
-          v-for="(item, i) in searching"
+          v-for="(friends, i) in searching"
           :key="i"
           ripple
           @click="() => {}"
       >
-        <v-img
-            :src="item.image"
-            class="mr-4"
-            max-width="64"
-            min-width="64"
-        ></v-img>
+        <v-list-item-avatar>
+          <v-img
+              :alt="`${friends.title} avatar`"
+              :src="friends.avatar"
+          ></v-img>
+        </v-list-item-avatar>
 
         <v-list-item-content>
-          <span
-              class="text-uppercase font-weight-regular caption"
-              v-text="item.category"
-          ></span>
-
-          <div v-text="item.title"></div>
+          <v-list-item-title v-text="friends.title"></v-list-item-title>
         </v-list-item-content>
+
+        <v-list-item-icon>
+          <v-btn
+              depressed
+              color=var(--main-color)
+              dark
+              class="text-capitalize">
+            Add Friend
+          </v-btn>
+        </v-list-item-icon>
       </v-list-item>
     </v-list>
     </v-container>
@@ -76,8 +81,45 @@
 
 <script>
 export default {
-  name: "friendsAdd"
+  name: "friendsAdd",
+  data: () => ({
+    friends: [
+      {
+
+        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
+        title: 'Jason Oner',
+      },
+      {
+
+        avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
+        title: 'Mike Carlson',
+      },
+      {
+        avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
+        title: 'Cindy Baker',
+      },
+      {
+        avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
+        title: 'Ali Connors',
+      },
+    ],
+    search: '',
+  }),
+  computed: {
+    searching () {
+      if (!this.search) return this.friends
+
+      const search = this.search.toLowerCase()
+
+      return this.friends.filter(friends => {
+        const text = friends.title.toLowerCase()
+
+        return text.indexOf(search) > -1
+      })
+    },
+  },
 }
+
 </script>
 
 <style scoped>

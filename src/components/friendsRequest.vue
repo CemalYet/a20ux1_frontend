@@ -104,6 +104,6 @@ export default {
 
 <style scoped>
 .divider{
-  border-color: #39796b;
+  border-color: var(--main-color);
 }
 </style>
