@@ -12,6 +12,10 @@ import cancelConfirmBottomNavBar from "@/components/cancelConfirmBottomNavBar";
 import mapLayout from "./layouts/mapLayout"
 import map from "@/components/map";
 import defaultLayout from "./layouts/defaultLayout"
+import profileContent from "@/components/profileContent";
+import profileButton from "@/components/profileButton";
+import dropdownOptionsMenu from "@/components/dropdownOptionsMenu";
+import editProfileContent from "@/components/editProfileContent";
 
 
 
@@ -38,6 +42,7 @@ const router = new VueRouter({
                             path: '',
                             components:{
                                 buttonLeft: hamburgerButton,
+                                buttonRight: profileButton
                             }
                         }
                     ],
@@ -98,14 +103,14 @@ const router = new VueRouter({
                                 buttonLeft: backButton,
                             }
                         }
-                    ]
+                    ],
+                    props:{
+                        appBar:{
+                            title: "Share"
+                        }
+                    },
                 }
             ],
-            props:{
-                appBar:{
-                    title: "Share"
-                }
-            },
         },
         {
             path: '/map',
@@ -129,7 +134,56 @@ const router = new VueRouter({
                 }
             ]
 
-        }
+        },
+        {
+            path: '/profile',
+            components:{
+                layout: defaultLayout,
+            },
+            children:[
+                {
+                    path: '',
+                    components:{
+                        appBar: appBar,
+                        pageContent: profileContent,
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+                                buttonRight: dropdownOptionsMenu
+                            }
+                        }
+                    ],
+                    props:{
+                        appBar:{
+                            title: "Profile"
+                        }
+                    },
+                },
+                {
+                    path: 'edit',
+                    components: {
+                        appBar: appBar,
+                        pageContent: editProfileContent
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+                            }
+                        }
+                    ],
+                    props:{
+                        appBar:{
+                            title: "Edit profile"
+                        }
+                    },
+                }
+            ],
+        },
     ],
 });
 

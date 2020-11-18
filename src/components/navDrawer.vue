@@ -75,7 +75,7 @@ export default {
       }
     },
     userData(){
-      return this.$store.getters.getUserDate;
+      return this.$store.getters.getUserData;
     }
   }
 }

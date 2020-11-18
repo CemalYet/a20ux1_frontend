@@ -14,9 +14,8 @@
     <v-spacer></v-spacer>
 
     <!--Profile icon-->
-    <v-btn icon>
-      <v-icon large color=var(--dark-color)>mdi-account-outline</v-icon>
-    </v-btn>
+    <router-view name="buttonRight"></router-view>
+
   </v-app-bar>
 </template>
 

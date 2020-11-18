@@ -294,7 +294,7 @@ const store = new Vuex.Store({
         getNotifications(state){
             return state.notifications;
         },
-        getUserDate(state){
+        getUserData(state){
             return state.userData;
         },
         getDiscoveries(state){
