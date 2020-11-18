@@ -7,7 +7,7 @@
 
       <!-- Arrow back -->
       <v-app-bar-nav-icon>
-        <v-icon large color="#00251A">mdi-keyboard-backspace</v-icon>
+        <v-icon large color=var(--dark-color)>mdi-keyboard-backspace</v-icon>
       </v-app-bar-nav-icon>
 
       <!-- Title: Share -->
@@ -21,7 +21,7 @@
     </v-app-bar>
 
 
-    <v-main>
+    <v-main id="main">
       <br>
       <br>
       <br>
@@ -30,20 +30,21 @@
         <div class="middlecontainer">
           <div class="center">
             <div class="img">
-
+              <v-img height="350" :src="discovery[0].photoPath"></v-img>
             </div>
             <div class="share">
               <p class="subtitle"> Share discovery </p>
-              <v-divider color="00251A" ></v-divider>
+              <v-divider color=var(--dark-color) ></v-divider>
+              <!-- NOT IMPLEMENTED YET: actually sharing on social media, but I think it can be done with vue-social-sharing -->
               <div class="icons">
                 <v-btn icon>
-                  <v-icon large color="#00251A">mdi-facebook</v-icon>
+                  <v-icon large color=var(--dark-color)>mdi-facebook</v-icon>
                 </v-btn>
                 <v-btn icon>
-                  <v-icon large color="#00251A">mdi-instagram</v-icon>
+                  <v-icon large color=var(--dark-color)>mdi-instagram</v-icon>
                 </v-btn>
                 <v-btn icon>
-                  <v-icon large color="#00251A">mdi-twitter</v-icon>
+                  <v-icon large color=var(--dark-color)>mdi-twitter</v-icon>
                 </v-btn>
               </div>
 
@@ -56,12 +57,23 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-name: "App.vue"
+  name: "App.vue",
+
+  data: () => ({
+    discovery: null
+  }),
+
+  mounted() {
+    axios.get('/public/discovery/getDiscoInfo').then(response => (this.discovery = response["data"]))
+  }
 }
 </script>
 
 <style scoped>
+@import '../styles.css';
 
 #Title {
   font-family: 'Merriweather', serif;
@@ -73,6 +85,14 @@ name: "App.vue"
   height: 100%;
 }
 
+#main {
+  background-image: url(leaves.png);
+  background-color: rgba(255, 255, 255, 0.4);
+  background-blend-mode: lighten;
+  background-repeat: repeat;
+  background-position: center;
+}
+
 .middlecontainer {
   width: 350px;
   height: 100%;
@@ -81,7 +101,6 @@ name: "App.vue"
 
 .img {
   margin: auto;
-  background-color: coral;
   width: 350px;
   height: 350px;
   display: flex;
@@ -106,6 +125,10 @@ name: "App.vue"
   display: flex;
   justify-content: center;
   padding: 5px 5px 5px 5px;
+}
+
+.share {
+  padding-top: 20px;
 }
 
 </style>

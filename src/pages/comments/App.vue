@@ -7,7 +7,7 @@
 
       <!-- Arrow back -->
       <v-app-bar-nav-icon>
-        <v-icon large color="#00251A">mdi-keyboard-backspace</v-icon>
+        <v-icon large color=var(--dark-color)>mdi-keyboard-backspace</v-icon>
       </v-app-bar-nav-icon>
 
       <!-- Title: Comments -->
@@ -20,7 +20,7 @@
 
     </v-app-bar>
 
-   <v-main>
+   <v-main id="main">
      <br/>
      <br/>
      <br/>
@@ -43,6 +43,7 @@
          <v-divider></v-divider>
 
          <!-- Comments -->
+         <!-- NOT IMPLEMENTED YET: you have to refresh to see a new comment -->
          <div class="commentBox" v-for="comment in comments" :key="comment.commentedByUserIdFk">
            <div class="avatarBox">
              <v-avatar size="52"><v-img :src="comment.avatar"></v-img></v-avatar>
@@ -59,12 +60,14 @@
          <!-- Write a new comment -->
          <div class="newComment">
            <div class="avatarBox">
-             <v-avatar color="primary" size="46" class="avatar"> HM </v-avatar>
+             <!-- NOT IMPLEMENTED YET: it takes the avatar from the author of the discovery, not the person who is logged in -->
+             <v-avatar size="46"><v-img :src="userInfo[0].avatar"></v-img></v-avatar>
            </div>
            <v-text-field
                solo
                v-model = "newComment"
                label="Write a comment"
+               clearable
                append-icon="mdi-send"
                @click:append="sendCommentToDb"
            ></v-text-field>
@@ -101,23 +104,31 @@ export default {
       const json = JSON.stringify({
         my_comment: this.newComment
       });
-      const res = axios.post('public/Discovery/saveComment', json, {
-        headers: {'Content-Type': 'application/json'}
+      axios.post('savecomment', json)
+          .then(function (res) {
+            console.log(res);
+      })
+          .catch(function(err){
+            console.log(err);
       });
-      console.log(res);
     }
   }
 };
 </script>
 
 <style scoped>
+@import '../styles.css';
 
 * {
   font-family: 'Lato', sans-serif;
 }
 
-.content {
-
+#main {
+  background-image: url(leaves.png);
+  background-color: rgba(255, 255, 255, 0.4);
+  background-blend-mode: lighten;
+  background-repeat: repeat;
+  background-position: center;
 }
 
 .middlecontainer {
