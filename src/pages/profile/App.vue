@@ -7,7 +7,7 @@
     >
 
       <!--Back button-->
-      <v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="feed()">
         <i class="fa fa-arrow-left fa-2x" style="color:#000000;" aria-hidden="true"></i>
       </v-app-bar-nav-icon>
 
@@ -26,7 +26,7 @@
 
       <!--Edit button-->
       <div class="user_edit_icon">
-        <v-btn icon>
+        <v-btn icon @click="settings()">
           <icon name="user_edit" />
         </v-btn>
       </div>
@@ -48,7 +48,7 @@
               </div>
               <div class="user_info">
               <p class="user_info_header">{{ userData.userName }}</p>
-              <p class="user_info_subheader">@{{ userData.userName }}</p>
+              <p class="user_info_subheader">@{{ userData.userName.replace(/\s/g, '') }}</p>
               </div>
           </div>
 
@@ -188,8 +188,11 @@ export default {
     logOut() {
       window.location.href = '/public/login/logout';
     },
-    testFunc() {
-      this.test = 'yes';
+    settings() {
+      window.location.href = '/public/profile/settings';
+    },
+    feed() {
+      window.location.href = '/public/feedcontroller/feed';
     }
   }
 };
@@ -214,6 +217,7 @@ export default {
   text-align: center;
   font-family: 'Lato', sans-serif;
   line-height: 3rem;
+  font-size: 18px;
 }
 
 .topMenuButton, .unpressed{
