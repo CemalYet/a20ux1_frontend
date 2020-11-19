@@ -83,13 +83,28 @@ import axios from "axios";
 export default {
   name: "addFriends",
   data: () => ({
-    friends:null
+    friends:null,
+    requests:null
   }),
   mounted() {
     axios.get('/public/friends/getFriends').then(response => (this.friends = response["data"]))
+    axios.get('/public/friends/getFriendRequest').then(response => (this.requests = response["data"]))
     console.log(this.friends)
   },
+  methods: {
+    postFriendId:function (friend){
+      const friendId = JSON.stringify({
+      userId_1: friend.userId
+      });
 
+      // let currentObj = this;
+      let formData = new FormData()
+      formData.append('data', friendId)
+  
+      axios.post('/public/friends/acceptFriendRequest', formData).then(function (response) {console.log(response);})
+      
+    }
+  }
 }
 </script>
 

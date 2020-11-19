@@ -112,17 +112,16 @@ export default {
   },
   methods:{
     postFriendId:function (friend){
-      const unFriendId = JSON.stringify({
-        userId_2:friend.userId
+      const friendId = JSON.stringify({
+      userId_2: friend.userId
       });
 
-      const res = axios.post('/public/friends/addFriends', unFriendId,
-          {
-            headers: {'Content-Type': 'application/json'}
-          });
-      console.log(friend.userId)
-      console.log(unFriendId)
-      console.log(res)
+      // let currentObj = this;
+      let formData = new FormData()
+      formData.append('data', friendId)
+  
+      axios.post('/public/friends/addFriend', formData).then(function (response) {console.log(response);})
+      
     }
   }
 }
