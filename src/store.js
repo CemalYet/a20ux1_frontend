@@ -15,7 +15,7 @@ const store = new Vuex.Store({
         //notifications
         notifications: 2,
         //friends data
-        friendsData:[],
+        friendsData: null,
 
 
         //share data
@@ -105,6 +105,9 @@ const store = new Vuex.Store({
         updateFriendsData(state, friendsData){
             state.friendsData = friendsData;
         },
+        removeFriend(state, friend){
+            state.friendsData = state.friendsData.filter(fr => {return fr.userId !== friend.userId})
+        },
 
         //share data
         updateSnackbar(state, value){
@@ -140,14 +143,24 @@ const store = new Vuex.Store({
         //functions you call from components
         fetchUserData(context){
             axios.get('/public/feedcontroller/getUserData').then(response => {
-                context.commit('updateUserData', response["data"].userData)
+                context.commit('updateUserData', response["data"])
             })
         },
         //get friends
         fetchFriends(context){
-            axios.get('/public/sharecontroller/getFriends').then(response => {
-                context.commit('updateFriendsData', response["data"].friendsData)
+            axios.get('/public/friends/getFriends').then(response => {
+                context.commit('updateFriendsData', response["data"])
             })
+        },
+        postUnfriendId(context, friend){
+            const unFriendId = JSON.stringify({
+                userId :friend.userId
+            });
+            let formData = new FormData()
+            formData.append('data', unFriendId)
+            axios.post('/public/friends/unfriend', formData).then(function (response) {console.log(response);})
+
+            context.commit("removeFriend",friend)
         },
 
         //share data
@@ -213,6 +226,11 @@ const store = new Vuex.Store({
         },
         getDescription(state){
             return state.description;
+        },
+
+        //friends
+        getFriendsData(state){
+            return state.friendsData;
         }
     }
 })

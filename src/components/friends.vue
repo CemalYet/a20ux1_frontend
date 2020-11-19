@@ -47,9 +47,10 @@
       </v-row>
       <v-divider class="divider"></v-divider>
       <v-list subheader
-              class="list">
+              class="list"
+              v-if="updateFriends!==null">
         <v-list-item
-            v-for="friend in friends"
+            v-for="friend in updateFriends"
             :key="friend.userName"
         >
           <v-list-item-avatar>
@@ -77,32 +78,25 @@
 
 </template>
 
-  <script>
-import axios from "axios";
+<script>
 
 export default {
   name: "friends",
-  data: () => ({
-    friends: null,
-  }),
 
   mounted() {
-
-    axios.get('/public/friends/getFriends').then(response => (this.friends = response["data"]))
-    console.log(this.friends)
+    this.$store.dispatch('fetchFriends');
   },
-  methods:{
-    postUnFriendId:function (friend){
-      const unFriendId = JSON.stringify({
-      userId :friend.userId
-      });
 
-      // let currentObj = this;
-      let formData = new FormData()
-      formData.append('data', unFriendId)
-  
-      axios.post('/public/friends/unfriend', formData).then(function (response) {console.log(response);})
-      
+  methods: {
+    postUnFriendId(friend) {
+      this.$store.dispatch('postUnfriendId', friend);
+
+    },
+  },
+
+  computed: {
+    updateFriends() {
+      return this.$store.getters.getFriendsData;
     }
   }
 
