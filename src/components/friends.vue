@@ -73,6 +73,7 @@
         </v-list-item>
       </v-list>
     </v-container>
+    
 
 </template>
 
@@ -83,7 +84,6 @@ export default {
   name: "friends",
   data: () => ({
     friends: null,
-
   }),
 
   mounted() {
@@ -94,15 +94,15 @@ export default {
   methods:{
     postUnFriendId:function (friend){
       const unFriendId = JSON.stringify({
-      userId_2:friend.userId
+      userId :friend.userId
       });
-      const res = axios.post('/public/friends/unfriend', unFriendId,
-          {
-            headers: {'Content-Type': 'application/json'}
-          });
-      console.log(friend.userId)
-      console.log(unFriendId)
-      console.log(res)
+
+      // let currentObj = this;
+      let formData = new FormData()
+      formData.append('data', unFriendId)
+  
+      axios.post('/public/friends/unfriend', formData).then(function (response) {console.log(response);})
+      
     }
   }
 

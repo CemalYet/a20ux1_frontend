@@ -86,7 +86,7 @@ export default {
     friends:null
   }),
   mounted() {
-    axios.get('/public/sharecontroller/getFriends').then(response => (this.friends = response["data"]))
+    axios.get('/public/friends/getFriends').then(response => (this.friends = response["data"]))
     console.log(this.friends)
   },
 

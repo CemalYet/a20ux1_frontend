@@ -115,7 +115,8 @@ export default {
       const unFriendId = JSON.stringify({
         userId_2:friend.userId
       });
-      const res = axios.post('/public/friends/add_friend', unFriendId,
+
+      const res = axios.post('/public/friends/addFriends', unFriendId,
           {
             headers: {'Content-Type': 'application/json'}
           });
