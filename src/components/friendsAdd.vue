@@ -49,9 +49,11 @@
         append-icon="mdi-magnify"
         label="Search Friends"
         single-line
+        @keyup.enter="postQuery()"
     ></v-text-field>
     <v-list three-line
-            class="list">
+            class="list"
+            v-if="friends!==null">
       <v-list-item
           v-for="(friends, i) in searching"
           :key="i"
@@ -75,7 +77,8 @@
               color=var(--main-color)
               dark
               class="text-capitalize"
-              v-on:click="postFriendId(friend)">
+              @click="postFriendId(friends)"
+              >
             Add Friend
           </v-btn>
         </v-list-item-icon>
@@ -98,32 +101,52 @@ export default {
       if (!this.search) return this.friends
 
       const search = this.search.toLowerCase()
-
       return this.friends.filter(friends => {
         const text = friends.userName.toLowerCase()
 
         return text.indexOf(search) > -1
+
       })
     },
   },
   mounted() {
-    axios.get('/public/friends/getFriends').then(response => (this.friends = response["data"]))
-    console.log(this.friends)
+   // axios.get('/public/friends/getFriends').then(response => (this.friends = response["data"]))
+   // console.log(this.friends)
+
   },
-  methods:{
-    postFriendId:function (friend){
+  methods: {
+    postFriendId: function (friends) {
       const friendId = JSON.stringify({
-      userId_2: friend.userId
+        userId_2: friends.userId
       });
 
       // let currentObj = this;
       let formData = new FormData()
       formData.append('data', friendId)
-  
-      axios.post('/public/friends/addFriend', formData).then(function (response) {console.log(response);})
-      
+
+      axios.post('/public/friends/addFriend', formData).then(function (response) {
+        console.log(response);
+      })
+
+    },
+
+    postQuery: function () {
+      const search_string = JSON.stringify({
+        search_string: this.search
+      });
+      console.log(search_string)
+      // let currentObj = this;
+      let formData = new FormData()
+      formData.append('data', search_string)
+
+      axios.post('/public/friends/search', formData).then(response=>{
+        this.friends=response["data"]
+        console.log(this.friends)
+      })
     }
+
   }
+
 }
 
 </script>

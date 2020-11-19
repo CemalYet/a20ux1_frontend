@@ -49,7 +49,7 @@
     <v-list subheader
     class="list">
       <v-list-item
-          v-for="friend in friends"
+          v-for="friend in requests"
           :key="friend.userName"
       >
         <v-list-item-avatar>
@@ -68,7 +68,8 @@
               depressed
               color=var(--main-color)
               dark
-              class="text-capitalize">
+              class="text-capitalize"
+              @click="postFriendId(friend)">
             Accept
           </v-btn>
         </v-list-item-icon>
@@ -87,22 +88,25 @@ export default {
     requests:null
   }),
   mounted() {
-    axios.get('/public/friends/getFriends').then(response => (this.friends = response["data"]))
     axios.get('/public/friends/getFriendRequest').then(response => (this.requests = response["data"]))
     console.log(this.friends)
   },
   methods: {
     postFriendId:function (friend){
       const friendId = JSON.stringify({
-      userId_1: friend.userId
+        userId_1: friend.userId
       });
 
       // let currentObj = this;
       let formData = new FormData()
       formData.append('data', friendId)
-  
+
       axios.post('/public/friends/acceptFriendRequest', formData).then(function (response) {console.log(response);})
-      
+
+      this.deleteRequest(friend)
+    },
+    deleteRequest: function(request) {
+      this.requests.splice(this.requests.indexOf(request), 1);
     }
   }
 }
