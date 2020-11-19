@@ -10,7 +10,7 @@
         <gmap-custom-marker
             :key="index"
             v-for="(m, index) in getMarkers"
-            :marker="m.position"
+            :marker="{lat: m.Latitude, lng: m.Longitude}"
             @click.native="getDiscoInfo(m)"
         >
           <img class="custom_pin" src="../assets/pin.png"/>
@@ -32,7 +32,7 @@
     <div class="chip_group_container">
       <v-chip-group
           id="Buttons"
-          >
+      >
         <v-chip @click="getMyDiscoveries" color="var(--light-color)" text-color="white">Mine</v-chip>
         <v-chip @click="getFriendsDiscoveries" color="var(--light-color)" text-color="white">Friends</v-chip>
         <v-chip @click="getPopularDiscoveries" color="var(--light-color)" text-color="white">Popular</v-chip>
@@ -42,8 +42,8 @@
 
     <router-link to="/">
       <v-bottom-sheet id="Disco_info"
-        v-model="updateMarkerDiscoveryOverlay"
-        inset>
+                      v-model="updateMarkerDiscoveryOverlay"
+                      inset>
         <v-sheet
             class="mx-auto"
             elevation="8"
@@ -53,20 +53,21 @@
               v-if="updateMarkerDiscoveryOverlay"
           >
             <v-slide-item
-                v-for="image in getSelectedMarker.images"
+                v-for="image in 4"
                 :key="image"
             >
               <img
                   class="images"
-                  :src="image"
+                  :src="getSelectedMarker['photoPath']"
                   alt=""
               >
             </v-slide-item>
           </v-slide-group>
-          <div id="images_text">
-            <h3>Zo mooi in bloei!</h3>
-            <h5>Seppe Fleerackers - 17 november 2020</h5>
-            <h5>De Liereman</h5>
+          <div id="images_text"
+               v-if="updateMarkerDiscoveryOverlay">
+            <h3>{{ getSelectedMarker['title'] }}</h3>
+            <h5>{{ getSelectedMarker['userName'] }} - {{ getSelectedMarker['takenDate'] }}</h5>
+            <h5>{{ getSelectedMarker['location'] }}</h5>
           </div>
         </v-sheet>
       </v-bottom-sheet>
@@ -170,13 +171,6 @@ export default {
   margin-top: -25px;
 }
 
-#Disco_info {
-  position: absolute;
-  bottom: 0;
-  padding: 0 10px 6px;
-  width: 100%;
-}
-
 .images {
   padding-right: 4px;
   height: 100px;
@@ -186,17 +180,8 @@ export default {
   padding: 0 10px 6px;
 }
 
-.chip_group_container{
+.chip_group_container {
   width: 225px;
   margin: auto;
-}
-
-@media screen and (min-width: 600px) {
-  #Disco_info {
-    position: absolute;
-    bottom: 0;
-    margin: 0 10px 6px;
-    width: 400px;
-  }
 }
 </style>

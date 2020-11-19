@@ -186,104 +186,22 @@ const store = new Vuex.Store({
             });
         },
         discoveriesMe(context){
-            //make axios statement here
-
-            const markers =
-                [
-                    {
-                        position: {
-                            lat: 51.3167,
-                            lng: 4.9833
-                        },
-                        id: 2,
-                        images: [
-                            "http://lorempixel.com/200/200/nature/",
-                            "http://lorempixel.com/200/200/nature/",
-                            "http://lorempixel.com/200/200/nature/",
-                        ],
-                    },
-                ];
-
-            context.commit("updateMapMarkers", markers);
+            axios.get('/public/mapcontroller/getMyDiscoveries').then(response => (
+                context.commit("updateMapMarkers", response["data"])
+            ));
         },
 
         discoveriesFriends(context){
-            //make axios statement here
-
-            const markers = [
-                {
-                    position: {
-                        lat: 51.32254,
-                        lng: 4.94471
-                    },
-                    id: 1,
-                    images: [
-                        "http://lorempixel.com/200/200/nature/",
-                        "http://lorempixel.com/200/200/nature/",
-                        "http://lorempixel.com/200/200/nature/",
-                    ],
-                },
-                {
-                    position: {
-                        lat: 51.3567,
-                        lng: 4.9783
-                    },
-                    id: 3,
-                    images: [
-                        "http://lorempixel.com/200/200/nature/",
-                        "http://lorempixel.com/200/200/nature/",
-                        "http://lorempixel.com/200/200/nature/",
-                    ],
-                },
-            ];
-
-            context.commit('updateMapMarkers', markers);
-        },
+            axios.get('/public/mapcontroller/getFriendDiscoveries').then(response => (
+                context.commit("updateMapMarkers", response["data"])
+            ));
+            },
 
         discoveriesPopular(context){
-            const markers =
-                [
-                    {
-                        position: {
-                            lat: 51.32254,
-                            lng: 4.94471
-                        },
-                        id: 1,
-                        images: [
-                            "https://www.gardeningknowhow.com/wp-content/uploads/2017/07/hardwood-tree.jpg",
-                            "http://lorempixel.com/200/200/nature/",
-                            "http://lorempixel.com/200/200/nature/",
-                        ],
-                    },
-                    {
-                        position: {
-                            lat: 51.3167,
-                            lng: 4.9833
-                        },
-                        id: 2,
-                        images: [
-                            "http://lorempixel.com/200/200/nature/",
-                            "https://www.gardeningknowhow.com/wp-content/uploads/2017/07/hardwood-tree.jpg",
-                            "http://lorempixel.com/200/200/nature/",
-                        ],
-                    },
-                    {
-                        position: {
-                            lat: 51.3567,
-                            lng: 4.9783
-                        },
-                        id: 3,
-                        images: [
-                            "http://lorempixel.com/200/200/nature/",
-                            "http://lorempixel.com/200/200/nature/",
-                            "http://lorempixel.com/200/200/nature/",
-                        ],
-                    },
-                ];
-
-            context.commit('updateMapMarkers', markers);
+            axios.get('/public/mapcontroller/getPopularDiscoveries').then(response => {
+                context.commit('updateMapMarkers', response["data"])
+            })
         }
-
     },
 
     getters:{
