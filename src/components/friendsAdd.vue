@@ -14,6 +14,15 @@
           <v-icon x-large color=var(--main-color)>mdi-account-multiple-plus</v-icon>
         </router-link>
       </v-btn>
+      <v-btn
+          color=var(--dark-color)
+          icon
+          window.location.href="/friends"
+      >
+        <router-link class="router" to="/friends">
+          <v-icon style="vertical-align: middle" x-large color=var(--main-color)>mdi-account-multiple</v-icon>
+        </router-link>
+      </v-btn>
 
       <v-btn
           color=var(--dark-color)
@@ -33,6 +42,12 @@
              color="var(--dark-color)"
              class="text-capitalize">
         Add Friend
+      </v-btn>
+      <v-btn text
+             color="var(--dark-color)"
+             class="text-capitalize ml-5"
+      >
+        Friends
       </v-btn>
       <v-btn text
              :ripple="false"
