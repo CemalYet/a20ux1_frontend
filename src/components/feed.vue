@@ -5,11 +5,26 @@
     >
       <div class="discovery_container" v-for="j in discoveriesData.length" :key="j">
 
-        <leaf1 class="leaf" v-if="discoveriesData[j-1].leafId === '0'" v-bind:picture="discoveriesData[j-1].photoPath"/>
-        <leaf2 class="leaf" v-else-if="discoveriesData[j-1].leafId === '1'" v-bind:picture="discoveriesData[j-1].photoPath"/>
-        <leaf3 class="leaf" v-else-if="discoveriesData[j-1].leafId === '2'" v-bind:picture="discoveriesData[j-1].photoPath"/>
-        <leaf4 class="leaf" v-else-if="discoveriesData[j-1].leafId === '3'" v-bind:picture="discoveriesData[j-1].photoPath"/>
-        <leaf5 class="leaf" v-else-if="discoveriesData[j-1].leafId === '4'" v-bind:picture="discoveriesData[j-1].photoPath"/>
+        <leaf1 class="leaf"
+               v-if="discoveriesData[j-1].leafId === '0'"
+               v-bind:picture="discoveriesData[j-1].photoPath"
+               @click.native="goToPost(discoveriesData[j-1].discoveryId)"/>
+        <leaf2 class="leaf"
+               v-else-if="discoveriesData[j-1].leafId === '1'"
+               v-bind:picture="discoveriesData[j-1].photoPath"
+               @click.native="goToPost(discoveriesData[j-1].discoveryId)"/>
+        <leaf3 class="leaf"
+               v-else-if="discoveriesData[j-1].leafId === '2'"
+               v-bind:picture="discoveriesData[j-1].photoPath"
+               @click.native="goToPost(discoveriesData[j-1].discoveryId)"/>
+        <leaf4 class="leaf"
+               v-else-if="discoveriesData[j-1].leafId === '3'"
+               v-bind:picture="discoveriesData[j-1].photoPath"
+               @click.native="goToPost(discoveriesData[j-1].discoveryId)"/>
+        <leaf5 class="leaf"
+               v-else-if="discoveriesData[j-1].leafId === '4'"
+               v-bind:picture="discoveriesData[j-1].photoPath"
+               @click.native="goToPost(discoveriesData[j-1].discoveryId)"/>
 
         <div class="info_container">
           <div class="avatar_container">
@@ -47,6 +62,14 @@ export default {
     leaf3,
     leaf4,
     leaf5,
+  },
+
+
+  methods:{
+    goToPost(discovery_id){
+      console.log(discovery_id);
+      this.$router.push({path: `/post/${discovery_id}`});
+    }
   },
 
   computed: {

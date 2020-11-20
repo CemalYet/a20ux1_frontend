@@ -68,7 +68,7 @@
       <br/>
 
       <div class="content">
-        <div class="middlecontainer">
+        <div class="middleContainer">
 
           <!-- Image + title and leaf -->
           <div class="img">
@@ -95,7 +95,7 @@
           </div>
 
           <!-- Icons: like, comments, tags, share -->
-          <div class="iconbox">
+          <div class="iconBox">
             <div class="icons1">
               <!-- Like button clicked or not clicked, default values get sent to db, NOT IMPLEMENTED: showing the icon based on db information -->
               <v-btn icon v-on:click="likeClicked = false" v-if="likeClicked" class="icon">
@@ -277,7 +277,7 @@ export default {
 }
 
 
-.middlecontainer {
+.middleContainer {
   width: 350px;
   height: 100%;
   margin: auto;
@@ -293,7 +293,7 @@ export default {
   justify-content: flex-end;
 }
 
-.iconbox {
+.iconBox {
   display: flex;
   justify-content: space-between;
 }

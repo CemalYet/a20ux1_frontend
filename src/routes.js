@@ -16,6 +16,8 @@ import profileContent from "@/components/profileContent";
 import profileButton from "@/components/profileButton";
 import dropdownOptionsMenu from "@/components/dropdownOptionsMenu";
 import editProfileContent from "@/components/editProfileContent";
+import postContent from "@/components/postContent";
+import appBarPost from "@/components/appBarPost";
 
 
 
@@ -43,7 +45,8 @@ const router = new VueRouter({
                             components:{
                                 buttonLeft: hamburgerButton,
                                 buttonRight: profileButton
-                            }
+                            },
+
                         }
                     ],
                     props:{
@@ -101,7 +104,7 @@ const router = new VueRouter({
                             path: '',
                             components:{
                                 buttonLeft: backButton,
-                            }
+                            },
                         }
                     ],
                     props:{
@@ -153,12 +156,62 @@ const router = new VueRouter({
                             components:{
                                 buttonLeft: backButton,
                                 buttonRight: dropdownOptionsMenu
-                            }
+                            },
                         }
                     ],
                     props:{
                         appBar:{
                             title: "Profile"
+                        }
+                    },
+                },
+                {
+                    path: 'edit',
+                    components: {
+                        appBar: appBar,
+                        pageContent: editProfileContent
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+                                buttonRight: dropdownOptionsMenu
+                            },
+                        }
+                    ],
+                    props:{
+                        appBar:{
+                            title: "Edit profile"
+                        }
+                    },
+                }
+            ],
+        },
+        {
+            path: '/post/:discovery_id',
+            components:{
+                layout: defaultLayout,
+            },
+            children:[
+                {
+                    path: '',
+                    components:{
+                        appBar: appBarPost,
+                        pageContent: postContent,
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+                                buttonRight: dropdownOptionsMenu
+                            }
+                        }
+                    ],
+                    props:{
+                        appBar:{
+                            title: "post"
                         }
                     },
                 },

@@ -26,7 +26,7 @@
      <br/>
 
      <div class="content">
-       <div class="middlecontainer">
+       <div class="middleContainer">
          <!-- Caption from the author -->
          <div class="commentBox">
            <div class="avatarBox">
@@ -131,7 +131,7 @@ export default {
   background-position: center;
 }
 
-.middlecontainer {
+.middleContainer {
   width: 350px;
   height: 100%;
   margin: auto;

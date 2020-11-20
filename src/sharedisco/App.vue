@@ -27,7 +27,7 @@
       <br>
 
       <div class="content">
-        <div class="middlecontainer">
+        <div class="middleContainer">
           <div class="center">
             <div class="img">
               <v-img height="350" :src="discovery[0].photoPath"></v-img>
@@ -93,7 +93,7 @@ export default {
   background-position: center;
 }
 
-.middlecontainer {
+.middleContainer {
   width: 350px;
   height: 100%;
   margin: auto;

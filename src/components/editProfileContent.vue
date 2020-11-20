@@ -5,7 +5,7 @@
       <image-input class="avatar" @input="changeAvatar($event)">
         <div slot="activator">
           <v-avatar size="200px" v-ripple >
-            <img :src="updatedUserData[0].avatar">
+            <v-img :src="updatedUserData[0].avatar"></v-img>
           </v-avatar>
         </div>
       </image-input>

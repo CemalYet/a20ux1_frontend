@@ -22,7 +22,7 @@ export default {
 
   props: {
     picture: Object
-  }
+  },
 }
 </script>
 
