@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div id="Discovery_map">
       <GmapMap
           :center=getMapCenter
@@ -19,29 +18,24 @@
       </GmapMap>
     </div>
 
-
-
-      <div id="Search_box">
-        <div id="Back_button">
-          <router-view name="backButton"></router-view>
-        </div>
-        <v-text-field
-            label="Search the area"
-            solo
-            rounded
-            clearable
-            v-model="search"
-            @click:clear="clearDisco"
-            @keyup.enter="searching"
-        ></v-text-field>
+    <div id="Search_box">
+      <div id="Back_button">
+        <router-view name="backButton"></router-view>
       </div>
-
+      <v-text-field
+          label="Search the area"
+          solo
+          rounded
+          clearable
+          v-model="search"
+          @click:clear="clearDisco"
+          @keyup.enter="searching"
+      ></v-text-field>
+    </div>
 
 
     <div class="chip_group_container" v-if="showBtns">
-      <v-chip-group
-          id="Buttons"
-      >
+      <v-chip-group id="Buttons">
         <v-chip @click="getMyDiscoveries" color="var(--light-color)" text-color="white">Mine</v-chip>
         <v-chip @click="getFriendsDiscoveries" color="var(--light-color)" text-color="white">Friends</v-chip>
         <v-chip @click="getPopularDiscoveries" color="var(--light-color)" text-color="white">Popular</v-chip>
@@ -51,7 +45,13 @@
     <div class="searchResult">
       <v-list-item-group class="searches" v-for="disco in discoveries" :key="disco.userName">
         <div class="pictureBox">
-          <v-avatar size="52"><v-img :src="disco.photoPath"></v-img></v-avatar>
+          <v-avatar
+              size="52"
+              color="var(--dark-color)"
+          >
+            <span v-if="disco.photoPath === null" class="white--text headline">{{ disco.userName.split(" ").map((n)=>n[0]).join("") }}</span>
+            <v-img v-else :src="disco.photoPath"></v-img>
+          </v-avatar>
         </div>
         <div class="infoBox">
           <v-list-item>
@@ -66,9 +66,10 @@
 
 
     <router-link to="/">
-      <v-bottom-sheet id="Disco_info"
-                      v-model="updateMarkerDiscoveryOverlay"
-                      inset>
+      <v-bottom-sheet
+          id="Disco_info"
+          v-model="updateMarkerDiscoveryOverlay"
+          inset>
         <v-sheet
             class="mx-auto"
             elevation="8"
@@ -91,7 +92,7 @@
           <div id="images_text"
                v-if="updateMarkerDiscoveryOverlay">
             <h3>{{ getSelectedMarker['title'] }}</h3>
-            <h5>{{ getSelectedMarker['userName'] }} - {{ getSelectedMarker['takenDate'] }}</h5>
+            <h5>{{ getSelectedMarker['userName'] }} - {{ getSelectedMarker['takenDate'].slice(0, 10) }}</h5>
             <h5>{{ getSelectedMarker['location'] }}</h5>
           </div>
         </v-sheet>
@@ -140,7 +141,6 @@ export default {
       },
       set(value) {
         this.$store.commit("updateSelectedMarker", value)
-
       }
     },
     updateMarkerDiscoveryOverlay: {
@@ -151,7 +151,7 @@ export default {
         this.$store.commit("updateMarkerDiscoveryOverlay", value)
 
       }
-    }
+    },
   },
 
   methods: {
@@ -160,7 +160,7 @@ export default {
       this.showBtns = true;
     },
     searching: function () {
-      axios.get('/public/mapcontroller/searching', {params: {data: this.search} }).then(response => (this.discoveries = response["data"]));
+      axios.get('/public/mapcontroller/searching', {params: {data: this.search}}).then(response => (this.discoveries = response["data"]));
       this.showBtns = false;
     },
     getLocation: function () {
@@ -210,11 +210,10 @@ export default {
   display: flex;
   flex-direction: row;
   width: 350px;
+  max-width: 100vw;
   margin: auto;
   background-color: white;
 }
-
-
 
 #Discovery_map {
   position: absolute;
@@ -252,7 +251,10 @@ export default {
 }
 
 .searchResult {
+  margin-top: -25px;
   background-color: white;
+  height: 85vh;
+  overflow-y: scroll;
+  elevation: below;
 }
-
 </style>
