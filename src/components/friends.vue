@@ -6,16 +6,25 @@
     >
       <v-row
           align="center"
-          justify="space-around">
+          justify="space-around" >
+
         <v-btn
             icon
             window.location.href="/friendsAdd"
         >
           <router-link class="router" to="/friendsAdd">
-          <v-icon x-large color=var(--main-color)>mdi-account-multiple-plus</v-icon>
+            <v-icon style="vertical-align: middle" x-large color=var(--main-color)>mdi-account-multiple-plus</v-icon>
           </router-link>
         </v-btn>
-
+        <v-btn
+            color=var(--dark-color)
+            icon
+            window.location.href="/friends"
+        >
+          <router-link class="router" to="/friends">
+            <v-icon style="vertical-align: middle" x-large color=var(--main-color)>mdi-account-multiple</v-icon>
+          </router-link>
+        </v-btn>
         <v-btn
             color=var(--dark-color)
             icon
@@ -25,25 +34,10 @@
             <v-icon style="vertical-align: middle" x-large color=var(--main-color)>mdi-account-question</v-icon>
           </router-link>
         </v-btn>
-
       </v-row>
       <v-row
-          align="center"
           justify="space-around">
-
-        <v-btn text
-               color="var(--dark-color)"
-               class="text-capitalize">
-          Add Friend
-        </v-btn>
-        <v-btn text
-               :ripple="false"
-               color="var(--dark-color)"
-               class="text-capitalize"
-        >
-          Friend Request
-        </v-btn>
-
+       <p class="ml-2">Add Friend</p><p class="ml-5">Friends</p><p>Friend Request</p>
       </v-row>
       <v-divider class="divider"></v-divider>
       <v-list subheader

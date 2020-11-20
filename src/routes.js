@@ -103,7 +103,7 @@ const router = new VueRouter({
             ],
             props:{
                 appBar:{
-                    title: "Friends"
+                    title: "Request"
                 }
             },
         },
@@ -124,7 +124,7 @@ const router = new VueRouter({
             ],
             props:{
                 appBar:{
-                    title: "Friends"
+                    title: "Add Friend"
                 }
             },
         },

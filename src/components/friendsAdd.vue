@@ -37,25 +37,7 @@
     <v-row
         align="center"
         justify="space-around">
-
-      <v-btn text
-             color="var(--dark-color)"
-             class="text-capitalize">
-        Add Friend
-      </v-btn>
-      <v-btn text
-             color="var(--dark-color)"
-             class="text-capitalize ml-5"
-      >
-        Friends
-      </v-btn>
-      <v-btn text
-             :ripple="false"
-             color="var(--dark-color)"
-             class="text-capitalize"
-      >
-        Friend Request
-      </v-btn>
+      <p class="ml-2">Add Friend</p><p class="ml-5">Friends</p><p>Friend Request</p>
     </v-row>
     <span> </span>
     <v-divider class="divider" ></v-divider>
@@ -66,7 +48,7 @@
         single-line
         @keyup.enter="postQuery()"
     ></v-text-field>
-    <v-list three-line
+    <v-list subheader
             class="list"
             v-if="friends!==null">
       <v-list-item
@@ -87,25 +69,25 @@
         </v-list-item-content>
 
         <v-list-item-icon>
+          <p class="justify-center" v-if="friends.state==1">Friend</p>
           <v-btn
-              v-if="friends.state!==0 && friends.state!==1"
+              v-if="friends.state==0"
               depressed
               color=var(--main-color)
               dark
-              class="text-capitalize"
-              @click="postFriendId(friends)"
-              >
-            Add Friend
+              class="text-capitalize">
+              <!--@click="postFriendId(friends)" -->
+            Pending
           </v-btn>
           <v-btn
-              v-else-if="friends.state===0 "
+              v-if="friends.state==null"
               depressed
               color=var(--main-color)
               dark
               class="text-capitalize"
-
+              @click="postFriendId(friends);"
           >
-            Pending
+            Add Friend
           </v-btn>
         </v-list-item-icon>
       </v-list-item>
@@ -121,6 +103,7 @@ export default {
   data: () => ({
     friends:null,
     search: '',
+    text:'Add Friend'
   }),
   computed: {
     searching () {
@@ -153,8 +136,8 @@ export default {
       axios.post('/public/friends/addFriend', formData).then(response=>{
         console.log(response["data"])
       });
-
     },
+
 
 
     postQuery: function () {
@@ -178,7 +161,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style SASS>
 
 .divider{
   border-color: var(--main-color);
@@ -190,5 +173,6 @@ export default {
 .router{
   text-decoration: none;
 }
+
 
 </style>

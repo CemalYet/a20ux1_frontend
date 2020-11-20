@@ -36,24 +36,7 @@
     </v-row>
     <v-row
         justify="space-around">
-
-      <v-btn text
-             color="var(--dark-color)"
-             class="text-capitalize">
-        Add Friend
-      </v-btn>
-      <v-btn text
-             color="var(--dark-color)"
-             class="text-capitalize ml-5"
-      >
-      Friends
-      </v-btn>
-      <v-btn text
-             color="var(--dark-color)"
-             class="text-capitalize"
-      >
-        Friend Request
-      </v-btn>
+      <p class="ml-2">Add Friend</p><p class="ml-5">Friends</p><p>Friend Request</p>
     </v-row>
     <span> </span>
     <v-divider class="divider" ></v-divider>
