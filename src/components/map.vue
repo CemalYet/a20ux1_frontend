@@ -10,27 +10,10 @@
           clearable
           v-model="search"
           prepend-inner-icon="mdi-keyboard-backspace"
-          append-icon="mdi-text-search"
+          @keyup.enter="searching"
       ></v-text-field>
     </div>
 
-    <!-- Buttons: search by what -->
-    <div class="options">
-      <!-- Making the buttons dark green doesn't work -->
-      <!-- NOT IMPLEMENTED YET: when you click a button, the variable toggleBtn becomes 0,1 or 2, but then based on
-            that info a different query has to be fetched. Now the toggleBtn is set to a default and the data is
-            already fetched. In the end, the buttons and search bar have to visible and when a user clicks a
-            button and inputs something in the search field, the component of making the list has to be called
-            as well as the correct query. -->
-      <v-btn-toggle
-          v-model="toggleBtn"
-          rounded
-      >
-        <v-btn color="00251a" v-on:click="searchByName"> Search by name </v-btn>
-        <v-btn color="00251a" v-on:click="searchByDiscoveryTitle"> Search by discovery </v-btn>
-        <v-btn color="00251a" v-on:click="searchByDate"> Search by date </v-btn>
-      </v-btn-toggle>
-    </div>
 
     <!-- List with the discoveries-->
     <!-- NOT IMPLEMENTED YET: when you click a list item you go to the discovery post page -->
@@ -94,8 +77,7 @@ export default {
       markers: [],
       search: null,
       toggleBtn: undefined,
-      discoveries: null,
-      dat: 'photo'
+      discoveries: null
     };
   },
   components: {
@@ -108,41 +90,10 @@ export default {
   },
 
   methods: {
-    getDiscoFromDb: function () {
-      const json = JSON.stringify({
-        btn: this.toggleBtn
-      });
 
-      axios.post('getdiscos', json)
-          .then(function (res) {
-            console.log(res);
-          })
-          .catch(function(err){
-            console.log(err);
-          });
-
+    searching: function () {
+      axios.get('/public/mapcontroller/searching', {params: {data: this.search} }).then(response => (this.discoveries = response["data"]));
     },
-    searchByName: function () {
-      axios.get('/public/mapcontroller/getDiscoveries').then(response => (this.discoveries = response["data"]));
-    },
-    searchByDiscoveryTitle: function () {
-      const json = JSON.stringify({
-        dataaa: 'photo'
-      });
-      axios.post('getdiscos', json)
-          .then(function (res) {
-            axios.get('/public/mapcontroller/getDiscoveries', {params: {dataaa: "'photo'"} }).then(response => (this.discoveries = response["data"]));
-            console.log(res);
-          })
-          .catch(function(err){
-            console.log(err);
-          });
-    },
-    searchByDate: function () {
-      axios.get('/public/mapcontroller/getDiscoveries', {params: {dataaa: this.dat} }).then(response => (this.discoveries = response["data"]));
-    },
-
-
 
 
     getLocation: function () {
@@ -228,13 +179,13 @@ export default {
 }
 
 .searchField {
-  padding: 10px 10px 10px 10px;
+  padding: 10px 10px 5px 10px;
 }
 
 .options {
   display: flex;
   justify-content: center;
-  padding: 10px 10px 0px 10px;
+  padding: 0px 10px 5px 10px;
 }
 
 .pictureBox {
