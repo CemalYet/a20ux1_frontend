@@ -1,39 +1,6 @@
 <template>
   <div>
 
-    <!-- Search field -->
-    <div class="searchField">
-      <v-text-field
-          label="Search the area"
-          solo
-          rounded
-          clearable
-          v-model="search"
-          prepend-inner-icon="mdi-keyboard-backspace"
-          @keyup.enter="searching"
-      ></v-text-field>
-    </div>
-
-
-    <!-- List with the discoveries-->
-    <!-- NOT IMPLEMENTED YET: when you click a list item you go to the discovery post page -->
-    <v-list-item-group class="searches" v-for="disco in discoveries" :key="disco.userName">
-      <div class="pictureBox">
-        <v-avatar size="52"><v-img :src="disco.photoPath"></v-img></v-avatar>
-      </div>
-      <div class="infoBox">
-        <v-list-item>
-          <v-list-item-content>
-              <v-list-item-title> {{ disco.userName }}</v-list-item-title>
-              <v-list-item-subtitle> {{ disco.title }}</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </div>
-    </v-list-item-group>
-
-
-
-
     <div id="Discovery_map">
       <GmapMap
           :center=getMapCenter
@@ -52,18 +19,26 @@
       </GmapMap>
     </div>
 
-    <div id="Search_box">
-      <div id="Back_button">
-        <router-view name="backButton"></router-view>
+
+
+      <div id="Search_box">
+        <div id="Back_button">
+          <router-view name="backButton"></router-view>
+        </div>
+        <v-text-field
+            label="Search the area"
+            solo
+            rounded
+            clearable
+            v-model="search"
+            @click:clear="clearDisco"
+            @keyup.enter="searching"
+        ></v-text-field>
       </div>
-      <v-text-field
-          solo
-          label="Search"
-          clearable
-          rounded>
-      </v-text-field>
-    </div>
-    <div class="chip_group_container">
+
+
+
+    <div class="chip_group_container" v-if="showBtns">
       <v-chip-group
           id="Buttons"
       >
@@ -71,6 +46,22 @@
         <v-chip @click="getFriendsDiscoveries" color="var(--light-color)" text-color="white">Friends</v-chip>
         <v-chip @click="getPopularDiscoveries" color="var(--light-color)" text-color="white">Popular</v-chip>
       </v-chip-group>
+    </div>
+
+    <div class="searchResult">
+      <v-list-item-group class="searches" v-for="disco in discoveries" :key="disco.userName">
+        <div class="pictureBox">
+          <v-avatar size="52"><v-img :src="disco.photoPath"></v-img></v-avatar>
+        </div>
+        <div class="infoBox">
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title> {{ disco.userName }}</v-list-item-title>
+              <v-list-item-subtitle> {{ disco.title }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </div>
+      </v-list-item-group>
     </div>
 
 
@@ -106,7 +97,7 @@
         </v-sheet>
       </v-bottom-sheet>
     </router-link>
-
+  </div>
 </template>
 
 <script>
@@ -119,7 +110,8 @@ export default {
   data() {
     return {
       search: null,
-      discoveries: null
+      showBtns: true,
+      discoveries: null,
       mapOptions: {
         disableDefaultUI: true,
       },
@@ -163,8 +155,13 @@ export default {
   },
 
   methods: {
+    clearDisco: function () {
+      this.discoveries = null;
+      this.showBtns = true;
+    },
     searching: function () {
       axios.get('/public/mapcontroller/searching', {params: {data: this.search} }).then(response => (this.discoveries = response["data"]));
+      this.showBtns = false;
     },
     getLocation: function () {
       navigator.geolocation.getCurrentPosition(position => {
@@ -197,16 +194,6 @@ export default {
   width: auto;
 }
 
-.searchField {
-  padding: 10px 10px 5px 10px;
-}
-
-.options {
-  display: flex;
-  justify-content: center;
-  padding: 0px 10px 5px 10px;
-}
-
 .pictureBox {
   padding: 5px 5px 5px 5px;
 }
@@ -224,6 +211,7 @@ export default {
   flex-direction: row;
   width: 350px;
   margin: auto;
+  background-color: white;
 }
 
 
@@ -262,4 +250,9 @@ export default {
   width: 225px;
   margin: auto;
 }
+
+.searchResult {
+  background-color: white;
+}
+
 </style>
