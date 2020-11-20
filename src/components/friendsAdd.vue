@@ -88,6 +88,7 @@
 
         <v-list-item-icon>
           <v-btn
+              v-if="friends.state!==0 && friends.state!==1"
               depressed
               color=var(--main-color)
               dark
@@ -95,6 +96,16 @@
               @click="postFriendId(friends)"
               >
             Add Friend
+          </v-btn>
+          <v-btn
+              v-else-if="friends.state===0 "
+              depressed
+              color=var(--main-color)
+              dark
+              class="text-capitalize"
+
+          >
+            Pending
           </v-btn>
         </v-list-item-icon>
       </v-list-item>
@@ -139,11 +150,12 @@ export default {
       let formData = new FormData()
       formData.append('data', friendId)
 
-      axios.post('/public/friends/addFriend', formData).then(function (response) {
-        console.log(response);
-      })
+      axios.post('/public/friends/addFriend', formData).then(response=>{
+        console.log(response["data"])
+      });
 
     },
+
 
     postQuery: function () {
       const search_string = JSON.stringify({
@@ -156,7 +168,7 @@ export default {
 
       axios.post('/public/friends/search', formData).then(response=>{
         this.friends=response["data"]
-        console.log(this.friends)
+        console.log(this.friends);
       })
     }
 

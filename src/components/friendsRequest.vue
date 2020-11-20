@@ -60,10 +60,12 @@
 
 
     <v-list subheader
-    class="list">
+    class="list"
+            justify="space-around">
       <v-list-item
           v-for="friend in requests"
           :key="friend.userName"
+
       >
         <v-list-item-avatar>
           <v-img
@@ -77,6 +79,14 @@
         </v-list-item-content>
 
         <v-list-item-icon>
+          <v-btn
+              depressed
+              color="error"
+              dark
+              class="text-capitalize mr-4"
+              @click="unFriendId(friend)">
+            Decline
+          </v-btn>
           <v-btn
               depressed
               color=var(--main-color)
@@ -120,7 +130,22 @@ export default {
     },
     deleteRequest: function(request) {
       this.requests.splice(this.requests.indexOf(request), 1);
-    }
+    },
+    unFriendId: function (friend) {
+      const friendId = JSON.stringify({
+        userId: friend.userId
+      });
+
+      // let currentObj = this;
+      let formData = new FormData()
+      formData.append('data', friendId)
+
+      axios.post('/public/friends/unfriend', formData).then(response=>{
+        console.log(response["data"])
+      });
+      this.deleteRequest(friend)
+
+    },
   }
 }
 </script>
