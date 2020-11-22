@@ -69,9 +69,15 @@
         </v-list-item-content>
 
         <v-list-item-icon>
-          <p class="justify-center" v-if="friends.state==1">Friend</p>
           <v-btn
-              v-if="friends.state==0"
+              v-if="friends.state==1"
+              disabled
+              class="text-capitalize">
+            <!--@click="postFriendId(friends)" -->
+            Friend
+          </v-btn>
+          <v-btn
+              v-else-if="friends.state==0"
               depressed
               color=var(--main-color)
               dark
@@ -80,12 +86,12 @@
             Pending
           </v-btn>
           <v-btn
-              v-if="friends.state==null"
+              v-else-if="friends.state==null"
               depressed
               color=var(--main-color)
               dark
               class="text-capitalize"
-              @click="postFriendId(friends);"
+              @click="postFriendId(friends);postQuery()"
           >
             Add Friend
           </v-btn>
@@ -116,7 +122,7 @@ export default {
         return text.indexOf(search) > -1
 
       })
-    },
+    }
   },
   mounted() {
    // axios.get('/public/friends/getFriends').then(response => (this.friends = response["data"]))
@@ -137,8 +143,6 @@ export default {
         console.log(response["data"])
       });
     },
-
-
 
     postQuery: function () {
       const search_string = JSON.stringify({
@@ -161,7 +165,7 @@ export default {
 
 </script>
 
-<style SASS>
+<style scoped>
 
 .divider{
   border-color: var(--main-color);
