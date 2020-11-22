@@ -23,10 +23,11 @@
         <router-view name="backButton"></router-view>
       </div>
       <v-text-field
-          label="Search the area"
+          label="Search discoveries"
           solo
           rounded
           clearable
+          color="var(--dark-color)"
           v-model="search"
           @click:clear="clearDisco"
           @keyup.enter="searching"
@@ -43,13 +44,14 @@
     </div>
 
     <div class="searchResult">
-      <v-list-item-group class="searches" v-for="disco in discoveries" :key="disco.userName">
+      <v-list-item-group class="searches" v-for="disco in discoveries" :key="disco">
         <div class="pictureBox">
           <v-avatar
               size="52"
               color="var(--dark-color)"
           >
-            <span v-if="disco.photoPath === null" class="white--text headline">{{ disco.userName.split(" ").map((n)=>n[0]).join("") }}</span>
+            <span v-if="disco.photoPath === null"
+                  class="white--text headline">{{ disco.userName.split(" ").map((n) => n[0]).join("") }}</span>
             <v-img v-else :src="disco.photoPath"></v-img>
           </v-avatar>
         </div>
