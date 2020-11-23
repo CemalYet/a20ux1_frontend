@@ -10,7 +10,7 @@
     <v-main id="main">
       <br/>
       <br/>
-      <br/>
+
 
       <!--Grid of Leaves-->
       <router-view name="pageContent"></router-view>

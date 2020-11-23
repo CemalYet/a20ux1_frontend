@@ -18,6 +18,9 @@ import dropdownOptionsMenu from "@/components/dropdownOptionsMenu";
 import editProfileContent from "@/components/editProfileContent";
 import postContent from "@/components/postContent";
 import appBarPost from "@/components/appBarPost";
+import commentContent from "@/components/commentContent";
+import sharePostContent from "@/components/sharePostContent";
+import dropDownMenuED from "@/components/dropDownMenuED";
 
 
 
@@ -205,37 +208,44 @@ const router = new VueRouter({
                             path: '',
                             components:{
                                 buttonLeft: backButton,
-                                buttonRight: dropdownOptionsMenu
+                                buttonRight: dropDownMenuED
                             }
                         }
                     ],
-                    props:{
-                        appBar:{
-                            title: "post"
-                        }
-                    },
                 },
                 {
-                    path: 'edit',
+                    path: 'comments',
                     components: {
-                        appBar: appBar,
-                        pageContent: editProfileContent
+                        appBar: appBarPost,
+                        pageContent: commentContent,
                     },
                     children:[
                         {
                             path: '',
                             components:{
                                 buttonLeft: backButton,
-                                buttonRight: dropdownOptionsMenu
+                                buttonRight: dropDownMenuED
                             }
                         }
                     ],
-                    props:{
-                        appBar:{
-                            title: "Edit profile"
-                        }
+                },
+                {
+                    path: 'share',
+                    components: {
+                        appBar: appBarPost,
+                        pageContent: sharePostContent,
                     },
-                }
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+                                buttonRight: dropDownMenuED
+
+                            }
+                        }
+                    ],
+                },
             ],
         },
     ],

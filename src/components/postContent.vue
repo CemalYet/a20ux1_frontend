@@ -13,13 +13,6 @@
                 small
                 color=var(--dark-color)
             > {{ getDiscoveryExtraInfo.plantName }} </v-btn>
-            <!-- NOT IMPLEMENTED YET: saving to the db that this discovery is favorited -->
-            <v-btn class="leaficon" icon v-on:click="favorited = false" v-if="favorited">
-              <v-icon large color=var(--dark-color)>mdi-leaf</v-icon>
-            </v-btn>
-            <v-btn class="leaficon" icon v-on:click="favorited = true" v-else>
-              <v-icon large color="#5B5C5C">mdi-leaf</v-icon>
-            </v-btn>
           </div>
         </div>
         <!-- Image from the discovery-->
@@ -39,7 +32,7 @@
             <v-icon large color=var(--dark-color) @click="sendLikeToDb">mdi-heart-outline</v-icon>
           </v-btn>
           <!-- Comment button clicked or not clicked, NOT IMPLEMENTED YET: link to /comments page -->
-          <v-btn icon class="icon">
+          <v-btn icon class="icon" @click.stop="goToComments">
             <v-icon large color=var(--dark-color)>mdi-comment-multiple-outline</v-icon>
           </v-btn>
           <!-- Tag button clicked or not clicked, with menu for the tags -->
@@ -53,7 +46,7 @@
                 <v-icon large color=var(--dark-color)>mdi-tag-outline</v-icon>
               </v-btn>
             </template>
-            <v-list v-for="tag in getTags" :key="tag.taggedByUserIdFk">
+            <v-list v-for="tag in getTags" :key="tag" dense>
               <v-list-item>
                 <v-list-item-title class="tags"> {{ tag.userName }} </v-list-item-title>
               </v-list-item>
@@ -63,7 +56,14 @@
         <!-- Share icon -->
         <!-- NOT IMPLEMENTED YET: link to /sharedisco page -->
         <div class="icons2">
-          <v-btn icon class="icon">
+          <!-- NOT IMPLEMENTED YET: saving to the db that this discovery is favorited -->
+          <v-btn icon v-on:click="favorited = false" v-if="favorited">
+            <v-icon large color=var(--dark-color)>mdi-leaf</v-icon>
+          </v-btn>
+          <v-btn icon v-on:click="favorited = true" v-else>
+            <v-icon large color="#5B5C5C">mdi-leaf</v-icon>
+          </v-btn>
+          <v-btn icon class="icon" @click.stop="goToShare">
             <v-icon large color=var(--dark-color)>mdi-share-variant</v-icon>
           </v-btn>
         </div>
@@ -91,7 +91,7 @@
         <!-- For loop to show the comments -->
         <div class="commentBox">
           <div class="infoBox text-truncate">
-            <v-list-item two-line>
+            <v-list-item three-line>
               <v-list-item-avatar size="48">
                 <v-img :src="getComments[0].avatar"></v-img>
               </v-list-item-avatar>
@@ -103,7 +103,7 @@
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-subtitle>
+                <v-list-item-subtitle @click="goToComments">
                   And {{getComments.length}} more...
                 </v-list-item-subtitle>
               </v-list-item-content>
@@ -111,6 +111,41 @@
           </div>
         </div>
       </div>
+
+      <v-dialog
+          v-model="updateDeleteDialog"
+          max-width="290"
+      >
+        <v-card>
+          <v-card-title class="headline">
+            Are you sure you want to delete this post?
+          </v-card-title>
+
+          <v-card-text>
+            This action can not be undone and your friends can't see your awesome picture anymore :(
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn
+                color=var(--main-color)
+                text
+                @click="closeDelete"
+            >
+              Cancel
+            </v-btn>
+
+            <v-btn
+                color=var(--main-color)
+                text
+                @click="closeDelete"
+            >
+              Confirm
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 
     </div>
   </div>
@@ -153,6 +188,15 @@ export default {
           .catch(function(err){
             console.log(err);
           });
+    },
+    goToComments(){
+      this.$router.push({path:`${this.$route.params.discovery_id}/comments`});
+    },
+    goToShare(){
+      this.$router.push({path:`${this.$route.params.discovery_id}/share`});
+    },
+    closeDelete(){
+      this.$store.commit('updateDeleteDialog', false);
     }
   },
 
@@ -175,6 +219,14 @@ export default {
     getTags(){
       return this.$store.getters.getTags;
     },
+    updateDeleteDialog:{
+      get(){
+        return this.$store.getters.getDeleteDialog;
+      },
+      set(value){
+        this.$store.commit('updateDeleteDialog', value);
+      }
+    }
   },
 
 
@@ -239,8 +291,8 @@ export default {
 
 .titleLeafBox_container{
   position: absolute;
-  top: 0;
-  left: 0;
+  bottom: 0;
+  right: 0;
   z-index: 5;
   padding: 5px;
 }

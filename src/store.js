@@ -34,13 +34,16 @@ const store = new Vuex.Store({
         marker_discovery_overlay: false,
 
         //discovery post
+        deleteDialog: false,
         discoveryLikes: null,
         discoveryComments: [
             {
+                userName: "Seppe Fleerackers",
                 avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/27907755_964224010401572_4566376548678829171_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=2wrEVoQrdBkAX9MBLOP&_nc_ht=scontent-bru2-1.xx&oh=81c5c254570b087bda35d1ced5624cac&oe=5FC6E541",
                 comment: 'waaaaaw mooi isjfko pksjdfoihj oipsjfoipsjdfiopjsh sodjfosijfoi asfddsf sdf sdf sd f'
             },
             {
+                userName: "Juliana Buzanello",
                 avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/64679357_2322740734614282_6203291312234430464_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=PitKaogm5B8AX8yIcyY&_nc_ht=scontent-bru2-1.xx&oh=479eea55195404be5f5296a91c782c10&oe=5FC9BBE7",
                 comment: "trekt op niks. leluk."
             }
@@ -201,6 +204,11 @@ const store = new Vuex.Store({
         },
         updateMarkerDiscoveryOverlay(state,value){
             state.marker_discovery_overlay = value;
+        },
+
+        //disco post
+        updateDeleteDialog(state, value){
+            state.deleteDialog = value;
         }
     },
 
@@ -460,6 +468,9 @@ const store = new Vuex.Store({
         getTags(state){
             return state.discoveryTags;
         },
+        getDeleteDialog(state){
+            return state.deleteDialog;
+        }
     }
 })
 
