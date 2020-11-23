@@ -86,12 +86,12 @@
             Pending
           </v-btn>
           <v-btn
-              v-else-if="friends.state==null"
+              v-else
               depressed
               color=var(--main-color)
               dark
               class="text-capitalize"
-              @click="postFriendId(friends);postQuery()"
+              @click="postFriendId(friends); postQuery()"
           >
             Add Friend
           </v-btn>
@@ -157,7 +157,7 @@ export default {
         this.friends=response["data"]
         console.log(this.friends);
       })
-    }
+    },
 
   }
 
