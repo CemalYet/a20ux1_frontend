@@ -33,6 +33,8 @@ const store = new Vuex.Store({
         marker_discovery_overlay: false,
         search_results: null,
         search_field: null,
+        discovery_photos: null,
+        discovery_id: null,
 
         //templates
         userData: [
@@ -160,6 +162,12 @@ const store = new Vuex.Store({
         updateSearchField(state, value) {
             state.search_field = value;
         },
+        updateDiscoveryPhotos(state, value) {
+            state.discovery_photos = value;
+        },
+        updateDiscoveryId(state, value) {
+            state.discovery_id = value;
+        }
     },
 
     actions: {
@@ -218,6 +226,11 @@ const store = new Vuex.Store({
                 context.commit("updateSearchResults", response["data"])
             });
         },
+        getPictures(context) {
+            axios.get('/public/mapcontroller/getDiscoveryPhotos', {params: {data: context.getters.getDiscoveryId}}).then(response => {
+                context.commit("updateDiscoveryPhotos", response["data"])
+            });
+        }
     },
 
     getters: {
@@ -286,6 +299,12 @@ const store = new Vuex.Store({
         getSearchField(state) {
             return state.search_field;
         },
+        getDiscoveryPhotos(state) {
+            return state.discovery_photos;
+        },
+        getDiscoveryId(state) {
+            return state.discovery_id;
+        }
     }
 })
 

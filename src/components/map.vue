@@ -89,13 +89,13 @@
             class="mx-auto"
             height="100px"
             type="image"
-            v-if="photos===null"
+            v-if="getDiscoveryPhotos===null"
         ></v-skeleton-loader>
         <v-slide-group
             v-if="updateMarkerDiscoveryOverlay"
         >
           <v-slide-item
-              v-for="image in photos"
+              v-for="image in getDiscoveryPhotos"
               :key="image"
           >
             <img
@@ -118,14 +118,12 @@
 
 <script>
 import GmapCustomMarker from 'vue2-gmap-custom-marker';
-import axios from "axios";
 
 export default {
   name: "map",
 
   data() {
     return {
-      photos: null,
       showBtns: true,
       searchResultMarker: null,
       mapOptions: {
@@ -164,7 +162,7 @@ export default {
       },
       set(value) {
         this.$store.commit("updateMarkerDiscoveryOverlay", value)
-        this.photos = null
+        this.$store.commit("updateDiscoveryPhotos", null)
       },
     },
     updateSearchField: {
@@ -177,6 +175,9 @@ export default {
     },
     getSearchResults() {
       return this.$store.getters.getSearchResults;
+    },
+    getDiscoveryPhotos() {
+        return this.$store.getters.getDiscoveryPhotos;
     },
   },
 
@@ -214,12 +215,13 @@ export default {
       this.$store.dispatch('searchDiscoveries');
       this.showBtns = false;
     },
-    getPhotos(discoId) {
-      axios.get('/public/mapcontroller/getDiscoveryPhotos', {params: {data: discoId}}).then(response => {
-        this.photos = response["data"];
-      });
+    getPhotos(value) {
+      this.updateDiscoveryId(value);
+      this.$store.dispatch('getPictures');
     },
-
+    updateDiscoveryId(value) {
+      this.$store.commit("updateDiscoveryId", value)
+    },
     goToPost(discoId){
       this.$router.push({path: `/post/${discoId}`});
     },
