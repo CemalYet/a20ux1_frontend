@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <br>
     <div class="content">
 
       <image-input class="avatar" @input="changeAvatar($event)">

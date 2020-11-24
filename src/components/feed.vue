@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <br>
     <div class="leaf_grid"
          :style="{'grid-template-columns': itemsPerRow}"
     >
