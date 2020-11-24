@@ -43,71 +43,70 @@
       </v-chip-group>
     </div>
 
-    <div class="searchResult">
-      <v-list-item-group class="searches" v-for="disco in getSearchResults" :key="disco">
-        <div class="pictureBox">
-          <v-avatar
+    <div
+        class="search_result_container"
+        v-if="getSearchResults !== null">
+      <v-list
+          class="search_results"
+          v-for="disco in getSearchResults"
+          :key="disco">
+        <v-list-item
+            @click="selectSearch(disco)"
+        >
+          <v-list-item-avatar
               size="52"
-              color="var(--dark-color)"
-          >
-            <span v-if="disco.PhotoPath === null"
-                  class="white--text headline">{{ disco.userName.split(" ").map((n) => n[0]).join("") }}</span>
+              color="var(--dark-color)">
+              <span v-if="disco.PhotoPath === null"
+                    class="white--text headline">{{ disco.userName.split(" ").map((n) => n[0]).join("") }}</span>
             <v-img v-else :src="disco.PhotoPath"></v-img>
-          </v-avatar>
-        </div>
-        <div class="infoBox">
-          <v-list-item
-            @click="getDiscoInfo(disco);getPhotos(disco.discoveryId); clearSearchResults"
-          >
-            <v-list-item-content>
-              <v-list-item-title> {{ disco.userName }}</v-list-item-title>
-              <v-list-item-subtitle> {{ disco.title }}</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </div>
-      </v-list-item-group>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title> {{ disco.userName }}</v-list-item-title>
+            <v-list-item-subtitle> {{ disco.title }}</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
     </div>
 
-
-    <router-link to="/">
-      <v-bottom-sheet
-          id="Disco_info"
-          v-model="updateMarkerDiscoveryOverlay"
-          inset>
-        <v-sheet
+    <v-bottom-sheet
+        id="Disco_info"
+        v-model="updateMarkerDiscoveryOverlay"
+        inset
+        max-width="750px"
+        @click="goToPost(getSelectedMarker.discoveryId)">
+      <v-sheet
+          class="mx-auto"
+          elevation="8"
+          max-width="100vw"
+      >
+        <v-skeleton-loader
             class="mx-auto"
-            elevation="8"
-            max-width="100vw"
+            height="100px"
+            type="image"
+            v-if="photos===null"
+        ></v-skeleton-loader>
+        <v-slide-group
+            v-if="updateMarkerDiscoveryOverlay"
         >
-          <v-skeleton-loader
-              class="mx-auto"
-              height="100px"
-              type="image"
-              v-if="photos===null"
-          ></v-skeleton-loader>
-          <v-slide-group
-              v-if="updateMarkerDiscoveryOverlay"
+          <v-slide-item
+              v-for="image in photos"
+              :key="image"
           >
-            <v-slide-item
-                v-for="image in photos"
-                :key="image"
+            <img
+                class="images"
+                :src="image.PhotoPath"
+                alt=""
             >
-              <img
-                  class="images"
-                  :src="image.PhotoPath"
-                  alt=""
-              >
-            </v-slide-item>
-          </v-slide-group>
-          <div id="images_text"
-               v-if="updateMarkerDiscoveryOverlay">
-            <h3>{{ getSelectedMarker.title }}</h3>
-            <h5>{{ getSelectedMarker.userName }} - {{ getSelectedMarker.takenDate.slice(0, 10) }}</h5>
-            <h5>{{ getSelectedMarker.location }}</h5>
-          </div>
-        </v-sheet>
-      </v-bottom-sheet>
-    </router-link>
+          </v-slide-item>
+        </v-slide-group>
+        <div id="images_text"
+             v-if="updateMarkerDiscoveryOverlay">
+          <h3>{{ getSelectedMarker.title }}</h3>
+          <h5>{{ getSelectedMarker.userName }} - {{ getSelectedMarker.takenDate.slice(0, 10) }}</h5>
+          <h5>{{ getSelectedMarker.location }}</h5>
+        </div>
+      </v-sheet>
+    </v-bottom-sheet>
   </div>
 </template>
 
@@ -175,12 +174,18 @@ export default {
   },
 
   methods: {
-    clearSearchResults: function () {
+    selectSearch(search){
+      this.getDiscoInfo(search);
+      this.getPhotos(search.discoveryId)
+      this.clearSearchResults()
+    },
+    clearSearchResults () {
       this.$store.commit("updateSearchResults", null)
       this.showBtns = true;
     },
     getDiscoInfo(disco) {
       this.$store.commit("updateSelectedMarker", disco);
+      this.$store.commit("updateMapCenter", disco);
       this.$store.commit("updateMarkerDiscoveryOverlay", true);
     },
     getMyDiscoveries() {
@@ -200,6 +205,10 @@ export default {
       axios.get('/public/mapcontroller/getDiscoveryPhotos', {params: {data: discoId}}).then(response => {
         this.photos = response["data"];
       });
+    },
+
+    goToPost(discoId){
+      this.$router.push({path: `/post/${discoId}`});
     }
   }
 };
@@ -209,27 +218,6 @@ export default {
 .custom_pin {
   max-height: 40px;
   width: auto;
-}
-
-.pictureBox {
-  padding: 5px 5px 5px 5px;
-}
-
-.infoBox {
-  width: 300px;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
-}
-
-.searches {
-  display: flex;
-  flex-direction: row;
-  width: 350px;
-  max-width: 100vw;
-  margin: auto;
-  background-color: white;
 }
 
 #Discovery_map {
@@ -243,6 +231,8 @@ export default {
   padding-top: 12px;
   padding-left: 12px;
   padding-right: 12px;
+  max-width: 750px;
+  margin: auto;
 }
 
 #Back_button {
@@ -267,11 +257,18 @@ export default {
   margin: auto;
 }
 
-.searchResult {
-  margin-top: -25px;
-  background-color: white;
+.search_result_container {
   height: 85vh;
   overflow-y: scroll;
   elevation: below;
+  width: 95%;
+  max-width: 600px;
+  margin: -25px auto auto;
+  background-color: white;
 }
+
+.search_results{
+  background-color: white;
+}
+
 </style>
