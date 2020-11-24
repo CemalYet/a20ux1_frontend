@@ -21,7 +21,7 @@ import appBarPost from "@/components/appBarPost";
 import commentContent from "@/components/commentContent";
 import sharePostContent from "@/components/sharePostContent";
 import dropDownMenuED from "@/components/dropDownMenuED";
-
+import friends from "@/components/friends";
 
 
 Vue.use(VueRouter);
@@ -84,6 +84,35 @@ const router = new VueRouter({
                     props:{
                         appBar:{
                             title: "Camera"
+                        }
+                    },
+                }
+            ],
+        },
+        {
+            path: '/friends',
+            components: {
+                layout: defaultLayout,
+            },
+            children:[
+                {
+                    path: '',
+                    components: {
+                        appBar: appBar,
+                        pageContent: friends,
+                        buttonLeft: backButton,
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+                            }
+                        }
+                    ],
+                    props:{
+                        appBar:{
+                            title: "Friends"
                         }
                     },
                 }

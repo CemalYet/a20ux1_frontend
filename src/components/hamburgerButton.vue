@@ -13,6 +13,7 @@ export default {
     toggleDrawer(){
       this.$store.commit("toggleDrawer");
     }
+    
   }
 }
 </script>
