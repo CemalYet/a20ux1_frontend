@@ -67,7 +67,7 @@
               color="error"
               dark
               class="text-capitalize mr-4"
-              @click="unFriendId(friend)">
+              @click="declineRequest(friend)">
             Decline
           </v-btn>
           <v-btn
@@ -75,7 +75,7 @@
               color=var(--main-color)
               dark
               class="text-capitalize"
-              @click="postFriendId(friend)">
+              @click="acceptRequest(friend)">
             Accept
           </v-btn>
         </v-list-item-icon>
@@ -89,16 +89,17 @@ import axios from "axios";
 
 export default {
   name: "addFriends",
+
   data: () => ({
     friends:null,
     requests:null
   }),
+
   mounted() {
-    axios.get('/public/friends/getFriendRequest').then(response => (this.requests = response["data"]))
-    console.log(this.friends)
   },
+
   methods: {
-    postFriendId:function (friend){
+    acceptRequest:function (friend){
       const friendId = JSON.stringify({
         userId_1: friend.userId
       });
@@ -114,7 +115,7 @@ export default {
     deleteRequest: function(request) {
       this.requests.splice(this.requests.indexOf(request), 1);
     },
-    unFriendId: function (friend) {
+    declineRequest: function (friend) {
       const friendId = JSON.stringify({
         userId: friend.userId
       });

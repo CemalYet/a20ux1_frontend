@@ -27,7 +27,7 @@
         </v-list-item-icon>
         <v-list-item-title>My Discoveries</v-list-item-title>
       </v-list-item>
-      <v-list-item link :ripple="false">
+      <v-list-item link :ripple="false" @click="goToFriends">
         <v-list-item-icon>
           <v-icon large color=var(--main-color)>mdi-account-plus-outline</v-icon>
           <v-badge color="red" :content="this.$store.getters.getNotifications" overlap></v-badge>
@@ -64,6 +64,11 @@
 export default {
   name: "navDrawer",
 
+  methods:{
+    goToFriends(){
+      this.$router.push({path: "friends"});
+    }
+  },
 
   computed:{
     updateDrawer(){

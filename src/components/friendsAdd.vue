@@ -34,6 +34,7 @@
         </router-link>
       </v-btn>
     </v-row>
+
     <v-row
         align="center"
         justify="space-around">
@@ -73,7 +74,7 @@
               v-if="friends.state==1"
               disabled
               class="text-capitalize">
-            <!--@click="postFriendId(friends)" -->
+            <!--@click="acceptRequest(friends)" -->
             Friend
           </v-btn>
           <v-btn
@@ -82,7 +83,7 @@
               color=var(--main-color)
               dark
               class="text-capitalize">
-              <!--@click="postFriendId(friends)" -->
+              <!--@click="acceptRequest(friends)" -->
             Pending
           </v-btn>
           <v-btn
