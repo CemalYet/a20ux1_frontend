@@ -11,9 +11,9 @@
             :key="index"
             v-for="(m, index) in getMarkers"
             :marker="{lat: m.Latitude, lng: m.Longitude}"
-            @click.native="getDiscoInfo(m)"
+            @click.native="getDiscoInfo(m); getPhotos(m.discoveryId)"
         >
-          <img class="custom_pin" src="../assets/pin.png"/>
+          <img class="custom_pin" src="../assets/pin.png" alt=""/>
         </gmap-custom-marker>
       </GmapMap>
     </div>
@@ -28,9 +28,9 @@
           rounded
           clearable
           color="var(--dark-color)"
-          v-model="search"
+          v-model="updateSearchField"
           @click:clear="clearDisco"
-          @keyup.enter="searching"
+          @keyup.enter="searchEnter"
       ></v-text-field>
     </div>
 
@@ -44,7 +44,7 @@
     </div>
 
     <div class="searchResult">
-      <v-list-item-group class="searches" v-for="disco in discoveries" :key="disco">
+      <v-list-item-group class="searches" v-for="disco in getSearchResults" :key="disco">
         <div class="pictureBox">
           <v-avatar
               size="52"
@@ -81,12 +81,12 @@
               v-if="updateMarkerDiscoveryOverlay"
           >
             <v-slide-item
-                v-for="image in 4"
+                v-for="image in photos"
                 :key="image"
             >
               <img
                   class="images"
-                  :src="getSelectedMarker['photoPath']"
+                  :src="image.PhotoPath"
                   alt=""
               >
             </v-slide-item>
@@ -112,9 +112,8 @@ export default {
 
   data() {
     return {
-      search: null,
+      photos: null,
       showBtns: true,
-      discoveries: null,
       mapOptions: {
         disableDefaultUI: true,
       },
@@ -151,27 +150,25 @@ export default {
       },
       set(value) {
         this.$store.commit("updateMarkerDiscoveryOverlay", value)
-
+      },
+    },
+    updateSearchField: {
+      get() {
+        return this.$store.getters.updateSearchField;
+      },
+      set(value) {
+        this.$store.commit("updateSearchField", value)
       }
+    },
+    getSearchResults() {
+      return this.$store.getters.getSearchResults;
     },
   },
 
   methods: {
     clearDisco: function () {
-      this.discoveries = null;
+      this.$store.commit("updateSearchResults", null)
       this.showBtns = true;
-    },
-    searching: function () {
-      axios.get('/public/mapcontroller/searching', {params: {data: this.search}}).then(response => (this.discoveries = response["data"]));
-      this.showBtns = false;
-    },
-    getLocation: function () {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-      });
     },
     getDiscoInfo(disco) {
       this.$store.commit("updateSelectedMarker", disco);
@@ -186,6 +183,15 @@ export default {
     getPopularDiscoveries() {
       this.$store.dispatch('discoveriesPopular');
     },
+    searchEnter() {
+      this.$store.dispatch('searchDiscoveries');
+      this.showBtns = false;
+    },
+    getPhotos(discoId) {
+      axios.get('/public/mapcontroller/getDiscoveryPhotos', {params: {data: discoId}}).then(response => {
+        this.photos = response["data"];
+      });
+    }
   }
 };
 </script>

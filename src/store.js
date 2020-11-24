@@ -2,12 +2,11 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
-
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
 
-    state:{
+    state: {
         //data
 
         //navbar
@@ -24,7 +23,7 @@ const store = new Vuex.Store({
         chosen_leaf: null,
         description: null,
         latitude: null,
-        longitude:null,
+        longitude: null,
         snackbar: false,
 
         // Map screen
@@ -32,18 +31,20 @@ const store = new Vuex.Store({
         map_markers: null,
         chosen_marker: null,
         marker_discovery_overlay: false,
+        search_results: null,
+        search_field: null,
 
         //templates
         userData: [
             {
-                avatar: 'https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/72281335_3233116936715489_818658218732421120_o.jpg?_nc_cat=109&ccb=2&_nc_sid=09cbfe&_nc_ohc=Ag-ed4FZ5DsAX_OoYsw&_nc_ht=scontent-bru2-1.xx&oh=7566a5438a01f20dcb8c0f5a9c3abf67&oe=5FC98598',
+                avatar: null,
                 emailAddress: 'marnix.lijnen@student.kuleuven.be',
                 userName: 'Marnix Lijnen'
             }
         ],
         discoveries: [
             {
-                avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/27907755_964224010401572_4566376548678829171_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=2wrEVoQrdBkAX9MBLOP&_nc_ht=scontent-bru2-1.xx&oh=81c5c254570b087bda35d1ced5624cac&oe=5FC6E541",
+                avatar: null,
                 photoPath: "https://img.freepik.com/vrije-photo/close-up-van-een-giftige-rode-muhamor-paddestoel-in-het-bos_75145-275.jpg?size=626&ext=jpg",
                 leafId: '0',
                 userName: "Seppe Fleerackers",
@@ -83,7 +84,7 @@ const store = new Vuex.Store({
                 title: "Walking with Juliana"
             },
             {
-                avatar: "https://0.academia-photos.com/138336188/39712439/32771085/s200_cemal.yeti_mi_.jpg",
+                avatar: null,
                 photoPath: "https://d36tnp772eyphs.cloudfront.net/blogs/1/2015/07/VAN-LAKE-2-940x627.jpg",
                 leafId: '3',
                 userName: "Cemal Yetismis",
@@ -94,73 +95,79 @@ const store = new Vuex.Store({
         ],
     },
 
-    mutations:{
+    mutations: {
         //change data
-        toggleDrawer(state){
+        toggleDrawer(state) {
             state.drawer = !state.drawer;
         },
-        updateDrawer(state, value){
+        updateDrawer(state, value) {
             state.drawer = value;
         },
-        updateUserData(state, userData){
+        updateUserData(state, userData) {
             state.userData = userData;
         },
 
         //share data
-        updateSnackbar(state, value){
+        updateSnackbar(state, value) {
             state.snackbar = value;
         },
-        updateChosen_leaf(state, value){
+        updateChosen_leaf(state, value) {
             state.chosen_leaf = value;
         },
-        updateTitle(state, value){
+        updateTitle(state, value) {
             state.title = value;
         },
-        updateTimestamp(state, value){
+        updateTimestamp(state, value) {
             state.timestamp = value;
         },
-        updateCurrent_date(state, value){
+        updateCurrent_date(state, value) {
             state.current_date = value;
         },
-        updateLocation(state, value){
+        updateLocation(state, value) {
             state.location = value;
         },
-        updateDiscription(state, value){
+        updateDiscription(state, value) {
             state.description = value;
         },
-        updateLongitude(state, value){
+        updateLongitude(state, value) {
             state.longitude = value;
         },
-        updateLatitude(state, value){
+        updateLatitude(state, value) {
             state.latitude = value;
         },
 
         // Map screen
-        updateMapCenter(state,value){
-            state.map_center.lat=value.coords.latitude;
-            state.map_center.lng=value.coords.longitude;
+        updateMapCenter(state, value) {
+            state.map_center.lat = value.coords.latitude;
+            state.map_center.lng = value.coords.longitude;
         },
-        updateMapMarkers(state, value){
+        updateMapMarkers(state, value) {
             state.map_markers = value;
         },
-        updateSelectedMarker(state, value){
+        updateSelectedMarker(state, value) {
             state.chosen_marker = value;
         },
-        updateMarkerDiscoveryOverlay(state,value){
+        updateMarkerDiscoveryOverlay(state, value) {
             state.marker_discovery_overlay = value;
-        }
+        },
+        updateSearchResults(state, value) {
+            state.search_results = value;
+        },
+        updateSearchField(state, value) {
+            state.search_field = value;
+        },
     },
 
-    actions:{
+    actions: {
         //functions you call from components
-        fetchUserData(context){
+        fetchUserData(context) {
             axios.get('/public/feedcontroller/getUserData').then(response => {
-                context.commit('updateUserData', response["data"].userData)
+                context.commit('updateUserData', response["data"])
             })
         },
 
         //share data
-        sharePost(context){
+        sharePost(context) {
             const json = JSON.stringify({
                 my_title: context.getters.getTitle,
                 my_time: context.getters.getTimestamp,
@@ -180,90 +187,101 @@ const store = new Vuex.Store({
         },
 
         // Map screen
-        MapCenter (context) {
+        MapCenter(context) {
             navigator.geolocation.getCurrentPosition(position => {
                 context.commit('updateMapCenter', position);
             });
         },
-        discoveriesMe(context){
-            axios.get('/public/mapcontroller/getMyDiscoveries').then(response => (
+        discoveriesMe(context) {
+            axios.get('/public/mapcontroller/getMyDiscoveries').then(response => {
                 context.commit("updateMapMarkers", response["data"])
-            ));
+            });
         },
 
-        discoveriesFriends(context){
-            axios.get('/public/mapcontroller/getFriendDiscoveries').then(response => (
+        discoveriesFriends(context) {
+            axios.get('/public/mapcontroller/getFriendDiscoveries').then(response => {
                 context.commit("updateMapMarkers", response["data"])
-            ));
-            },
+            });
+        },
 
-        discoveriesPopular(context){
+        discoveriesPopular(context) {
             axios.get('/public/mapcontroller/getPopularDiscoveries').then(response => {
-                context.commit('updateMapMarkers', response["data"])
-            })
-        }
+                context.commit("updateMapMarkers", response["data"])
+            });
+        },
+        searchDiscoveries(context) {
+            axios.get('/public/mapcontroller/searching', {params: {data: this.getSearchField}}).then(response => {
+                context.commit("updateSearchResult", response["data"])
+            });
+        },
     },
 
-    getters:{
+    getters: {
         //to get state data
-        getDrawerState(state){
+        getDrawerState(state) {
             return state.drawer;
         },
-        getNotifications(state){
+        getNotifications(state) {
             return state.notifications;
         },
-        getUserDate(state){
+        getUserDate(state) {
             return state.userData;
         },
-        getDiscoveries(state){
+        getDiscoveries(state) {
             return state.discoveries;
         },
 
         //share data
-        getTitle(state){
+        getTitle(state) {
             return state.title;
         },
-        getChosen_leaf(state){
+        getChosen_leaf(state) {
             return state.chosen_leaf;
         },
-        getSnackbar(state){
+        getSnackbar(state) {
             return state.snackbar;
         },
-        getTimestamp(state){
+        getTimestamp(state) {
             return state.timestamp;
         },
-        getCurrent_date(state){
+        getCurrent_date(state) {
             return state.current_date;
         },
-        getLatitude(state){
+        getLatitude(state) {
             return state.latitude;
         },
-        getLongitude(state){
+        getLongitude(state) {
             return state.longitude;
         },
-        getLocation(state){
+        getLocation(state) {
             return state.location;
         },
-        getDescription(state){
+        getDescription(state) {
             return state.description;
         },
 
         // Map screen
-        getMapCenter(state){
+        getMapCenter(state) {
             return state.map_center;
         },
 
-        getMapMarkers(state){
+        getMapMarkers(state) {
             return state.map_markers;
         },
 
-        getSelectedMarker(state){
+        getSelectedMarker(state) {
             return state.chosen_marker;
         },
 
-        getMarkerDiscoveryOverlay(state){
+        getMarkerDiscoveryOverlay(state) {
             return state.marker_discovery_overlay;
-        }
+        },
+        getSearchResults(state) {
+            return state.search_results;
+        },
+        getSearchField(state) {
+            return state.search_field;
+        },
     }
 })
 
