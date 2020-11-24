@@ -210,8 +210,8 @@ const store = new Vuex.Store({
             });
         },
         searchDiscoveries(context) {
-            axios.get('/public/mapcontroller/searching', {params: {data: this.getSearchField}}).then(response => {
-                context.commit("updateSearchResult", response["data"])
+            axios.get('/public/mapcontroller/searching', {params: {data: context.getters.getSearchField}}).then(response => {
+                context.commit("updateSearchResults", response["data"])
             });
         },
     },

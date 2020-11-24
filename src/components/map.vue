@@ -8,8 +8,8 @@
           :options="mapOptions"
       >
         <gmap-custom-marker
-            :key="index"
-            v-for="(m, index) in getMarkers"
+            v-for="m in getMarkers"
+            :key="m"
             :marker="{lat: m.Latitude, lng: m.Longitude}"
             @click.native="getDiscoInfo(m); getPhotos(m.discoveryId)"
         >
@@ -29,7 +29,7 @@
           clearable
           color="var(--dark-color)"
           v-model="updateSearchField"
-          @click:clear="clearDisco"
+          @click:clear="clearSearchResults"
           @keyup.enter="searchEnter"
       ></v-text-field>
     </div>
@@ -50,13 +50,15 @@
               size="52"
               color="var(--dark-color)"
           >
-            <span v-if="disco.photoPath === null"
+            <span v-if="disco.PhotoPath === null"
                   class="white--text headline">{{ disco.userName.split(" ").map((n) => n[0]).join("") }}</span>
-            <v-img v-else :src="disco.photoPath"></v-img>
+            <v-img v-else :src="disco.PhotoPath"></v-img>
           </v-avatar>
         </div>
         <div class="infoBox">
-          <v-list-item>
+          <v-list-item
+            @click="getDiscoInfo(disco);getPhotos(disco.discoveryId); clearSearchResults"
+          >
             <v-list-item-content>
               <v-list-item-title> {{ disco.userName }}</v-list-item-title>
               <v-list-item-subtitle> {{ disco.title }}</v-list-item-subtitle>
@@ -77,6 +79,12 @@
             elevation="8"
             max-width="100vw"
         >
+          <v-skeleton-loader
+              class="mx-auto"
+              height="100px"
+              type="image"
+              v-if="photos===null"
+          ></v-skeleton-loader>
           <v-slide-group
               v-if="updateMarkerDiscoveryOverlay"
           >
@@ -93,9 +101,9 @@
           </v-slide-group>
           <div id="images_text"
                v-if="updateMarkerDiscoveryOverlay">
-            <h3>{{ getSelectedMarker['title'] }}</h3>
-            <h5>{{ getSelectedMarker['userName'] }} - {{ getSelectedMarker['takenDate'].slice(0, 10) }}</h5>
-            <h5>{{ getSelectedMarker['location'] }}</h5>
+            <h3>{{ getSelectedMarker.title }}</h3>
+            <h5>{{ getSelectedMarker.userName }} - {{ getSelectedMarker.takenDate.slice(0, 10) }}</h5>
+            <h5>{{ getSelectedMarker.location }}</h5>
           </div>
         </v-sheet>
       </v-bottom-sheet>
@@ -150,11 +158,12 @@ export default {
       },
       set(value) {
         this.$store.commit("updateMarkerDiscoveryOverlay", value)
+        this.photos = null
       },
     },
     updateSearchField: {
       get() {
-        return this.$store.getters.updateSearchField;
+        return this.$store.getters.getSearchField;
       },
       set(value) {
         this.$store.commit("updateSearchField", value)
@@ -166,7 +175,7 @@ export default {
   },
 
   methods: {
-    clearDisco: function () {
+    clearSearchResults: function () {
       this.$store.commit("updateSearchResults", null)
       this.showBtns = true;
     },
