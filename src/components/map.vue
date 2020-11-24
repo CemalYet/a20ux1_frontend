@@ -19,35 +19,25 @@
     </div>
 
     <div id="Search_box">
-      <div id="Back_button">
-        <router-view name="backButton"></router-view>
-      </div>
-      <v-text-field
-          label="Search discoveries"
-          solo
-          rounded
-          clearable
-          color="var(--dark-color)"
-          v-model="updateSearchField"
-          @click:clear="clearSearchResults"
-          @keyup.enter="searchEnter"
-      ></v-text-field>
-    </div>
-
-
-    <div class="chip_group_container" v-if="showBtns">
-      <v-chip-group id="Buttons">
-        <v-chip @click="getMyDiscoveries" color="var(--light-color)" text-color="white">Mine</v-chip>
-        <v-chip @click="getFriendsDiscoveries" color="var(--light-color)" text-color="white">Friends</v-chip>
-        <v-chip @click="getPopularDiscoveries" color="var(--light-color)" text-color="white">Popular</v-chip>
-      </v-chip-group>
-    </div>
-
-    <div
-        class="search_result_container"
-        v-if="getSearchResults !== null">
-      <v-list
-          class="search_results"
+      <v-menu
+          offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+              label="Search discoveries"
+              solo
+              rounded
+              clearable
+              :prepend-inner-icon = 'back_button_icon'
+              @click:prepend-inner="goBack"
+              color="var(--dark-color)"
+              v-model="updateSearchField"
+              @click:clear="clearSearchResults"
+              @keyup.enter="searchEnter"
+              v-bind="attrs"
+              v-on="on"
+          ></v-text-field>
+        </template>
+        <v-list
           v-for="disco in getSearchResults"
           :key="disco">
         <v-list-item
@@ -66,6 +56,16 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      </v-menu>
+    </div>
+
+
+    <div class="chip_group_container" v-if="showBtns">
+      <v-chip-group id="Buttons">
+        <v-chip @click="getMyDiscoveries" color="var(--light-color)" text-color="white">Mine</v-chip>
+        <v-chip @click="getFriendsDiscoveries" color="var(--light-color)" text-color="white">Friends</v-chip>
+        <v-chip @click="getPopularDiscoveries" color="var(--light-color)" text-color="white">Popular</v-chip>
+      </v-chip-group>
     </div>
 
     <v-bottom-sheet
@@ -119,6 +119,7 @@ export default {
 
   data() {
     return {
+      back_button_icon: "mdi-arrow-left",
       photos: null,
       showBtns: true,
       mapOptions: {
@@ -209,6 +210,9 @@ export default {
 
     goToPost(discoId){
       this.$router.push({path: `/post/${discoId}`});
+    },
+    goBack() {
+      window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
     }
   }
 };
@@ -264,10 +268,6 @@ export default {
   width: 95%;
   max-width: 600px;
   margin: -25px auto auto;
-  background-color: white;
-}
-
-.search_results{
   background-color: white;
 }
 
