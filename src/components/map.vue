@@ -1,9 +1,10 @@
 <template>
   <div>
     <div id="Discovery_map">
+      <!--Google Maps map with custom markers-->
       <GmapMap
           :center=getMapCenter
-          :zoom="12"
+          :zoom=12
           style="width:100vw; height:100vh;"
           :options="mapOptions"
       >
@@ -15,47 +16,52 @@
         >
           <img class="custom_pin" src="../assets/pin.png" alt=""/>
         </gmap-custom-marker>
+        <gmap-custom-marker
+            v-if="searchResultMarker != null"
+            :marker="{lat: searchResultMarker.Latitude, lng: searchResultMarker.Longitude}"
+            @click.native="getDiscoInfo(searchResultMarker); getPhotos(searchResultMarker.discoveryId)"
+        >
+          <img class="custom_pin" src="../assets/pin.png" alt=""/>
+        </gmap-custom-marker>
       </GmapMap>
     </div>
 
     <div id="Search_box">
-      <v-menu
-          offset-y>
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
+      <v-menu offset-y>
+        <template #activator="scope">
+        <v-text-field
               label="Search discoveries"
               solo
               rounded
               clearable
-              :prepend-inner-icon = 'back_button_icon'
+              prepend-inner-icon = 'mdi-arrow-left'
               @click:prepend-inner="goBack"
               color="var(--dark-color)"
               v-model="updateSearchField"
               @click:clear="clearSearchResults"
-              @keyup.enter="searchEnter"
-              v-bind="attrs"
-              v-on="on"
-          ></v-text-field>
+              @keyup.enter="searchEnter(); scope.value=true"
+        ></v-text-field>
         </template>
         <v-list
-          v-for="disco in getSearchResults"
-          :key="disco">
-        <v-list-item
-            @click="selectSearch(disco)"
+            v-for="disco in getSearchResults"
+            :key="disco"
         >
-          <v-list-item-avatar
-              size="52"
-              color="var(--dark-color)">
+          <v-list-item
+              @click="selectSearch(disco)"
+          >
+            <v-list-item-avatar
+                size="52"
+                color="var(--dark-color)">
               <span v-if="disco.PhotoPath === null"
                     class="white--text headline">{{ disco.userName.split(" ").map((n) => n[0]).join("") }}</span>
-            <v-img v-else :src="disco.PhotoPath"></v-img>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title> {{ disco.userName }}</v-list-item-title>
-            <v-list-item-subtitle> {{ disco.title }}</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+              <v-img v-else :src="disco.PhotoPath"></v-img>
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title> {{ disco.userName }}</v-list-item-title>
+              <v-list-item-subtitle> {{ disco.title }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
       </v-menu>
     </div>
 
@@ -119,9 +125,9 @@ export default {
 
   data() {
     return {
-      back_button_icon: "mdi-arrow-left",
       photos: null,
       showBtns: true,
+      searchResultMarker: null,
       mapOptions: {
         disableDefaultUI: true,
       },
@@ -176,27 +182,33 @@ export default {
 
   methods: {
     selectSearch(search){
-      this.getDiscoInfo(search);
+      this.getDiscoInfo(search)
       this.getPhotos(search.discoveryId)
       this.clearSearchResults()
+      this.searchResultMarker = search
+      this.$store.commit("updateMapMarkers", null)
     },
     clearSearchResults () {
       this.$store.commit("updateSearchResults", null)
       this.showBtns = true;
+      this.searchResultMarker = null;
     },
     getDiscoInfo(disco) {
       this.$store.commit("updateSelectedMarker", disco);
-      this.$store.commit("updateMapCenter", disco);
+      this.$store.commit("updateDiscoCenter", disco);
       this.$store.commit("updateMarkerDiscoveryOverlay", true);
     },
     getMyDiscoveries() {
       this.$store.dispatch('discoveriesMe');
+      this.searchResultMarker = null;
     },
     getFriendsDiscoveries() {
       this.$store.dispatch('discoveriesFriends');
+      this.searchResultMarker = null;
     },
     getPopularDiscoveries() {
       this.$store.dispatch('discoveriesPopular');
+      this.searchResultMarker = null;
     },
     searchEnter() {
       this.$store.dispatch('searchDiscoveries');
@@ -239,10 +251,6 @@ export default {
   margin: auto;
 }
 
-#Back_button {
-  margin-top: 6px;
-}
-
 #Buttons {
   margin-top: -25px;
 }
@@ -259,16 +267,6 @@ export default {
 .chip_group_container {
   width: 225px;
   margin: auto;
-}
-
-.search_result_container {
-  height: 85vh;
-  overflow-y: scroll;
-  elevation: below;
-  width: 95%;
-  max-width: 600px;
-  margin: -25px auto auto;
-  background-color: white;
 }
 
 </style>

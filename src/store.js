@@ -138,6 +138,10 @@ const store = new Vuex.Store({
 
         // Map screen
         updateMapCenter(state, value) {
+            state.map_center.lat = value.coords.latitude;
+            state.map_center.lng = value.coords.longitude;
+        },
+        updateDiscoCenter(state, value) {
             state.map_center.lat = parseFloat(value.Latitude);
             state.map_center.lng = parseFloat(value.Longitude);
         },
@@ -196,36 +200,23 @@ const store = new Vuex.Store({
             axios.get('/public/mapcontroller/getMyDiscoveries').then(response => {
                 context.commit("updateMapMarkers", response["data"])
             });
-            context.commit("updateMapMarkers", [{"discoveryId":"3","takenDate":"2020-11-06 12:02:59","Longitude":"4.6792703","Latitude":"51.3332672","title":"Photo from this morning","location":"Somewhere","userName":"Marnix"}])
         },
 
         discoveriesFriends(context) {
             axios.get('/public/mapcontroller/getFriendDiscoveries').then(response => {
                 context.commit("updateMapMarkers", response["data"])
             });
-
-            //dummy
-            context.commit("updateMapMarkers", [{"discoveryId":"1","takenDate":"2020-11-06 11:54:11","Longitude":"4.6792703","Latitude":"50.8690414","title":"Photo from this morning","location":"Leuven","userName":"whatever"},{"discoveryId":"4","takenDate":"2020-11-06 12:10:31","Longitude":"4.8425860","Latitude":"51.2591133","title":"Nice photo","location":null,"userName":"julie"},{"discoveryId":"497","takenDate":"2020-11-09 20:23:00","Longitude":"2.6327071","Latitude":"51.1213799","title":"TEST","location":"Het Zee'tje","userName":"Papa Smurf"}])
         },
 
         discoveriesPopular(context) {
             axios.get('/public/mapcontroller/getPopularDiscoveries').then(response => {
                 context.commit("updateMapMarkers", response["data"])
             });
-
-            //dummy
-            context.commit("updateMapMarkers", [{"discoveryId":"1","takenDate":"2020-11-06 11:54:11","Longitude":"4.6792703","Latitude":"50.8690414","title":"Photo from this morning","location":"Leuven","userName":"whatever"},{"discoveryId":"2","takenDate":"2020-11-06 12:02:46","Longitude":"4.9725094","Latitude":"51.3332672","title":"Squirrel","location":"My garden","userName":"Seppe"},{"discoveryId":"3","takenDate":"2020-11-06 12:02:59","Longitude":"4.6792703","Latitude":"51.3332672","title":"Photo from this morning","location":"Somewhere","userName":"Marnix"}])
-
-
         },
         searchDiscoveries(context) {
             axios.get('/public/mapcontroller/searching', {params: {data: context.getters.getSearchField}}).then(response => {
                 context.commit("updateSearchResults", response["data"])
             });
-
-            //dummy
-            context.commit("updateMapMarkers",[{"discoveryId":"1","takenDate":"2020-11-06 11:54:11","Longitude":"4.6792703","Latitude":"50.8690414","title":"Photo from this morning","location":"Leuven","userName":"whatever"},{"discoveryId":"2","takenDate":"2020-11-06 12:02:46","Longitude":"4.9725094","Latitude":"51.3332672","title":"Squirrel","location":"My garden","userName":"Seppe"},{"discoveryId":"3","takenDate":"2020-11-06 12:02:59","Longitude":"4.6792703","Latitude":"51.3332672","title":"Photo from this morning","location":"Somewhere","userName":"Marnix"}])
-            context.commit("updateSearchResults", [{"discoveryId":"1","takenDate":"2020-11-06 11:54:11","Longitude":"4.6792703","Latitude":"50.8690414","title":"Photo from this morning","location":"Leuven","userName":"whatever"},{"discoveryId":"2","takenDate":"2020-11-06 12:02:46","Longitude":"4.9725094","Latitude":"51.3332672","title":"Squirrel","location":"My garden","userName":"Seppe"},{"discoveryId":"3","takenDate":"2020-11-06 12:02:59","Longitude":"4.6792703","Latitude":"51.3332672","title":"Photo from this morning","location":"Somewhere","userName":"Marnix"}])
         },
     },
 
