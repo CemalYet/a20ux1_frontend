@@ -16,6 +16,7 @@
         >
           <img class="custom_pin" src="../assets/pin.png" alt=""/>
         </gmap-custom-marker>
+        <!-- places marker to show search result -->
         <gmap-custom-marker
             v-if="searchResultMarker != null"
             :marker="{lat: searchResultMarker.Latitude, lng: searchResultMarker.Longitude}"
@@ -26,21 +27,22 @@
       </GmapMap>
     </div>
 
+    <!-- top search box -->
     <div id="Search_box">
       <v-menu offset-y>
         <template #activator="scope">
-        <v-text-field
+          <v-text-field
               label="Search discoveries"
               solo
               rounded
               clearable
-              prepend-inner-icon = 'mdi-arrow-left'
-              @click:prepend-inner="goBack"
+              prepend-inner-icon='mdi-arrow-left'
               color="var(--dark-color)"
               v-model="updateSearchField"
+              @click:prepend-inner="goBack"
               @click:clear="clearSearchResults"
               @keyup.enter="searchEnter(); scope.value=true"
-        ></v-text-field>
+          ></v-text-field>
         </template>
         <v-list
             v-for="disco in getSearchResults"
@@ -65,7 +67,7 @@
       </v-menu>
     </div>
 
-
+    <!-- top buttons -->
     <div class="chip_group_container" v-if="showBtns">
       <v-chip-group id="Buttons">
         <v-chip @click="getMyDiscoveries" color="var(--light-color)" text-color="white">Mine</v-chip>
@@ -74,23 +76,33 @@
       </v-chip-group>
     </div>
 
+    <!-- discovery info, when marker is selected-->
     <v-bottom-sheet
         id="Disco_info"
         v-model="updateMarkerDiscoveryOverlay"
         inset
-        max-width="750px"
-        @click="goToPost(getSelectedMarker.discoveryId)">
+        max-width="400px"
+        @click="goToPost(getSelectedMarker.discoveryId); openGoogleMap(getSelectedMarker)">
       <v-sheet
           class="mx-auto"
           elevation="8"
           max-width="100vw"
       >
-        <v-skeleton-loader
-            class="mx-auto"
-            height="100px"
-            type="image"
-            v-if="getDiscoveryPhotos===null"
-        ></v-skeleton-loader>
+        <!-- placeholder for images + load animation-->
+        <div v-if="getDiscoveryPhotos===null">
+          <v-skeleton-loader
+              class="mx-auto"
+              height="100px"
+              type="image"
+              id="sheet"
+          >
+          </v-skeleton-loader>
+          <v-progress-linear
+              color="var(--main-color)"
+              indeterminate
+              id="loader"
+          ></v-progress-linear>
+        </div>
         <v-slide-group
             v-if="updateMarkerDiscoveryOverlay"
         >
@@ -107,9 +119,30 @@
         </v-slide-group>
         <div id="images_text"
              v-if="updateMarkerDiscoveryOverlay">
-          <h3>{{ getSelectedMarker.title }}</h3>
-          <h5>{{ getSelectedMarker.userName }} - {{ getSelectedMarker.takenDate.slice(0, 10) }}</h5>
-          <h5>{{ getSelectedMarker.location }}</h5>
+          <div id="info_text">
+            <h3>{{ getSelectedMarker.title }}</h3>
+            <h5>{{ getSelectedMarker.userName }} - {{ getSelectedMarker.takenDate.slice(0, 10) }}</h5>
+            <h5>{{ getSelectedMarker.location }}</h5>
+          </div>
+          <div id="route_button">
+            <v-btn
+                text
+                outlined
+                style="width: auto; height: 60px;"
+                @click="openGoogleMap(getSelectedMarker)"
+            >
+              <v-col cols="12">
+                <v-row style="place-content: center; margin-bottom: 8px;">
+                  <v-icon color="var(--main-color)" large>
+                    mdi-map-marker-radius-outline
+                  </v-icon>
+                </v-row>
+                <v-row style="place-content: center">
+                  <h6>Open route</h6>
+                </v-row>
+              </v-col>
+            </v-btn>
+          </div>
         </div>
       </v-sheet>
     </v-bottom-sheet>
@@ -177,19 +210,19 @@ export default {
       return this.$store.getters.getSearchResults;
     },
     getDiscoveryPhotos() {
-        return this.$store.getters.getDiscoveryPhotos;
+      return this.$store.getters.getDiscoveryPhotos;
     },
   },
 
   methods: {
-    selectSearch(search){
+    selectSearch(search) {
       this.getDiscoInfo(search)
       this.getPhotos(search.discoveryId)
       this.clearSearchResults()
       this.searchResultMarker = search
       this.$store.commit("updateMapMarkers", null)
     },
-    clearSearchResults () {
+    clearSearchResults() {
       this.$store.commit("updateSearchResults", null)
       this.showBtns = true;
       this.searchResultMarker = null;
@@ -222,12 +255,25 @@ export default {
     updateDiscoveryId(value) {
       this.$store.commit("updateDiscoveryId", value)
     },
-    goToPost(discoId){
+    goToPost(discoId) {
       this.$router.push({path: `/post/${discoId}`});
     },
     goBack() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
-    }
+    },
+    openGoogleMap(item) {
+      let origin;
+      let destination;
+      navigator.geolocation.getCurrentPosition(
+          position => {
+            origin = position.coords.latitude + "," + position.coords.longitude;
+            destination = item["Latitude"] + "," + item["Longitude"];
+            window.open(
+                "https://www.google.com/maps/dir/?api=1&origin=" + origin + "&destination=" + destination, "_blank"
+            );
+          },
+      )
+    },
   }
 };
 </script>
@@ -263,11 +309,32 @@ export default {
 }
 
 #images_text {
-  padding: 0 10px 6px;
+  padding: 2px 10px 6px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: repeat(3, 1fr);
+}
+
+#info_text {
+  grid-area: 1 / 1 / 4 / 2;
+}
+
+#route_button {
+  grid-area: 1 / 2 / 4 / 3;
+  margin: auto;
 }
 
 .chip_group_container {
   width: 225px;
+  margin: auto;
+}
+
+#sheet {
+  display: flex;
+}
+
+#loader {
+  display: block;
   margin: auto;
 }
 
