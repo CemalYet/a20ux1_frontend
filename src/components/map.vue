@@ -22,7 +22,7 @@
     <!-- top search box -->
     <div id="Search_box">
       <v-menu offset-y max-height="80vh">
-        <template #activator="scope">
+        <template #activator="scope" style="margin-bottom: 6px">
           <v-text-field
               hide-details
               label="Search discoveries"
@@ -122,20 +122,15 @@
           </div>
           <div id="route_button">
             <v-btn
-                style="width: auto; height: 60px;"
                 color="var(--main-color)"
+                dark
                 @click="openGoogleMap(getSelectedMarker)"
             >
-              <v-col cols="12">
-                <v-row style="place-content: center; margin-bottom:4px;">
-                  <v-icon color="white" large>
-                    mdi-map-marker-radius-outline
-                  </v-icon>
-                </v-row>
-                <v-row style="place-content: center">
-                  <h6 style="color:white">Open route</h6>
-                </v-row>
-              </v-col>
+              <v-icon
+              left>
+                mdi-map-marker-radius-outline
+              </v-icon>
+              route
             </v-btn>
           </div>
         </div>
