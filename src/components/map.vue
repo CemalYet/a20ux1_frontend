@@ -73,13 +73,12 @@
         id="Disco_info"
         v-model="updateMarkerDiscoveryOverlay"
         inset
-        max-width="400px"
+        max-width="500px"
     >
       <v-sheet
           class="mx-auto"
           elevation="8"
           max-width="100vw"
-          @click="goToPost(getSelectedMarker.discoveryId)"
       >
         <!-- placeholder for images + load animation-->
         <div v-if="getDiscoveryPhotos===null">
@@ -103,19 +102,17 @@
               v-for="image in getDiscoveryPhotos"
               :key="image"
           >
-            <v-img
+            <img
                 class="images"
                 :src="image.PhotoPath"
-                aspect-ratio="auto"
-                height="160px"
-            ></v-img>
+            >
           </v-slide-item>
         </v-slide-group>
         <div
             id="images_text"
             v-if="updateMarkerDiscoveryOverlay"
         >
-          <div id="info_text">
+          <div id="info_text" @click="goToPost(getSelectedMarker.discoveryId)">
             <h3>{{ getSelectedMarker.title }}</h3>
             <h5>{{ getSelectedMarker.userName }} - {{ getSelectedMarker.takenDate.slice(0, 10) }}</h5>
             <h5>{{ getSelectedMarker.location }}</h5>
@@ -281,8 +278,9 @@ export default {
 }
 
 .images {
-  padding-right: 4px;
+  width: 220px;
   height: 160px;
+  object-fit: cover;
 }
 
 #images_text {
