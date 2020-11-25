@@ -102,10 +102,12 @@
               v-for="image in getDiscoveryPhotos"
               :key="image"
           >
-            <img
+            <v-img
                 class="images"
                 :src="image.PhotoPath"
+                width="250px"
             >
+            </v-img>
           </v-slide-item>
         </v-slide-group>
         <div
