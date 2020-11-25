@@ -224,6 +224,7 @@ const store = new Vuex.Store({
         searchDiscoveries(context) {
             axios.get('/public/mapcontroller/searching', {params: {data: context.getters.getSearchField}}).then(response => {
                 context.commit("updateSearchResults", response["data"])
+                context.commit("updateMapMarkers", response["data"])
             });
         },
         getPictures(context) {

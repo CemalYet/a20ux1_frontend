@@ -16,25 +16,17 @@
         >
           <img class="custom_pin" src="../assets/pin.png" alt=""/>
         </gmap-custom-marker>
-        <!-- places marker to show search result -->
-        <gmap-custom-marker
-            v-if="searchResultMarker != null"
-            :marker="{lat: searchResultMarker.Latitude, lng: searchResultMarker.Longitude}"
-            @click.native="getDiscoInfo(searchResultMarker); getPhotos(searchResultMarker.discoveryId)"
-        >
-          <img class="custom_pin" src="../assets/pin.png" alt=""/>
-        </gmap-custom-marker>
       </GmapMap>
     </div>
 
     <!-- top search box -->
     <div id="Search_box">
-      <v-menu offset-y>
+      <v-menu offset-y max-height="80vh">
         <template #activator="scope">
           <v-text-field
+              hide-details
               label="Search discoveries"
               solo
-              rounded
               clearable
               prepend-inner-icon='mdi-arrow-left'
               color="var(--dark-color)"
@@ -68,11 +60,11 @@
     </div>
 
     <!-- top buttons -->
-    <div class="chip_group_container" v-if="showBtns">
-      <v-chip-group id="Buttons">
-        <v-chip @click="getMyDiscoveries" color="var(--light-color)" text-color="white">Mine</v-chip>
-        <v-chip @click="getFriendsDiscoveries" color="var(--light-color)" text-color="white">Friends</v-chip>
-        <v-chip @click="getPopularDiscoveries" color="var(--light-color)" text-color="white">Popular</v-chip>
+    <div class="chip_group_container">
+      <v-chip-group mandatory>
+        <v-chip @click="getMyDiscoveries" color="var(--light-color)" text-color="white" label>Mine</v-chip>
+        <v-chip @click="getFriendsDiscoveries" color="var(--light-color)" text-color="white" label>Friends</v-chip>
+        <v-chip @click="getPopularDiscoveries" color="var(--light-color)" text-color="white" label>Popular</v-chip>
       </v-chip-group>
     </div>
 
@@ -82,17 +74,18 @@
         v-model="updateMarkerDiscoveryOverlay"
         inset
         max-width="400px"
-        @click="goToPost(getSelectedMarker.discoveryId); openGoogleMap(getSelectedMarker)">
+    >
       <v-sheet
           class="mx-auto"
           elevation="8"
           max-width="100vw"
+          @click="goToPost(getSelectedMarker.discoveryId)"
       >
         <!-- placeholder for images + load animation-->
         <div v-if="getDiscoveryPhotos===null">
           <v-skeleton-loader
               class="mx-auto"
-              height="100px"
+              height="160px"
               type="image"
               id="sheet"
           >
@@ -110,15 +103,18 @@
               v-for="image in getDiscoveryPhotos"
               :key="image"
           >
-            <img
+            <v-img
                 class="images"
                 :src="image.PhotoPath"
-                alt=""
-            >
+                aspect-ratio="auto"
+                height="160px"
+            ></v-img>
           </v-slide-item>
         </v-slide-group>
-        <div id="images_text"
-             v-if="updateMarkerDiscoveryOverlay">
+        <div
+            id="images_text"
+            v-if="updateMarkerDiscoveryOverlay"
+        >
           <div id="info_text">
             <h3>{{ getSelectedMarker.title }}</h3>
             <h5>{{ getSelectedMarker.userName }} - {{ getSelectedMarker.takenDate.slice(0, 10) }}</h5>
@@ -126,19 +122,18 @@
           </div>
           <div id="route_button">
             <v-btn
-                text
-                outlined
                 style="width: auto; height: 60px;"
+                color="var(--main-color)"
                 @click="openGoogleMap(getSelectedMarker)"
             >
               <v-col cols="12">
-                <v-row style="place-content: center; margin-bottom: 8px;">
-                  <v-icon color="var(--main-color)" large>
+                <v-row style="place-content: center; margin-bottom:4px;">
+                  <v-icon color="white" large>
                     mdi-map-marker-radius-outline
                   </v-icon>
                 </v-row>
                 <v-row style="place-content: center">
-                  <h6>Open route</h6>
+                  <h6 style="color:white">Open route</h6>
                 </v-row>
               </v-col>
             </v-btn>
@@ -157,8 +152,6 @@ export default {
 
   data() {
     return {
-      showBtns: true,
-      searchResultMarker: null,
       mapOptions: {
         disableDefaultUI: true,
       },
@@ -218,14 +211,11 @@ export default {
     selectSearch(search) {
       this.getDiscoInfo(search)
       this.getPhotos(search.discoveryId)
-      this.clearSearchResults()
-      this.searchResultMarker = search
-      this.$store.commit("updateMapMarkers", null)
+      this.$store.commit("updateSearchResults", null)
     },
     clearSearchResults() {
       this.$store.commit("updateSearchResults", null)
-      this.showBtns = true;
-      this.searchResultMarker = null;
+      this.$store.commit("updateMapMarkers", null)
     },
     getDiscoInfo(disco) {
       this.$store.commit("updateSelectedMarker", disco);
@@ -234,19 +224,15 @@ export default {
     },
     getMyDiscoveries() {
       this.$store.dispatch('discoveriesMe');
-      this.searchResultMarker = null;
     },
     getFriendsDiscoveries() {
       this.$store.dispatch('discoveriesFriends');
-      this.searchResultMarker = null;
     },
     getPopularDiscoveries() {
       this.$store.dispatch('discoveriesPopular');
-      this.searchResultMarker = null;
     },
     searchEnter() {
       this.$store.dispatch('searchDiscoveries');
-      this.showBtns = false;
     },
     getPhotos(value) {
       this.updateDiscoveryId(value);
@@ -256,7 +242,7 @@ export default {
       this.$store.commit("updateDiscoveryId", value)
     },
     goToPost(discoId) {
-      this.$router.push({path: `/post/${discoId}`});
+      this.$router.push({path: '/post/' + discoId});
     },
     goBack() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
@@ -299,13 +285,9 @@ export default {
   margin: auto;
 }
 
-#Buttons {
-  margin-top: -25px;
-}
-
 .images {
   padding-right: 4px;
-  height: 100px;
+  height: 160px;
 }
 
 #images_text {
