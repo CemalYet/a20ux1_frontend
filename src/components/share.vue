@@ -1,150 +1,127 @@
 <template>
   <v-container>
-    <div class="wrapper">
-      <!--Text input TITLE-->
-      <div class="title">
+    <!--Text input TITLE-->
+    <v-text-field
+        class="text_field"
+        dense
+        label="TITLE"
+        v-model="updateTitle"
+        outlined
+        color=var(--dark-color)
+        hide-details
+        :rules="[rules.required]"
+    ></v-text-field>
+
+    <!--Modal input HOUR-->
+    <v-dialog
+        ref="time_dialog"
+        v-model="time_modal"
+        :return-value.sync="updateTimeStamp"
+        persistent
+        width="290px"
+    >
+      <template v-slot:activator="{ on, attrs }">
         <v-text-field
             class="text_field"
             dense
-            label="TITLE"
-            v-model="updateTitle"
-            outlined
-            color=var(--dark-color)
-            hide-details
-            :rules="[rules.required]"
-        ></v-text-field>
-      </div>
-
-      <!--Modal input HOUR-->
-      <div class="hour">
-        <v-dialog
-            ref="time_dialog"
-            v-model="time_modal"
-            :return-value.sync="updateTimeStamp"
-            persistent
-            width="290px"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-text-field
-                class="text_field"
-                dense
-                v-model="updateTimeStamp"
-                label="HOUR"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-                outlined
-                color=var(--dark-color)
-                hide-details
-            ></v-text-field>
-          </template>
-          <v-time-picker
-              v-if="time_modal"
-              v-model="updateTimeStamp"
-              full-width
-              color=var(--main-color)
-              format="24hr"
-          >
-            <v-spacer></v-spacer>
-            <v-btn
-                text
-                color=var(--dark-color)
-                @click="time_modal = false"
-            >
-              Cancel
-            </v-btn>
-            <v-btn
-                text
-                color=var(--dark-color)
-                @click="$refs.time_dialog.save(updateTimeStamp);"
-            >
-              OK
-            </v-btn>
-          </v-time-picker>
-        </v-dialog>
-      </div>
-
-      <!--Modal input DATE-->
-      <div class="day">
-        <v-dialog
-            ref="date_dialog"
-            v-model="date_modal"
-            :return-value.sync="updateCurrent_date"
-            persistent
-            width="290px"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-text-field
-                class="text_field"
-                dense
-                v-model="updateCurrent_date"
-                label="DATE"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-                outlined
-                color=var(--dark-color)
-                hide-details
-            ></v-text-field>
-          </template>
-          <v-date-picker
-              v-model="updateCurrent_date"
-              scrollable
-              color=var(--main-color)
-              :max="getMaxDate()"
-          >
-            <v-spacer></v-spacer>
-            <v-btn
-                text
-                color=var(--dark-color)
-                @click="date_modal = false"
-            >
-              Cancel
-            </v-btn>
-            <v-btn
-                text
-                color=var(--dark-color)
-                @click="$refs.date_dialog.save(updateCurrent_date);"
-            >
-              OK
-            </v-btn>
-          </v-date-picker>
-        </v-dialog>
-      </div>
-
-      <!--Text input LOCATION-->
-      <div class="location">
-        <v-text-field
-            class="text_field"
-            dense
-            label="LOCATION"
-            v-model="updateLocation"
+            v-model="updateTimeStamp"
+            label="HOUR"
+            readonly
+            v-bind="attrs"
+            v-on="on"
             outlined
             color=var(--dark-color)
             hide-details
         ></v-text-field>
-      </div>
-
-      <!--Button camera-->
-      <div class="camera_button">
+      </template>
+      <v-time-picker
+          v-if="time_modal"
+          v-model="updateTimeStamp"
+          full-width
+          color=var(--main-color)
+          format="24hr"
+      >
+        <v-spacer></v-spacer>
         <v-btn
+            text
             color=var(--dark-color)
-            elevation="2"
-            :ripple="false"
-            fab
-            height="80px"
-            width="80px"
+            @click="time_modal = false"
         >
-          <v-icon x-large color="white">mdi-camera-plus-outline</v-icon>
+          Cancel
         </v-btn>
-      </div>
+        <v-btn
+            text
+            color=var(--dark-color)
+            @click="$refs.time_dialog.save(updateTimeStamp);"
+        >
+          OK
+        </v-btn>
+      </v-time-picker>
+    </v-dialog>
 
+    <!--Modal input DATE-->
+    <v-dialog
+        ref="date_dialog"
+        v-model="date_modal"
+        :return-value.sync="updateCurrent_date"
+        persistent
+        width="290px"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-text-field
+            class="text_field"
+            dense
+            v-model="updateCurrent_date"
+            label="DATE"
+            readonly
+            v-bind="attrs"
+            v-on="on"
+            outlined
+            color=var(--dark-color)
+            hide-details
+        ></v-text-field>
+      </template>
+      <v-date-picker
+          v-model="updateCurrent_date"
+          scrollable
+          color=var(--main-color)
+          :max="getMaxDate()"
+      >
+        <v-spacer></v-spacer>
+        <v-btn
+            text
+            color=var(--dark-color)
+            @click="date_modal = false"
+        >
+          Cancel
+        </v-btn>
+        <v-btn
+            text
+            color=var(--dark-color)
+            @click="$refs.date_dialog.save(updateCurrent_date);"
+        >
+          OK
+        </v-btn>
+      </v-date-picker>
+    </v-dialog>
+
+    <!--Text input LOCATION-->
+    <v-text-field
+        class="text_field"
+        dense
+        label="LOCATION"
+        v-model="updateLocation"
+        outlined
+        color=var(--dark-color)
+        hide-details
+    ></v-text-field>
+
+    <div id="buttons">
       <!--Buttons-->
-      <div class="plus_button">
+      <div id="plus_button">
         <v-btn
             color=var(--dark-color)
             elevation="2"
-            rounded
             :ripple="false"
             v-on="on"
         >
@@ -153,7 +130,7 @@
         </v-btn>
       </div>
 
-      <div class="leaf_button">
+      <div id="leaf_button">
         <v-dialog
             v-model="leaf_dialog"
             scrollable
@@ -163,7 +140,6 @@
             <v-btn
                 color=var(--dark-color)
                 elevation="2"
-                rounded
                 :ripple="false"
                 v-bind="attrs"
                 v-on="on"
@@ -173,7 +149,7 @@
             </v-btn>
           </template>
           <v-card>
-            <v-card-title align="center">Chose leaf shape</v-card-title>
+            <v-card-title>Chose leaf shape</v-card-title>
             <v-divider></v-divider>
             <v-card-text style="height: 40vw;">
               <div class="parent">
@@ -192,7 +168,7 @@
         </v-dialog>
       </div>
 
-      <div class="tags">
+      <div id="tags">
         <v-avatar class="avatars elevation-6">
           <img
               src="https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/27907755_964224010401572_4566376548678829171_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=iEnUTezF7M0AX9l4Blf&_nc_ht=scontent-bru2-1.xx&oh=ad6d77ef7b00135578e999dfc409129d&oe=5FCECE41"
@@ -210,33 +186,44 @@
         </v-avatar>
       </div>
 
-      <div class="leafId">
+      <div id="leafId">
         <leaf1 class="small_leaf" v-if="updateLeafShape === 1"/>
         <leaf2 class="small_leaf" v-else-if="updateLeafShape === 2"/>
         <leaf3 class="small_leaf" v-else-if="updateLeafShape === 3"/>
         <leaf4 class="small_leaf" v-else-if="updateLeafShape === 4"/>
         <leaf5 class="small_leaf" v-else-if="updateLeafShape === 5"/>
       </div>
-
-      <!--Text input DESCRIPTION-->
-      <div class="description">
-        <v-textarea
-            class="text_area"
-            id="description_box"
-            label="DESCRIPTION"
-            v-model="updateDiscription"
-            outlined
-            color=var(--dark-color)
-            no-resize
-            rows="3"
-            dense
-            hide-details
-        ></v-textarea>
-      </div>
     </div>
+
+
+    <!--Text input DESCRIPTION-->
+    <v-textarea
+        class="text_field"
+        id="description_box"
+        label="DESCRIPTION"
+        v-model="updateDiscription"
+        outlined
+        color=var(--dark-color)
+        no-resize
+        rows="3"
+        dense
+        counter="140"
+    ></v-textarea>
+
+    <!--CONFIRM button-->
+    <div style="text-align: center;">
+      <v-btn
+          color=var(--dark-color)
+          elevation="2"
+          :ripple="false"
+          @click="updateSnackbar = true"
+      >
+        <h3 class="button_text">CONFIRM</h3>
+      </v-btn>
+    </div>
+
     <v-snackbar
         v-model="updateSnackbar"
-        centered="true"
         color="error"
     >
       Please fill in a title and choose a leaf.
@@ -260,10 +247,11 @@ import leaf3 from "@/components/leaves/leaf3";
 import leaf4 from "@/components/leaves/leaf4";
 import leaf5 from "@/components/leaves/leaf5";
 import axios from "axios";
+
 export default {
   name: "share",
 
-  components:{
+  components: {
     leaf1,
     leaf2,
     leaf3,
@@ -289,7 +277,6 @@ export default {
   },
 
   mounted() {
-    //axios.defaults.baseURL='http://localhost:8081/';
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     navigator.geolocation.getCurrentPosition(
         position => {
@@ -306,102 +293,101 @@ export default {
     getTime: function () {
       const today = new Date();
       const timestamp = today.getHours() + ":" + (today.getMinutes() < 10 ? '0' : '') + today.getMinutes();
-      this.$store.commit("updateTimestamp",timestamp);
+      this.$store.commit("updateTimestamp", timestamp);
     },
     getDate: function () {
       const today = new Date();
-      const current_date = today.getFullYear() + '-' + ('0' + (today.getMonth()+1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
-      this.$store.commit("updateCurrent_date",current_date);
+      const current_date = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+      this.$store.commit("updateCurrent_date", current_date);
     },
     getMaxDate: function () {
       const today = new Date();
-      return today.getFullYear() + '-' + ('0' + (today.getMonth()+1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+      return today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
     },
 
     select_leaf: function (int) {
       this.updateLeafShape = int;
     },
-    check_data: function() {
+    check_data: function () {
       if (this.$store.getters.getTitle === null || this.$store.getters.getChosen_leaf === null) {
         this.$store.commit('updateSnackbar', true)
-      }
-      else {
+      } else {
         this.$store.dispatch('sharePost');
       }
     },
   },
 
-  computed:{
-    updateTitle:{
-      get(){
+  computed: {
+    updateTitle: {
+      get() {
         return this.$store.getters.getTitle;
       },
-      set(value){
-        this.$store.commit("updateTitle",value)
+      set(value) {
+        this.$store.commit("updateTitle", value)
       }
     },
-    updateTimeStamp:{
-      get(){
+    updateTimeStamp: {
+      get() {
         return this.$store.getters.getTimestamp;
       },
-      set(value){
-        this.$store.commit("updateTimestamp",value);
+      set(value) {
+        this.$store.commit("updateTimestamp", value);
       }
     },
-    updateCurrent_date:{
-      get(){
+    updateCurrent_date: {
+      get() {
         return this.$store.getters.getCurrent_date;
       },
-      set(value){
-        this.$store.commit("updateCurrent_date",value)
+      set(value) {
+        this.$store.commit("updateCurrent_date", value)
       }
     },
-    updateLocation:{
-      get(){
+    updateLocation: {
+      get() {
         return this.$store.getters.getLocation;
       },
-      set(value){
-        this.$store.commit("updateLocation",value)
+      set(value) {
+        this.$store.commit("updateLocation", value)
       }
     },
-    updateSnackbar:{
-      get(){
+    updateSnackbar: {
+      get() {
         return this.$store.getters.getSnackbar;
       },
-      set(value){
+      set(value) {
         this.$store.commit("updateSnackbar", value)
       }
     },
-    updateDiscription:{
-      get(){
+    updateDiscription: {
+      get() {
         return this.$store.getters.getDescription;
       },
-      set(value){
+      set(value) {
         this.$store.commit('updateDiscription', value);
       }
     },
-    updateLeafShape:{
-      get(){
+    updateLeafShape: {
+      get() {
         return this.$store.getters.getChosen_leaf;
       },
-      set(value){
+      set(value) {
         this.$store.commit('updateChosen_leaf', value);
       }
     },
-    updateLongitude:{
-      get(){
+    updateLongitude: {
+      get() {
         return this.$store.getters.getLongitude;
       },
-      set(value){
-        this.$store.commit("updateLongitude",value)
+      set(value) {
+        this.$store.commit("updateLongitude", value)
       }
     },
-    updateLatitude:{
-      get(){
+    updateLatitude: {
+      get() {
         return this.$store.getters.getLatitude;
       },
-      set(value){
-        this.$store.commit("updateLatitude",value)
+      set(value) {
+        this.$store.commit("updateLatitude", value)
       }
     }
   }
@@ -413,68 +399,42 @@ export default {
 
 .text_field {
   background-color: white;
-  max-width: 70vw;
+  max-width: 500px;
+  padding: 8px;
+  margin: auto;
 }
 
 .button_text {
   color: white;
 }
 
-.wrapper {
+#buttons {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(4, 0.7fr) 0.2fr 1fr 2fr;
-}
-
-.title {
-  grid-area: 1 / 1 / 2 / 7;
-}
-
-.hour {
-  grid-area: 2 / 1 / 3 / 7;
-}
-
-.day {
-  grid-area: 3 / 1 / 4 / 7;
-}
-
-.location {
-  grid-area: 4 / 1 / 5 / 7;
-}
-
-.camera_button {
-  grid-area: 1 / 7 / 5 / 13;
+  grid-template-columns: 1fr 0.5fr 1fr;
+  grid-template-rows: 0.5fr 0.5fr;
+  max-width: 500px;
+  padding: 8px 10px 0;
   margin: auto;
 }
 
-.plus_button {
-  grid-area: 5 / 1 / 6 / 7;
+#plus_button {
+  grid-area: 1 / 1 / 2 / 2;
   margin: auto;
 }
 
-.leaf_button {
-  grid-area: 5 / 7 / 6 / 13;
+#leaf_button {
+  grid-area: 1 / 3 / 2 / 4;
   margin: auto;
 }
 
-.tags {
-  grid-area: 6 / 1 / 7 / 7;
+#tags {
+  grid-area: 2 / 1 / 3 / 2;
   margin: auto;
 }
 
-.leafId {
-  grid-area: 6 / 7 / 7 / 13;
+#leafId {
+  grid-area: 2 / 3 / 3 / 4;
   margin: auto;
-}
-
-.description {
-  grid-area: 7 / 1 / 8 / 13;
-  display: flex;
-}
-
-.text_area {
-  background-color: white;
-  max-width: 100%;
 }
 
 .avatars {
