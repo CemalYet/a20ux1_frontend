@@ -25,8 +25,8 @@
           <v-badge
               color="red"
               :content="friendRequestNotifications"
+              :value="friendRequestNotifications"
               overlap
-              v-if="friendRequestNotifications !== 0"
           ></v-badge>
         </v-list-item-icon>
         <v-list-item-title>Friends</v-list-item-title>

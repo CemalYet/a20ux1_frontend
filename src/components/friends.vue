@@ -16,8 +16,8 @@
         <v-icon color=var(--dark-color)>mdi-account-multiple-outline</v-icon>
         <v-badge
             color="red"
-            :content="friendRequestNotifications"
-            v-if="friendRequestNotifications !== 0"
+            :content="updateFriendRequests.length"
+            :value="updateFriendRequests.length"
             offset-x="-3"
             offset-y="30"
         ></v-badge>
@@ -36,12 +36,13 @@
                 class="list">
           <v-subheader>Friend requests</v-subheader>
           <v-list-item
-              v-if="updateFriendRequests === null">
+              v-if="updateFriendRequests.length === 0">
             <v-list-item-content>
               <v-list-item-subtitle>New friend requests will show up here</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
           <v-list-item
+              v-else
               v-for="request in updateFriendRequests"
               :key="request">
             <v-list-item-avatar>
@@ -130,14 +131,14 @@
 
             <v-list-item-icon>
               <v-btn
-                  v-if="friend.state==='1'"
+                  v-if="parseInt(friend.state)===1"
                   disabled
                   class="text-capitalize">
                 <!--@click="acceptRequest(friends)" -->
                 Friends
               </v-btn>
               <v-btn
-                  v-else-if="friend.state==='0'"
+                  v-else-if="parseInt(friend.state)===0"
                   depressed
                   color=var(--main-color)
                   outlined
@@ -151,7 +152,7 @@
                   color=var(--main-color)
                   dark
                   class="text-capitalize"
-                  @click="postFriendId(friend); postQuery()"
+                  @click="postFriendId(friend)"
               >
                 Add Friend
               </v-btn>
@@ -181,9 +182,8 @@ export default {
   }),
 
   mounted() {
-    //uncomment these lines when deploying
-    //this.$store.dispatch('fetchFriends');
-    //this.$store.dispatch('fetchFriendRequests');
+    this.$store.dispatch('fetchFriends');
+    this.$store.dispatch('fetchFriendRequests');
   },
 
   methods: {
@@ -198,18 +198,25 @@ export default {
       this.$store.commit('removeFriend', friend);
     },
 
-    postFriendId: function (friends) {
-      const friendId = JSON.stringify({
-        userId_2: friends.userId
+    postFriendId: function (user) {
+      const userId = JSON.stringify({
+        userId_2: user.userId
       });
 
       // let currentObj = this;
       let formData = new FormData()
-      formData.append('data', friendId)
+      formData.append('data', userId)
 
-      axios.post('/public/friends/addFriend', formData).then(response=>{
-        console.log(response["data"])
-      });
+      axios.post('/public/friends/addFriend', formData).then(function (response) {console.log(response);})
+
+      for(let result of this.searchResult){
+        console.log(result.state)
+        if(user.userId === result.userId){
+          console.log(user.userId + " changed state to 0")
+          result.state = 0;
+          break;
+        }
+      }
     },
 
     postQuery: function () {
@@ -224,30 +231,6 @@ export default {
       axios.post('/public/friends/search', formData).then(response=>{
         this.searchResult=response["data"];
       });
-
-      //this is dummy data. Take out when deploying
-      this.searchResult = [
-        {
-          userId: '1',
-          state: '1',
-          avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/27907755_964224010401572_4566376548678829171_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=2wrEVoQrdBkAX9MBLOP&_nc_ht=scontent-bru2-1.xx&oh=81c5c254570b087bda35d1ced5624cac&oe=5FC6E541",
-          photoPath: "https://img.freepik.com/vrije-photo/close-up-van-een-giftige-rode-muhamor-paddestoel-in-het-bos_75145-275.jpg?size=626&ext=jpg",
-          leafId: '0',
-          userName: "Seppe Fleerackers",
-          takenDate: "Yesterday 11:43",
-          title: "Mushroom I spotted this morning!"
-        },
-        {
-          userId: '2',
-          state: null,
-          avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/72281335_3233116936715489_818658218732421120_o.jpg?_nc_cat=109&ccb=2&_nc_sid=09cbfe&_nc_ohc=Ag-ed4FZ5DsAX_OoYsw&_nc_ht=scontent-bru2-1.xx&oh=7566a5438a01f20dcb8c0f5a9c3abf67&oe=5FC98598",
-          photoPath: "https://www.gardeningknowhow.com/wp-content/uploads/2017/07/hardwood-tree.jpg",
-          leafId: '1',
-          userName: "Marnix Lijnen",
-          takenDate: "Yesterday 12:43",
-          title: "Walking with the boys"
-        },
-      ];
     },
 
     acceptRequest:function (request){

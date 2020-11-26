@@ -4,9 +4,8 @@
     <v-badge
         color="red"
         :content="friendRequestNotifications"
-        v-if="friendRequestNotifications !== 0"
+        :value="friendRequestNotifications"
     >
-
     </v-badge>
   </v-app-bar-nav-icon>
 </template>
