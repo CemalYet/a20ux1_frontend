@@ -37,7 +37,7 @@
               <v-img :src="discoveriesData[j-1].avatar" alt=""></v-img>
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title> {{ discoveriesData[j - 1].title }} </v-list-item-title>
+              <v-list-item-title style="white-space: normal;"> {{ discoveriesData[j - 1].title }} </v-list-item-title>
               <v-list-item-subtitle> {{ discoveriesData[j - 1].userName }} - {{ discoveriesData[j - 1].takenDate }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>

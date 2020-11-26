@@ -37,7 +37,7 @@
               color=var(--dark-color)
               class="white--text"
               @click.native="updateProfile"
-              depressed
+
           >
             Update profile
           </v-btn>
@@ -80,7 +80,7 @@
               color=var(--dark-color)
               class="white--text"
               @click.native="updatePassword"
-              depressed
+
           >
             Update password
           </v-btn>
@@ -92,7 +92,7 @@
           color=var(--light-color)
           class="white--text"
           @click.native="toggleChangePassword"
-          depressed
+
       >
         Change password
       </v-btn>
@@ -102,7 +102,7 @@
           color=var(--light-color)
           class="white--text"
           @click.native="toggleChangePassword"
-          depressed
+          
       >
         Go back
       </v-btn>
