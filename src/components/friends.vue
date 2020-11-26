@@ -14,6 +14,13 @@
       <v-tab>
         My friends
         <v-icon color=var(--dark-color)>mdi-account-multiple-outline</v-icon>
+        <v-badge
+            color="red"
+            :content="friendRequestNotifications"
+            v-if="friendRequestNotifications !== 0"
+            offset-x="-3"
+            offset-y="30"
+        ></v-badge>
       </v-tab>
       <v-tab>
         Add friend
@@ -279,6 +286,9 @@ export default {
     },
     updateFriendRequests(){
       return this.$store.getters.getFriendsRequests;
+    },
+    friendRequestNotifications(){
+      return this.$store.getters.getFriendRequestNotifications;
     },
 
     searching () {

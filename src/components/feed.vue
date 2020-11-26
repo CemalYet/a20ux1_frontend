@@ -27,23 +27,24 @@
                v-bind:picture="discoveriesData[j-1].photoPath"
                @click.native="goToPost(discoveriesData[j-1].discoveryId)"/>
 
-        <div class="info_container">
-          <div class="avatar_container">
-            <v-avatar
-                class="elevation-8"
-                size="56"
-            >
-              <img :src="discoveriesData[j-1].avatar" alt="">
-            </v-avatar>
-          </div>
-          <div class="discovery_text_container text-truncate">
-            <h6 class="text-truncate">{{ discoveriesData[j - 1].takenDate }}</h6>
-            <h4 class="text-truncate">{{ discoveriesData[j - 1].title }}</h4>
-            <h6 class="text-truncate">{{ discoveriesData[j - 1].userName }}</h6>
-          </div>
-        </div>
+        <v-list
+
+            max-width="100%"
+            class="info_container"
+        >
+          <v-list-item>
+            <v-list-item-avatar size="48">
+              <v-img :src="discoveriesData[j-1].avatar" alt=""></v-img>
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title> {{ discoveriesData[j - 1].title }} </v-list-item-title>
+              <v-list-item-subtitle> {{ discoveriesData[j - 1].userName }} - {{ discoveriesData[j - 1].takenDate }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
       </div>
     </div>
+    <br>
   </v-container>
 </template>
 
@@ -95,6 +96,10 @@ export default {
     },
   },
 
+  mounted() {
+    //this.$store.dispatch('fetchFriendRequestNotifications')
+  }
+
 }
 </script>
 
@@ -112,7 +117,6 @@ export default {
 .discovery_container {
   position: relative;
   width: 90%;
-  max-width: 400px;
   height: auto;
 }
 
@@ -122,21 +126,8 @@ export default {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-.avatar_container {
-  display: inline-block;
-}
-
-.discovery_text_container {
-  display: inline-block;
-  float: right;
-  padding-left: 8px;
-  height: auto;
-  width: 250px;
-  text-align: left;
-}
-
 .leaf {
-  margin: 4px;
+  margin: 6px;
 }
 
 </style>

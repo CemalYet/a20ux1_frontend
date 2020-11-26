@@ -10,14 +10,12 @@
 export default {
   name: 'App',
 
-  /*
+
   mounted() {
-    this.$store.dispatch('fetchUserData'),
-    axios.get('/public/feedcontroller/getDiscoveries').then(response => (this.discoveries = response["data"])),
-    axios.get('/public/feedcontroller/getUserData').then(response => (this.userData = response["data"]))
+    //this.$store.dispatch('fetchUserData'),
   },
 
-   */
+
 };
 </script>
 

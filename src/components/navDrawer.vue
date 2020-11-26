@@ -22,7 +22,12 @@
       <v-list-item link :ripple="false" @click="goToFriends">
         <v-list-item-icon>
           <v-icon large color=var(--main-color)>mdi-account-plus-outline</v-icon>
-          <v-badge color="red" :content="this.$store.getters.getNotifications" overlap></v-badge>
+          <v-badge
+              color="red"
+              :content="friendRequestNotifications"
+              overlap
+              v-if="friendRequestNotifications !== 0"
+          ></v-badge>
         </v-list-item-icon>
         <v-list-item-title>Friends</v-list-item-title>
       </v-list-item>
@@ -73,7 +78,10 @@ export default {
     },
     userData(){
       return this.$store.getters.getUserData;
-    }
+    },
+    friendRequestNotifications(){
+      return this.$store.getters.getFriendRequestNotifications;
+    },
   },
 
   methods:{

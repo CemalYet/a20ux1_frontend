@@ -76,15 +76,17 @@
         <!-- Caption from the author-->
         <div class="commentBox">
           <div class="infoBox text-truncate">
-            <v-list-item three-line>
-              <v-list-item-avatar size="48">
-                <v-img :src="getDiscovery.avatar"></v-img>
-              </v-list-item-avatar>
-              <v-list-item-content>
-                <v-list-item-title>{{getDiscovery.title}}</v-list-item-title>
-                <v-list-item-subtitle> {{ getDiscoveryExtraInfo.description }} </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
+
+              <v-list-item three-line>
+                <v-list-item-avatar size="48">
+                  <v-img :src="getDiscovery.avatar"></v-img>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title style="white-space: normal;">{{getDiscovery.title}}</v-list-item-title>
+                  <v-list-item-subtitle class="wrap-text"> {{ getDiscoveryExtraInfo.description }} </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+
           </div>
         </div>
         <v-divider></v-divider>
@@ -96,6 +98,7 @@
                 <v-img :src="getComments[0].avatar"></v-img>
               </v-list-item-avatar>
               <v-list-item-content>
+                <v-list-item-title style="white-space: normal;"> {{getComments[0].userName}} </v-list-item-title>
                 <v-list-item-subtitle>
                   {{ getComments[0].comment }}
                 </v-list-item-subtitle>
@@ -304,6 +307,10 @@ export default {
 
 .tags {
   color: var(--dark-color);
+}
+
+.wrap-text {
+  -webkit-line-clamp: unset !important;
 }
 
 </style>

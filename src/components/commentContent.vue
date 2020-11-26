@@ -7,8 +7,8 @@
         <div class="infoBox text-truncate">
           <v-list-item three-line>
             <v-list-item-content>
-              <v-list-item-title>{{getDiscovery.title}}</v-list-item-title>
-              <v-list-item-subtitle> {{ getDiscoveryExtraInfo.description }} </v-list-item-subtitle>
+              <v-list-item-title style="white-space: normal;">{{getDiscovery.title}}</v-list-item-title>
+              <v-list-item-subtitle class="wrap-text"> {{ getDiscoveryExtraInfo.description }} </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </div>
@@ -28,8 +28,8 @@
               <v-img :src="comment.avatar"></v-img>
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title> {{comment.userName}} </v-list-item-title>
-              <v-list-item-subtitle> {{ comment.comment }} </v-list-item-subtitle>
+              <v-list-item-title style="white-space: normal;"> {{comment.userName}} </v-list-item-title>
+              <v-list-item-subtitle class="wrap-text"> {{ comment.comment }} </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </div>
@@ -94,6 +94,7 @@ export default {
 </script>
 
 <style scoped>
+
 .middleContainer {
   width: 100%;
   max-width: 750px;
@@ -116,5 +117,9 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+}
+
+.wrap-text {
+  -webkit-line-clamp: unset !important;
 }
 </style>

@@ -13,7 +13,7 @@ const store = new Vuex.Store({
         drawer: false,
 
         //notifications
-        notifications: 2,
+        friendRequestNotifications: 2,
 
 
 
@@ -233,6 +233,9 @@ const store = new Vuex.Store({
         deleteFriendRequest(state, request){
             state.friendRequests.splice(state.friendRequests.indexOf(request),1);
         },
+        updateFriendRequestNotifications(state, value){
+            state.friendRequestNotifications = value;
+        },
 
         ///// SHARE DISCOVERY /////
         updateSnackbar(state, value){
@@ -305,6 +308,10 @@ const store = new Vuex.Store({
         uploadUserData(context, updatedUserData){
             context.commit('updateUserData', updatedUserData);
 
+        },
+        fetchFriendRequestNotifications(context){
+            //axios post to request the amount of notifications from backend. Pass the userId of logged in user via the session in backend. writer trigger in database
+            axios.get('/public/friends/getFriendRequestNotifications').then(response => (context.commit('updateFriendRequestNotifications', response["data"])))
         },
 
 
@@ -561,6 +568,9 @@ const store = new Vuex.Store({
         },
         getFriendsRequests(state){
             return state.friendRequests;
+        },
+        getFriendRequestNotifications(state){
+            return state.friendRequestNotifications;
         }
     }
 })

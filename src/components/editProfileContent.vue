@@ -11,12 +11,16 @@
         </div>
       </image-input>
 
-      <v-form v-model="valid" v-if="!changePassword">
+      <v-form
+          v-model="valid"
+          v-if="!changePassword"
+      >
         <v-container>
           <v-text-field
               v-model="updatedUserData[0].userName"
               :rules="nameRules"
               label="username"
+              outlined
               :counter=25
               required
           ></v-text-field>
@@ -25,14 +29,15 @@
               v-model="updatedUserData[0].emailAddress"
               :rules="emailRules"
               label="E-mail"
+              outlined
               required
           ></v-text-field>
           <v-btn
               width="250px"
-              rounded
               color=var(--dark-color)
               class="white--text"
               @click.native="updateProfile"
+              depressed
           >
             Update profile
           </v-btn>
@@ -47,6 +52,7 @@
               @click:append="showPassword1 = !showPassword1"
               :type="showPassword1 ? 'text' : 'password'"
               label="Current password"
+              outlined
               required
           ></v-text-field>
           <v-text-field
@@ -56,6 +62,7 @@
               @click:append="showPassword2 = !showPassword2"
               :type="showPassword2 ? 'text' : 'password'"
               label="New password"
+              outlined
               required
           ></v-text-field>
           <v-text-field
@@ -65,14 +72,15 @@
               @click:append="showPassword3 = !showPassword3"
               :type="showPassword3 ? 'text' : 'password'"
               label="Repeat new password"
+              outlined
               required
           ></v-text-field>
           <v-btn
               width="250px"
-              rounded
               color=var(--dark-color)
               class="white--text"
               @click.native="updatePassword"
+              depressed
           >
             Update password
           </v-btn>
@@ -81,20 +89,20 @@
       <v-btn
           v-if="!changePassword"
           width="200px"
-          rounded
-          color=var(--dark-color)
+          color=var(--light-color)
           class="white--text"
           @click.native="toggleChangePassword"
+          depressed
       >
         Change password
       </v-btn>
       <v-btn
           v-if="changePassword"
           width="200px"
-          rounded
-          color=var(--dark-color)
+          color=var(--light-color)
           class="white--text"
           @click.native="toggleChangePassword"
+          depressed
       >
         Go back
       </v-btn>
@@ -247,18 +255,6 @@ export default {
 .avatar{
   text-align: center;
   margin-bottom: 1rem;
-}
-
-label{
-  display: block;
-}
-
-input {
-  background-color: transparent;
-  border: 0.05rem solid black;
-  border-radius: 0.35rem;
-  color: black;
-  outline: none;
 }
 
 </style>
