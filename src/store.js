@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -25,7 +26,7 @@ const store = new Vuex.Store({
         chosen_leaf: null,
         description: null,
         latitude: null,
-        longitude:null,
+        longitude: null,
         snackbar: false,
 
         // MAP PAGE /////
@@ -33,6 +34,10 @@ const store = new Vuex.Store({
         map_markers: null,
         chosen_marker: null,
         marker_discovery_overlay: false,
+        search_results: null,
+        search_field: null,
+        discovery_photos: null,
+        discovery_id: null,
 
         ///// DISCOVERY POST /////
         deleteDialog: false,
@@ -201,7 +206,7 @@ const store = new Vuex.Store({
         ],
     },
 
-    mutations:{
+    mutations: {
         //change data
         toggleDrawer(state){
             state.drawer = !state.drawer;
@@ -215,7 +220,6 @@ const store = new Vuex.Store({
         updateUserAvatar(state, avatar){
             state.userData[0].avatar = avatar
         },
-
 
         ///// FRIENDS /////
         updateFriendsData(state, friendsData){
@@ -236,6 +240,7 @@ const store = new Vuex.Store({
         updateFriendRequestNotifications(state, value){
             state.friendRequestNotifications = value;
         },
+
 
         ///// SHARE DISCOVERY /////
         updateSnackbar(state, value){
@@ -271,7 +276,11 @@ const store = new Vuex.Store({
             state.map_center.lat=value.coords.latitude;
             state.map_center.lng=value.coords.longitude;
         },
-        updateMapMarkers(state, value){
+        updateDiscoCenter(state, value) {
+            state.map_center.lat = parseFloat(value.Latitude);
+            state.map_center.lng = parseFloat(value.Longitude);
+        },
+        updateMapMarkers(state, value) {
             state.map_markers = value;
         },
         updateSelectedMarker(state, value){
@@ -279,6 +288,18 @@ const store = new Vuex.Store({
         },
         updateMarkerDiscoveryOverlay(state,value){
             state.marker_discovery_overlay = value;
+        },
+        updateSearchResults(state, value) {
+            state.search_results = value;
+        },
+        updateSearchField(state, value) {
+            state.search_field = value;
+        },
+        updateDiscoveryPhotos(state, value) {
+            state.discovery_photos = value;
+        },
+        updateDiscoveryId(state, value) {
+            state.discovery_id = value;
         },
 
         ///// DISCOVERY POST /////
@@ -341,137 +362,34 @@ const store = new Vuex.Store({
                 context.commit('updateMapCenter', position);
             });
         },
-        discoveriesMe(context){
-            //make axios statement here
-
-            const markers =
-                [
-                    {
-                        position: {
-                            lat: 51.3167,
-                            lng: 4.9833
-                        },
-                        id: 2,
-                        images: [
-                            "http://lorempixel.com/200/200/nature/",
-                            "http://lorempixel.com/200/200/nature/",
-                            "http://lorempixel.com/200/200/nature/",
-                        ],
-                    },
-                ];
-
-            context.commit("updateMapMarkers", markers);
+        discoveriesMe(context) {
+            axios.get('/public/mapcontroller/getMyDiscoveries').then(response => {
+                context.commit("updateMapMarkers", response["data"])
+            });
         },
 
-        discoveriesFriends(context){
-            //make axios statement here
-
-            const markers = [
-                {
-                    position: {
-                        lat: 51.32254,
-                        lng: 4.94471
-                    },
-                    id: 1,
-                    images: [
-                        "http://lorempixel.com/200/200/nature/",
-                        "http://lorempixel.com/200/200/nature/",
-                        "http://lorempixel.com/200/200/nature/",
-                    ],
-                },
-                {
-                    position: {
-                        lat: 51.3567,
-                        lng: 4.9783
-                    },
-                    id: 3,
-                    images: [
-                        "http://lorempixel.com/200/200/nature/",
-                        "http://lorempixel.com/200/200/nature/",
-                        "http://lorempixel.com/200/200/nature/",
-                    ],
-                },
-            ];
-
-            context.commit('updateMapMarkers', markers);
+        discoveriesFriends(context) {
+            axios.get('/public/mapcontroller/getFriendDiscoveries').then(response => {
+                context.commit("updateMapMarkers", response["data"])
+            });
         },
 
-        discoveriesPopular(context){
-            const markers =
-                [
-                    {
-                        position: {
-                            lat: 51.32254,
-                            lng: 4.94471
-                        },
-                        id: 1,
-                        images: [
-                            "https://www.gardeningknowhow.com/wp-content/uploads/2017/07/hardwood-tree.jpg",
-                            "http://lorempixel.com/200/200/nature/",
-                            "http://lorempixel.com/200/200/nature/",
-                        ],
-                    },
-                    {
-                        position: {
-                            lat: 51.3167,
-                            lng: 4.9833
-                        },
-                        id: 2,
-                        images: [
-                            "http://lorempixel.com/200/200/nature/",
-                            "https://www.gardeningknowhow.com/wp-content/uploads/2017/07/hardwood-tree.jpg",
-                            "http://lorempixel.com/200/200/nature/",
-                        ],
-                    },
-                    {
-                        position: {
-                            lat: 51.3567,
-                            lng: 4.9783
-                        },
-                        id: 3,
-                        images: [
-                            "http://lorempixel.com/200/200/nature/",
-                            "http://lorempixel.com/200/200/nature/",
-                            "http://lorempixel.com/200/200/nature/",
-                        ],
-                    },
-                ];
-
-            context.commit('updateMapMarkers', markers);
+        discoveriesPopular(context) {
+            axios.get('/public/mapcontroller/getPopularDiscoveries').then(response => {
+                context.commit("updateMapMarkers", response["data"])
+            });
         },
-
-        fetchDiscoveryBasedOnId(context, discoveryId){
-            axios.get('/public/feedcontroller/getUserData', {params:{discoveryId: discoveryId}}).then(response => {
-                context.commit('updateUserData', response["data"].userData)
-            })
+        searchDiscoveries(context) {
+            axios.get('/public/mapcontroller/searching', {params: {data: context.getters.getSearchField}}).then(response => {
+                context.commit("updateSearchResults", response["data"])
+                context.commit("updateMapMarkers", response["data"])
+            });
         },
-
-        discoveryExtraInfo(context, discoveryId){
-            for (let i = 0 ; i < context.state.discoveries.length ; i++) {
-                if (discoveryId === context.state.discoveries[i].discoveryId) {
-                    return context.state.discoveries[i];
-                }
-            }
-            axios.get('/public/feedcontroller/getUserData', {params:{discoveryId: discoveryId}}).then(response => {
-                context.commit('updateUserData', response["data"].userData)
-            })
-        },
-
-        fetchLikes(context, discoveryId){
-            axios.get('/public/feedcontroller/getUserData', {params:{discoveryId: discoveryId}}).then(response => {
-                context.commit('updateUserData', response["data"].userData)
-            })
-        },
-        fetchComments(context, discoveryId){
-            axios.get('/public/feedcontroller/getUserData', {params:{discoveryId: discoveryId}}).then(response => {
-                context.commit('updateUserData', response["data"].userData)
-            })
-        },
-        fetchTags(context, discoveryId){
-            axios.get('/public/feedcontroller/getUserData', {params:{discoveryId: discoveryId}}).then(response => {
-                context.commit('updateUserData', response["data"].userData)
-            })
-        },
+        getPictures(context) {
+            axios.get('/public/mapcontroller/getDiscoveryPhotos', {params: {data: context.getters.getDiscoveryId}}).then(response => {
+                context.commit("updateDiscoveryPhotos", response["data"])
+            });
+        }
     },
 
     getters:{
@@ -533,6 +451,18 @@ const store = new Vuex.Store({
 
         getMarkerDiscoveryOverlay(state){
             return state.marker_discovery_overlay;
+        },
+        getSearchResults(state) {
+            return state.search_results;
+        },
+        getSearchField(state) {
+            return state.search_field;
+        },
+        getDiscoveryPhotos(state) {
+            return state.discovery_photos;
+        },
+        getDiscoveryId(state) {
+            return state.discovery_id;
         },
 
         ///// DISCOVERY POST /////
