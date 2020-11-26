@@ -238,7 +238,7 @@ const store = new Vuex.Store({
             state.friendRequests.splice(state.friendRequests.indexOf(request),1);
         },
         updateFriendRequestNotifications(state, value){
-            state.friendRequestNotifications = value;
+            state.friendRequestNotifications = parseInt(value[0].amountOfFriendRequests);
         },
 
 

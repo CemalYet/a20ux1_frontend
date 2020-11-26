@@ -97,7 +97,7 @@ export default {
   },
 
   mounted() {
-    //this.$store.dispatch('fetchFriendRequestNotifications')
+    this.$store.dispatch('fetchFriendRequestNotifications')
   }
 
 }
