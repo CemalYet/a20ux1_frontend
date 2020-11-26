@@ -8,7 +8,6 @@ import hamburgerButton from "@/components/hamburgerButton";
 import backButton from "@/components/backButton";
 import camera from "@/components/camera";
 import share from "@/components/share";
-import cancelConfirmBottomNavBar from "@/components/cancelConfirmBottomNavBar";
 import mapLayout from "./layouts/mapLayout"
 import map from "@/components/map";
 import defaultLayout from "./layouts/defaultLayout"
@@ -129,7 +128,6 @@ const router = new VueRouter({
                     components:{
                         appBar: appBar,
                         pageContent: share,
-                        bottomNavBar: cancelConfirmBottomNavBar
                     },
                     children:[
                         {
