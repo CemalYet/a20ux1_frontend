@@ -71,7 +71,7 @@ const store = new Vuex.Store({
 
         ///// FRIENDS /////
         friendsData: null,
-        friendRequests: null,
+        friendRequests:[],
         friendRequestNotifications: null,
 
         //templates
