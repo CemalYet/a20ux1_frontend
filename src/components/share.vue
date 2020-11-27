@@ -1,276 +1,393 @@
 <template>
   <v-container>
-    <br>
-    <validation-observer
-        ref="observer"
-        v-slot="{invalid}"
+    <v-stepper
+        alt-labels
+        v-model="steps"
     >
-      <form @submit.prevent="check_data">
-        <!--Text input TITLE-->
-        <validation-provider
-            v-slot="{errors}"
-            name="title"
-            rules="required|max:25"
+      <v-stepper-header>
+        <v-stepper-step
+            step="1"
+            :complete="steps > 1"
         >
-          <v-text-field
-              class="text_field"
-              dense
-              label="Title"
-              v-model="updateTitle"
-              outlined
-              color=var(--dark-color)
-              :counter="25"
-              required
-              :error-messages="errors"
-          ></v-text-field>
-        </validation-provider>
+          Ad more pictures
+        </v-stepper-step>
 
-        <div class="timeDateContainer">
-          <!--Modal input HOUR-->
-          <v-dialog
-              ref="time_dialog"
-              v-model="time_modal"
-              :return-value.sync="updateTimeStamp"
-              persistent
-              width="290px"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                  class="text_field"
-                  id="time_field"
-                  dense
-                  v-model="updateTimeStamp"
-                  label="Time"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                  outlined
-                  color=var(--dark-color)
-                  hide-details
-              ></v-text-field>
-            </template>
-            <v-time-picker
-                v-if="time_modal"
-                v-model="updateTimeStamp"
-                full-width
-                color=var(--main-color)
-                format="24hr"
-            >
-              <v-spacer></v-spacer>
-              <v-btn
-                  text
-                  color=var(--dark-color)
-                  @click="time_modal = false"
-              >
-                Cancel
-              </v-btn>
-              <v-btn
-                  text
-                  color=var(--dark-color)
-                  @click="$refs.time_dialog.save(updateTimeStamp);"
-              >
-                OK
-              </v-btn>
-            </v-time-picker>
-          </v-dialog>
+        <v-divider></v-divider>
 
-          <!--Modal input DATE-->
-          <v-dialog
-              ref="date_dialog"
-              v-model="date_modal"
-              :return-value.sync="updateCurrent_date"
-              persistent
-              width="290px"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                  class="text_field"
-                  id="date_field"
-                  dense
-                  v-model="updateCurrent_date"
-                  label="Date"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                  outlined
-                  color=var(--dark-color)
-                  hide-details
-              ></v-text-field>
-            </template>
-            <v-date-picker
-                v-model="updateCurrent_date"
-                scrollable
-                color=var(--main-color)
-                :max="getMaxDate()"
-            >
-              <v-spacer></v-spacer>
-              <v-btn
-                  text
-                  color=var(--dark-color)
-                  @click="date_modal = false"
-              >
-                Cancel
-              </v-btn>
-              <v-btn
-                  text
-                  color=var(--dark-color)
-                  @click="$refs.date_dialog.save(updateCurrent_date);"
-              >
-                OK
-              </v-btn>
-            </v-date-picker>
-          </v-dialog>
-        </div>
+        <v-stepper-step
+            step="2"
+            :complete="steps > 2"
 
-        <!--Text input LOCATION-->
-        <validation-provider
-            v-slot="{errors}"
-            name="location"
-            rules="max:25"
         >
-          <v-text-field
-              class="text_field"
-              dense
-              label="Location"
-              v-model="updateLocation"
-              outlined
-              color=var(--dark-color)
-              :counter="25"
-              :error-messages="errors"
-          ></v-text-field>
-        </validation-provider>
+          Choose leaves
+        </v-stepper-step>
 
-        <div id="buttons">
-          <!--Buttons-->
-          <div id="plus_button">
+        <v-divider></v-divider>
+
+        <v-stepper-step
+            step="3"
+            :complete="steps > 3"
+        >
+          Tag friends
+        </v-stepper-step>
+
+        <v-divider></v-divider>
+
+        <v-stepper-step
+            step="4"
+        >
+          General info
+        </v-stepper-step>
+      </v-stepper-header>
+
+      <v-stepper-items>
+        <v-stepper-content
+            step="1"
+        >
+
+          <h1> ADD PICTURES </h1>
+
+          <div style="text-align: right">
             <v-btn
+                right
                 color=var(--dark-color)
-                elevation="2"
-                :ripple="false"
-                v-on="on"
                 dark
+                @click="steps = 2"
             >
-              <v-icon color="white">mdi-plus</v-icon>
-              friends
+              Continue
             </v-btn>
           </div>
 
-          <div
-              id="leaf_button"
-          >
-            <v-dialog
-                v-model="leaf_dialog"
-                scrollable
-                max-width="80vw"
+        </v-stepper-content>
+        <v-stepper-content
+            step="2"
+        >
+
+          <h1> CHOOSE LEAF </h1>
+
+          <div style="text-align: right">
+            <v-btn
+                color=var(--dark-color)
+                text
+                @click="steps--"
             >
-              <template v-slot:activator="{ on, attrs }">
+              go back
+            </v-btn>
+            <v-btn
+                color=var(--dark-color)
+                dark
+                @click="steps = 3"
+            >
+              Continue
+            </v-btn>
+          </div>
+        </v-stepper-content>
+        <v-stepper-content
+            step="3"
+        >
+
+          <h1> TAG FRIENDS </h1>
+          <div style="text-align: right">
+            <v-btn
+                color=var(--dark-color)
+                text
+                @click="steps--"
+            >
+              go back
+            </v-btn>
+            <v-btn
+                color=var(--dark-color)
+                dark
+                @click="steps = 4"
+            >
+              Continue
+            </v-btn>
+          </div>
+        </v-stepper-content>
+        <v-stepper-content
+            step="4"
+        >
+
+          <validation-observer
+              ref="observer"
+              v-slot="{invalid}"
+          >
+            <form @submit.prevent="check_data">
+              <!--Text input TITLE-->
+              <validation-provider
+                  v-slot="{errors}"
+                  name="title"
+                  rules="required|max:25"
+              >
+                <v-text-field
+                    class="text_field"
+                    dense
+                    label="Title"
+                    v-model="updateTitle"
+                    outlined
+                    color=var(--dark-color)
+                    :counter="25"
+                    required
+                    :error-messages="errors"
+                ></v-text-field>
+              </validation-provider>
+
+              <div class="timeDateContainer">
+                <!--Modal input HOUR-->
+                <v-dialog
+                    ref="time_dialog"
+                    v-model="time_modal"
+                    :return-value.sync="updateTimeStamp"
+                    persistent
+                    width="290px"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                        class="text_field"
+                        id="time_field"
+                        dense
+                        v-model="updateTimeStamp"
+                        label="Time"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                        outlined
+                        color=var(--dark-color)
+                        hide-details
+                    ></v-text-field>
+                  </template>
+                  <v-time-picker
+                      v-if="time_modal"
+                      v-model="updateTimeStamp"
+                      full-width
+                      color=var(--main-color)
+                      format="24hr"
+                  >
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        text
+                        color=var(--dark-color)
+                        @click="time_modal = false"
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                        text
+                        color=var(--dark-color)
+                        @click="$refs.time_dialog.save(updateTimeStamp);"
+                    >
+                      OK
+                    </v-btn>
+                  </v-time-picker>
+                </v-dialog>
+
+                <!--Modal input DATE-->
+                <v-dialog
+                    ref="date_dialog"
+                    v-model="date_modal"
+                    :return-value.sync="updateCurrent_date"
+                    persistent
+                    width="290px"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                        class="text_field"
+                        id="date_field"
+                        dense
+                        v-model="updateCurrent_date"
+                        label="Date"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                        outlined
+                        color=var(--dark-color)
+                        hide-details
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                      v-model="updateCurrent_date"
+                      scrollable
+                      color=var(--main-color)
+                      :max="getMaxDate()"
+                  >
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        text
+                        color=var(--dark-color)
+                        @click="date_modal = false"
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                        text
+                        color=var(--dark-color)
+                        @click="$refs.date_dialog.save(updateCurrent_date);"
+                    >
+                      OK
+                    </v-btn>
+                  </v-date-picker>
+                </v-dialog>
+              </div>
+
+              <!--Text input LOCATION-->
+              <validation-provider
+                  v-slot="{errors}"
+                  name="location"
+                  rules="max:25"
+              >
+                <v-text-field
+                    class="text_field"
+                    dense
+                    label="Location"
+                    v-model="updateLocation"
+                    outlined
+                    color=var(--dark-color)
+                    :counter="25"
+                    :error-messages="errors"
+                ></v-text-field>
+              </validation-provider>
+
+              <div id="buttons">
+                <!--Buttons-->
+                <div id="plus_button">
+                  <v-btn
+                      color=var(--dark-color)
+                      elevation="2"
+                      :ripple="false"
+                      v-on="on"
+                      dark
+                  >
+                    <v-icon color="white">mdi-plus</v-icon>
+                    friends
+                  </v-btn>
+                </div>
+
+                <div
+                    id="leaf_button"
+                >
+                  <v-dialog
+                      v-model="leaf_dialog"
+                      scrollable
+                      max-width="80vw"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                          color=var(--dark-color)
+                          elevation="2"
+                          :ripple="false"
+                          v-bind="attrs"
+                          v-on="on"
+                          dark
+                      >
+                        <v-icon color="white">mdi-leaf</v-icon>
+                        leaf
+                      </v-btn>
+                    </template>
+                    <v-card>
+                      <v-card-title>Chose leaf shape</v-card-title>
+                      <v-divider></v-divider>
+                      <v-card-text style="height: 40vw;">
+                        <div class="parent">
+                          <div class="top_row">
+                            <leaf1 class="leaf" @click.native="select_leaf(1); leaf_dialog = false"/>
+                            <leaf2 class="leaf" @click.native="select_leaf(2); leaf_dialog = false"/>
+                            <leaf3 class="leaf" @click.native="select_leaf(3); leaf_dialog = false"/>
+                          </div>
+                          <div class="bottom_row">
+                            <leaf4 class="leaf" @click.native="select_leaf(4); leaf_dialog = false"/>
+                            <leaf5 class="leaf" @click.native="select_leaf(5); leaf_dialog = false"/>
+                          </div>
+                        </div>
+                      </v-card-text>
+                    </v-card>
+                  </v-dialog>
+                </div>
+
+                <div id="tags">
+                  <v-avatar class="avatars elevation-6">
+                    <v-img
+                        src="https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/27907755_964224010401572_4566376548678829171_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=iEnUTezF7M0AX9l4Blf&_nc_ht=scontent-bru2-1.xx&oh=ad6d77ef7b00135578e999dfc409129d&oe=5FCECE41"
+                        alt="">
+                    </v-img>
+                  </v-avatar>
+                  <v-avatar class="avatars elevation-6">
+                    <v-img
+                        src="https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/72281335_3233116936715489_818658218732421120_o.jpg?_nc_cat=109&ccb=2&_nc_sid=09cbfe&_nc_ohc=RdqSnTG_rdMAX-4kET-&_nc_ht=scontent-bru2-1.xx&oh=6aeb2fb674f01ad8802760f5315129bc&oe=5FCD7A18"
+                        alt="">
+                    </v-img>
+                  </v-avatar>
+                  <v-avatar class="avatars elevation-6">
+                    <v-img
+                        src="https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/71499627_2643828155667264_8670036088552685568_o.jpg?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_ohc=w6TlLBPM4coAX8ftlce&_nc_ht=scontent-bru2-1.xx&oh=cb334c83c12b7b2d6e08bc3ef6571c56&oe=5FCE73A8"
+                        alt="">
+                    </v-img>
+                  </v-avatar>
+                </div>
+
+                <div id="leafId">
+                  <leaf1 class="small_leaf" v-if="updateLeafShape === 1"/>
+                  <leaf2 class="small_leaf" v-else-if="updateLeafShape === 2"/>
+                  <leaf3 class="small_leaf" v-else-if="updateLeafShape === 3"/>
+                  <leaf4 class="small_leaf" v-else-if="updateLeafShape === 4"/>
+                  <leaf5 class="small_leaf" v-else-if="updateLeafShape === 5"/>
+                </div>
+              </div>
+
+              <validation-provider
+                  v-slot="{errors}"
+                  name="description"
+                  rules="max:140"
+              >
+                <!--Text input DESCRIPTION-->
+                <v-textarea
+                    class="text_field"
+                    id="description_box"
+                    label="DESCRIPTION"
+                    v-model="updateDiscription"
+                    outlined
+                    color=var(--dark-color)
+                    no-resize
+                    rows="3"
+                    dense
+                    counter="140"
+                    :error-messages="errors"
+                ></v-textarea>
+              </validation-provider>
+
+              <!--CONFIRM button-->
+              <div style="text-align: right;">
                 <v-btn
+                    color=var(--dark-color)
+                    text
+                    @click="steps--"
+                >
+                  go back
+                </v-btn>
+                <v-btn
+                    v-if="invalid"
                     color=var(--dark-color)
                     elevation="2"
                     :ripple="false"
-                    v-bind="attrs"
-                    v-on="on"
+                    :disabled="invalid"
+                >
+                  finish
+                </v-btn>
+                <v-btn
+                    v-if="!invalid"
+                    color=var(--dark-color)
+                    elevation="2"
+                    :ripple="false"
+                    type="submit"
                     dark
                 >
-                  <v-icon color="white">mdi-leaf</v-icon>
-                  leaf
+                  finish
                 </v-btn>
-              </template>
-              <v-card>
-                <v-card-title>Chose leaf shape</v-card-title>
-                <v-divider></v-divider>
-                <v-card-text style="height: 40vw;">
-                  <div class="parent">
-                    <div class="top_row">
-                      <leaf1 class="leaf" @click.native="select_leaf(1); leaf_dialog = false"/>
-                      <leaf2 class="leaf" @click.native="select_leaf(2); leaf_dialog = false"/>
-                      <leaf3 class="leaf" @click.native="select_leaf(3); leaf_dialog = false"/>
-                    </div>
-                    <div class="bottom_row">
-                      <leaf4 class="leaf" @click.native="select_leaf(4); leaf_dialog = false"/>
-                      <leaf5 class="leaf" @click.native="select_leaf(5); leaf_dialog = false"/>
-                    </div>
-                  </div>
-                </v-card-text>
-              </v-card>
-            </v-dialog>
-          </div>
-
-          <div id="tags">
-            <v-avatar class="avatars elevation-6">
-              <v-img
-                  src="https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/27907755_964224010401572_4566376548678829171_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=iEnUTezF7M0AX9l4Blf&_nc_ht=scontent-bru2-1.xx&oh=ad6d77ef7b00135578e999dfc409129d&oe=5FCECE41"
-                  alt="">
-              </v-img>
-            </v-avatar>
-            <v-avatar class="avatars elevation-6">
-              <v-img
-                  src="https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/72281335_3233116936715489_818658218732421120_o.jpg?_nc_cat=109&ccb=2&_nc_sid=09cbfe&_nc_ohc=RdqSnTG_rdMAX-4kET-&_nc_ht=scontent-bru2-1.xx&oh=6aeb2fb674f01ad8802760f5315129bc&oe=5FCD7A18"
-                  alt="">
-              </v-img>
-            </v-avatar>
-            <v-avatar class="avatars elevation-6">
-              <v-img
-                  src="https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/71499627_2643828155667264_8670036088552685568_o.jpg?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_ohc=w6TlLBPM4coAX8ftlce&_nc_ht=scontent-bru2-1.xx&oh=cb334c83c12b7b2d6e08bc3ef6571c56&oe=5FCE73A8"
-                  alt="">
-              </v-img>
-            </v-avatar>
-          </div>
-
-          <div id="leafId">
-            <leaf1 class="small_leaf" v-if="updateLeafShape === 1"/>
-            <leaf2 class="small_leaf" v-else-if="updateLeafShape === 2"/>
-            <leaf3 class="small_leaf" v-else-if="updateLeafShape === 3"/>
-            <leaf4 class="small_leaf" v-else-if="updateLeafShape === 4"/>
-            <leaf5 class="small_leaf" v-else-if="updateLeafShape === 5"/>
-          </div>
-        </div>
-
-        <validation-provider
-            v-slot="{errors}"
-            name="description"
-            rules="max:140"
-        >
-          <!--Text input DESCRIPTION-->
-          <v-textarea
-              class="text_field"
-              id="description_box"
-              label="DESCRIPTION"
-              v-model="updateDiscription"
-              outlined
-              color=var(--dark-color)
-              no-resize
-              rows="3"
-              dense
-              counter="140"
-              :error-messages="errors"
-          ></v-textarea>
-        </validation-provider>
-
-        <!--CONFIRM button-->
-        <div style="text-align: center;">
-          <v-btn
-              v-if="invalid"
-              color=var(--dark-color)
-              elevation="2"
-              :ripple="false"
-              :disabled="invalid"
-          >
-            confirm
-          </v-btn>
-          <v-btn
-              v-if="!invalid"
-              color=var(--dark-color)
-              elevation="2"
-              :ripple="false"
-              type="submit"
-              dark
-          >
-            confirm
-          </v-btn>
-        </div>
-      </form>
-    </validation-observer>
+              </div>
+            </form>
+          </validation-observer>
+        </v-stepper-content>
+      </v-stepper-items>
+    </v-stepper>
 
     <v-snackbar
         v-model="updateSnackbar"
@@ -333,6 +450,7 @@ export default {
     time_dialog: false,
     date_dialog: false,
     leaf_dialog: false,
+    steps: 1,
   }),
 
   created() {
@@ -465,7 +583,7 @@ export default {
   background-color: white;
   max-width: 500px;
   width: 100%;
-  padding: 6px 16px;
+  padding: 6px;
   margin: auto;
 }
 
