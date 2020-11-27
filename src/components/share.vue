@@ -1,232 +1,268 @@
 <template>
   <v-container>
-    <!--Text input TITLE-->
-    <v-text-field
-        class="text_field"
-        dense
-        label="TITLE"
-        v-model="updateTitle"
-        outlined
-        color=var(--dark-color)
-        hide-details
-        :rules="[rules.required]"
-    ></v-text-field>
-
-    <!--Modal input HOUR-->
-    <v-dialog
-        ref="time_dialog"
-        v-model="time_modal"
-        :return-value.sync="updateTimeStamp"
-        persistent
-        width="290px"
+    <br>
+    <validation-observer
+        ref="observer"
+        v-slot="{invalid}"
     >
-      <template v-slot:activator="{ on, attrs }">
-        <v-text-field
-            class="text_field"
-            dense
-            v-model="updateTimeStamp"
-            label="HOUR"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-            outlined
-            color=var(--dark-color)
-            hide-details
-        ></v-text-field>
-      </template>
-      <v-time-picker
-          v-if="time_modal"
-          v-model="updateTimeStamp"
-          full-width
-          color=var(--main-color)
-          format="24hr"
-      >
-        <v-spacer></v-spacer>
-        <v-btn
-            text
-            color=var(--dark-color)
-            @click="time_modal = false"
+      <form @submit.prevent="check_data">
+        <!--Text input TITLE-->
+        <validation-provider
+            v-slot="{errors}"
+            name="title"
+            rules="required|max:25"
         >
-          Cancel
-        </v-btn>
-        <v-btn
-            text
-            color=var(--dark-color)
-            @click="$refs.time_dialog.save(updateTimeStamp);"
-        >
-          OK
-        </v-btn>
-      </v-time-picker>
-    </v-dialog>
-
-    <!--Modal input DATE-->
-    <v-dialog
-        ref="date_dialog"
-        v-model="date_modal"
-        :return-value.sync="updateCurrent_date"
-        persistent
-        width="290px"
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-text-field
-            class="text_field"
-            dense
-            v-model="updateCurrent_date"
-            label="DATE"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-            outlined
-            color=var(--dark-color)
-            hide-details
-        ></v-text-field>
-      </template>
-      <v-date-picker
-          v-model="updateCurrent_date"
-          scrollable
-          color=var(--main-color)
-          :max="getMaxDate()"
-      >
-        <v-spacer></v-spacer>
-        <v-btn
-            text
-            color=var(--dark-color)
-            @click="date_modal = false"
-        >
-          Cancel
-        </v-btn>
-        <v-btn
-            text
-            color=var(--dark-color)
-            @click="$refs.date_dialog.save(updateCurrent_date);"
-        >
-          OK
-        </v-btn>
-      </v-date-picker>
-    </v-dialog>
-
-    <!--Text input LOCATION-->
-    <v-text-field
-        class="text_field"
-        dense
-        label="LOCATION"
-        v-model="updateLocation"
-        outlined
-        color=var(--dark-color)
-        hide-details
-    ></v-text-field>
-
-    <div id="buttons">
-      <!--Buttons-->
-      <div id="plus_button">
-        <v-btn
-            color=var(--dark-color)
-            elevation="2"
-            :ripple="false"
-            v-on="on"
-        >
-          <v-icon color="white">mdi-plus</v-icon>
-          <h3 class="button_text">FRIEND</h3>
-        </v-btn>
-      </div>
-
-      <div id="leaf_button">
+          <v-text-field
+              class="text_field"
+              dense
+              label="Title"
+              v-model="updateTitle"
+              outlined
+              color=var(--dark-color)
+              :counter="25"
+              required
+              :error-messages="errors"
+          ></v-text-field>
+        </validation-provider>
+        <!--Modal input HOUR-->
         <v-dialog
-            v-model="leaf_dialog"
-            scrollable
-            max-width="80vw"
+            ref="time_dialog"
+            v-model="time_modal"
+            :return-value.sync="updateTimeStamp"
+            persistent
+            width="290px"
         >
           <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+                class="text_field"
+                dense
+                v-model="updateTimeStamp"
+                label="Time"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+                outlined
+                color=var(--dark-color)
+                hide-details
+            ></v-text-field>
+          </template>
+          <v-time-picker
+              v-if="time_modal"
+              v-model="updateTimeStamp"
+              full-width
+              color=var(--main-color)
+              format="24hr"
+          >
+            <v-spacer></v-spacer>
+            <v-btn
+                text
+                color=var(--dark-color)
+                @click="time_modal = false"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+                text
+                color=var(--dark-color)
+                @click="$refs.time_dialog.save(updateTimeStamp);"
+            >
+              OK
+            </v-btn>
+          </v-time-picker>
+        </v-dialog>
+
+        <!--Modal input DATE-->
+        <v-dialog
+            ref="date_dialog"
+            v-model="date_modal"
+            :return-value.sync="updateCurrent_date"
+            persistent
+            width="290px"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+                class="text_field"
+                dense
+                v-model="updateCurrent_date"
+                label="Date"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+                outlined
+                color=var(--dark-color)
+                hide-details
+            ></v-text-field>
+          </template>
+          <v-date-picker
+              v-model="updateCurrent_date"
+              scrollable
+              color=var(--main-color)
+              :max="getMaxDate()"
+          >
+            <v-spacer></v-spacer>
+            <v-btn
+                text
+                color=var(--dark-color)
+                @click="date_modal = false"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+                text
+                color=var(--dark-color)
+                @click="$refs.date_dialog.save(updateCurrent_date);"
+            >
+              OK
+            </v-btn>
+          </v-date-picker>
+        </v-dialog>
+
+        <!--Text input LOCATION-->
+        <validation-provider
+            v-slot="{errors}"
+            name="location"
+            rules="max:25"
+        >
+          <v-text-field
+              class="text_field"
+              dense
+              label="Location"
+              v-model="updateLocation"
+              outlined
+              color=var(--dark-color)
+              :counter="25"
+              :error-messages="errors"
+          ></v-text-field>
+        </validation-provider>
+
+        <div id="buttons">
+          <!--Buttons-->
+          <div id="plus_button">
             <v-btn
                 color=var(--dark-color)
                 elevation="2"
                 :ripple="false"
-                v-bind="attrs"
                 v-on="on"
+                dark
             >
-              <v-icon color="white">mdi-leaf</v-icon>
-              <h3 class="button_text">LEAF</h3>
+              <v-icon color="white">mdi-plus</v-icon>
+              friends
             </v-btn>
-          </template>
-          <v-card>
-            <v-card-title>Chose leaf shape</v-card-title>
-            <v-divider></v-divider>
-            <v-card-text style="height: 40vw;">
-              <div class="parent">
-                <div class="top_row">
-                  <leaf1 class="leaf" @click.native="select_leaf(1); leaf_dialog = false"/>
-                  <leaf2 class="leaf" @click.native="select_leaf(2); leaf_dialog = false"/>
-                  <leaf3 class="leaf" @click.native="select_leaf(3); leaf_dialog = false"/>
-                </div>
-                <div class="bottom_row">
-                  <leaf4 class="leaf" @click.native="select_leaf(4); leaf_dialog = false"/>
-                  <leaf5 class="leaf" @click.native="select_leaf(5); leaf_dialog = false"/>
-                </div>
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-dialog>
-      </div>
+          </div>
 
-      <div id="tags">
-        <v-avatar class="avatars elevation-6">
-          <img
-              src="https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/27907755_964224010401572_4566376548678829171_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=iEnUTezF7M0AX9l4Blf&_nc_ht=scontent-bru2-1.xx&oh=ad6d77ef7b00135578e999dfc409129d&oe=5FCECE41"
-              alt="">
-        </v-avatar>
-        <v-avatar class="avatars elevation-6">
-          <img
-              src="https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/72281335_3233116936715489_818658218732421120_o.jpg?_nc_cat=109&ccb=2&_nc_sid=09cbfe&_nc_ohc=RdqSnTG_rdMAX-4kET-&_nc_ht=scontent-bru2-1.xx&oh=6aeb2fb674f01ad8802760f5315129bc&oe=5FCD7A18"
-              alt="">
-        </v-avatar>
-        <v-avatar class="avatars elevation-6">
-          <img
-              src="https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/71499627_2643828155667264_8670036088552685568_o.jpg?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_ohc=w6TlLBPM4coAX8ftlce&_nc_ht=scontent-bru2-1.xx&oh=cb334c83c12b7b2d6e08bc3ef6571c56&oe=5FCE73A8"
-              alt="">
-        </v-avatar>
-      </div>
+          <div
+              id="leaf_button"
+          >
+            <v-dialog
+                v-model="leaf_dialog"
+                scrollable
+                max-width="80vw"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    color=var(--dark-color)
+                    elevation="2"
+                    :ripple="false"
+                    v-bind="attrs"
+                    v-on="on"
+                    dark
+                >
+                  <v-icon color="white">mdi-leaf</v-icon>
+                  leaf
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title>Chose leaf shape</v-card-title>
+                <v-divider></v-divider>
+                <v-card-text style="height: 40vw;">
+                  <div class="parent">
+                    <div class="top_row">
+                      <leaf1 class="leaf" @click.native="select_leaf(1); leaf_dialog = false"/>
+                      <leaf2 class="leaf" @click.native="select_leaf(2); leaf_dialog = false"/>
+                      <leaf3 class="leaf" @click.native="select_leaf(3); leaf_dialog = false"/>
+                    </div>
+                    <div class="bottom_row">
+                      <leaf4 class="leaf" @click.native="select_leaf(4); leaf_dialog = false"/>
+                      <leaf5 class="leaf" @click.native="select_leaf(5); leaf_dialog = false"/>
+                    </div>
+                  </div>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
+          </div>
 
-      <div id="leafId">
-        <leaf1 class="small_leaf" v-if="updateLeafShape === 1"/>
-        <leaf2 class="small_leaf" v-else-if="updateLeafShape === 2"/>
-        <leaf3 class="small_leaf" v-else-if="updateLeafShape === 3"/>
-        <leaf4 class="small_leaf" v-else-if="updateLeafShape === 4"/>
-        <leaf5 class="small_leaf" v-else-if="updateLeafShape === 5"/>
-      </div>
-    </div>
+          <div id="tags">
+            <v-avatar class="avatars elevation-6">
+              <v-img
+                  src="https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/27907755_964224010401572_4566376548678829171_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=iEnUTezF7M0AX9l4Blf&_nc_ht=scontent-bru2-1.xx&oh=ad6d77ef7b00135578e999dfc409129d&oe=5FCECE41"
+                  alt="">
+              </v-img>
+            </v-avatar>
+            <v-avatar class="avatars elevation-6">
+              <v-img
+                  src="https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/72281335_3233116936715489_818658218732421120_o.jpg?_nc_cat=109&ccb=2&_nc_sid=09cbfe&_nc_ohc=RdqSnTG_rdMAX-4kET-&_nc_ht=scontent-bru2-1.xx&oh=6aeb2fb674f01ad8802760f5315129bc&oe=5FCD7A18"
+                  alt="">
+              </v-img>
+            </v-avatar>
+            <v-avatar class="avatars elevation-6">
+              <v-img
+                  src="https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/71499627_2643828155667264_8670036088552685568_o.jpg?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_ohc=w6TlLBPM4coAX8ftlce&_nc_ht=scontent-bru2-1.xx&oh=cb334c83c12b7b2d6e08bc3ef6571c56&oe=5FCE73A8"
+                  alt="">
+              </v-img>
+            </v-avatar>
+          </div>
 
+          <div id="leafId">
+            <leaf1 class="small_leaf" v-if="updateLeafShape === 1"/>
+            <leaf2 class="small_leaf" v-else-if="updateLeafShape === 2"/>
+            <leaf3 class="small_leaf" v-else-if="updateLeafShape === 3"/>
+            <leaf4 class="small_leaf" v-else-if="updateLeafShape === 4"/>
+            <leaf5 class="small_leaf" v-else-if="updateLeafShape === 5"/>
+          </div>
+        </div>
 
-    <!--Text input DESCRIPTION-->
-    <v-textarea
-        class="text_field"
-        id="description_box"
-        label="DESCRIPTION"
-        v-model="updateDiscription"
-        outlined
-        color=var(--dark-color)
-        no-resize
-        rows="3"
-        dense
-        counter="140"
-    ></v-textarea>
+        <validation-provider
+            v-slot="{errors}"
+            name="description"
+            rules="max:140"
+        >
+          <!--Text input DESCRIPTION-->
+          <v-textarea
+              class="text_field"
+              id="description_box"
+              label="DESCRIPTION"
+              v-model="updateDiscription"
+              outlined
+              color=var(--dark-color)
+              no-resize
+              rows="3"
+              dense
+              counter="140"
+              :error-messages="errors"
+          ></v-textarea>
+        </validation-provider>
 
-    <!--CONFIRM button-->
-    <div style="text-align: center;">
-      <v-btn
-          color=var(--dark-color)
-          elevation="2"
-          :ripple="false"
-          @click="updateSnackbar = true"
-      >
-        <h3 class="button_text">CONFIRM</h3>
-      </v-btn>
-    </div>
+        <!--CONFIRM button-->
+        <div style="text-align: center;">
+          <v-btn
+              color=var(--dark-color)
+              elevation="2"
+              :ripple="false"
+              type="submit"
+              :disabled="invalid"
+              dark
+          >
+            confirm
+          </v-btn>
+        </div>
+      </form>
+    </validation-observer>
 
     <v-snackbar
         v-model="updateSnackbar"
         color="error"
     >
-      Please fill in a title and choose a leaf.
+      Please choose a leaf canvas for your discovery
       <template v-slot:action="{ attrs }">
         <v-btn
             text
@@ -247,6 +283,21 @@ import leaf3 from "@/components/leaves/leaf3";
 import leaf4 from "@/components/leaves/leaf4";
 import leaf5 from "@/components/leaves/leaf5";
 import axios from "axios";
+import { required, max } from 'vee-validate/dist/rules'
+import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
+
+setInteractionMode('eager')
+
+extend('required', {
+  ...required,
+  message: '{_field_} can not be empty',
+})
+
+extend('max', {
+  ...max,
+  message: '{_field_} may not be greater than {length} characters',
+})
+
 
 export default {
   name: "share",
@@ -257,15 +308,13 @@ export default {
     leaf3,
     leaf4,
     leaf5,
+    ValidationProvider,
+    ValidationObserver,
   },
 
   data: () => ({
     time_modal: false,
     date_modal: false,
-
-    rules: {
-      required: value => !!value || 'Title required.',
-    },
     time_dialog: false,
     date_dialog: false,
     leaf_dialog: false,
@@ -309,8 +358,8 @@ export default {
       this.updateLeafShape = int;
     },
     check_data: function () {
-      if (this.$store.getters.getTitle === null || this.$store.getters.getChosen_leaf === null) {
-        this.$store.commit('updateSnackbar', true)
+      if (this.$store.getters.getChosen_leaf === null) {
+        this.$store.commit('updateSnackbar', true);
       } else {
         this.$store.dispatch('sharePost');
       }
@@ -400,20 +449,17 @@ export default {
 .text_field {
   background-color: white;
   max-width: 500px;
-  padding: 8px;
+  padding: 6px 12px;
   margin: auto;
-}
-
-.button_text {
-  color: white;
 }
 
 #buttons {
   display: grid;
   grid-template-columns: 1fr 0.5fr 1fr;
   grid-template-rows: 0.5fr 0.5fr;
+  width: 100%;
   max-width: 500px;
-  padding: 8px 10px 0;
+  padding: 6px 12px 0;
   margin: auto;
 }
 
@@ -425,6 +471,7 @@ export default {
 #leaf_button {
   grid-area: 1 / 3 / 2 / 4;
   margin: auto;
+
 }
 
 #tags {
@@ -469,6 +516,10 @@ export default {
   margin: 6px 20px;
   height: 48px;
   width: auto;
+}
+
+.theme--light.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn-outlined) {
+  color: gray !important;
 }
 
 </style>
