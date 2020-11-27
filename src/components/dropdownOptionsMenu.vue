@@ -1,5 +1,5 @@
 <template>
-  <v-menu offset-y>
+  <v-menu offset-y v-if="getFetchedData.userId === getCurrentData.userId">
     <template v-slot:activator="{ on, attrs }">
       <v-btn
           icon

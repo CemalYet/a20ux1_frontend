@@ -136,7 +136,7 @@ export default {
     }
   },
 
-  created(){
+  mounted(){
     this.postUserId();
     this.$store.dispatch('fetchCurrentUserData') 
   },
