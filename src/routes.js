@@ -282,6 +282,7 @@ const router = new VueRouter({
 
 ///// TO CHECK IF USER IS LOGGED IN /////
 router.beforeEach((to, from, next) => {
+    //store.dispatch('fetchUserData');
     if ((to.path !== '/login' || to.path !== '/register') && store.getters.getUserData.length === 0){
         next({ path: '/login' })
     }
