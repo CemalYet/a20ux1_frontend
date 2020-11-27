@@ -128,7 +128,6 @@ export default {
         console.log(response["data"])
       });
       this.deleteRequest(friend)
-
     },
   }
 }

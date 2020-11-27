@@ -171,7 +171,7 @@ const router = new VueRouter({
 
         },
         {
-            path: '/profile',
+            path: '/profile/:id',
             components:{
                 layout: defaultLayout,
             },
@@ -197,6 +197,7 @@ const router = new VueRouter({
                         }
                     },
                 },
+                
                 {
                     path: 'edit',
                     components: {

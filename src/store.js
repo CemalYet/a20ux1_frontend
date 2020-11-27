@@ -15,8 +15,6 @@ const store = new Vuex.Store({
         //notifications
         notifications: 2,
 
-
-
         ///// SHARE DISCOVERY /////
         title: null,
         timestamp: null,
@@ -131,6 +129,10 @@ const store = new Vuex.Store({
             }
         ],
 
+        fetchedUserData: null,
+
+        currentUserData: null,
+
         discoveries: [
             {
                 discoveryId: '1',
@@ -197,7 +199,6 @@ const store = new Vuex.Store({
                 description:'',
                 plantName: 'plant 6'
             },
-
         ],
     },
 
@@ -212,10 +213,17 @@ const store = new Vuex.Store({
         updateUserData(state, userData){
             state.userData = userData;
         },
-        updateUserAvatar(state, avatar){
-            state.userData[0].avatar = avatar
+        updateFetchedUserData(state, fetchedUserData){
+            state.fetchedUserData = fetchedUserData;
+            console.log(JSON.stringify(this.getters.getFetchedUserData.userId))
         },
-
+        updateCurrentUserData(state, currentUserData){
+            state.currentUserData = currentUserData;
+            console.log(JSON.stringify(this.getters.getCurrentUserData.userId))
+        },
+        updateUserAvatar(state, avatar){
+            state.currentUserData.avatar = avatar
+        },
 
         ///// FRIENDS /////
         updateFriendsData(state, friendsData){
@@ -262,7 +270,7 @@ const store = new Vuex.Store({
         updateLatitude(state, value){
             state.latitude = value;
         },
-
+        
         ///// MAP PAGE /////
         updateMapCenter(state,value){
             state.map_center.lat=value.coords.latitude;
@@ -286,9 +294,20 @@ const store = new Vuex.Store({
 
     actions:{
         ///// USERDATA /////
-        fetchUserData(context){
-            axios.get('/public/feedcontroller/getUserData').then(response => {
-                context.commit('updateUserData', response["data"])
+        // id of the user whose profile is being viewed
+        fetchUserDataById(context, id){
+            axios.post('/public/profile/getUserData', id).then(response => {
+                context.commit('updateFetchedUserData', response["data"])
+                // alert(JSON.stringify(this.state.fetchedUserData))
+            })
+        },
+
+        // data of the currently logged user
+        fetchCurrentUserData(context){
+            axios.get('/public/profile/getCurrentUserData').then(response => {
+                context.commit('updateCurrentUserData', response["data"]);
+                // alert(JSON.stringify(this.state.currentUserData))
+                // alert(JSON.stringify(response))
             })
         },
 
@@ -304,9 +323,11 @@ const store = new Vuex.Store({
 
         uploadUserData(context, updatedUserData){
             context.commit('updateUserData', updatedUserData);
-
         },
 
+        uploadCurrentUserData(context, updatedCurrentUserData){
+            context.commit('updateCurrentUserData', updatedCurrentUserData);
+        },
 
         ///// SHARE DISCOVERY /////
         sharePost(context){
@@ -477,6 +498,12 @@ const store = new Vuex.Store({
         },
         getUserData(state){
             return state.userData;
+        },
+        getFetchedUserData(state){
+            return state.fetchedUserData;
+        },
+        getCurrentUserData(state){
+            return state.currentUserData;
         },
         getDiscoveries(state){
             return state.discoveries;
