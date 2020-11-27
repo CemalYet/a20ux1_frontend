@@ -3,6 +3,7 @@
     <v-stepper
         alt-labels
         v-model="steps"
+        style=" max-width: 1000px; margin: auto"
     >
       <v-stepper-header>
         <v-stepper-step
@@ -17,7 +18,6 @@
         <v-stepper-step
             step="2"
             :complete="steps > 2"
-
         >
           Choose leaves
         </v-stepper-step>
@@ -40,14 +40,14 @@
         </v-stepper-step>
       </v-stepper-header>
 
-      <v-stepper-items>
+      <v-stepper-items style="min-height: 500px;">
         <v-stepper-content
             step="1"
         >
 
           <h1> ADD PICTURES </h1>
 
-          <div style="text-align: right">
+          <div style="text-align: right;">
             <v-btn
                 right
                 color=var(--dark-color)
@@ -63,7 +63,41 @@
             step="2"
         >
 
-          <h1> CHOOSE LEAF </h1>
+          <div class="flex_box_leaf_choices">
+
+              <leaf1 class="leaf" @click.native="select_leaf(1); leaf_dialog = false"/>
+              <leaf2 class="leaf" @click.native="select_leaf(2); leaf_dialog = false"/>
+              <leaf3 class="leaf" @click.native="select_leaf(3); leaf_dialog = false"/>
+
+              <leaf4 class="leaf" @click.native="select_leaf(4); leaf_dialog = false"/>
+              <leaf5 class="leaf" @click.native="select_leaf(5); leaf_dialog = false"/>
+
+          </div>
+          <br>
+          <v-divider></v-divider>
+          <br>
+          <div id="leafId">
+            <leaf1 class="small_leaf"
+                   v-if="updateLeafShape === 1"
+                   v-bind:picture="discoveriesData[0].photoPath"
+            />
+            <leaf2 class="small_leaf"
+                   v-if="updateLeafShape === 2"
+                   v-bind:picture="discoveriesData[0].photoPath"
+            />
+            <leaf3 class="small_leaf"
+                   v-if="updateLeafShape === 3"
+                   v-bind:picture="discoveriesData[0].photoPath"
+            />
+            <leaf4 class="small_leaf"
+                   v-if="updateLeafShape === 4"
+                   v-bind:picture="discoveriesData[0].photoPath"
+            />
+            <leaf5 class="small_leaf"
+                   v-if="updateLeafShape === 5"
+                   v-bind:picture="discoveriesData[0].photoPath"
+            />
+          </div>
 
           <div style="text-align: right">
             <v-btn
@@ -287,7 +321,7 @@
                       <v-card-title>Chose leaf shape</v-card-title>
                       <v-divider></v-divider>
                       <v-card-text style="height: 40vw;">
-                        <div class="parent">
+                        <div class="flex_box_leaf_choices">
                           <div class="top_row">
                             <leaf1 class="leaf" @click.native="select_leaf(1); leaf_dialog = false"/>
                             <leaf2 class="leaf" @click.native="select_leaf(2); leaf_dialog = false"/>
@@ -322,14 +356,6 @@
                         alt="">
                     </v-img>
                   </v-avatar>
-                </div>
-
-                <div id="leafId">
-                  <leaf1 class="small_leaf" v-if="updateLeafShape === 1"/>
-                  <leaf2 class="small_leaf" v-else-if="updateLeafShape === 2"/>
-                  <leaf3 class="small_leaf" v-else-if="updateLeafShape === 3"/>
-                  <leaf4 class="small_leaf" v-else-if="updateLeafShape === 4"/>
-                  <leaf5 class="small_leaf" v-else-if="updateLeafShape === 5"/>
                 </div>
               </div>
 
@@ -500,6 +526,9 @@ export default {
   },
 
   computed: {
+    discoveriesData(){
+      return this.$store.getters.getDiscoveries;
+    },
     updateTitle: {
       get() {
         return this.$store.getters.getTitle;
@@ -623,7 +652,6 @@ export default {
 #leaf_button {
   grid-area: 1 / 3 / 2 / 4;
   margin: auto;
-
 }
 
 #tags {
@@ -632,8 +660,10 @@ export default {
 }
 
 #leafId {
-  grid-area: 2 / 3 / 3 / 4;
-  margin: auto;
+  text-align: center;
+  width: 90%;
+  height: auto;
+  min-height: 340px;
 }
 
 .avatars {
@@ -641,37 +671,19 @@ export default {
 }
 
 .leaf {
-  width: 15vw;
-  height: 15vw;
-  margin: 1vw 1vw;
+  margin-left: 6px;
+  margin-right: 6px;
 }
 
-.parent {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  grid-column-gap: 0;
-  grid-row-gap: 1vw;
-}
-
-.top_row {
-  grid-area: 1 / 1 / 2 / 7;
-  margin: auto;
-}
-
-.bottom_row {
-  grid-area: 2 / 2 / 3 / 6;
-  margin: auto;
+.flex_box_leaf_choices {
+  display: flex;
+  max-height: 100px;
+  justify-content: center;
 }
 
 .small_leaf {
-  margin: 6px 20px;
-  height: 48px;
+  max-width: 400px;
   width: auto;
-}
-
-.theme--light.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn-outlined) {
-  color: gray !important;
 }
 
 </style>
