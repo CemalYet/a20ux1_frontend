@@ -22,6 +22,8 @@ import sharePostContent from "@/components/sharePostContent";
 import dropDownMenuED from "@/components/dropDownMenuED";
 import friends from "@/components/friends";
 
+import store from './store.js'
+
 
 Vue.use(VueRouter);
 
@@ -277,5 +279,17 @@ const router = new VueRouter({
         },
     ],
 });
+
+///// TO CHECK IF USER IS LOGGED IN /////
+router.beforeEach((to, from, next) => {
+    console.log('to= '+to.path+ ', from= '+from.path+', next= '+next)
+    if ((to.path !== '/login' || to.path !== '/register') && store.getters.getUserData.length === 0){
+        next({ path: '/login' })
+    }
+    else {
+        next()
+    }
+})
+
 
 export default router;
