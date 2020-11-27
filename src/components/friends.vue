@@ -115,8 +115,8 @@
         ></v-text-field>
         <v-list>
           <v-list-item
-              v-for="(friend, i) in searching"
-              :key="i"
+              v-for="friend in searchResult"
+              :key="friend.userName"
           >
             <v-list-item-avatar>
               <v-img
@@ -274,17 +274,7 @@ export default {
       return this.$store.getters.getFriendRequestNotifications;
     },
 
-    searching () {
-      if (!this.search) return this.searchResult
 
-      const search = this.search.toLowerCase()
-      return this.searchResult.filter(result => {
-        const text = result.userName.toLowerCase()
-
-        return text.indexOf(search) > -1
-
-      })
-    }
   }
 
 }
