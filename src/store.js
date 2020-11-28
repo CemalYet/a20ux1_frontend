@@ -6,15 +6,20 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
 
-    state:{
+    state: {
         //data
+        userData: {
+            emailAddress: null,
+            userId: null,
+            userName: null,
+            avatar: null,
+        },
 
         //navbar
         drawer: false,
 
         //notifications
         notifications: 2,
-
 
 
         ///// SHARE DISCOVERY /////
@@ -25,7 +30,7 @@ const store = new Vuex.Store({
         chosen_leaf: null,
         description: null,
         latitude: null,
-        longitude:null,
+        longitude: null,
         snackbar: false,
 
         // MAP PAGE /////
@@ -64,8 +69,8 @@ const store = new Vuex.Store({
                 userName: 'Jantje',
             }
         ],
-        discoveryExtraInfo:{
-            description:'Dit is een of andere vage uitleg om te testen of die vage uitleg daar ook effectief komt te staan aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        discoveryExtraInfo: {
+            description: 'Dit is een of andere vage uitleg om te testen of die vage uitleg daar ook effectief komt te staan aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
             plantName: 'plant 1'
         },
 
@@ -123,14 +128,6 @@ const store = new Vuex.Store({
         ],
 
         //templates
-        userData: [
-            {
-                avatar: 'https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/72281335_3233116936715489_818658218732421120_o.jpg?_nc_cat=109&ccb=2&_nc_sid=09cbfe&_nc_ohc=Ag-ed4FZ5DsAX_OoYsw&_nc_ht=scontent-bru2-1.xx&oh=7566a5438a01f20dcb8c0f5a9c3abf67&oe=5FC98598',
-                emailAddress: 'marnix.lijnen@student.kuleuven.be',
-                userName: 'Marnix Lijnen'
-            }
-        ],
-
         discoveries: [
             {
                 discoveryId: '1',
@@ -150,7 +147,7 @@ const store = new Vuex.Store({
                 userName: "Marnix Lijnen",
                 takenDate: "Yesterday 12:43",
                 title: "Walking with the boys",
-                description:'',
+                description: '',
                 plantName: 'plant 2'
             },
             {
@@ -161,7 +158,7 @@ const store = new Vuex.Store({
                 userName: "Helena Majoor",
                 takenDate: "Yesterday 12:43",
                 title: "Walking with the girls dit is een veel te lange tekst",
-                description:'',
+                description: '',
                 plantName: 'plant 3'
             },
             {
@@ -172,7 +169,7 @@ const store = new Vuex.Store({
                 userName: "Juliana Buzanello",
                 takenDate: "2/10 at 12:15",
                 title: "Morning hike",
-                description:'',
+                description: '',
                 plantName: 'plant 4'
             },
             {
@@ -183,7 +180,7 @@ const store = new Vuex.Store({
                 userName: "Benno Debals",
                 takenDate: "2/10 at 12:15",
                 title: "Walking with Juliana",
-                description:'',
+                description: '',
                 plantName: 'plant 5',
             },
             {
@@ -194,122 +191,131 @@ const store = new Vuex.Store({
                 userName: "Cemal Yetismis",
                 takenDate: "9/8 at 15:20",
                 title: "Discovering Turkish nature",
-                description:'',
+                description: '',
                 plantName: 'plant 6'
             },
 
         ],
     },
 
-    mutations:{
+    mutations: {
         //change data
-        toggleDrawer(state){
+        toggleDrawer(state) {
             state.drawer = !state.drawer;
         },
-        updateDrawer(state, value){
+        updateDrawer(state, value) {
             state.drawer = value;
         },
-        updateUserData(state, userData){
-            state.userData = userData;
+        updateUserData(state, userData) {
+            state.userData.userId = userData.userId;
+            state.userData.userName = userData.userName;
+            state.userData.avatar = userData.avatar;
+            state.userData.emailAddress = userData.emailAddress;
         },
-        updateUserAvatar(state, avatar){
-            state.userData[0].avatar = avatar
+        updateUserEmail(state, email) {
+            state.userData.emailAddress = email
+        },
+        updateUserAvatar(state, avatar) {
+            state.userData.avatar = avatar
         },
 
 
         ///// FRIENDS /////
-        updateFriendsData(state, friendsData){
+        updateFriendsData(state, friendsData) {
             state.friendsData = friendsData;
         },
-        removeFriend(state, friend){
-            state.friendsData = state.friendsData.filter(fr => {return fr.userId !== friend.userId})
+        removeFriend(state, friend) {
+            state.friendsData = state.friendsData.filter(fr => {
+                return fr.userId !== friend.userId
+            })
         },
-        updateFriendRequests(state, requestData){
+        updateFriendRequests(state, requestData) {
             state.friendRequests = requestData;
         },
-        acceptFriendRequest(state, request){
+        acceptFriendRequest(state, request) {
             state.friendsData.push(request);
         },
-        deleteFriendRequest(state, request){
-            state.friendRequests.splice(state.friendRequests.indexOf(request),1);
+        deleteFriendRequest(state, request) {
+            state.friendRequests.splice(state.friendRequests.indexOf(request), 1);
         },
 
         ///// SHARE DISCOVERY /////
-        updateSnackbar(state, value){
+        updateSnackbar(state, value) {
             state.snackbar = value;
         },
-        updateChosen_leaf(state, value){
+        updateChosen_leaf(state, value) {
             state.chosen_leaf = value;
         },
-        updateTitle(state, value){
+        updateTitle(state, value) {
             state.title = value;
         },
-        updateTimestamp(state, value){
+        updateTimestamp(state, value) {
             state.timestamp = value;
         },
-        updateCurrent_date(state, value){
+        updateCurrent_date(state, value) {
             state.current_date = value;
         },
-        updateLocation(state, value){
+        updateLocation(state, value) {
             state.location = value;
         },
-        updateDiscription(state, value){
+        updateDiscription(state, value) {
             state.description = value;
         },
-        updateLongitude(state, value){
+        updateLongitude(state, value) {
             state.longitude = value;
         },
-        updateLatitude(state, value){
+        updateLatitude(state, value) {
             state.latitude = value;
         },
 
         ///// MAP PAGE /////
-        updateMapCenter(state,value){
-            state.map_center.lat=value.coords.latitude;
-            state.map_center.lng=value.coords.longitude;
+        updateMapCenter(state, value) {
+            state.map_center.lat = value.coords.latitude;
+            state.map_center.lng = value.coords.longitude;
         },
-        updateMapMarkers(state, value){
+        updateMapMarkers(state, value) {
             state.map_markers = value;
         },
-        updateSelectedMarker(state, value){
+        updateSelectedMarker(state, value) {
             state.chosen_marker = value;
         },
-        updateMarkerDiscoveryOverlay(state,value){
+        updateMarkerDiscoveryOverlay(state, value) {
             state.marker_discovery_overlay = value;
         },
 
         ///// DISCOVERY POST /////
-        updateDeleteDialog(state, value){
+        updateDeleteDialog(state, value) {
             state.deleteDialog = value;
         }
     },
 
-    actions:{
+    actions: {
         ///// USERDATA /////
-        fetchUserData(context){
-            axios.get('/public/feedcontroller/getUserData').then(response => {
-                context.commit('updateUserData', response["data"])
+        fetchUserData(context) {
+            axios.get('/public/feedcontroller/getUserData', {params: {data: context.getters.getUserData.emailAddress}}).then(response => {
+                context.commit('updateUserData', response["data"][0])
             })
         },
 
         ///// FRIENDS /////
-        fetchFriends(context){
+        fetchFriends(context) {
             axios.get('/public/friends/getFriends').then(response => {
                 context.commit('updateFriendsData', response["data"])
             })
         },
-        fetchFriendRequests(context){
-            axios.get('/public/friends/getFriendRequest').then(response => (context.commit('updateFriendRequests', response["data"])))
+        fetchFriendRequests(context) {
+            axios.get('/public/friends/getFriendRequest').then(response => (
+                context.commit('updateFriendRequests', response["data"])))
         },
 
-        uploadUserData(context, updatedUserData){
+        uploadUserData(context, updatedUserData) {
             context.commit('updateUserData', updatedUserData);
 
         },
 
 
         ///// SHARE DISCOVERY /////
-        sharePost(context){
+        sharePost(context) {
             const json = JSON.stringify({
                 my_title: context.getters.getTitle,
                 my_time: context.getters.getTimestamp,
@@ -329,12 +335,12 @@ const store = new Vuex.Store({
         },
 
         ///// MAP PAGE /////
-        MapCenter (context) {
+        MapCenter(context) {
             navigator.geolocation.getCurrentPosition(position => {
                 context.commit('updateMapCenter', position);
             });
         },
-        discoveriesMe(context){
+        discoveriesMe(context) {
             //make axios statement here
 
             const markers =
@@ -356,7 +362,7 @@ const store = new Vuex.Store({
             context.commit("updateMapMarkers", markers);
         },
 
-        discoveriesFriends(context){
+        discoveriesFriends(context) {
             //make axios statement here
 
             const markers = [
@@ -389,7 +395,7 @@ const store = new Vuex.Store({
             context.commit('updateMapMarkers', markers);
         },
 
-        discoveriesPopular(context){
+        discoveriesPopular(context) {
             const markers =
                 [
                     {
@@ -433,133 +439,133 @@ const store = new Vuex.Store({
             context.commit('updateMapMarkers', markers);
         },
 
-        fetchDiscoveryBasedOnId(context, discoveryId){
-            axios.get('/public/feedcontroller/getUserData', {params:{discoveryId: discoveryId}}).then(response => {
+        fetchDiscoveryBasedOnId(context, discoveryId) {
+            axios.get('/public/feedcontroller/getUserData', {params: {discoveryId: discoveryId}}).then(response => {
                 context.commit('updateUserData', response["data"].userData)
             })
         },
 
-        discoveryExtraInfo(context, discoveryId){
-            for (let i = 0 ; i < context.state.discoveries.length ; i++) {
+        discoveryExtraInfo(context, discoveryId) {
+            for (let i = 0; i < context.state.discoveries.length; i++) {
                 if (discoveryId === context.state.discoveries[i].discoveryId) {
                     return context.state.discoveries[i];
                 }
             }
-            axios.get('/public/feedcontroller/getUserData', {params:{discoveryId: discoveryId}}).then(response => {
+            axios.get('/public/feedcontroller/getUserData', {params: {discoveryId: discoveryId}}).then(response => {
                 context.commit('updateUserData', response["data"].userData)
             })
         },
 
-        fetchLikes(context, discoveryId){
-            axios.get('/public/feedcontroller/getUserData', {params:{discoveryId: discoveryId}}).then(response => {
+        fetchLikes(context, discoveryId) {
+            axios.get('/public/feedcontroller/getUserData', {params: {discoveryId: discoveryId}}).then(response => {
                 context.commit('updateUserData', response["data"].userData)
             })
         },
-        fetchComments(context, discoveryId){
-            axios.get('/public/feedcontroller/getUserData', {params:{discoveryId: discoveryId}}).then(response => {
+        fetchComments(context, discoveryId) {
+            axios.get('/public/feedcontroller/getUserData', {params: {discoveryId: discoveryId}}).then(response => {
                 context.commit('updateUserData', response["data"].userData)
             })
         },
-        fetchTags(context, discoveryId){
-            axios.get('/public/feedcontroller/getUserData', {params:{discoveryId: discoveryId}}).then(response => {
+        fetchTags(context, discoveryId) {
+            axios.get('/public/feedcontroller/getUserData', {params: {discoveryId: discoveryId}}).then(response => {
                 context.commit('updateUserData', response["data"].userData)
             })
         },
     },
 
-    getters:{
+    getters: {
         //to get state data
-        getDrawerState(state){
+        getDrawerState(state) {
             return state.drawer;
         },
-        getNotifications(state){
+        getNotifications(state) {
             return state.notifications;
         },
-        getUserData(state){
+        getUserData(state) {
             return state.userData;
         },
-        getDiscoveries(state){
+        getDiscoveries(state) {
             return state.discoveries;
         },
 
         ///// SHARE POST /////
-        getTitle(state){
+        getTitle(state) {
             return state.title;
         },
-        getChosen_leaf(state){
+        getChosen_leaf(state) {
             return state.chosen_leaf;
         },
-        getSnackbar(state){
+        getSnackbar(state) {
             return state.snackbar;
         },
-        getTimestamp(state){
+        getTimestamp(state) {
             return state.timestamp;
         },
-        getCurrent_date(state){
+        getCurrent_date(state) {
             return state.current_date;
         },
-        getLatitude(state){
+        getLatitude(state) {
             return state.latitude;
         },
-        getLongitude(state){
+        getLongitude(state) {
             return state.longitude;
         },
-        getLocation(state){
+        getLocation(state) {
             return state.location;
         },
-        getDescription(state){
+        getDescription(state) {
             return state.description;
         },
 
         ///// MAP PAGE /////
-        getMapCenter(state){
+        getMapCenter(state) {
             return state.map_center;
         },
 
-        getMapMarkers(state){
+        getMapMarkers(state) {
             return state.map_markers;
         },
 
-        getSelectedMarker(state){
+        getSelectedMarker(state) {
             return state.chosen_marker;
         },
 
-        getMarkerDiscoveryOverlay(state){
+        getMarkerDiscoveryOverlay(state) {
             return state.marker_discovery_overlay;
         },
 
         ///// DISCOVERY POST /////
 
         getDiscoveryBasedOnId: (state) => (discoveryId) => {
-            for (let i = 0 ; i < state.discoveries.length ; i++){
-                if (discoveryId === state.discoveries[i].discoveryId){
+            for (let i = 0; i < state.discoveries.length; i++) {
+                if (discoveryId === state.discoveries[i].discoveryId) {
                     return state.discoveries[i];
                 }
             }
             //if not found, search the database for the disco
             return state.discoveries[0];
         },
-        getDiscoveryExtraInfo(state){
+        getDiscoveryExtraInfo(state) {
             return state.discoveryExtraInfo;
         },
-        getLikes(state){
+        getLikes(state) {
             return state.discoveryLikes;
         },
-        getComments(state){
+        getComments(state) {
             return state.discoveryComments;
         },
-        getTags(state){
+        getTags(state) {
             return state.discoveryTags;
         },
-        getDeleteDialog(state){
+        getDeleteDialog(state) {
             return state.deleteDialog;
         },
 
         ///// FRIENDS /////
-        getFriendsData(state){
+        getFriendsData(state) {
             return state.friendsData;
         },
-        getFriendsRequests(state){
+        getFriendsRequests(state) {
             return state.friendRequests;
         }
     }

@@ -10,11 +10,12 @@
           <v-form>
             <v-container>
               <v-text-field
-                  width="300px"
                   v-model="emailAddress"
                   label="E-mail"
                   required
                   outlined
+                  color=var(--main-color);
+                  style="max-width: 300px"
               ></v-text-field>
               <v-text-field
                   v-model="password"
@@ -24,14 +25,14 @@
                   label="Password"
                   required
                   outlined
+                  color=var(--main-color);
+                  style="max-width: 300px"
               ></v-text-field>
-
             </v-container>
           </v-form>
-
         </div>
-        <div class="loginButtons">
 
+        <div class="loginButtons">
           <v-btn
               width="100px"
               color=var(--dark-color)
@@ -49,7 +50,6 @@
             LOGIN
           </v-btn>
         </div>
-
       </div>
     </v-main>
   </v-app>
@@ -75,6 +75,9 @@ export default {
 
     checkLogin: function() {
       axios.get('register/checklogin', {params: {my_email: this.emailAddress, my_password: this.password}}).then(response => (this.loggedIn = response["data"]));
+      if (this.loggedIn != null) {
+        this.$router.push({path: "/"});
+      }
     }
   }
 }
@@ -88,6 +91,7 @@ export default {
   margin: 0;
   padding: 0;
 }
+
 #main {
   background-image: url(leaves.png);
   background-color: rgba(255, 255, 255, 0.4);
@@ -98,7 +102,7 @@ export default {
 
 .center {
   margin: auto;
-  width: 260px;
+  max-width: 300px;
 }
 
 .titleLoginPage {
@@ -116,10 +120,6 @@ export default {
 .loginButtons {
   display: flex;
   justify-content: space-between;
-}
-
-v-btn {
-  border: 5px;
 }
 
 </style>
