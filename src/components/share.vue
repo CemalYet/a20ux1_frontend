@@ -40,12 +40,44 @@
         </v-stepper-step>
       </v-stepper-header>
 
-      <v-stepper-items style="min-height: 500px;">
+      <v-stepper-items>
         <v-stepper-content
             step="1"
         >
 
-          <h1> ADD PICTURES </h1>
+          <v-slide-group
+              show-arrows="desktop"
+          >
+            <v-slide-item>
+              <v-card
+                  class="added_discovery_images ma-2"
+                  color=var(--light-color)
+                  style="opacity: 50%; width: 160px;"
+                  ripple
+                  @click="$refs.camera.click()"
+              >
+                <input type="file" ref="camera" accept="image/* capture=camera" style="display: none;"/>
+                <v-icon class="added_discovery_images" style="width: 160px;" size="68" color="white">
+                  mdi-camera-plus
+                </v-icon>
+              </v-card>
+            </v-slide-item>
+            <v-slide-item
+                v-for="image in discoveriesData"
+                :key="image"
+            >
+              <v-badge
+                  bordered
+                  color="error"
+                  icon="mdi-delete"
+                  overlap
+                  offset-x="20"
+                  offset-y="20"
+              >
+                <v-img class="added_discovery_images ma-2" :src="image.photoPath"></v-img>
+              </v-badge>
+            </v-slide-item>
+          </v-slide-group>
 
           <div style="text-align: right;">
             <v-btn
@@ -76,7 +108,7 @@
           <br>
           <v-divider></v-divider>
           <br>
-          <div id="leafId">
+          <div class="leafId">
             <leaf1 class="small_leaf"
                    v-if="updateLeafShape === 1"
                    v-bind:picture="discoveriesData[0].photoPath"
@@ -108,6 +140,14 @@
               go back
             </v-btn>
             <v-btn
+                v-if="updateLeafShape === null"
+                disabled
+                @click="steps = 3"
+            >
+              Continue
+            </v-btn>
+            <v-btn
+                v-else
                 color=var(--dark-color)
                 dark
                 @click="steps = 3"
@@ -294,47 +334,6 @@
                     <v-icon color="white">mdi-plus</v-icon>
                     friends
                   </v-btn>
-                </div>
-
-                <div
-                    id="leaf_button"
-                >
-                  <v-dialog
-                      v-model="leaf_dialog"
-                      scrollable
-                      max-width="80vw"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                          color=var(--dark-color)
-                          elevation="2"
-                          :ripple="false"
-                          v-bind="attrs"
-                          v-on="on"
-                          dark
-                      >
-                        <v-icon color="white">mdi-leaf</v-icon>
-                        leaf
-                      </v-btn>
-                    </template>
-                    <v-card>
-                      <v-card-title>Chose leaf shape</v-card-title>
-                      <v-divider></v-divider>
-                      <v-card-text style="height: 40vw;">
-                        <div class="flex_box_leaf_choices">
-                          <div class="top_row">
-                            <leaf1 class="leaf" @click.native="select_leaf(1); leaf_dialog = false"/>
-                            <leaf2 class="leaf" @click.native="select_leaf(2); leaf_dialog = false"/>
-                            <leaf3 class="leaf" @click.native="select_leaf(3); leaf_dialog = false"/>
-                          </div>
-                          <div class="bottom_row">
-                            <leaf4 class="leaf" @click.native="select_leaf(4); leaf_dialog = false"/>
-                            <leaf5 class="leaf" @click.native="select_leaf(5); leaf_dialog = false"/>
-                          </div>
-                        </div>
-                      </v-card-text>
-                    </v-card>
-                  </v-dialog>
                 </div>
 
                 <div id="tags">
@@ -659,7 +658,7 @@ export default {
   margin: auto;
 }
 
-#leafId {
+.leafId {
   text-align: center;
   width: 90%;
   height: auto;
@@ -684,6 +683,12 @@ export default {
 .small_leaf {
   max-width: 400px;
   width: auto;
+}
+
+.added_discovery_images {
+  width: 220px;
+  height: 160px;
+  object-fit: cover;
 }
 
 </style>
