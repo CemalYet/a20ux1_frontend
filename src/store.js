@@ -9,12 +9,6 @@ const store = new Vuex.Store({
 
     state:{
         //data
-        ses_data: {
-            userId: null,
-            userName: 'Seppe Fleerackers',
-            emailAddress: 'Seppe@Fleerackers.com',
-            avatar: null,
-        },
 
         //navbar
         drawer: false,
@@ -83,7 +77,7 @@ const store = new Vuex.Store({
         //templates
         userData: [
             {
-                avatar: 'https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/72281335_3233116936715489_818658218732421120_o.jpg?_nc_cat=109&ccb=2&_nc_sid=09cbfe&_nc_ohc=Ag-ed4FZ5DsAX_OoYsw&_nc_ht=scontent-bru2-1.xx&oh=7566a5438a01f20dcb8c0f5a9c3abf67&oe=5FC98598',
+                avatar: null,
                 emailAddress: 'marnix.lijnen@student.kuleuven.be',
                 userName: 'Marnix Lijnen'
             }
@@ -160,9 +154,6 @@ const store = new Vuex.Store({
     },
 
     mutations: {
-        updateSessionData(state, value) {
-            state.ses_data = value;
-        },
         //change data
         toggleDrawer(state){
             state.drawer = !state.drawer;
@@ -349,10 +340,6 @@ const store = new Vuex.Store({
     },
 
     getters:{
-        getSessionData(state){
-          return state.ses_data;
-        },
-
         //to get state data
         getDrawerState(state){
             return state.drawer;

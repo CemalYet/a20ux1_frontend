@@ -15,7 +15,7 @@ export default {
   components: {Avatar},
   computed:{
     getUserData(){
-      return this.$store.getters.getSessionData;
+      return this.$store.getters.getUserData[0];
     }
   }
 }
