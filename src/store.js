@@ -34,6 +34,10 @@ const store = new Vuex.Store({
         discovery_photos: null,
         discovery_id: null,
 
+        /// INFORMATION PAGE ///
+        info_cards: [],
+
+
         ///// DISCOVERY POST /////
         deleteDialog: false,
         discoveryLikes: null,
@@ -249,10 +253,16 @@ const store = new Vuex.Store({
             state.discovery_id = value;
         },
 
+        /// INFORMATION PAGE ///
+        updateInformationCards(state, value) {
+            state.info_cards = value;
+        },
+
         ///// DISCOVERY POST /////
         updateDeleteDialog(state, value){
             state.deleteDialog = value;
-        }
+        },
+
     },
 
     actions:{
@@ -412,8 +422,13 @@ const store = new Vuex.Store({
             return state.discovery_id;
         },
 
-        ///// DISCOVERY POST /////
+        /// INFORMATION PAGE ///
+        getInformationCards(state) {
+            return state.info_cards;
+        },
 
+
+        ///// DISCOVERY POST /////
         getDiscoveryBasedOnId: (state) => (discoveryId) => {
             for (let i = 0 ; i < state.discoveries.length ; i++){
                 if (discoveryId === state.discoveries[i].discoveryId){

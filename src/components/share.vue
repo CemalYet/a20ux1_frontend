@@ -298,8 +298,8 @@ import leaf3 from "@/components/leaves/leaf3";
 import leaf4 from "@/components/leaves/leaf4";
 import leaf5 from "@/components/leaves/leaf5";
 import axios from "axios";
-import { required, max } from 'vee-validate/dist/rules'
-import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
+import {required, max} from 'vee-validate/dist/rules'
+import {extend, ValidationObserver, ValidationProvider, setInteractionMode} from 'vee-validate'
 
 setInteractionMode('eager')
 
@@ -327,13 +327,15 @@ export default {
     ValidationObserver,
   },
 
-  data: () => ({
-    time_modal: false,
-    date_modal: false,
-    time_dialog: false,
-    date_dialog: false,
-    leaf_dialog: false,
-  }),
+  data() {
+    return {
+      time_modal: false,
+      date_modal: false,
+      time_dialog: false,
+      date_dialog: false,
+      leaf_dialog: false,
+    }
+  },
 
   created() {
     this.getTime();
@@ -469,7 +471,7 @@ export default {
   margin: auto;
 }
 
-.timeDateContainer{
+.timeDateContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 100%;
@@ -479,11 +481,11 @@ export default {
   "time date"
 }
 
-#time_field{
+#time_field {
   grid-area: time;
 }
 
-#date_field{
+#date_field {
   grid-area: date;
 }
 

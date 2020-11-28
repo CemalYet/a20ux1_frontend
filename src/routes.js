@@ -21,6 +21,8 @@ import commentContent from "@/components/commentContent";
 import sharePostContent from "@/components/sharePostContent";
 import dropDownMenuED from "@/components/dropDownMenuED";
 import friends from "@/components/friends";
+import information from "@/components/information";
+import snap from "@/components/snap";
 
 import store from './store.js'
 
@@ -168,7 +170,6 @@ const router = new VueRouter({
                     ]
                 }
             ]
-
         },
         {
             path: '/profile',
@@ -274,6 +275,48 @@ const router = new VueRouter({
                             }
                         }
                     ],
+                },
+                {
+                    path: '/information',
+                    components: {
+                        appBar: appBar,
+                        pageContent: information,
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+
+                            }
+                        }
+                    ],
+                    props:{
+                        appBar:{
+                            title: "New snAPP"
+                        }
+                    },
+                },
+                {
+                    path: '/snap',
+                    components: {
+                        appBar: appBar,
+                        pageContent: snap,
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+
+                            }
+                        }
+                    ],
+                    props:{
+                        appBar:{
+                            title: "New snAPP"
+                        }
+                    },
                 },
             ],
         },
