@@ -1,5 +1,5 @@
 <template>
-  <v-menu offset-y v-if="getFetchedData.userId === getCurrentData.userId">
+  <v-menu offset-y v-if="getFetchedData.userId === getCurrentData[0].userId">
     <template v-slot:activator="{ on, attrs }">
       <v-btn
           icon
@@ -26,7 +26,7 @@
             left>
           mdi-logout
         </v-icon>
-        <v-list-item-title>logout</v-list-item-title>
+        <v-list-item-title>Log out</v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>
@@ -40,12 +40,12 @@ export default {
       return this.$store.getters.getFetchedUserData;
     },
     getCurrentData(){
-      return this.$store.getters.getCurrentUserData;
+      return this.$store.getters.getUserData;
     }
   },
   methods:{
     logOut() {
-      this.$store.dispatch('uploadCurrentUserData', null).then(window.location.href = '/public/login/logout');
+      this.$store.dispatch('logOut');
     },
   }
 }

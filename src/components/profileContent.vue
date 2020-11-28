@@ -69,7 +69,6 @@
 
 <script>
 import Badge from "@/components/Badge";
-// import userAvatarPlusInfo from "@/components/userAvatarPlusInfo";
 
 export default {
   name: "profileContent",
@@ -138,7 +137,7 @@ export default {
 
   mounted(){
     this.postUserId();
-    this.$store.dispatch('fetchCurrentUserData') 
+    this.$store.dispatch('fetchUserData') 
   },
 
   methods: {
