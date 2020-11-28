@@ -1,5 +1,5 @@
 <template>
-  <v-avatar :size="this.size" color="var(--dark-color)" style="margin: auto 10px">
+  <v-avatar :size="this.size" color="var(--dark-color)" style="margin: auto 10px auto auto">
     <span v-if="this.picture === null"
           class="white--text"
           :style="{fontSize: this.size/2 + 'px'}"

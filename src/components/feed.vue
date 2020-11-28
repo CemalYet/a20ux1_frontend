@@ -28,14 +28,11 @@
                @click.native="goToPost(discoveriesData[j-1].discoveryId)"/>
 
         <v-list
-
             max-width="100%"
             class="info_container"
         >
           <v-list-item>
-            <v-list-item-avatar size="48">
-              <v-img :src="discoveriesData[j-1].avatar" alt=""></v-img>
-            </v-list-item-avatar>
+            <avatar :size="56" :picture="discoveriesData[j-1].avatar" :user-name="discoveriesData[j-1].userName"></avatar>
             <v-list-item-content>
               <v-list-item-title style="white-space: normal;"> {{ discoveriesData[j - 1].title }} </v-list-item-title>
               <v-list-item-subtitle> {{ discoveriesData[j - 1].userName }} - {{ discoveriesData[j - 1].takenDate }}</v-list-item-subtitle>
@@ -54,6 +51,7 @@ import leaf2 from "@/components/leaves/leaf2";
 import leaf3 from "@/components/leaves/leaf3";
 import leaf4 from "@/components/leaves/leaf4";
 import leaf5 from "@/components/leaves/leaf5";
+import avatar from "@/components/avatar";
 
 export default {
   name: "feed",
@@ -64,6 +62,7 @@ export default {
     leaf3,
     leaf4,
     leaf5,
+    avatar,
   },
 
 

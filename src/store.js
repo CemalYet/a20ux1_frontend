@@ -9,6 +9,12 @@ const store = new Vuex.Store({
 
     state:{
         //data
+        ses_data: {
+            userId: null,
+            userName: 'Seppe Fleerackers',
+            emailAddress: 'Seppe@Fleerackers.com',
+            avatar: null,
+        },
 
         //navbar
         drawer: false,
@@ -86,10 +92,10 @@ const store = new Vuex.Store({
         discoveries: [
             {
                 discoveryId: '1',
-                avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/27907755_964224010401572_4566376548678829171_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=2wrEVoQrdBkAX9MBLOP&_nc_ht=scontent-bru2-1.xx&oh=81c5c254570b087bda35d1ced5624cac&oe=5FC6E541",
+                avatar: null,
                 photoPath: "https://img.freepik.com/vrije-photo/close-up-van-een-giftige-rode-muhamor-paddestoel-in-het-bos_75145-275.jpg?size=626&ext=jpg",
                 leafId: '0',
-                userName: "Seppe Fleerackers",
+                userName: "Seppe Fleerackers Jr",
                 takenDate: "Yesterday 11:43",
                 title: "Mushroom I spotted this morning!",
 
@@ -140,7 +146,7 @@ const store = new Vuex.Store({
             },
             {
                 discoveryId: '6',
-                avatar: "https://0.academia-photos.com/138336188/39712439/32771085/s200_cemal.yeti_mi_.jpg",
+                avatar: null,
                 photoPath: "https://d36tnp772eyphs.cloudfront.net/blogs/1/2015/07/VAN-LAKE-2-940x627.jpg",
                 leafId: '3',
                 userName: "Cemal Yetismis",
@@ -154,6 +160,9 @@ const store = new Vuex.Store({
     },
 
     mutations: {
+        updateSessionData(state, value) {
+            state.ses_data = value;
+        },
         //change data
         toggleDrawer(state){
             state.drawer = !state.drawer;
@@ -340,6 +349,10 @@ const store = new Vuex.Store({
     },
 
     getters:{
+        getSessionData(state){
+          return state.ses_data;
+        },
+
         //to get state data
         getDrawerState(state){
             return state.drawer;
