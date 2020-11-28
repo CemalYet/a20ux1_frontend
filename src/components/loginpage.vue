@@ -44,7 +44,7 @@
               width="100px"
               color=var(--dark-color)
               class="white--text"
-              @click.native="goToFeed"
+              @click.native="checkLogin"
           >
             LOGIN
           </v-btn>
@@ -56,13 +56,16 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "loginpage.vue",
 
   data: () => ({
     emailAddress: null,
     password: null,
-    showPassword: false
+    showPassword: false,
+    loggedIn: null
   }),
 
   methods: {
@@ -70,8 +73,8 @@ export default {
       this.$router.push({path:"register-step1"});
     },
 
-    goToFeed: function() {
-      this.$router.push({path:"/"});
+    checkLogin: function() {
+      axios.get('register/checklogin', {params: {my_email: this.emailAddress, my_password: this.password}}).then(response => (this.loggedIn = response["data"]));
     }
   }
 }

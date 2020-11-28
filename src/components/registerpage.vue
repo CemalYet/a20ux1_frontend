@@ -57,6 +57,7 @@
                       v-model="emailAddress"
                       :rules="emailRules"
                       label="E-mail"
+                      :counter="45"
                       required
                       outlined
                   ></v-text-field>
@@ -80,6 +81,8 @@
                       required
                       outlined
                   ></v-text-field>
+                  <p> {{ emailUnique[0].emailAddress }}</p>
+                  <p> {{ ses }}</p>
                 </v-container>
               </v-form>
             </v-card>
@@ -91,14 +94,30 @@
                 Back
               </v-btn>
               <v-btn
-                color=var(--dark-color)
-                @click="e1 = 2"
-                class="white--text"
-                elevation="2"
+                  color=var(--dark-color)
+                  class="white--text"
+                  elevation="2"
+                  @click="e1 = 2"
 
-            >
-              Continue
-            </v-btn>
+              >
+                Continue
+              </v-btn>
+              <v-snackbar
+                v-model="snackBar"
+                color="error"
+              >
+                Please fill in all the text fields as required.
+                <template v-slot:action="{ attrs }">
+                  <v-btn
+                      text
+                      v-bind="attrs"
+                      @click="snackBar = false"
+                  >
+                    Close
+                  </v-btn>
+                </template>
+              </v-snackbar>
+
             </div>
           </v-stepper-content>
 
@@ -235,7 +254,7 @@
               </v-btn>
               <v-btn
                 color=var(--dark-color)
-                @click="e1 = 4"
+                @click="save"
                 class="white--text"
                 elevation="2"
             >
@@ -266,7 +285,6 @@
                   <v-icon
                       x-large
                       color=var(--dark-color)
-                      @click.native="goToFeed"
                   >mdi-check-bold</v-icon>
                 </v-btn>
               </div>
@@ -283,6 +301,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "registerpage.vue",
 
@@ -296,6 +316,10 @@ export default {
     showPassword2: false,
     checkbox: false,
     toggle_multiple: [],
+    snackBar: false,
+    location: 0,
+    ses: "lol",
+    emailUnique: [{"emailAddress":"test"}],
     nameRules: [
       v => !!v || 'Name is required',
       v => v.length <= 25 || 'Name must be less than 25 characters',
@@ -315,8 +339,35 @@ export default {
     goBackToLogin: function() {
       this.$router.push({path:"login"});
     },
-    goToFeed: function() {
-      this.$router.push({path:"/"});
+    save: function() {
+      if(this.checkbox === false){
+        this.location = 0;
+      } else {
+        this.location = 1;
+      }
+      const json = JSON.stringify({
+        'my_username': this.userName,
+        'my_email': this.emailAddress,
+        'my_password': this.password,
+        'my_location': this.location,
+        'my_days': this.toggle_multiple
+      });
+      if((this.userName != null) && (this.userName.length <= 25) && (this.emailAddress != null) && (this.emailAddress.length <= 45) && (this.password != null) && (this.password.length >= 6) && (this.password == this.confirmPassword) && (/.+@.+/.test(this.emailAddress))){
+        axios.post('register/save', json);
+      }
+
+    },
+    checkRegData: function() {
+      if((this.userName != null) && (this.userName.length <= 25) && (this.emailAddress != null) && (this.emailAddress.length <= 45) && (this.password != null) && (this.password.length >= 6) && (this.password == this.confirmPassword) && (/.+@.+/.test(this.emailAddress))){
+        axios.get('register/checkemail', {params: { data: this.emailAddress}}).then(response => (this.emailUnique = response["data"]));
+        if(this.emailUnique[0].emailAddress != null){
+          this.snackBar = true;
+        } else {
+          this.e1 = 2;
+        }
+      } else {
+        this.snackBar = true;
+      }
     }
   }
 
