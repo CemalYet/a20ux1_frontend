@@ -24,98 +24,103 @@
               :error-messages="errors"
           ></v-text-field>
         </validation-provider>
-        <!--Modal input HOUR-->
-        <v-dialog
-            ref="time_dialog"
-            v-model="time_modal"
-            :return-value.sync="updateTimeStamp"
-            persistent
-            width="290px"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-text-field
-                class="text_field"
-                dense
-                v-model="updateTimeStamp"
-                label="Time"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-                outlined
-                color=var(--dark-color)
-                hide-details
-            ></v-text-field>
-          </template>
-          <v-time-picker
-              v-if="time_modal"
-              v-model="updateTimeStamp"
-              full-width
-              color=var(--main-color)
-              format="24hr"
-          >
-            <v-spacer></v-spacer>
-            <v-btn
-                text
-                color=var(--dark-color)
-                @click="time_modal = false"
-            >
-              Cancel
-            </v-btn>
-            <v-btn
-                text
-                color=var(--dark-color)
-                @click="$refs.time_dialog.save(updateTimeStamp);"
-            >
-              OK
-            </v-btn>
-          </v-time-picker>
-        </v-dialog>
 
-        <!--Modal input DATE-->
-        <v-dialog
-            ref="date_dialog"
-            v-model="date_modal"
-            :return-value.sync="updateCurrent_date"
-            persistent
-            width="290px"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-text-field
-                class="text_field"
-                dense
-                v-model="updateCurrent_date"
-                label="Date"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-                outlined
-                color=var(--dark-color)
-                hide-details
-            ></v-text-field>
-          </template>
-          <v-date-picker
-              v-model="updateCurrent_date"
-              scrollable
-              color=var(--main-color)
-              :max="getMaxDate()"
+        <div class="timeDateContainer">
+          <!--Modal input HOUR-->
+          <v-dialog
+              ref="time_dialog"
+              v-model="time_modal"
+              :return-value.sync="updateTimeStamp"
+              persistent
+              width="290px"
           >
-            <v-spacer></v-spacer>
-            <v-btn
-                text
-                color=var(--dark-color)
-                @click="date_modal = false"
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                  class="text_field"
+                  id="time_field"
+                  dense
+                  v-model="updateTimeStamp"
+                  label="Time"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                  outlined
+                  color=var(--dark-color)
+                  hide-details
+              ></v-text-field>
+            </template>
+            <v-time-picker
+                v-if="time_modal"
+                v-model="updateTimeStamp"
+                full-width
+                color=var(--main-color)
+                format="24hr"
             >
-              Cancel
-            </v-btn>
-            <v-btn
-                text
-                color=var(--dark-color)
-                @click="$refs.date_dialog.save(updateCurrent_date);"
+              <v-spacer></v-spacer>
+              <v-btn
+                  text
+                  color=var(--dark-color)
+                  @click="time_modal = false"
+              >
+                Cancel
+              </v-btn>
+              <v-btn
+                  text
+                  color=var(--dark-color)
+                  @click="$refs.time_dialog.save(updateTimeStamp);"
+              >
+                OK
+              </v-btn>
+            </v-time-picker>
+          </v-dialog>
+
+          <!--Modal input DATE-->
+          <v-dialog
+              ref="date_dialog"
+              v-model="date_modal"
+              :return-value.sync="updateCurrent_date"
+              persistent
+              width="290px"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                  class="text_field"
+                  id="date_field"
+                  dense
+                  v-model="updateCurrent_date"
+                  label="Date"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                  outlined
+                  color=var(--dark-color)
+                  hide-details
+              ></v-text-field>
+            </template>
+            <v-date-picker
+                v-model="updateCurrent_date"
+                scrollable
+                color=var(--main-color)
+                :max="getMaxDate()"
             >
-              OK
-            </v-btn>
-          </v-date-picker>
-        </v-dialog>
+              <v-spacer></v-spacer>
+              <v-btn
+                  text
+                  color=var(--dark-color)
+                  @click="date_modal = false"
+              >
+                Cancel
+              </v-btn>
+              <v-btn
+                  text
+                  color=var(--dark-color)
+                  @click="$refs.date_dialog.save(updateCurrent_date);"
+              >
+                OK
+              </v-btn>
+            </v-date-picker>
+          </v-dialog>
+        </div>
 
         <!--Text input LOCATION-->
         <validation-provider
@@ -245,11 +250,20 @@
         <!--CONFIRM button-->
         <div style="text-align: center;">
           <v-btn
+              v-if="invalid"
+              color=var(--dark-color)
+              elevation="2"
+              :ripple="false"
+              :disabled="invalid"
+          >
+            confirm
+          </v-btn>
+          <v-btn
+              v-if="!invalid"
               color=var(--dark-color)
               elevation="2"
               :ripple="false"
               type="submit"
-              :disabled="invalid"
               dark
           >
             confirm
@@ -261,8 +275,9 @@
     <v-snackbar
         v-model="updateSnackbar"
         color="error"
+        style="padding: 12px"
     >
-      Please choose a leaf canvas for your discovery
+      Please choose a leaf for your discovery
       <template v-slot:action="{ attrs }">
         <v-btn
             text
@@ -449,8 +464,27 @@ export default {
 .text_field {
   background-color: white;
   max-width: 500px;
-  padding: 6px 12px;
+  width: 100%;
+  padding: 6px 16px;
   margin: auto;
+}
+
+.timeDateContainer{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  grid-template-areas:
+  "time date"
+}
+
+#time_field{
+  grid-area: time;
+}
+
+#date_field{
+  grid-area: date;
 }
 
 #buttons {
