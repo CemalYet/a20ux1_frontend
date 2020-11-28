@@ -78,9 +78,7 @@
           <div class="infoBox text-truncate">
 
               <v-list-item three-line>
-                <v-list-item-avatar size="48">
-                  <v-img :src="getDiscovery.avatar"></v-img>
-                </v-list-item-avatar>
+                <avatar :size="48" :user-name="getDiscovery.userName" :picture="getDiscovery.avatar"></avatar>
                 <v-list-item-content>
                   <v-list-item-title style="white-space: normal;">{{getDiscovery.title}}</v-list-item-title>
                   <v-list-item-subtitle class="wrap-text"> {{ getDiscoveryExtraInfo.description }} </v-list-item-subtitle>
@@ -94,9 +92,7 @@
         <div class="commentBox">
           <div class="infoBox text-truncate">
             <v-list-item three-line>
-              <v-list-item-avatar size="48">
-                <v-img :src="getComments[0].avatar"></v-img>
-              </v-list-item-avatar>
+              <avatar :size="48" :user-name="getComments[0].userName" :picture="getComments[0].avatar"></avatar>
               <v-list-item-content>
                 <v-list-item-title style="white-space: normal;"> {{getComments[0].userName}} </v-list-item-title>
                 <v-list-item-subtitle>
@@ -156,6 +152,7 @@
 
 <script>
 import axios from "axios";
+import avatar from "@/components/avatar";
 
 export default {
   name: "postContent",
@@ -164,6 +161,10 @@ export default {
     likeClicked: false,
     favorited: false,
   }),
+
+  components: {
+    avatar
+  },
 
   methods: {
     sendLikeToDb: function() {

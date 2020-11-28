@@ -5,9 +5,7 @@
 
       <image-input class="avatar" @input="changeAvatar($event)">
         <div slot="activator">
-          <v-avatar size="200px" v-ripple >
-            <v-img :src="updatedUserData[0].avatar"></v-img>
-          </v-avatar>
+          <avatar v-ripple :size="200" :user-name="updatedUserData[0].userName" :picture="updatedUserData[0].avatar"></avatar>
         </div>
       </image-input>
 
@@ -125,12 +123,14 @@
 <script>
 import axios from "axios";
 import ImageInput from "@/components/ImageInput";
+import avatar from "@/components/avatar";
 
 export default {
   name: "editProfileContent",
 
   components:{
-    ImageInput
+    ImageInput,
+    avatar
   },
 
   data: () => ({

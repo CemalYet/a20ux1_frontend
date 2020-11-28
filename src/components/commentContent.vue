@@ -23,10 +23,7 @@
           :key="comment">
         <div class="infoBox text-truncate">
           <v-list-item three-line dense>
-            <v-list-item-avatar
-              size="48">
-              <v-img :src="comment.avatar"></v-img>
-            </v-list-item-avatar>
+            <avatar :size="48" :user-name="comment.userName" :picture="comment.avatar"></avatar>
             <v-list-item-content>
               <v-list-item-title style="white-space: normal;"> {{comment.userName}} </v-list-item-title>
               <v-list-item-subtitle class="wrap-text"> {{ comment.comment }} </v-list-item-subtitle>
@@ -53,6 +50,7 @@
 
 <script>
 import axios from "axios";
+import avatar from "@/components/avatar";
 
 export default {
   name: "commentContent",
@@ -60,6 +58,10 @@ export default {
   data: () => ({
     newComment: null,
   }),
+
+  components: {
+    avatar
+  },
 
   methods: {
     sendCommentToDb: function() {

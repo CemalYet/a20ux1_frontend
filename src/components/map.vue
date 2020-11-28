@@ -43,13 +43,7 @@
           <v-list-item
               @click="selectSearch(disco)"
           >
-            <v-list-item-avatar
-                size="52"
-                color="var(--dark-color)">
-              <span v-if="disco.PhotoPath === null"
-                    class="white--text headline">{{ disco.userName.split(" ").map((n) => n[0]).join("") }}</span>
-              <v-img v-else :src="disco.PhotoPath"></v-img>
-            </v-list-item-avatar>
+              <avatar :size="52" :user-name="disco.userName" :picture="disco.PhotoPath"></avatar>
             <v-list-item-content>
               <v-list-item-title> {{ disco.userName }}</v-list-item-title>
               <v-list-item-subtitle> {{ disco.title }}</v-list-item-subtitle>
@@ -140,6 +134,7 @@
 
 <script>
 import GmapCustomMarker from 'vue2-gmap-custom-marker';
+import avatar from "@/components/avatar";
 
 export default {
   name: "map",
@@ -153,7 +148,8 @@ export default {
   },
 
   components: {
-    'gmap-custom-marker': GmapCustomMarker
+    'gmap-custom-marker': GmapCustomMarker,
+    avatar
   },
 
   mounted() {

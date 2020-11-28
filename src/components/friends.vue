@@ -45,12 +45,8 @@
               v-else
               v-for="request in updateFriendRequests"
               :key="request">
-            <v-list-item-avatar>
-              <v-img
-                  :alt="`${request.userName} avatar`"
-                  :src="request.avatar"
-              ></v-img>
-            </v-list-item-avatar>
+            <avatar :size="52" :user-name="request.userName" :picture="request.avatar"></avatar>
+
 
             <v-list-item-content>
               <v-list-item-title v-text="request.userName"></v-list-item-title>
@@ -84,12 +80,8 @@
               v-for="friend in updateFriends"
               :key="friend.userName"
           >
-            <v-list-item-avatar>
-              <v-img
-                  :alt="`${friend.userName} avatar`"
-                  :src="friend.avatar"
-              ></v-img>
-            </v-list-item-avatar>
+            <avatar :size="52" :user-name="friend.userName" :picture="friend.avatar"></avatar>
+
 
             <v-list-item-content>
               <v-list-item-title v-text="friend.userName"></v-list-item-title>
@@ -118,12 +110,7 @@
               v-for="friend in searchResult"
               :key="friend.userName"
           >
-            <v-list-item-avatar>
-              <v-img
-                  :alt="`${friend.userName} avatar`"
-                  :src="friend.avatar"
-              ></v-img>
-            </v-list-item-avatar>
+            <avatar :size="52" :user-name="friend.userName" :picture="friend.avatar"></avatar>
 
             <v-list-item-content>
               <v-list-item-title v-text="friend.userName"></v-list-item-title>
@@ -169,7 +156,7 @@
 </template>
 
 <script>
-
+import avatar from "@/components/avatar";
 import axios from "axios";
 
 export default {
@@ -180,6 +167,10 @@ export default {
     searchResult: null,
     tab: null
   }),
+
+  components: {
+    avatar
+  },
 
   mounted() {
     this.$store.dispatch('fetchFriends');

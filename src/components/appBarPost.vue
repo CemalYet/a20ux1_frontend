@@ -13,7 +13,7 @@
     <div class="userInfoBox">
       <div class="avatarBox">
         <!-- NOT IMPLEMENTED YET: showing the avatar based on who is logged in, is a default user right now -->
-        <v-avatar size="52"><v-img :src="getDiscovery.avatar"></v-img></v-avatar>
+        <avatar :size="52" :user-name="getDiscovery.userName" :picture="getDiscovery.avatar"></avatar>
       </div>
       <div class="infoBox">
         <v-list-item two-line>
@@ -34,8 +34,14 @@
 </template>
 
 <script>
+import avatar from "@/components/avatar";
+
 export default {
   name: "appBarPost",
+
+  components: {
+    avatar
+  },
 
   computed:{
     getUserData(){
