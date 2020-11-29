@@ -2,16 +2,26 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
-
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
 
-    state:{
+    state: {
         //data
+        userdata: {
+            emailAddress: null,
+            userId: null,
+            userName: null,
+            avatar: null,
+        },
 
         //navbar
         drawer: false,
+
+        //notifications
+        notifications: 2,
+
+
 
         ///// SHARE DISCOVERY /////
         title: null,
@@ -21,7 +31,7 @@ const store = new Vuex.Store({
         chosen_leaf: null,
         description: null,
         latitude: null,
-        longitude: null,
+        longitude:null,
         snackbar: false,
 
         // MAP PAGE /////
@@ -124,7 +134,7 @@ const store = new Vuex.Store({
                 userName: "Juliana Buzanello",
                 takenDate: "2/10 at 12:15",
                 title: "Morning hike",
-                description:'',
+                description: '',
                 plantName: 'plant 4'
             },
             {
@@ -135,7 +145,7 @@ const store = new Vuex.Store({
                 userName: "Benno Debals",
                 takenDate: "2/10 at 12:15",
                 title: "Walking with Juliana",
-                description:'',
+                description: '',
                 plantName: 'plant 5',
             },
             {
@@ -146,7 +156,7 @@ const store = new Vuex.Store({
                 userName: "Cemal Yetismis",
                 takenDate: "9/8 at 15:20",
                 title: "Discovering Turkish nature",
-                description:'',
+                description: '',
                 plantName: 'plant 6'
             },
 
@@ -155,21 +165,31 @@ const store = new Vuex.Store({
 
     mutations: {
         //change data
-        toggleDrawer(state){
+        toggleDrawer(state) {
             state.drawer = !state.drawer;
         },
-        updateDrawer(state, value){
+        updateDrawer(state, value) {
             state.drawer = value;
         },
-        updateUserData(state, userData){
+        updateUserdata(state, userdata) {
+            state.userdata.userId = userdata.userId;
+            state.userdata.userName = userdata.userName;
+            state.userdata.avatar = userdata.avatar;
+            state.userdata.emailAddress = userdata.emailAddress;
+        },
+        updateUserData(state, userData) {
             state.userData = userData;
         },
+        updateUserEmail(state, email) {
+            state.userdata.emailAddress = email
+        },
         updateUserAvatar(state, avatar){
-            state.userData[0].avatar = avatar
+            state.userdata[0].avatar = avatar
         },
 
+
         ///// FRIENDS /////
-        updateFriendsData(state, friendsData){
+        updateFriendsData(state, friendsData) {
             state.friendsData = friendsData;
         },
         removeFriend(state, friend){
@@ -181,8 +201,8 @@ const store = new Vuex.Store({
         acceptFriendRequest(state, request){
             state.friendsData.push(request);
         },
-        deleteFriendRequest(state, request){
-            state.friendRequests.splice(state.friendRequests.indexOf(request),1);
+        deleteFriendRequest(state, request) {
+            state.friendRequests.splice(state.friendRequests.indexOf(request), 1);
         },
         updateFriendRequestNotifications(state, value){
             state.friendRequestNotifications = parseInt(value[0].amountOfFriendRequests);
@@ -190,38 +210,38 @@ const store = new Vuex.Store({
 
 
         ///// SHARE DISCOVERY /////
-        updateSnackbar(state, value){
+        updateSnackbar(state, value) {
             state.snackbar = value;
         },
-        updateChosen_leaf(state, value){
+        updateChosen_leaf(state, value) {
             state.chosen_leaf = value;
         },
-        updateTitle(state, value){
+        updateTitle(state, value) {
             state.title = value;
         },
-        updateTimestamp(state, value){
+        updateTimestamp(state, value) {
             state.timestamp = value;
         },
-        updateCurrent_date(state, value){
+        updateCurrent_date(state, value) {
             state.current_date = value;
         },
-        updateLocation(state, value){
+        updateLocation(state, value) {
             state.location = value;
         },
-        updateDiscription(state, value){
+        updateDiscription(state, value) {
             state.description = value;
         },
-        updateLongitude(state, value){
+        updateLongitude(state, value) {
             state.longitude = value;
         },
-        updateLatitude(state, value){
+        updateLatitude(state, value) {
             state.latitude = value;
         },
 
         ///// MAP PAGE /////
-        updateMapCenter(state,value){
-            state.map_center.lat=value.coords.latitude;
-            state.map_center.lng=value.coords.longitude;
+        updateMapCenter(state, value) {
+            state.map_center.lat = value.coords.latitude;
+            state.map_center.lng = value.coords.longitude;
         },
         updateDiscoCenter(state, value) {
             state.map_center.lat = parseFloat(value.Latitude);
@@ -230,10 +250,10 @@ const store = new Vuex.Store({
         updateMapMarkers(state, value) {
             state.map_markers = value;
         },
-        updateSelectedMarker(state, value){
+        updateSelectedMarker(state, value) {
             state.chosen_marker = value;
         },
-        updateMarkerDiscoveryOverlay(state,value){
+        updateMarkerDiscoveryOverlay(state, value) {
             state.marker_discovery_overlay = value;
         },
         updateSearchResults(state, value) {
@@ -250,21 +270,21 @@ const store = new Vuex.Store({
         },
 
         ///// DISCOVERY POST /////
-        updateDeleteDialog(state, value){
+        updateDeleteDialog(state, value) {
             state.deleteDialog = value;
         }
     },
 
-    actions:{
+    actions: {
         ///// USERDATA /////
-        fetchUserData(context){
-            axios.get('/public/feedcontroller/getUserData').then(response => {
-                context.commit('updateUserData', response["data"])
+        fetchUserData(context) {
+            axios.get('/public/feedcontroller/getUserData', {params: {data: context.getters.getUserData.emailAddress}}).then(response => {
+                context.commit('updateUserdata', response["data"][0])
             })
         },
 
         ///// FRIENDS /////
-        fetchFriends(context){
+        fetchFriends(context) {
             axios.get('/public/friends/getFriends').then(response => {
                 context.commit('updateFriendsData', response["data"])
             })
@@ -273,7 +293,7 @@ const store = new Vuex.Store({
             axios.get('/public/friends/getFriendRequest').then(response => (context.commit('updateFriendRequests', response["data"])))
         },
 
-        uploadUserData(context, updatedUserData){
+        uploadUserData(context, updatedUserData) {
             context.commit('updateUserData', updatedUserData);
 
         },
@@ -284,7 +304,7 @@ const store = new Vuex.Store({
 
 
         ///// SHARE DISCOVERY /////
-        sharePost(context){
+        sharePost(context) {
             const json = JSON.stringify({
                 my_title: context.getters.getTitle,
                 my_time: context.getters.getTimestamp,
@@ -304,7 +324,7 @@ const store = new Vuex.Store({
         },
 
         ///// MAP PAGE /////
-        MapCenter (context) {
+        MapCenter(context) {
             navigator.geolocation.getCurrentPosition(position => {
                 context.commit('updateMapCenter', position);
             });
@@ -339,64 +359,64 @@ const store = new Vuex.Store({
         }
     },
 
-    getters:{
+    getters: {
         //to get state data
-        getDrawerState(state){
+        getDrawerState(state) {
             return state.drawer;
         },
-        getNotifications(state){
+        getNotifications(state) {
             return state.notifications;
         },
-        getUserData(state){
+        getUserData(state) {
             return state.userData;
         },
-        getDiscoveries(state){
+        getDiscoveries(state) {
             return state.discoveries;
         },
 
         ///// SHARE POST /////
-        getTitle(state){
+        getTitle(state) {
             return state.title;
         },
-        getChosen_leaf(state){
+        getChosen_leaf(state) {
             return state.chosen_leaf;
         },
-        getSnackbar(state){
+        getSnackbar(state) {
             return state.snackbar;
         },
-        getTimestamp(state){
+        getTimestamp(state) {
             return state.timestamp;
         },
-        getCurrent_date(state){
+        getCurrent_date(state) {
             return state.current_date;
         },
-        getLatitude(state){
+        getLatitude(state) {
             return state.latitude;
         },
-        getLongitude(state){
+        getLongitude(state) {
             return state.longitude;
         },
-        getLocation(state){
+        getLocation(state) {
             return state.location;
         },
-        getDescription(state){
+        getDescription(state) {
             return state.description;
         },
 
         ///// MAP PAGE /////
-        getMapCenter(state){
+        getMapCenter(state) {
             return state.map_center;
         },
 
-        getMapMarkers(state){
+        getMapMarkers(state) {
             return state.map_markers;
         },
 
-        getSelectedMarker(state){
+        getSelectedMarker(state) {
             return state.chosen_marker;
         },
 
-        getMarkerDiscoveryOverlay(state){
+        getMarkerDiscoveryOverlay(state) {
             return state.marker_discovery_overlay;
         },
         getSearchResults(state) {
@@ -415,35 +435,35 @@ const store = new Vuex.Store({
         ///// DISCOVERY POST /////
 
         getDiscoveryBasedOnId: (state) => (discoveryId) => {
-            for (let i = 0 ; i < state.discoveries.length ; i++){
-                if (discoveryId === state.discoveries[i].discoveryId){
+            for (let i = 0; i < state.discoveries.length; i++) {
+                if (discoveryId === state.discoveries[i].discoveryId) {
                     return state.discoveries[i];
                 }
             }
             //if not found, search the database for the disco
             return state.discoveries[0];
         },
-        getDiscoveryExtraInfo(state){
+        getDiscoveryExtraInfo(state) {
             return state.discoveryExtraInfo;
         },
-        getLikes(state){
+        getLikes(state) {
             return state.discoveryLikes;
         },
-        getComments(state){
+        getComments(state) {
             return state.discoveryComments;
         },
-        getTags(state){
+        getTags(state) {
             return state.discoveryTags;
         },
-        getDeleteDialog(state){
+        getDeleteDialog(state) {
             return state.deleteDialog;
         },
 
         ///// FRIENDS /////
-        getFriendsData(state){
+        getFriendsData(state) {
             return state.friendsData;
         },
-        getFriendsRequests(state){
+        getFriendsRequests(state) {
             return state.friendRequests;
         },
         getFriendRequestNotifications(state){

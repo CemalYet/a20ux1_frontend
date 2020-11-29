@@ -21,6 +21,8 @@ import commentContent from "@/components/commentContent";
 import sharePostContent from "@/components/sharePostContent";
 import dropDownMenuED from "@/components/dropDownMenuED";
 import friends from "@/components/friends";
+import loginpage from "@/components/loginpage";
+import registerpage from "@/components/registerpage";
 
 import store from './store.js'
 
@@ -277,6 +279,43 @@ const router = new VueRouter({
                 },
             ],
         },
+        {
+            path: '/login',
+            components: {
+                layout: mapLayout,
+            },
+            children:[
+                {
+                    path: '',
+                    components: {
+                        map: loginpage
+                    }
+                }
+
+            ]
+        },
+        {
+            path: '/register',
+            components: {
+                layout: mapLayout
+            },
+            children:[
+                {
+                    path: '',
+                    components: {
+                        map: registerpage
+                    },
+                    children:[{
+                        path: '',
+                        components: {
+                            buttonLeft: backButton
+                        }
+                    }
+                    ]
+                }
+
+            ]
+        }
     ],
 });
 
