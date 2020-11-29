@@ -23,6 +23,7 @@ const store = new Vuex.Store({
         latitude: null,
         longitude: null,
         snackbar: false,
+        taggedFriendsId:[],
 
         // MAP PAGE /////
         map_center: {lat: 50.87959, lng: 4.70093}, //Leuven default value
@@ -294,6 +295,7 @@ const store = new Vuex.Store({
                 my_leaf: context.getters.getChosen_leaf,
                 my_latitude: context.getters.getLatitude,
                 my_longitude: context.getters.getLongitude,
+
             });
             const res = axios.post('/public/sharecontroller/save', json,
                 {

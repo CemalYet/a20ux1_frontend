@@ -190,11 +190,11 @@
                     depressed
                     icon
                     color="error"
+                    class="text-capitalize"
                     dark
-                    class="mr-4"
                     @click="removeTag(tagged)"
                     >
-                  Tagged
+                  <v-icon>mdi-close</v-icon>
                 </v-btn>
               </v-list-item-icon>
             </v-list-item>
@@ -221,7 +221,7 @@
                      color=var(--main-color)
                      dark
                      class="text-capitalize"
-                     @click="postFriendId(friend)">
+                     @click="tagFriend(friend)">
                 Tag Friend
               </v-btn>
             </v-list-item-icon>
@@ -403,23 +403,12 @@
                   </v-btn>
                 </div>
 
-                <div id="tags">
-                  <v-avatar class="avatars elevation-6">
+                <div id="tags" v-for="tagged in taggedFriends"
+                     :key="tagged.userName">
+                  <v-avatar>
                     <v-img
-                        src="https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/27907755_964224010401572_4566376548678829171_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=iEnUTezF7M0AX9l4Blf&_nc_ht=scontent-bru2-1.xx&oh=ad6d77ef7b00135578e999dfc409129d&oe=5FCECE41"
-                        alt="">
-                    </v-img>
-                  </v-avatar>
-                  <v-avatar class="avatars elevation-6">
-                    <v-img
-                        src="https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/72281335_3233116936715489_818658218732421120_o.jpg?_nc_cat=109&ccb=2&_nc_sid=09cbfe&_nc_ohc=RdqSnTG_rdMAX-4kET-&_nc_ht=scontent-bru2-1.xx&oh=6aeb2fb674f01ad8802760f5315129bc&oe=5FCD7A18"
-                        alt="">
-                    </v-img>
-                  </v-avatar>
-                  <v-avatar class="avatars elevation-6">
-                    <v-img
-                        src="https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/71499627_2643828155667264_8670036088552685568_o.jpg?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_ohc=w6TlLBPM4coAX8ftlce&_nc_ht=scontent-bru2-1.xx&oh=cb334c83c12b7b2d6e08bc3ef6571c56&oe=5FCE73A8"
-                        alt="">
+                        :alt="`${tagged.userName} avatar`"
+                        :src="tagged.avatar">
                     </v-img>
                   </v-avatar>
                 </div>
@@ -543,7 +532,8 @@ export default {
     date_dialog: false,
     leaf_dialog: false,
     steps: 1,
-    taggedFriends:[]
+    taggedFriends:[],
+    taggedFriendsId:[]
   }),
 
   created() {
@@ -591,13 +581,17 @@ export default {
         this.$store.dispatch('sharePost');
       }
     },
-    postFriendId: function (user) {
+    tagFriend: function (user) {
       this.taggedFriends.push(user)
+      this.taggedFriendsId.push(user.userId)
       this.updateFriends.splice(this.updateFriends.indexOf(user), 1);
+      console.log(this.taggedFriendsId)
     },
     removeTag : function (user){
       this.updateFriends.push(user);
       this.taggedFriends.splice(this.taggedFriends.indexOf(user), 1);
+      this.taggedFriendsId.splice(this.taggedFriendsId.indexOf(user.userId))
+      console.log(this.taggedFriendsId)
     },
 
 
