@@ -134,6 +134,7 @@
                 label="I agree to let this app use my location"
                 color=var(--dark-color)
                 value=var(--dark-color)
+                class="dark--text"
             ></v-checkbox>
           </div>
         </div>
@@ -169,47 +170,55 @@
                   multiple
                   group
                   borderless
+                  outlined
                   class="daybuttons"
               >
                 <v-btn
                     value="1"
                     elevation="2"
+                    class="btn"
                 >
                   Mo
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="2"
+                    class="btn"
                 >
                   Tu
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="3"
+                    class="btn"
                 >
                   We
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="4"
+                    class="btn"
                 >
                   Th
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="5"
+                    class="btn"
                 >
                   Fr
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="6"
+                    class="btn"
                 >
                   Sa
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="7"
+                    class="btn"
                 >
                   Su
                 </v-btn>
@@ -358,8 +367,9 @@ export default {
 
 <style scoped>
 
+
 .stepper {
-  height: 100%;
+  height: 100vh;
   margin: 0;
   padding: 0;
 }
@@ -369,14 +379,14 @@ export default {
   background-color: rgba(255, 255, 255, 0.4);
   background-blend-mode: lighten;
   background-repeat: repeat;
-  height: 100%;
+  height: calc(100vh - 83px);
   padding: 0;
 }
 
 .content {
-  height: 60vh;
   align-content: center;
   padding: 10px 0;
+  height: calc(100vh - 83px - 66px);
 }
 
 .centerButtons {
@@ -385,7 +395,7 @@ export default {
   padding-top: 20px;
   padding-bottom: 5px;
   max-width: 276px;
-  margin: auto;
+  margin: auto auto 5px;
 }
 
 .paragraphbox {
@@ -396,6 +406,7 @@ export default {
   margin: auto;
   text-align: center;
   padding-top: 50px;
+  padding-bottom: 50px;
   color: var(--dark-color);
 }
 
@@ -404,6 +415,7 @@ export default {
   margin: auto;
   text-align: center;
   padding-top: 50px;
+  padding-bottom: 50px;
   color: var(--dark-color);
 }
 
@@ -433,5 +445,23 @@ export default {
   font-size: 40px;
 }
 
+.btn {
+  color:var(--dark-color);
+}
+
+.dark--text /deep/ label {
+  color: var(--dark-color);
+}
+
+
+@media (min-width: 960px){
+  .background {
+    height: calc(100vh - 99px);
+  }
+
+  .content {
+    height: calc(100vh - 99px - 66px);
+  }
+}
 
 </style>

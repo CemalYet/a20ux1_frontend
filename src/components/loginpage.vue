@@ -50,6 +50,21 @@
             LOGIN
           </v-btn>
         </div>
+        <v-snackbar
+            v-model="snackBar"
+            color="error"
+        >
+          Login credentials are not valid. Try again.
+          <template v-slot:action="{ attrs }">
+            <v-btn
+                text
+                v-bind="attrs"
+                @click="snackBar = false"
+            >
+              Close
+            </v-btn>
+          </template>
+        </v-snackbar>
       </div>
     </v-main>
   </v-app>
@@ -65,19 +80,41 @@ export default {
     emailAddress: null,
     password: null,
     showPassword: false,
-    loggedIn: null
+    snackBar: false,
   }),
 
   methods: {
     goToRegister: function() {
-      this.$router.push({path:"register-step1"});
+      this.$router.push({path:"register"});
     },
 
     checkLogin: function() {
-      axios.get('register/checklogin', {params: {my_email: this.emailAddress, my_password: this.password}}).then(response => (this.loggedIn = response["data"]));
-      if (this.loggedIn != null) {
-        this.$router.push({path: "/"});
+      if (this.checkTextFields()) {
+        axios.get('register/checklogin', {params: {my_email: this.emailAddress, my_password: this.password}}).then(response =>
+            (this.loggedIn(response["data"])));
       }
+
+    },
+
+    loggedIn: function(response) {
+      if (response === 'Password is valid') {
+        this.$router.push({path: "/"});
+      } else {
+        this.snackBar = true;
+      }
+      this.updateUserEmail();
+    },
+
+    checkTextFields: function() {
+      return !(this.emailAddress === null || this.password === null);
+    },
+
+    updateUserEmail: function () {
+      this.$store.commit("updateUserEmail", this.emailAddress);
+      this.fetchUserData();
+    },
+    fetchUserData: function () {
+      this.$store.dispatch('fetchUserData');
     }
   }
 }

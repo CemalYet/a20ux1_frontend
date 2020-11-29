@@ -295,7 +295,7 @@ const router = new VueRouter({
             ]
         },
         {
-            path: '/register-step1',
+            path: '/register',
             components: {
                 layout: mapLayout
             },
