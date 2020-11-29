@@ -312,7 +312,7 @@ const store = new Vuex.Store({
 
 
         ///// SHARE DISCOVERY /////
-        sharePost(context){
+        sharePost(context, taggedFriendsId){
             const json = JSON.stringify({
                 my_title: context.getters.getTitle,
                 my_time: context.getters.getTimestamp,
@@ -322,6 +322,8 @@ const store = new Vuex.Store({
                 my_leaf: context.getters.getChosen_leaf,
                 my_latitude: context.getters.getLatitude,
                 my_longitude: context.getters.getLongitude,
+                my_taggedFriends: taggedFriendsId,
+                images: context.getters.getDiscoveryImages,
             });
             const res = axios.post('/public/sharecontroller/save', json,
                 {

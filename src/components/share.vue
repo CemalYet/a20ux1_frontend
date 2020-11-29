@@ -397,32 +397,6 @@
                 ></v-text-field>
               </validation-provider>
 
-              <div id="buttons">
-                <!--Buttons-->
-                <div id="plus_button">
-                  <v-btn
-                      color=var(--dark-color)
-                      elevation="2"
-                      :ripple="false"
-                      v-on="on"
-                      dark
-                  >
-                    <v-icon color="white">mdi-plus</v-icon>
-                    friends
-                  </v-btn>
-                </div>
-
-                <div id="tags" v-for="tagged in taggedFriends"
-                     :key="tagged.userName">
-                  <v-avatar>
-                    <v-img
-                        :alt="`${tagged.userName} avatar`"
-                        :src="tagged.avatar">
-                    </v-img>
-                  </v-avatar>
-                </div>
-              </div>
-
               <validation-provider
                   v-slot="{errors}"
                   name="description"
@@ -590,7 +564,7 @@ export default {
         this.errorText = "Please choose a leaf for your discovery";
         this.$store.commit('updateSnackbar', true);
       } else {
-        this.$store.dispatch('sharePost');
+        this.$store.dispatch('sharePost', this.taggedFriendsId);
       }
     },
     tagFriend: function (user) {
