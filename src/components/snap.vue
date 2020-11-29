@@ -1,141 +1,136 @@
 <template>
-  <v-container>
-    <br>
-    <!--Camera-->
-    <div style="margin-bottom: 10px; text-align: center">
-      <h4>You can add as many pictures until you are happy with your match.</h4>
-    </div>
-    <div class="mx-auto" style="max-width: 500px; text-align: center">
-      <v-layout>
-        <video
-            ref="video"
-            id="video"
-            autoplay
-            style="border-radius: 5px"
-        >
-        </video>
-      </v-layout>
+  <v-app>
+    <v-main>
+      <br>
+      <!--Camera-->
+      <v-container>
+        <div class="mx-auto" style="max-width: 100%">
+          <div align="center" style="font-weight: bold">
+            <div>You can add as many pictures until you are happy with your match.</div>
+          </div>
+          <v-layout class="justify-center">
+            <video
+                width="800"
+                ref="video"
+                id="video"
+                autoplay
+                style="max-width: 100%; border-radius: 5px"
+            >
+            </video>
+          </v-layout>
+          <canvas ref="canvas" id="canvas" width="800" height="480"></canvas>
 
-      <!-- Camera button -->
-      <v-btn
-          id="camera_button"
-          class="mx-auto"
-          @click='capture(); button1Action(); show=true'
-          color=var(--dark-color)
-          elevation="2"
-          raised
-          :ripple="false"
-      >
-        <v-icon x-large color="white">mdi-camera-plus-outline</v-icon>
-      </v-btn>
-    </div>
+          <!-- Camera button -->
+          <v-row
+              align="center"
+              justify="space-around"
+              class="py-3"
+          >
+            <v-btn
+                class="mx-auto"
+                @click="capture(); button1Action(); $store.commit('updateDiscoveryImages', captures[0])"
+                color=var(--dark-color)
+                align-center
+                elevation="2"
+                raised
+                :ripple="false"
+                height="55"
+                width="100"
+            >
+              <v-icon x-large color="white">mdi-camera-plus-outline</v-icon>
+            </v-btn>
+          </v-row>
+        </div>
+      </v-container>
 
-    <!--Picture carousel-->
-    <div v-if="show" class="mx-auto" style="max-width: 100%">
-      <div style="text-align: center">
-        <h4>Click on a match to see more information and confirm the one you want to add to the discovery.</h4>
-      </div>
-      <v-row
-          class="mx-auto"
-          style="max-width: 800px"
+      <!--Picture carousel-->
+      <v-container
+          v-if="cards[0].title != null"
       >
-        <template v-for="(card, i) in cards">
-          <v-col :key="i">
-            <v-card>
-              <div class="d-flex flex-no-wrap justify-space-between">
-                <div>
-                  <v-card-title
-                      class="headline"
-                      v-text="card.title"
+        <div class="mx-auto" style="max-width: 100%">
+          <div align="center" style="font-weight: bold">
+            <div>Click on a match to see more information and confirm the one you want to add to the discovery.</div>
+          </div>
+          <v-row
+              class="mx-auto"
+              style="max-width: 800px"
+          >
+            <template v-for="(card, i) in cards">
+              <v-col :key="i">
+                <v-card style="height: 200px">
+                  <v-progress-linear
+                      :value=card.percentage
+                      color=var(--dark-color)
+                      class="mx-auto white--text"
+                      height="24"
                   >
-                  </v-card-title>
-                  <v-card-subtitle>
-                    <p class="font-italic">
-                      {{ card.subtitle }}
-                    </p>
-                  </v-card-subtitle>
-                  <v-card-actions>
-                    <v-btn
-                        class="ml-2 mt-5"
-                        outlined
-                        small
-                        :id="i"
-                        @click="getInformation(0)"
-                    >
-                      MORE INFORMATION
-                    </v-btn>
-                  </v-card-actions>
-                </div>
+                    {{ card.percentage }}%
+                  </v-progress-linear>
+                  <div class="d-flex flex-no-wrap justify-space-between">
+                    <div>
+                      <h1 class="headline">{{card.title}}</h1>
+                      <v-card-subtitle style="padding: 0; margin-left: 16px">
+                        <p class="font-italic">
+                          {{ card.subtitle }}
+                        </p>
+                      </v-card-subtitle>
+                      <v-card-actions style="padding: 0">
+                        <v-btn
+                            class="ml-2 mt-5"
+                            outlined
+                            small
+                            @click="getInformation(i)"
+                        >
+                          MORE INFORMATION
+                        </v-btn>
+                      </v-card-actions>
+                    </div>
 
-                <v-avatar
-                    class="ma-3"
-                    size="125"
-                    tile
-                >
-                  <v-img :src="card.src"></v-img>
-                </v-avatar>
-              </div>
-            </v-card>
-          </v-col>
-          <v-responsive
-              v-if="i+1 === 2"
-              :key="`width-${i+1}`"
-              width="100%"
-          ></v-responsive>
-        </template>
-      </v-row>
-    </div>
-  </v-container>
+                    <v-avatar
+                        class="ma-3"
+                        size="125"
+                        tile
+                    >
+                      <v-img :src="card.src"></v-img>
+                    </v-avatar>
+                  </div>
+                </v-card>
+              </v-col>
+              <v-responsive
+                  v-if="i+1 === 2"
+                  :key="`width-${i+1}`"
+                  width="100%"
+              ></v-responsive>
+            </template>
+          </v-row>
+        </div>
+      </v-container>
+      <br/>
+    </v-main>
+  </v-app>
 </template>
 
 <script src="../api_connect.js"></script>
-
 
 <script>
 export default {
   name: "snap",
 
-  data() {
-    return {
-      cards: [
-        {
-          percentage: 65,
-          title: "Quercus Robur 1",
-          subtitle: "Latin 1",
-          src: "https://www.holdenarb.org/wp-content/uploads/2020/04/Tremendous.png",
-          info: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        },
-        {
-          percentage: 25,
-          title: "Plant 2",
-          subtitle: "Latin 2",
-          src: "https://www.crozetgazette.com/wp-content/uploads/2020/01/iStock-1147108546.jpg",
-          info: "Lorem ipsum dolor sit amet, consecunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. "
-        },
-        {
-          percentage: 7,
-          title: "Plant 3",
-          subtitle: "Latin 3",
-          src: 'https://www.thespruce.com/thmb/mh5-9gjw1Tzp5X7MHCin7znCunU=/1414x1414/smart/filters:no_upscale()/GettyImages-200443720-0011-59a2f08fd088c000111be4f4.jpg',
-          info: "Lorem ipsum dolor sit amet, consectetur ggggggggggg dhfg ghjk fgh cvbn, adipiscing elit, sed fdgjkdfgjd fkg, gdfhg dfjgldfn gdfsjghjgdfsn gdf gf d do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        },
-        {
-          percentage: 3,
-          title: "Plant 4",
-          subtitle: "Latin 4",
-          src: 'https://cdn.britannica.com/35/60435-050-5C3748AE/tree-General-Grant-giant-sequoia-bulk-trees.jpg',
-          info: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        },
-      ],
-      video: {},
-      canvas: {},
-      captures: [],
-      model: null,
-      show: true,
-      clickedButton: 0,
-    }
-  },
-
+  data: () => ({
+    cards: [
+      {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null},
+      {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null},
+      {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null},
+      {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null}
+    ],
+    video: {},
+    canvas: {},
+    captures: [],
+    cols: 1,
+    model: null,
+    show: false,
+    storeData: null,
+  }),
 
   mounted() {
     const constraints = (window.constraints = {
@@ -148,15 +143,22 @@ export default {
           this.mediaStream = mediaStream
           this.video.srcObject = mediaStream
           this.video.play()
-        })
+        });
 
+    this.cards = this.$store.getters.getInformationCards;
   },
 
   methods: {
+    updateDiscoveryImages() {
+      this.$store.commit('updateDiscoveryImages', this.captures[0])
+    },
     getInformation(id) {
+      this.$store.commit('updateCardId', id);
       this.$store.commit('updateInformationCards', this.cards);
       this.$router.push({path: '/information'});
     },
+
+
     capture() {
       this.show = true;
       this.canvas = this.$refs.canvas;
@@ -179,21 +181,6 @@ export default {
     },
 
     button1Action() {
-      // const files = blob;
-      // // const files = [...document.querySelector('input[type=file]').files];
-      // const promises = files.map((file) => {
-      //   return new Promise((resolve) => {
-      //     const reader = new FileReader();
-      //     reader.onload = (event) => {
-      //       const res = event.target.result;
-      //       console.log(res);
-      //       resolve(res);
-      //       return res;
-      //     }
-      //     reader.readAsDataURL(file)
-      //   })
-      // })
-
       Promise.all(this.captures[0]).then(
           (base64files) => {//console.log(base64files)
 
@@ -220,7 +207,7 @@ export default {
             })
                 .then(response => response.json())
                 .then(datas => {
-                  let i;
+                  var i;
                   for (i = 0; i < 4; i++) {
                     this.cards[i].percentage = Math.round(datas.suggestions[i].probability * 1000) / 10;
                     this.cards[i].title = datas.suggestions[i].plant_details.common_names[0];
@@ -228,7 +215,6 @@ export default {
                     this.cards[i].info = datas.suggestions[i].plant_details.wiki_description.value;
                     this.cards[i].src = datas.suggestions[i].similar_images[0].url;
                   }
-                  this.$store.commit('updateInformationCards', this.cards);
                   console.log('Success:', datas);
                 })
                 .catch((error) => {
@@ -238,23 +224,39 @@ export default {
     }
   }
 }
-
 </script>
 
+
 <style scoped>
+main {
+  background-image: url(../leaves.png);
+  background-repeat: repeat;
+  background-position: center;
+}
+
+.my-span {
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px 10px 0 0;
+  /*background-color: var(--main-color);*/
+  /*float: top;*/
+}
 
 #video {
-  position: relative;
-  width: 100%;
-  height: 0;
-  padding-bottom: 75%; /* SETS HEIGHT EQUAL TO 75% OF WIDTH (aka 4:3 aspect ratio) */
+  text-align: center;
+}
+
+#video {
   background-color: #000000;
 }
 
-#camera_button {
-  height: 55px;
-  width: 100px;
-  margin: 10px;
+#canvas {
+  display: none;
+}
+
+.headline {
+  margin: 2px 2px 2px 16px;
 }
 
 </style>
