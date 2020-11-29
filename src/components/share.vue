@@ -63,19 +63,67 @@
               </v-card>
             </v-slide-item>
             <v-slide-item
-                v-for="image in discoveriesData"
+                v-for="image in updateDiscoveryImages"
                 :key="image"
             >
-              <v-badge
-                  bordered
-                  color="error"
-                  icon="mdi-delete"
-                  overlap
-                  offset-x="20"
-                  offset-y="20"
+              <v-dialog
+                  v-model="deleteImageDialog"
+                  width="300"
               >
-                <v-img class="added_discovery_images ma-2" :src="image.photoPath"></v-img>
-              </v-badge>
+                <template
+                    v-slot:activator="{ on, attrs }"
+                >
+                  <div style="position: relative">
+                    <div class="delete_button_container">
+                      <v-btn
+                          elevation="2"
+                          fab
+                          x-small
+                          @click="selectedImage = image"
+                          v-bind="attrs"
+                          v-on="on"
+                          color="error"
+                          raised
+                      >
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
+                    </div>
+                    <v-img class="added_discovery_images ma-2" :src="image.photoPath"></v-img>
+                  </div>
+                </template>
+
+                <v-card>
+                  <v-card-title>
+                    Delete image
+                  </v-card-title>
+
+                  <v-card-text>
+                    Are you sure you want to delete this picture?
+                  </v-card-text>
+
+                  <v-divider></v-divider>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        color=var(--dark-color)
+                        @click="deleteImageDialog = false"
+                        text
+                        dark
+                    >
+                      cancel
+                    </v-btn>
+                    <v-btn
+                        color=var(--dark-color)
+                        @click="deleteImage"
+                        text
+                        dark
+                    >
+                      confirm
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-slide-item>
           </v-slide-group>
 
@@ -84,7 +132,7 @@
                 right
                 color=var(--dark-color)
                 dark
-                @click="steps = 3"
+                @click="steps = 2"
             >
               Continue
             </v-btn>
@@ -97,12 +145,12 @@
 
           <div class="flex_box_leaf_choices">
 
-              <leaf1 class="leaf" @click.native="select_leaf(1); leaf_dialog = false"/>
-              <leaf2 class="leaf" @click.native="select_leaf(2); leaf_dialog = false"/>
-              <leaf3 class="leaf" @click.native="select_leaf(3); leaf_dialog = false"/>
+              <leaf1 class="leaf" @click.native="select_leaf(1)"/>
+              <leaf2 class="leaf" @click.native="select_leaf(2)"/>
+              <leaf3 class="leaf" @click.native="select_leaf(3)"/>
 
-              <leaf4 class="leaf" @click.native="select_leaf(4); leaf_dialog = false"/>
-              <leaf5 class="leaf" @click.native="select_leaf(5); leaf_dialog = false"/>
+              <leaf4 class="leaf" @click.native="select_leaf(4)"/>
+              <leaf5 class="leaf" @click.native="select_leaf(5)"/>
 
           </div>
           <br>
@@ -111,23 +159,23 @@
           <div class="leafId">
             <leaf1 class="small_leaf"
                    v-if="updateLeafShape === 1"
-                   v-bind:picture="discoveriesData[0].photoPath"
+                   v-bind:picture="updateDiscoveryImages[0].photoPath"
             />
             <leaf2 class="small_leaf"
                    v-if="updateLeafShape === 2"
-                   v-bind:picture="discoveriesData[0].photoPath"
+                   v-bind:picture="updateDiscoveryImages[0].photoPath"
             />
             <leaf3 class="small_leaf"
                    v-if="updateLeafShape === 3"
-                   v-bind:picture="discoveriesData[0].photoPath"
+                   v-bind:picture="updateDiscoveryImages[0].photoPath"
             />
             <leaf4 class="small_leaf"
                    v-if="updateLeafShape === 4"
-                   v-bind:picture="discoveriesData[0].photoPath"
+                   v-bind:picture="updateDiscoveryImages[0].photoPath"
             />
             <leaf5 class="small_leaf"
                    v-if="updateLeafShape === 5"
-                   v-bind:picture="discoveriesData[0].photoPath"
+                   v-bind:picture="updateDiscoveryImages[0].photoPath"
             />
           </div>
 
@@ -202,7 +250,7 @@
             <v-subheader>My friends</v-subheader>
           <v-list-item
               v-for="friend in updateFriends"
-              :key="friend.userName"
+              :key="friend"
           >
             <v-list-item-avatar>
               <v-img
@@ -424,7 +472,7 @@
                     class="text_field"
                     id="description_box"
                     label="DESCRIPTION"
-                    v-model="updateDiscription"
+                    v-model="updateDescription"
                     outlined
                     color=var(--dark-color)
                     no-resize
@@ -530,7 +578,8 @@ export default {
     date_modal: false,
     time_dialog: false,
     date_dialog: false,
-    leaf_dialog: false,
+    selectedImage: null,
+    deleteImageDialog: false,
     steps: 1,
     taggedFriends:[],
     taggedFriendsId:[]
@@ -594,12 +643,15 @@ export default {
       console.log(this.taggedFriendsId)
     },
 
-
+    deleteImage(){
+      this.deleteImageDialog = false ;
+      this.$store.commit('deleteDiscoveryImage', this.selectedImage);
+    }
   },
 
   computed: {
-    discoveriesData(){
-      return this.$store.getters.getDiscoveries;
+    updateDiscoveryImages(){
+      return this.$store.getters.getDiscoveryImages;
     },
     updateTitle: {
       get() {
@@ -641,7 +693,7 @@ export default {
         this.$store.commit("updateSnackbar", value)
       }
     },
-    updateDiscription: {
+    updateDescription: {
       get() {
         return this.$store.getters.getDescription;
       },
@@ -765,6 +817,14 @@ export default {
   width: 220px;
   height: 160px;
   object-fit: cover;
+}
+
+.delete_button_container{
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  margin: 2px;
 }
 
 </style>
