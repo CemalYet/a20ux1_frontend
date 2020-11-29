@@ -593,16 +593,11 @@ export default {
     },
     postFriendId: function (user) {
       this.taggedFriends.push(user)
-      console.log(user)
-      this.updateFriends.splice(user.userName, 1);
-
-
-
+      this.updateFriends.splice(this.updateFriends.indexOf(user), 1);
     },
     removeTag : function (user){
       this.updateFriends.push(user);
-      console.log(user)
-      this.taggedFriends.splice(user.userName,1);
+      this.taggedFriends.splice(this.taggedFriends.indexOf(user), 1);
     },
 
 
