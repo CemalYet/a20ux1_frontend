@@ -99,6 +99,8 @@
             />
           </div>
 
+            <v-card-title>Chose leaf shape</v-card-title>
+            <v-divider></v-divider>
           <div style="text-align: right">
             <v-btn
                 color=var(--dark-color)
@@ -117,12 +119,48 @@
           </div>
         </v-stepper-content>
         <v-stepper-content
+            class="pa-0"
             step="3"
         >
+          <v-list>
+          <v-list-item
+              v-for="friend in updateFriends"
+              :key="friend.userName"
+          >
+            <v-list-item-avatar>
+              <v-img
+                  :alt="`${friend.userName} avatar`"
+                  :src="friend.avatar"
+              ></v-img>
+            </v-list-item-avatar>
 
-          <h1> TAG FRIENDS </h1>
-          <div style="text-align: right">
-            <v-btn
+            <v-list-item-content>
+              <v-list-item-title v-text="friend.userName"></v-list-item-title>
+            </v-list-item-content>
+
+            <v-list-item-icon>
+              <v-btn
+                     v-if="Tagged===false"
+                     depressed
+                     color=var(--main-color)
+                     dark
+                     class="text-capitalize"
+                     @click="isTagged()">
+                Tag Friend
+              </v-btn>
+              <v-btn
+                  v-else-if="Tagged===true"
+                  disabled
+                  class="text-capitalize">
+                <!--@click="acceptRequest(friends)" -->
+                Tagged
+              </v-btn>
+            </v-list-item-icon>
+          </v-list-item>
+          </v-list>
+          <div style="text-align: right"
+          class="mr-4 mb-2">
+           <v-btn
                 color=var(--dark-color)
                 text
                 @click="steps--"
@@ -477,6 +515,7 @@ export default {
     date_dialog: false,
     leaf_dialog: false,
     steps: 1,
+    Tagged:false
   }),
 
   created() {
@@ -495,6 +534,7 @@ export default {
           console.log(error.message);
         },
     )
+    this.$store.dispatch('fetchFriends');
   },
 
   methods: {
@@ -523,6 +563,22 @@ export default {
         this.$store.dispatch('sharePost');
       }
     },
+    postFriendId: function (user) {
+      const userId = JSON.stringify({
+        userId_2: user.userId
+      });
+
+      // let currentObj = this;
+      let formData = new FormData()
+      formData.append('data', userId)
+
+      axios.post('/public/friends/tagFriend', formData).then(function (response) {console.log(response);})
+
+
+    },
+    isTagged: function (){
+      if(!this.Tagged) this.Tagged=true
+    }
   },
 
   computed: {
@@ -600,6 +656,9 @@ export default {
       set(value) {
         this.$store.commit("updateLatitude", value)
       }
+    },
+    updateFriends() {
+      return this.$store.getters.getFriendsData;
     }
   }
 
