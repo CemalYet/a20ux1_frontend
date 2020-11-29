@@ -3,7 +3,7 @@
     <v-stepper
         alt-labels
         v-model="steps"
-        style=" max-width: 1000px; margin: auto"
+        style=" max-width: 1000px; margin: auto "
     >
       <v-stepper-header>
         <v-stepper-step
@@ -56,7 +56,7 @@
                   ripple
                   @click="$refs.camera.click()"
               >
-                <input type="file" ref="camera" accept="image/* capture=camera" style="display: none;"/>
+                <input id="input_img" type="file" ref="camera" accept="image/*" capture="camera" style="display: none;"  @change="addImage"/>
                 <v-icon class="added_discovery_images" style="width: 160px;" size="68" color="white">
                   mdi-camera-plus
                 </v-icon>
@@ -66,64 +66,21 @@
                 v-for="image in updateDiscoveryImages"
                 :key="image"
             >
-              <v-dialog
-                  v-model="deleteImageDialog"
-                  width="300"
-              >
-                <template
-                    v-slot:activator="{ on, attrs }"
-                >
-                  <div style="position: relative">
-                    <div class="delete_button_container">
-                      <v-btn
-                          elevation="2"
-                          fab
-                          x-small
-                          @click="selectedImage = image"
-                          v-bind="attrs"
-                          v-on="on"
-                          color="error"
-                          raised
-                      >
-                        <v-icon>mdi-delete</v-icon>
-                      </v-btn>
-                    </div>
-                    <v-img class="added_discovery_images ma-2" :src="image.photoPath"></v-img>
-                  </div>
-                </template>
-
-                <v-card>
-                  <v-card-title>
-                    Delete image
-                  </v-card-title>
-
-                  <v-card-text>
-                    Are you sure you want to delete this picture?
-                  </v-card-text>
-
-                  <v-divider></v-divider>
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                        color=var(--dark-color)
-                        @click="deleteImageDialog = false"
-                        text
-                        dark
-                    >
-                      cancel
-                    </v-btn>
-                    <v-btn
-                        color=var(--dark-color)
-                        @click="deleteImage"
-                        text
-                        dark
-                    >
-                      confirm
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
+              <div style="position: relative">
+                <div class="delete_button_container">
+                  <v-btn
+                      elevation="2"
+                      fab
+                      x-small
+                      @click="deleteImage(image)"
+                      color="error"
+                      raised
+                  >
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </div>
+                <v-img class="added_discovery_images ma-2" :src="image.photoPath"></v-img>
+              </div>
             </v-slide-item>
           </v-slide-group>
 
@@ -156,6 +113,12 @@
           <br>
           <v-divider></v-divider>
           <br>
+          <div
+              class="placeholder_text_container"
+              v-if="updateLeafShape === null"
+          >
+            <h1>Choose your leaf shape</h1>
+          </div>
           <div class="leafId">
             <leaf1 class="small_leaf"
                    v-if="updateLeafShape === 1"
@@ -179,8 +142,6 @@
             />
           </div>
 
-            <v-card-title>Chose leaf shape</v-card-title>
-            <v-divider></v-divider>
           <div style="text-align: right">
             <v-btn
                 color=var(--dark-color)
@@ -523,12 +484,12 @@
         color="error"
         style="padding: 12px"
     >
-      Please choose a leaf for your discovery
+      {{errorText}}
       <template v-slot:action="{ attrs }">
         <v-btn
             text
             v-bind="attrs"
-            @click="updateSnackbar = false"
+            @click="updateSnackbar = false;"
         >
           Close
         </v-btn>
@@ -582,7 +543,8 @@ export default {
     deleteImageDialog: false,
     steps: 1,
     taggedFriends:[],
-    taggedFriendsId:[]
+    taggedFriendsId:[],
+    errorText: null
   }),
 
   created() {
@@ -625,6 +587,7 @@ export default {
     },
     check_data: function () {
       if (this.$store.getters.getChosen_leaf === null) {
+        this.errorText = "Please choose a leaf for your discovery";
         this.$store.commit('updateSnackbar', true);
       } else {
         this.$store.dispatch('sharePost');
@@ -643,9 +606,41 @@ export default {
       console.log(this.taggedFriendsId)
     },
 
-    deleteImage(){
-      this.deleteImageDialog = false ;
-      this.$store.commit('deleteDiscoveryImage', this.selectedImage);
+    addImage(event){
+      const { maxSize } = 4096
+      let imageFile = event.target.files[0]
+      const reader = new FileReader();
+      if (event.target.files.length>0) {
+        let size = imageFile.size / maxSize / maxSize
+        if (!imageFile.type.match('image.*')) {
+          // check whether the upload is an image
+          this.errorText = 'Please choose an image file';
+          this.$store.commit('updateSnackbar', true);
+        } else if (size>1) {
+          // check whether the size is greater than the size limit
+          this.errorText = 'Your file is too big! Please select an image under 4MB';
+          this.$store.commit('updateSnackbar', true);
+        } else {
+          let newImage = {'photoPath': null};
+          reader.onload = e => {
+            newImage.photoPath = e.target.result;
+            this.$store.commit('pushNewDiscoveryImage', newImage);
+          };
+          reader.readAsDataURL(imageFile);
+        }
+      }
+    },
+
+    deleteImage(image){
+      console.log(this.$store.getters.getDiscoveryImages.indexOf(image));
+      if (this.$store.getters.getDiscoveryImages.length === 1){
+        this.errorText = 'You need at least 1 image!';
+        this.$store.commit('updateSnackbar', true);
+      }
+      else{
+        this.$store.commit('deleteDiscoveryImage', image);
+
+      }
     }
   },
 
@@ -761,40 +756,11 @@ export default {
   grid-area: date;
 }
 
-#buttons {
-  display: grid;
-  grid-template-columns: 1fr 0.5fr 1fr;
-  grid-template-rows: 0.5fr 0.5fr;
-  width: 100%;
-  max-width: 500px;
-  padding: 6px 12px 0;
-  margin: auto;
-}
-
-#plus_button {
-  grid-area: 1 / 1 / 2 / 2;
-  margin: auto;
-}
-
-#leaf_button {
-  grid-area: 1 / 3 / 2 / 4;
-  margin: auto;
-}
-
-#tags {
-  grid-area: 2 / 1 / 3 / 2;
-  margin: auto;
-}
-
 .leafId {
   text-align: center;
   width: 90%;
   height: auto;
   min-height: 340px;
-}
-
-.avatars {
-  margin: 6px -6px 20px;
 }
 
 .leaf {
@@ -827,4 +793,9 @@ export default {
   margin: 2px;
 }
 
+.placeholder_text_container {
+  width: 100%;
+  height: auto;
+  text-align: center;
+}
 </style>
