@@ -211,8 +211,45 @@
             step="3"
         >
           <v-list>
+            <v-subheader>Tagged Friend</v-subheader>
+            <v-list-item
+                v-if="taggedFriends.length === 0">
+              <v-list-item-content>
+                <v-list-item-subtitle>New friend requests will show up here</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+                v-else
+                v-for="tagged in taggedFriends"
+                :key="tagged.userName">
+              <v-list-item-avatar>
+                <v-img
+                    :alt="`${tagged.userName} avatar`"
+                    :src="tagged.avatar"
+                ></v-img>
+              </v-list-item-avatar>
+
+              <v-list-item-content>
+                <v-list-item-title v-text="tagged.userName"></v-list-item-title>
+              </v-list-item-content>
+
+              <v-list-item-icon>
+                <v-btn
+                    depressed
+                    icon
+                    color="error"
+                    dark
+                    class="mr-4"
+                    @click="removeTag(tagged)"
+                    >
+                  Tagged
+                </v-btn>
+              </v-list-item-icon>
+            </v-list-item>
+            <v-divider></v-divider>
+            <v-subheader>My friends</v-subheader>
           <v-list-item
-              v-for="(friend, index) in updateFriends"
+              v-for="friend in updateFriends"
               :key="friend"
           >
             <v-list-item-avatar>
@@ -228,20 +265,12 @@
 
             <v-list-item-icon>
               <v-btn
-                     v-if="Tagged[index]===false"
                      depressed
                      color=var(--main-color)
                      dark
                      class="text-capitalize"
-                     @click="isTagged()">
+                     @click="postFriendId(friend)">
                 Tag Friend
-              </v-btn>
-              <v-btn
-                  v-else-if="Tagged[index]===true"
-                  disabled
-                  class="text-capitalize">
-                <!--@click="acceptRequest(friends)" -->
-                Tagged
               </v-btn>
             </v-list-item-icon>
           </v-list-item>
@@ -563,7 +592,7 @@ export default {
     selectedImage: null,
     deleteImageDialog: false,
     steps: 1,
-    Tagged:false
+    taggedFriends:[]
   }),
 
   created() {
@@ -612,21 +641,14 @@ export default {
       }
     },
     postFriendId: function (user) {
-      const userId = JSON.stringify({
-        userId_2: user.userId
-      });
-
-      // let currentObj = this;
-      let formData = new FormData()
-      formData.append('data', userId)
-
-      axios.post('/public/friends/tagFriend', formData).then(function (response) {console.log(response);})
-
-
+      this.taggedFriends.push(user)
+      this.updateFriends.splice(this.updateFriends.indexOf(user), 1);
     },
-    isTagged: function (){
-      if(!this.Tagged) this.Tagged=true
+    removeTag : function (user){
+      this.updateFriends.push(user);
+      this.taggedFriends.splice(this.taggedFriends.indexOf(user), 1);
     },
+
     deleteImage(){
       this.deleteImageDialog = false ;
       this.$store.commit('deleteDiscoveryImage', this.selectedImage);
