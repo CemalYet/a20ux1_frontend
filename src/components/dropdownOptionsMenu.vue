@@ -1,5 +1,5 @@
 <template>
-  <v-menu offset-y>
+  <v-menu offset-y v-if="getFetchedData.userId === getCurrentData[0].userId">
     <template v-slot:activator="{ on, attrs }">
       <v-btn
           icon
@@ -20,24 +20,36 @@
           <v-list-item-title>Edit profile</v-list-item-title>
         </v-list-item>
       </router-link>
-      <router-link to="camera">
-        <v-list-item>
-          <v-icon
-              color=var(--dark-color)
-              left>
-            mdi-logout
-          </v-icon>
-          <v-list-item-title>logout</v-list-item-title>
-        </v-list-item>
-      </router-link>
+        <v-list-item @click="logOut()">
+        <v-icon
+            color=var(--dark-color)
+            left>
+          mdi-logout
+        </v-icon>
+        <v-list-item-title>Log out</v-list-item-title>
+      </v-list-item>
     </v-list>
   </v-menu>
 </template>
 
 <script>
 export default {
-  name: "dropdownOptionsMenu"
+  name: "dropdownOptionsMenu",
+  computed:{
+    getFetchedData(){
+      return this.$store.getters.getFetchedUserData;
+    },
+    getCurrentData(){
+      return this.$store.getters.getUserData;
+    }
+  },
+  methods:{
+    logOut() {
+      this.$store.dispatch('logOut');
+    },
+  }
 }
+
 </script>
 
 <style scoped>

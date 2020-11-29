@@ -111,7 +111,7 @@
           <v-card-text class="subheading">{{this.errorText}}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn @click="this.errorDialog = false" text>Got it!</v-btn>
+            <v-btn @click="toggleDialog()" text>Got it!</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -149,12 +149,6 @@ export default {
       v => v.length >= 6 || 'Must be longer than 6 characters',
     ],
 
-    updatedUserData:[{
-      avatar: '',
-      emailAddress:'',
-      userName:''
-    }],
-
     showPassword1:false,
     showPassword2:false,
     showPassword3:false,
@@ -173,18 +167,25 @@ export default {
     tab: 'update'
   }),
 
+  computed:{
+    updatedUserData(){
+      return this.$store.getters.getUserData;
+    }
+  },
 
-  mounted() {
-    this.initForm()
+  mounted(){
+    this.$store.dispatch('fetchUserData') 
   },
 
   methods:{
     toggleChangePassword(){
       this.changePassword = !this.changePassword
     },
-    initForm() {
-      this.updatedUserData = this.$store.getters.getUserData
+
+    toggleDialog(){
+      this.errorDialog = false
     },
+
     changeAvatar(array){
       this.updatedUserData[0].avatar = array
       this.$store.commit('updateUserAvatar', array)
@@ -205,7 +206,7 @@ export default {
 
       let currentObj = this;
 
-      let rawData = JSON.stringify(this.updatedUserData)
+      let rawData = JSON.stringify(this.updatedUserData[0])
       let formData = new FormData()
       formData.append('data', rawData)
 
@@ -214,7 +215,6 @@ export default {
       axios.post('/public/profile/updateProfile', formData).then(function (response) {currentObj.errorText = response.data;}).catch(function (error) {
         currentObj.errorText = error;
       });
-
     },
 
     updatePassword(){
@@ -228,7 +228,7 @@ export default {
         let tmpData = {password: this.password, newPassword: this.newPassword}
 
         let rawData = JSON.stringify(tmpData)
-        console.log(tmpData)
+
         let formData = new FormData()
         formData.append('data', rawData)
 

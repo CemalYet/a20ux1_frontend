@@ -1,10 +1,20 @@
 <template>
   <v-container>
+
     <br>
     <div class="content">
 
       <!--User Info-->
-      <userAvatarPlusInfo :style="{width:avatarWidth}" style="margin: auto;" ></userAvatarPlusInfo>
+      <!-- <userAvatarPlusInfo :style="{width:avatarWidth}" style="margin: auto;" ></userAvatarPlusInfo> -->
+      <v-list-item two-line>
+        <v-list-item-avatar size="70">
+          <v-img :src="getData.avatar"></v-img>
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title>{{getData.userName}}</v-list-item-title>
+          <v-list-item-subtitle>{{getData.emailAddress}}</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
 
       <v-tabs
           v-model="tab"
@@ -29,33 +39,17 @@
             <div class="photo_container" v-for="j in $store.getters.getDiscoveries.length" :key="j">
               <img class="photo" :src="$store.getters.getDiscoveries[j-1].photoPath" alt="">
             </div>
-            <div class="photo_container">
-              <img class="photo" src="https://www.differencebetween.com/wp-content/uploads/2019/11/Difference-Between-Stem-Tendril-and-Leaf-Tendril_2.jpg" alt="">
-            </div>
-            <div class="photo_container">
-              <img class="photo" src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Sassafras_Leaves_June_Nbg_%28261691941%29.jpeg" alt="">
-            </div>
-            <div class="photo_container">
-              <img class="photo" src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Bloodroot_%28Sanguinaria_canadensis%29.jpeg" alt="">
-            </div>
           </div>
         </v-tab-item>
+
         <v-tab-item>
           <div class="photo_grid tab_item_container" :style="{'grid-template-columns': itemsPerRow}">
-            <div class="photo_container">
-              <img class="photo" src="https://www.differencebetween.com/wp-content/uploads/2019/11/Difference-Between-Stem-Tendril-and-Leaf-Tendril_2.jpg" alt="">
-            </div>
             <div class="photo_container" v-for="j in $store.getters.getDiscoveries.length" :key="j">
               <img class="photo" :src="$store.getters.getDiscoveries[j-1].photoPath" alt="">
             </div>
-            <div class="photo_container">
-              <img class="photo" src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Bloodroot_%28Sanguinaria_canadensis%29.jpeg" alt="">
-            </div>
-            <!-- <div class="photo_container" v-for="j in tags.length" :key="j">
-              <img class="photo" :src="tags[j-1].photoPath" alt="">
-            </div> -->
           </div>
         </v-tab-item>
+
         <v-tab-item>
           <div class="badgesContainer tab_item_container" :style="{'grid-template-columns': badgesPerRow}">
             <!-- <Badge title="badges[j-1].title"/> -->
@@ -75,14 +69,13 @@
 
 <script>
 import Badge from "@/components/Badge";
-import userAvatarPlusInfo from "@/components/userAvatarPlusInfo";
 
 export default {
   name: "profileContent",
 
   components:{
     Badge,
-    userAvatarPlusInfo
+    // userAvatarPlusInfo
   },
 
   data: () => ({
@@ -137,14 +130,32 @@ export default {
       }
       return 1;
     },
+    getData(){
+      return this.$store.getters.getFetchedUserData;
+    }
   },
 
+  mounted(){
+    this.postUserId();
+    this.$store.dispatch('fetchUserData') 
+  },
 
+  methods: {
+    postUserId(){
+      const userId = JSON.stringify({
+      userId: this.$route.params.id
+      });
+
+      let formData = new FormData()
+      formData.append('data', userId)
+
+      this.$store.dispatch('fetchUserDataById', formData)
+    }
+  },
 }
 </script>
 
 <style scoped>
-
 .photo_grid {
   display: grid;
   /* grid-template-columns: auto auto auto; */
