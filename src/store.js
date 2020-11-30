@@ -93,7 +93,7 @@ const store = new Vuex.Store({
         },
 
         ///// FRIENDS /////
-        friendsData: null,
+        friendsData: [],
         friendRequests:[],
         friendRequestNotifications: null,
 

@@ -200,71 +200,85 @@
             class="stepper_content"
             step="3"
         >
-          <v-list>
-            <v-subheader>Tagged Friend</v-subheader>
-            <v-list-item
-                v-if="taggedFriends.length === 0">
-              <v-list-item-content>
-                <v-list-item-subtitle>New friend requests will show up here</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-                v-else
-                v-for="tagged in taggedFriends"
-                :key="tagged.userName">
-              <v-list-item-avatar>
-                <v-img
-                    :alt="`${tagged.userName} avatar`"
-                    :src="tagged.avatar"
-                ></v-img>
-              </v-list-item-avatar>
 
-              <v-list-item-content>
-                <v-list-item-title v-text="tagged.userName"></v-list-item-title>
-              </v-list-item-content>
-
-              <v-list-item-icon>
-                <v-btn
-                    depressed
-                    icon
-                    color="error"
-                    class="text-capitalize"
-                    dark
-                    @click="removeTag(tagged)"
-                    >
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-              </v-list-item-icon>
-            </v-list-item>
-            <v-divider></v-divider>
-            <v-subheader>My friends</v-subheader>
+          <v-subheader>Tagged Friend</v-subheader>
           <v-list-item
-              v-for="friend in updateFriends"
-              :key="friend"
-          >
-            <v-list-item-avatar>
-              <v-img
-                  :alt="`${friend.userName} avatar`"
-                  :src="friend.avatar"
-              ></v-img>
-            </v-list-item-avatar>
-
+              v-if="taggedFriends.length === 0">
             <v-list-item-content>
-              <v-list-item-title v-text="friend.userName"></v-list-item-title>
+              <v-list-item-subtitle style="height: 64px;">Tagged friends will show up here</v-list-item-subtitle>
             </v-list-item-content>
-
-            <v-list-item-icon>
-              <v-btn
-                     depressed
-                     color=var(--main-color)
-                     dark
-                     class="text-capitalize"
-                     @click="tagFriend(friend)">
-                Tag Friend
-              </v-btn>
-            </v-list-item-icon>
           </v-list-item>
-          </v-list>
+
+          <v-slide-group>
+            <v-slide-item
+                v-for="taggedFriend in taggedFriends"
+                :key="taggedFriend"
+            >
+              <div class="tagged_container">
+                <v-avatar
+                    size="56"
+                >
+                  <v-img
+                      :alt="`${taggedFriend.userName} avatar`"
+                      :src="taggedFriend.avatar"
+                  >
+                  </v-img>
+                </v-avatar>
+                <div class="text-caption text-truncate">
+                  {{taggedFriend.userName}}
+                </div>
+                <div class="delete_button_container" style="margin: -12px">
+                  <v-btn
+                      elevation="2"
+                      fab
+                      x-small
+                      color="error"
+                      raised
+                      @click="removeTag(taggedFriend)"
+                  >
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </div>
+              </div>
+            </v-slide-item>
+          </v-slide-group>
+
+          <v-divider></v-divider>
+          <v-subheader>My friends</v-subheader>
+
+          <v-virtual-scroll
+              :items="updateFriends"
+              :item-height="68"
+              :bench="5"
+              height="calc(100vh - 83px - 56px - 24px - 290px)"
+          >
+            <template v-slot:default="{ item }">
+              <v-list-item>
+                <v-list-item-avatar>
+                  <v-img
+                      :alt="`${item.userName} avatar`"
+                      :src="item.avatar"
+                  ></v-img>
+                </v-list-item-avatar>
+
+                <v-list-item-content>
+                  <v-list-item-title>{{item.userName}}</v-list-item-title>
+                </v-list-item-content>
+
+                <v-list-item-action>
+                  <v-btn
+                      depressed
+                      color=var(--main-color)
+                      dark
+                      class="text-capitalize"
+                      @click="tagFriend(item)">
+                    Tag Friend
+                  </v-btn>
+                </v-list-item-action>
+              </v-list-item>
+            </template>
+          </v-virtual-scroll>
+
           <div class="stepper_buttons_container">
            <v-btn
                 color=var(--dark-color)
@@ -435,7 +449,7 @@
                 <v-textarea
                     class="text_field"
                     id="description_box"
-                    label="DESCRIPTION"
+                    label="Description"
                     v-model="updateDescription"
                     outlined
                     color=var(--dark-color)
@@ -572,7 +586,7 @@ export default {
           console.log(error.message);
         },
     )
-    this.$store.dispatch('fetchFriends');
+    //this.$store.dispatch('fetchFriends');
   },
 
   methods: {
@@ -819,5 +833,13 @@ export default {
   right: 0;
   bottom: 0;
   padding: 24px;
+}
+
+.tagged_container {
+  position: relative;
+  text-align: center;
+  margin-right: 12px;
+  margin-left: 12px;
+  margin-top: 12px;
 }
 </style>
