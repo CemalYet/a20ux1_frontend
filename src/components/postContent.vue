@@ -78,7 +78,8 @@
           <div class="infoBox text-truncate">
 
               <v-list-item three-line>
-                <avatar :size="48" :user-name="getDiscovery.userName" :picture="getDiscovery.avatar"></avatar>
+                <avatar :size="48" :user-name="getDiscovery.userName" :picture="getDiscovery.avatar"
+                        @click.native="goToPost(getDiscovery.userId)"></avatar>
                 <v-list-item-content>
                   <v-list-item-title style="white-space: normal;">{{getDiscovery.title}}</v-list-item-title>
                   <v-list-item-subtitle class="wrap-text"> {{ getDiscoveryExtraInfo.description }} </v-list-item-subtitle>
@@ -92,7 +93,8 @@
         <div class="commentBox">
           <div class="infoBox text-truncate">
             <v-list-item three-line>
-              <avatar :size="48" :user-name="getComments[0].userName" :picture="getComments[0].avatar"></avatar>
+              <avatar :size="48" :user-name="getComments[0].userName" :picture="getComments[0].avatar"
+                      @click.native="goToPost(getComments[0].userId)"></avatar>
               <v-list-item-content>
                 <v-list-item-title style="white-space: normal;"> {{getComments[0].userName}} </v-list-item-title>
                 <v-list-item-subtitle>
@@ -195,6 +197,11 @@ export default {
     },
     goToComments(){
       this.$router.push({path:`${this.$route.params.discovery_id}/comments`});
+    },
+    goToPost(user_id){
+      console.log(user_id);
+      if(user_id!==null || user_id!=='' ) {
+      this.$router.push({path: `/profile/${user_id}`});}
     },
     goToShare(){
       this.$router.push({path:`${this.$route.params.discovery_id}/share`});

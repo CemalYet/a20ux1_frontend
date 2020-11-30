@@ -45,7 +45,9 @@
               v-else
               v-for="request in updateFriendRequests"
               :key="request">
-            <avatar :size="52" :user-name="request.userName" :picture="request.avatar"></avatar>
+            <avatar :size="52" :user-name="request.userName" :picture="request.avatar"
+                    @click.native="goToPost(request.userId)">
+                   </avatar>
 
 
             <v-list-item-content>
@@ -80,7 +82,8 @@
               v-for="friend in updateFriends"
               :key="friend.userName"
           >
-            <avatar :size="52" :user-name="friend.userName" :picture="friend.avatar"></avatar>
+            <avatar :size="52" :user-name="friend.userName" :picture="friend.avatar"
+                    @click.native="goToPost(friend.userId)"></avatar>
 
 
             <v-list-item-content>
@@ -110,7 +113,8 @@
               v-for="friend in searchResult"
               :key="friend.userName"
           >
-            <avatar :size="52" :user-name="friend.userName" :picture="friend.avatar"></avatar>
+            <avatar :size="52" :user-name="friend.userName" :picture="friend.avatar"
+                    @click.native="goToPost(friend.userId)"></avatar>
 
             <v-list-item-content>
               <v-list-item-title v-text="friend.userName"></v-list-item-title>
@@ -178,6 +182,7 @@ export default {
   },
 
   methods: {
+
     postUnFriendId(friend) {
       const unFriendId = JSON.stringify({
         userId :friend.userId
@@ -252,6 +257,13 @@ export default {
       });
       this.$store.commit('deleteFriendRequest', request);
     },
+    goToPost(user_id){
+      console.log(user_id);
+      if(user_id!==null || user_id!=='' ) {
+        this.$router.push({path: `/profile/${user_id}`})
+      }
+    }
+
   },
 
   computed: {
