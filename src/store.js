@@ -318,10 +318,10 @@ const store = new Vuex.Store({
             })
         },
 
-        /*uploadUserData(context, updatedUserData){
+        uploadUserData(context, updatedUserData){
             context.commit('updateUserData', updatedUserData);
         },
-        */
+
 
 
         logOut(context){
@@ -341,11 +341,12 @@ const store = new Vuex.Store({
         fetchFriendRequests(context){
             axios.get('/public/friends/getFriendRequest').then(response => (context.commit('updateFriendRequests', response["data"])))
         },
-
+        /*
         uploadUserData(context, updatedUserData) {
             context.commit('updateUserData', updatedUserData);
-
         },
+        */
+
         fetchFriendRequestNotifications(context){
             //axios post to request the amount of notifications from backend. Pass the userId of logged in user via the session in backend. writer trigger in database
             axios.get('/public/friends/getFriendRequestNotifications').then(response => (context.commit('updateFriendRequestNotifications', response["data"])))
