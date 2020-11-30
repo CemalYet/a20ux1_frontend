@@ -22,9 +22,8 @@ export default {
   methods:{
     goToUser(user_id){
       console.log(user_id);
-      if(user_id!==null || user_id!=='' ) {
-        this.$router.push({path: `/profile/${user_id}`})
-      }
+      if(typeof(user_id)!=='undefined'){
+        this.$router.push({path: `/profile/${user_id}`})}
     }
   }
 }
