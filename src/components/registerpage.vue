@@ -140,6 +140,7 @@
         </div>
         <div class="centerButtons">
           <v-btn
+              class="buttons"
               @click="e1 = 1"
               elevation="2"
           >
@@ -148,7 +149,7 @@
           <v-btn
               color=var(--dark-color)
               @click="e1 = 3"
-              class="white--text"
+              class="buttons white--text"
               elevation="2"
               @click.native="updateUserEmail"
           >
@@ -228,6 +229,7 @@
         </div>
         <div class="centerButtons">
           <v-btn
+              class="buttons"
               @click="e1 = 2"
               elevation="2"
           >
@@ -236,7 +238,7 @@
           <v-btn
               color=var(--dark-color)
               @click="e1 = 4"
-              class="white--text"
+              class="buttons white--text"
               elevation="2"
               @click.native="save"
           >
@@ -336,20 +338,30 @@ export default {
       if (this.checkTextFields()) {
         axios.get('register/checkemail', {params: {data: this.emailAddress}}).then(response =>
             (this.checkEmail(response["data"])));
-      } else {
-        this.snackBarText = 'Please fill in all the text fields as required.';
-        this.snackBar = true;
       }
     },
     checkTextFields: function () {
       if (this.userName === null || this.password === null || this.confirmPassword === null || this.emailAddress === null) {
+        this.snackBarText = 'Please fill in all the text fields as required.';
+        this.snackBar = true;
         return false;
       } else {
-        return (1 <= this.userName.length <= 25)
-            && (1 <= this.emailAddress.length <= 45)
-            && (6 <= this.password.length)
-            && (this.password === this.confirmPassword)
-            && (/.+@.+/.test(this.emailAddress));
+        if (this.password !== this.confirmPassword) {
+          this.snackBarText = "Passwords don't match";
+          this.snackBar = true;
+          return false;
+        } else {
+          if ((1 <= this.userName.length <= 25)
+              && (1 <= this.emailAddress.length <= 45)
+              && (6 <= this.password.length)
+              && (/.+@.+/.test(this.emailAddress))) {
+            return true;
+          } else {
+            this.snackBarText = 'Please fill in all the text fields as required.';
+            this.snackBar = true;
+            return false
+          }
+        }
       }
     },
 
@@ -391,11 +403,15 @@ export default {
 
 .centerButtons {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding-top: 20px;
   padding-bottom: 5px;
   max-width: 276px;
   margin: auto auto 5px;
+}
+
+.buttons {
+  margin: 0 0 0 10px;
 }
 
 .paragraphbox {
@@ -446,7 +462,7 @@ export default {
 }
 
 .btn {
-  color:var(--dark-color);
+  color: var(--dark-color);
 }
 
 .dark--text /deep/ label {
@@ -454,7 +470,7 @@ export default {
 }
 
 
-@media (min-width: 960px){
+@media (min-width: 960px) {
   .background {
     height: calc(100vh - 99px);
   }
