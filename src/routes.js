@@ -321,6 +321,9 @@ const router = new VueRouter({
             ],
         },
     ],
+    scrollBehavior () {
+        return { x: 0, y: 0 }
+    }
 });
 
 ///// TO CHECK IF USER IS LOGGED IN /////

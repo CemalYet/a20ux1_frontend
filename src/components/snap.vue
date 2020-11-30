@@ -57,7 +57,7 @@
           >
             <template v-for="(card, i) in cards">
               <v-col :key="i">
-                <v-card style="height: 200px">
+                <v-card style="height: 200px" class="card-outter">
                   <v-progress-linear
                       :value=card.percentage
                       color=var(--dark-color)
@@ -74,7 +74,7 @@
                           {{ card.subtitle }}
                         </p>
                       </v-card-subtitle>
-                      <v-card-actions style="padding: 0">
+                      <v-card-actions style="padding: 0" class="card-actions">
                         <v-btn
                             class="ml-2 mt-5"
                             outlined
@@ -257,6 +257,15 @@ main {
 
 .headline {
   margin: 2px 2px 2px 16px;
+}
+
+.card-outter {
+  position: relative;
+  padding-bottom: 25px;
+}
+.card-actions {
+  position: absolute;
+  bottom: 15px;
 }
 
 </style>
