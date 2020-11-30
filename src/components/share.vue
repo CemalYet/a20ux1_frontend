@@ -427,22 +427,15 @@
                 >
                   go back
                 </v-btn>
+
                 <v-btn
-                    v-if="invalid"
                     color=var(--dark-color)
                     elevation="2"
-                    :ripple="false"
-                    :disabled="invalid"
-                >
-                  finish
-                </v-btn>
-                <v-btn
-                    v-if="!invalid"
-                    color=var(--dark-color)
-                    elevation="2"
-                    :ripple="false"
                     type="submit"
-                    dark
+                    class="ma-2 white--text"
+                    :loading="loading"
+                    :disabled="(invalid || loading)"
+                    @click="loader = 'loading'"
                 >
                   finish
                 </v-btn>
@@ -518,8 +511,21 @@ export default {
     steps: 1,
     taggedFriends:[],
     taggedFriendsId:[],
-    errorText: null
+    errorText: null,
+    loader: null,
+    loading: false,
   }),
+
+  watch:{
+    loader(){
+      const l = this.loader
+      this[l] = !this[l]
+
+      setTimeout(() => (this[l] = false), 3000)
+
+      this.loader = null
+    }
+  },
 
   created() {
     this.getTime();
@@ -564,6 +570,7 @@ export default {
         this.errorText = "Please choose a leaf for your discovery";
         this.$store.commit('updateSnackbar', true);
       } else {
+        this.errorText = "Failed to upload. Please try again later.";
         this.$store.dispatch('sharePost', this.taggedFriendsId);
       }
     },

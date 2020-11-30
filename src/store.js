@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import router from "./routes";
 
 
 Vue.use(Vuex)
@@ -325,12 +326,19 @@ const store = new Vuex.Store({
                 my_taggedFriends: taggedFriendsId,
                 images: context.getters.getDiscoveryImages,
             });
-            const res = axios.post('/public/sharecontroller/save', json,
+
+            axios.post('/public/sharecontroller/save', json,
                 {
                     headers: {'Content-Type': 'application/json'}
+                }).catch(error => {
+                if (error.response) {
+                    context.commit('updateSnackbar', true);
+                }
+                else {
+                    //doesn't wannaaa wooorrkkkk
+                    router.push({path: '/'});
+                }
                 });
-            console.log(res)
-            console.log(json)
         },
 
         ///// MAP PAGE /////
