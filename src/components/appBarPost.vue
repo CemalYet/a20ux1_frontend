@@ -13,7 +13,8 @@
     <div class="userInfoBox">
       <div class="avatarBox">
         <!-- NOT IMPLEMENTED YET: showing the avatar based on who is logged in, is a default user right now -->
-        <avatar :size="52" :user-name="getDiscovery.userName" :picture="getDiscovery.avatar"></avatar>
+        <avatar :size="52" :user-name="getDiscovery.userName" :picture="getDiscovery.avatar"
+                @click.native="goToUser(getDiscovery.userId)"></avatar>
       </div>
       <div class="infoBox">
         <v-list-item two-line>
@@ -51,6 +52,14 @@ export default {
       return this.$store.getters.getDiscoveryBasedOnId(this.$route.params.discovery_id);
     },
   },
+  methods:{
+    goToUser(user_id){
+      console.log(user_id);
+      if(user_id!==null || user_id!=='' ) {
+        this.$router.push({path: `/profile/${user_id}`})
+      }
+    }
+  }
 }
 </script>
 

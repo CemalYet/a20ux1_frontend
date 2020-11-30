@@ -1,6 +1,7 @@
 <template>
   <v-list-item two-line>
-    <avatar :size="70" :user-name="getUserData.userName" :picture="getUserData.avatar"></avatar>
+    <avatar :size="70" :user-name="getUserData.userName" :picture="getUserData.avatar"
+            @click.native="goToUser(getUserData.userId)"></avatar>
     <v-list-item-content>
       <v-list-item-title>{{getUserData.userName}}</v-list-item-title>
       <v-list-item-subtitle>{{getUserData.emailAddress}}</v-list-item-subtitle>
@@ -16,6 +17,14 @@ export default {
   computed:{
     getUserData(){
       return this.$store.getters.getUserData[0];
+    }
+  },
+  methods:{
+    goToUser(user_id){
+      console.log(user_id);
+      if(user_id!==null || user_id!=='' ) {
+        this.$router.push({path: `/profile/${user_id}`})
+      }
     }
   }
 }
