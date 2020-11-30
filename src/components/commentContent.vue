@@ -23,7 +23,8 @@
           :key="comment">
         <div class="infoBox text-truncate">
           <v-list-item three-line dense>
-            <avatar :size="48" :user-name="comment.userName" :picture="comment.avatar"></avatar>
+            <avatar :size="48" :user-name="comment.userName" :picture="comment.avatar"
+                    @click.native="goToUser(comment.userId)"></avatar>
             <v-list-item-content>
               <v-list-item-title style="white-space: normal;"> {{comment.userName}} </v-list-item-title>
               <v-list-item-subtitle class="wrap-text"> {{ comment.comment }} </v-list-item-subtitle>
@@ -75,6 +76,12 @@ export default {
           .catch(function(err){
             console.log(err);
           });
+    },
+    goToUser(user_id){
+      console.log(user_id);
+      if(user_id!==null || user_id!=='' ) {
+        this.$router.push({path: `/profile/${user_id}`})
+      }
     }
   },
 
