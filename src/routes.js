@@ -23,6 +23,8 @@ import dropDownMenuED from "@/components/dropDownMenuED";
 import friends from "@/components/friends";
 import loginpage from "@/components/loginpage";
 import registerpage from "@/components/registerpage";
+import information from "@/components/information";
+import snap from "@/components/snap";
 
 import store from './store.js'
 
@@ -170,7 +172,6 @@ const router = new VueRouter({
                     ]
                 }
             ]
-
         },
         {
             path: '/profile/:id',
@@ -199,7 +200,7 @@ const router = new VueRouter({
                         }
                     },
                 },
-                
+
                 {
                     path: 'edit',
                     components: {
@@ -278,6 +279,48 @@ const router = new VueRouter({
                         }
                     ],
                 },
+                {
+                    path: '/information',
+                    components: {
+                        appBar: appBar,
+                        pageContent: information,
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+
+                            }
+                        }
+                    ],
+                    props:{
+                        appBar:{
+                            title: "New snAPP"
+                        }
+                    },
+                },
+                {
+                    path: '/snap',
+                    components: {
+                        appBar: appBar,
+                        pageContent: snap,
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+
+                            }
+                        }
+                    ],
+                    props:{
+                        appBar:{
+                            title: "New snAPP"
+                        }
+                    },
+                },
             ],
         },
         {
@@ -318,6 +361,9 @@ const router = new VueRouter({
             ]
         }
     ],
+    scrollBehavior () {
+        return { x: 0, y: 0 }
+    }
 });
 
 ///// TO CHECK IF USER IS LOGGED IN /////

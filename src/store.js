@@ -42,6 +42,18 @@ const store = new Vuex.Store({
         discovery_photos: null,
         discovery_id: null,
 
+        /// INFORMATION PAGE ///
+        info_cards: [
+            {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null},
+            {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null},
+            {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null},
+            {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null}
+        ],
+        discoveryImages: [],
+        card_id: null,
+
+
+
         ///// DISCOVERY POST /////
         deleteDialog: false,
         discoveryLikes: null,
@@ -272,10 +284,22 @@ const store = new Vuex.Store({
             state.discovery_id = value;
         },
 
+        /// INFORMATION PAGE ///
+        updateInformationCards(state, value) {
+            state.info_cards = value;
+        },
+        updateDiscoveryImages(state, value) {
+            state.discoveryImages[0] = value;
+        },
+        updateCardId(state, value) {
+            state.card_id = value;
+        },
+
         ///// DISCOVERY POST /////
         updateDeleteDialog(state, value) {
             state.deleteDialog = value;
-        }
+        },
+
     },
 
     actions: {
@@ -460,8 +484,16 @@ const store = new Vuex.Store({
             return state.discovery_id;
         },
 
-        ///// DISCOVERY POST /////
+        /// INFORMATION PAGE ///
+        getInformationCards(state) {
+            return state.info_cards;
+        },
+        getCardId(state) {
+            return state.card_id;
+        },
 
+
+        ///// DISCOVERY POST /////
         getDiscoveryBasedOnId: (state) => (discoveryId) => {
             for (let i = 0; i < state.discoveries.length; i++) {
                 if (discoveryId === state.discoveries[i].discoveryId) {
@@ -496,7 +528,12 @@ const store = new Vuex.Store({
         },
         getFriendRequestNotifications(state){
             return state.friendRequestNotifications;
-        }
+        },
+
+        /// INFORMATION PAGE//
+        getDiscoveryImages(state){
+            return state.discoveryImages[0];
+        },
     }
 })
 
