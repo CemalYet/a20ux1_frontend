@@ -336,6 +336,7 @@ const store = new Vuex.Store({
                 }
                 else {
                     //doesn't wannaaa wooorrkkkk
+                    console.log('test test')
                     router.push({path: '/'});
                 }
                 });

@@ -1,16 +1,18 @@
 <template>
-  <v-container>
+  <v-container style="height: calc(100vh - 56px)">
     <v-stepper
         alt-labels
         v-model="steps"
-        style=" max-width: 1000px; margin: auto "
+        style=" max-width: 1000px; margin: auto; height: 100%;"
+
     >
       <v-stepper-header>
         <v-stepper-step
             step="1"
             :complete="steps > 1"
+            color=var(--dark-color)
         >
-          Ad more pictures
+          Add pictures
         </v-stepper-step>
 
         <v-divider></v-divider>
@@ -18,6 +20,7 @@
         <v-stepper-step
             step="2"
             :complete="steps > 2"
+            color=var(--dark-color)
         >
           Choose leaves
         </v-stepper-step>
@@ -27,6 +30,7 @@
         <v-stepper-step
             step="3"
             :complete="steps > 3"
+            color=var(--dark-color)
         >
           Tag friends
         </v-stepper-step>
@@ -35,6 +39,7 @@
 
         <v-stepper-step
             step="4"
+            color=var(--dark-color)
         >
           General info
         </v-stepper-step>
@@ -43,8 +48,8 @@
       <v-stepper-items>
         <v-stepper-content
             step="1"
+            class="stepper_content"
         >
-
           <v-slide-group
               show-arrows="desktop"
           >
@@ -84,7 +89,23 @@
             </v-slide-item>
           </v-slide-group>
 
-          <div style="text-align: right;">
+          <br>
+          <v-divider></v-divider>
+          <br>
+
+          <div class="text-h5">
+            Add some nice pictures to your discovery!
+          </div>
+          <br>
+          <div class="text-body-1">
+            You need at least 1 image to upload your discovery, but feel free to add more!
+          </div>
+          <br>
+          <div class="text-body-1">
+            The first picture in the list will be visible in the leaf on the feed.
+          </div>
+
+          <div class="stepper_buttons_container">
             <v-btn
                 right
                 color=var(--dark-color)
@@ -98,9 +119,10 @@
         </v-stepper-content>
         <v-stepper-content
             step="2"
+            class="stepper_content"
         >
 
-         <div class="flex_box_leaf_choices">
+          <div class="flex_box_leaf_choices">
 
               <leaf1 class="leaf" @click.native="select_leaf(1)"/>
               <leaf2 class="leaf" @click.native="select_leaf(2)"/>
@@ -114,10 +136,17 @@
           <v-divider></v-divider>
           <br>
           <div
-              class="placeholder_text_container"
+              class="placeholder_text_container text-h5"
               v-if="updateLeafShape === null"
           >
-            <h1>Choose your leaf shape</h1>
+            Choose your favorite leaf shape!
+          </div>
+          <br>
+          <div
+              class="placeholder_text_container text-b1"
+              v-if="updateLeafShape === null"
+          >
+            This leaf shape will show up in your friends feed, so be sure to take a nice one that complements your first picture.
           </div>
           <div class="leafId">
             <leaf1 class="small_leaf"
@@ -142,7 +171,7 @@
             />
           </div>
 
-          <div style="text-align: right">
+          <div class="stepper_buttons_container">
             <v-btn
                 color=var(--dark-color)
                 text
@@ -168,7 +197,7 @@
           </div>
         </v-stepper-content>
         <v-stepper-content
-            class="pa-0"
+            class="stepper_content"
             step="3"
         >
           <v-list>
@@ -236,10 +265,7 @@
             </v-list-item-icon>
           </v-list-item>
           </v-list>
-          <br>
-          <v-divider></v-divider>
-          <div style="text-align: right"
-          class="mt-6 mr-4 mb-2">
+          <div class="stepper_buttons_container">
            <v-btn
                 color=var(--dark-color)
                 text
@@ -258,6 +284,7 @@
         </v-stepper-content>
         <v-stepper-content
             step="4"
+            class="stepper_content"
         >
 
           <validation-observer
@@ -421,7 +448,7 @@
               </validation-provider>
 
               <!--CONFIRM button-->
-              <div style="text-align: right;">
+              <div class="stepper_buttons_container">
                 <v-btn
                     color=var(--dark-color)
                     text
@@ -434,7 +461,7 @@
                     color=var(--dark-color)
                     elevation="2"
                     type="submit"
-                    class="ma-2 white--text"
+                    class=" white--text"
                     :loading="loading"
                     :disabled="(invalid || loading)"
                     @click="loader = 'loading'"
@@ -743,7 +770,6 @@ export default {
   text-align: center;
   width: 90%;
   height: auto;
-  min-height: 340px;
 }
 
 .leaf {
@@ -760,6 +786,7 @@ export default {
 .small_leaf {
   max-width: 400px;
   width: auto;
+  margin: auto;
 }
 
 .added_discovery_images {
@@ -779,6 +806,18 @@ export default {
 .placeholder_text_container {
   width: 100%;
   height: auto;
-  text-align: center;
+}
+
+.stepper_content{
+  height: calc(100vh - 83px - 56px - 24px);
+  overflow: hidden;
+  position: relative;
+}
+
+.stepper_buttons_container {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 24px;
 }
 </style>
