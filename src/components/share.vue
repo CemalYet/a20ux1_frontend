@@ -100,7 +100,7 @@
             step="2"
         >
 
-          <div class="flex_box_leaf_choices">
+         <div class="flex_box_leaf_choices">
 
               <leaf1 class="leaf" @click.native="select_leaf(1)"/>
               <leaf2 class="leaf" @click.native="select_leaf(2)"/>
@@ -236,8 +236,10 @@
             </v-list-item-icon>
           </v-list-item>
           </v-list>
+          <br>
+          <v-divider></v-divider>
           <div style="text-align: right"
-          class="mr-4 mb-2">
+          class="mt-6 mr-4 mb-2">
            <v-btn
                 color=var(--dark-color)
                 text
