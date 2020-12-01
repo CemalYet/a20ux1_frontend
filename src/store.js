@@ -95,13 +95,7 @@ const store = new Vuex.Store({
         friendRequestNotifications: null,
 
         //templates
-        userData: [
-            {
-                avatar: null,
-                emailAddress: 'marnix.lijnen@student.kuleuven.be',
-                userName: 'Marnix Lijnen'
-            }
-        ],
+        userData: [],
 
         fetchedUserData: null,
 

@@ -26,7 +26,8 @@ import registerpage from "@/components/registerpage";
 import information from "@/components/information";
 import snap from "@/components/snap";
 
-import store from './store.js'
+import store from './store.js';
+import axios from 'axios';
 
 
 Vue.use(VueRouter);
@@ -367,14 +368,25 @@ const router = new VueRouter({
 });
 
 ///// TO CHECK IF USER IS LOGGED IN /////
+
 router.beforeEach((to, from, next) => {
-    //store.dispatch('fetchUserData');
-    if ((to.path !== '/login' || to.path !== '/register') && store.getters.getUserData.length === 0){
-        next({ path: '/login' })
+
+    //first check if userdata is 0. If it isn't no need to check any session data.
+    if(store.getters.getUserData.length === 0){
+        //secondly check if the user is in the login or registration pages. No need check any data here.
+        if (to.path !== '/login' && to.path !== '/register'){
+            //check session data and wait for a response
+            axios.get('/public/profile/getCurrentUserData').then(response => {
+                //store the response data in the userdata state
+                store.commit('updateUserData', response["data"]);
+                //if userdata state is still 0, redirect to /login
+                if (store.getters.getUserData.length === 0){
+                    next({ path: '/login' })
+                }
+            })
+        }
     }
-    else {
-        next()
-    }
+    next();
 })
 
 
