@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import router from "./routes";
 
 Vue.use(Vuex)
 
@@ -31,6 +32,29 @@ const store = new Vuex.Store({
         latitude: null,
         longitude:null,
         snackbar: false,
+        //MERGE PROBLEM: pictures from sharing
+        discoveryImages: [
+            {
+                "photoPath": "https://img.freepik.com/vrije-photo/close-up-van-een-giftige-rode-muhamor-paddestoel-in-het-bos_75145-275.jpg?size=626&ext=jpg",
+
+            },
+            {
+                "photoPath": "https://www.gardeningknowhow.com/wp-content/uploads/2017/07/hardwood-tree.jpg",
+
+            },
+            {
+                "photoPath": "https://theday.co.uk/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaWswT1RNM05XUXpNaTB6WWprekxUUTRPR010T0RJeE5TMDJNREZpTURnMFpUTm1OREFHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6ImJsb2JfaWQifX0=--cd717cd0a3f3db326a7f2808b1db0a281e27cc73/-images-stories-2019-2019-09-2019-09-19_sunflowers.jpg",
+
+            },
+            {
+                "photoPath": "https://media.npr.org/assets/img/2017/04/25/istock-115796521-fcf434f36d3d0865301cdcb9c996cfd80578ca99.jpg",
+
+            },
+            {
+                "photoPath": "https://d36tnp772eyphs.cloudfront.net/blogs/1/2015/07/VAN-LAKE-2-940x627.jpg",
+
+            }
+        ],
 
         // MAP PAGE /////
         map_center: {lat: 50.87959, lng: 4.70093}, //Leuven default value
@@ -49,7 +73,7 @@ const store = new Vuex.Store({
             {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null},
             {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null}
         ],
-        discoveryImages: [],
+
         card_id: null,
 
 
@@ -90,12 +114,21 @@ const store = new Vuex.Store({
         },
 
         ///// FRIENDS /////
-        friendsData: null,
+        friendsData: [],
         friendRequests:[],
         friendRequestNotifications: null,
 
+        /////TAGGED FRIENDS////
+        taggedFriendsData:[],
+
         //templates
-        userData: [],
+        userData: [
+            {
+                avatar: 'https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/72281335_3233116936715489_818658218732421120_o.jpg?_nc_cat=109&ccb=2&_nc_sid=09cbfe&_nc_ohc=Ag-ed4FZ5DsAX_OoYsw&_nc_ht=scontent-bru2-1.xx&oh=7566a5438a01f20dcb8c0f5a9c3abf67&oe=5FC98598',
+                emailAddress: 'marnix.lijnen@student.kuleuven.be',
+                userName: 'Marnix Lijnen'
+            }
+        ],
 
         fetchedUserData: null,
 
@@ -246,7 +279,14 @@ const store = new Vuex.Store({
         updateLatitude(state, value) {
             state.latitude = value;
         },
-        
+
+        pushNewDiscoveryImage(state, value){
+            state.discoveryImages.unshift(value);
+        },
+        deleteDiscoveryImage(state, image){
+            state.discoveryImages.splice(state.discoveryImages.indexOf(image),1);
+        },
+
         ///// MAP PAGE /////
         updateMapCenter(state, value) {
             state.map_center.lat = value.coords.latitude;
@@ -294,6 +334,10 @@ const store = new Vuex.Store({
             state.deleteDialog = value;
         },
 
+        ///// POST CONTENT /////
+        updateTaggedFriendsData(state,taggedFriendsData){
+            state.taggedFriendsData = taggedFriendsData;
+        }
     },
 
     actions: {
@@ -348,7 +392,7 @@ const store = new Vuex.Store({
 
 
         ///// SHARE DISCOVERY /////
-        sharePost(context) {
+        sharePost(context, taggedFriendsId){
             const json = JSON.stringify({
                 my_title: context.getters.getTitle,
                 my_time: context.getters.getTimestamp,
@@ -358,13 +402,23 @@ const store = new Vuex.Store({
                 my_leaf: context.getters.getChosen_leaf,
                 my_latitude: context.getters.getLatitude,
                 my_longitude: context.getters.getLongitude,
+                my_taggedFriends: taggedFriendsId,
+                images: context.getters.getDiscoveryImages,
             });
-            const res = axios.post('/public/sharecontroller/save', json,
+
+            axios.post('/public/sharecontroller/save', json,
                 {
                     headers: {'Content-Type': 'application/json'}
+                }).catch(error => {
+                if (error.response) {
+                    context.commit('updateSnackbar', true);
+                }
+                else {
+                    //doesn't wannaaa wooorrkkkk
+                    console.log('test test')
+                    router.push({path: '/'});
+                }
                 });
-            console.log(res)
-            console.log(json)
         },
 
         ///// MAP PAGE /////
@@ -400,6 +454,13 @@ const store = new Vuex.Store({
             axios.get('/public/mapcontroller/getDiscoveryPhotos', {params: {data: context.getters.getDiscoveryId}}).then(response => {
                 context.commit("updateDiscoveryPhotos", response["data"])
             });
+        },
+        ///// Post Content PAGE /////
+        getTaggedFriends(context){
+            axios.get('/public/discovery/getTags').then(response => {
+                context.commit('updateTaggedFriendsData', response["data"])
+                })
+
         }
     },
 
@@ -448,6 +509,9 @@ const store = new Vuex.Store({
         },
         getDescription(state) {
             return state.description;
+        },
+        getDiscoveryImages(state){
+            return state.discoveryImages;
         },
 
         ///// MAP PAGE /////
@@ -526,9 +590,15 @@ const store = new Vuex.Store({
         },
 
         /// INFORMATION PAGE//
-        getDiscoveryImages(state){
+        //MERGE PROBLEM: renamed to getFirstDiscoveryImage
+        getFirstDiscoveryImage(state){
             return state.discoveryImages[0];
         },
+
+        //// POST CONTENT ///
+        getTaggedFriends(state){
+            return state.taggedFriendsData
+        }
     }
 })
 

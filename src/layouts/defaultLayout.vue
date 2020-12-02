@@ -15,9 +15,6 @@
       <!--Grid of Leaves-->
       <router-view name="pageContent"></router-view>
 
-      <br/>
-      <br/>
-
       <!--Navigation menu at the bottom-->
       <router-view name="bottomNavBar"></router-view>
     </v-main>

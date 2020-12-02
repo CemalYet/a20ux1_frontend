@@ -289,5 +289,8 @@ export default {
   width: 100%;
   max-width: 750px;
 }
+.list{
+  background: transparent;
+}
 
 </style>
