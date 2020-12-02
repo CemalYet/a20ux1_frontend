@@ -46,7 +46,7 @@
                 <v-icon large color=var(--dark-color)>mdi-tag-outline</v-icon>
               </v-btn>
             </template>
-            <v-list v-for="tag in getTags" :key="tag" dense>
+            <v-list v-for="tag in getTaggedFriends" :key="tag" dense>
               <v-list-item>
                 <v-list-item-title class="tags"> {{ tag.userName }} </v-list-item-title>
               </v-list-item>
@@ -219,8 +219,8 @@ export default {
     getComments(){
       return this.$store.getters.getComments;
     },
-    getTags(){
-      return this.$store.getters.getTags;
+    getTaggedFriends(){
+      return this.$store.getters.getTaggedFriends;
     },
     updateDeleteDialog:{
       get(){

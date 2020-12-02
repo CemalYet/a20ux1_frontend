@@ -97,6 +97,9 @@ const store = new Vuex.Store({
         friendRequests:[],
         friendRequestNotifications: null,
 
+        /////TAGGED FRIENDS////
+        taggedFriendsData:[],
+
         //templates
         userData: [
             {
@@ -281,6 +284,10 @@ const store = new Vuex.Store({
         ///// DISCOVERY POST /////
         updateDeleteDialog(state, value){
             state.deleteDialog = value;
+        },
+        ///// POST CONTENT /////
+        updateTaggedFriendsData(state,taggedFriendsData){
+            state.taggedFriendsData = taggedFriendsData;
         }
     },
 
@@ -375,7 +382,15 @@ const store = new Vuex.Store({
             axios.get('/public/mapcontroller/getDiscoveryPhotos', {params: {data: context.getters.getDiscoveryId}}).then(response => {
                 context.commit("updateDiscoveryPhotos", response["data"])
             });
+        },
+        ///// Post Content PAGE /////
+        getTaggedFriends(context){
+            axios.get('/public/discovery/getTags').then(response => {
+                context.commit('updateTaggedFriendsData', response["data"])
+                })
+
         }
+
     },
 
     getters:{
@@ -490,6 +505,10 @@ const store = new Vuex.Store({
         },
         getFriendRequestNotifications(state){
             return state.friendRequestNotifications;
+        },
+        //// POST CONTENT ///
+        getTaggedFriends(state){
+            return state.taggedFriendsData
         }
     }
 })

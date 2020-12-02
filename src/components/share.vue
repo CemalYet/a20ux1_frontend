@@ -110,7 +110,7 @@
                 right
                 color=var(--dark-color)
                 dark
-                @click="steps = 2"
+                @click="steps = 3"
             >
               Continue
             </v-btn>
