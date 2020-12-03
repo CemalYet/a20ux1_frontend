@@ -22,6 +22,13 @@ export default {
   background-blend-mode: lighten;
   background-repeat: repeat;
   background-position: center;
+  background-size: 100vh;
+}
+
+@media (min-width: 900px) {
+  #main {
+    background-size: auto;
+  }
 }
 
 </style>
