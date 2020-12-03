@@ -303,7 +303,7 @@ const store = new Vuex.Store({
             state.info_cards = value;
         },
         updateDiscoveryImages(state, value) {
-            state.discoveryImages[0] = value;
+            state.discoveryImages[0] = {photoPath: value};
         },
         updateCardId(state, value) {
             state.card_id = value;

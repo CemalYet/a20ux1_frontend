@@ -194,7 +194,7 @@ export default {
       const imageCapture = new window.ImageCapture(mediaStreamTrack)
       // eslint-disable-next-line no-unused-vars
       imageCapture.takePhoto().then(blob => {
-        api_connection(this.captures[0]);
+        api_connection(this.captures[0]); ['nsbdfijwhbfiuwfbweiufbifubfiuwefbwieufbweiufb']  [{naam: 'iets', photoPath: 'sdkjhfsiufhsdiufhsdfhdsdsfsdf'}]
       })
       this.$store.commit('updateDiscoveryImages', this.captures[0])
     },

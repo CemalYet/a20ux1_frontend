@@ -3,8 +3,6 @@ import store from './store.js';
 const api_connection = function(image){
     Promise.all(image).then(
         () => {
-            console.log(image)
-
             const datas = {
                 api_key: "ZA54kZ7WT2A7nQhCyvYvePuXucjnAIDW0v4qzJq98GOYQ1268c",
                 images: [image],
@@ -17,7 +15,6 @@ const api_connection = function(image){
                     "taxonomy",
                     "synonyms"]
             };
-            console.log(datas)
 
             fetch('https://api.plant.id/v2/identify', {
                 method: 'POST',

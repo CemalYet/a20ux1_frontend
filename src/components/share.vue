@@ -84,7 +84,7 @@
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
                 </div>
-                <v-img class="added_discovery_images ma-2" :src="image"></v-img>
+                <v-img class="added_discovery_images ma-2" :src="image.photoPath"></v-img>
               </div>
             </v-slide-item>
           </v-slide-group>
