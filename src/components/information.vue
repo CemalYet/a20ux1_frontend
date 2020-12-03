@@ -8,25 +8,25 @@
           color="rgb(249 , 249, 249, 0.85)"
       >
         <v-progress-linear
-            :value=cards[id].percentage
+            :value=updateInformationCard.percentage
             color=var(--dark-color)
             class="mx-auto white--text"
             height="24"
         >
-          {{ cards[id].percentage }}%
+          {{ updateInformationCard.percentage }}%
         </v-progress-linear>
         <v-card-title class="headline">
-          {{ cards[id].title }}
+          {{ updateInformationCard.title }}
         </v-card-title>
         <v-card-subtitle>
           <p class="font-italic" style="margin: 0">
-            {{ cards[id].subtitle }}
+            {{ updateInformationCard.subtitle }}
           </p>
         </v-card-subtitle>
         <div id="image_div">
           <v-img
               id="image"
-              :src="cards[id].src"
+              :src="updateInformationCard.src"
           >
           </v-img>
         </div>
@@ -34,12 +34,13 @@
           <v-btn
               class="white--text"
               color=var(--dark-color)
+              @click="goToShare"
           >
             CONTINUE WITH THIS PLANT
           </v-btn>
         </v-card-actions>
         <p id="information_text">
-          {{ cards[id].info }}
+          {{ updateInformationCard.info }}
         </p>
       </v-card>
     </v-layout>
@@ -54,9 +55,19 @@ export default {
     cards: null,
   }),
 
-  mounted() {
-    this.cards = this.$store.getters.getInformationCards;
-    this.id = this.$store.getters.getCardId;
+  computed:{
+    updateInformationCard(){
+      return this.$store.getters.getInformationCards[this.updateCardId];
+    },
+    updateCardId(){
+      return this.$store.getters.getCardId;
+    }
+  },
+
+  methods:{
+    goToShare(){
+      this.$router.push({path: '/share'})
+    }
   }
 }
 </script>

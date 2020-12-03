@@ -6,7 +6,6 @@ import feed from "@/components/feed";
 import bottomNavBar from "@/components/bottomNavBar";
 import hamburgerButton from "@/components/hamburgerButton";
 import backButton from "@/components/backButton";
-import camera from "@/components/camera";
 import share from "@/components/share";
 import mapLayout from "./layouts/mapLayout"
 import map from "@/components/map";
@@ -28,6 +27,7 @@ import snap from "@/components/snap";
 
 import store from './store.js';
 import axios from 'axios';
+import camera from "@/components/camera";
 
 
 Vue.use(VueRouter);
@@ -67,32 +67,53 @@ const router = new VueRouter({
             ],
         },
         {
-            path: '/camera',
+            path: '/snap',
             components:{
                 layout: defaultLayout,
             },
             children:[
                 {
-                    path: '',
-                    components:{
+                    path: '/',
+                    components: {
                         appBar: appBar,
-                        pageContent: camera,
-                        bottomNavBar: bottomNavBar,
+                        pageContent: snap,
                     },
                     children:[
                         {
                             path: '',
                             components:{
                                 buttonLeft: backButton,
+
                             }
                         }
                     ],
                     props:{
                         appBar:{
-                            title: "Camera"
+                            title: "New snAPP"
                         }
                     },
-                }
+                },
+                {
+                    path: '/information',
+                    components: {
+                        appBar: appBar,
+                        pageContent: information,
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+
+                            }
+                        }
+                    ],
+                    props:{
+                        appBar:{
+                            title: "New snAPP"
+                        }
+                    },
+                },
             ],
         },
         {
@@ -119,6 +140,34 @@ const router = new VueRouter({
                     props:{
                         appBar:{
                             title: "Friends"
+                        }
+                    },
+                }
+            ],
+        },
+        {
+            path: '/camera',
+            components:{
+                layout: defaultLayout,
+            },
+            children:[
+                {
+                    path: '',
+                    components:{
+                        appBar: appBar,
+                        pageContent: camera,
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+                            },
+                        }
+                    ],
+                    props:{
+                        appBar:{
+                            title: "Share"
                         }
                     },
                 }

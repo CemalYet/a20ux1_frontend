@@ -32,28 +32,9 @@ const store = new Vuex.Store({
         latitude: null,
         longitude:null,
         snackbar: false,
+        snackbar_message: null,
         //MERGE PROBLEM: pictures from sharing
         discoveryImages: [
-            {
-                "photoPath": "https://img.freepik.com/vrije-photo/close-up-van-een-giftige-rode-muhamor-paddestoel-in-het-bos_75145-275.jpg?size=626&ext=jpg",
-
-            },
-            {
-                "photoPath": "https://www.gardeningknowhow.com/wp-content/uploads/2017/07/hardwood-tree.jpg",
-
-            },
-            {
-                "photoPath": "https://theday.co.uk/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaWswT1RNM05XUXpNaTB6WWprekxUUTRPR010T0RJeE5TMDJNREZpTURnMFpUTm1OREFHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6ImJsb2JfaWQifX0=--cd717cd0a3f3db326a7f2808b1db0a281e27cc73/-images-stories-2019-2019-09-2019-09-19_sunflowers.jpg",
-
-            },
-            {
-                "photoPath": "https://media.npr.org/assets/img/2017/04/25/istock-115796521-fcf434f36d3d0865301cdcb9c996cfd80578ca99.jpg",
-
-            },
-            {
-                "photoPath": "https://d36tnp772eyphs.cloudfront.net/blogs/1/2015/07/VAN-LAKE-2-940x627.jpg",
-
-            }
         ],
 
         // MAP PAGE /////
@@ -123,11 +104,6 @@ const store = new Vuex.Store({
 
         //templates
         userData: [
-            {
-                avatar: 'https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/72281335_3233116936715489_818658218732421120_o.jpg?_nc_cat=109&ccb=2&_nc_sid=09cbfe&_nc_ohc=Ag-ed4FZ5DsAX_OoYsw&_nc_ht=scontent-bru2-1.xx&oh=7566a5438a01f20dcb8c0f5a9c3abf67&oe=5FC98598',
-                emailAddress: 'marnix.lijnen@student.kuleuven.be',
-                userName: 'Marnix Lijnen'
-            }
         ],
 
         fetchedUserData: null,
@@ -255,6 +231,10 @@ const store = new Vuex.Store({
         updateSnackbar(state, value) {
             state.snackbar = value;
         },
+        updateSnackbarMessage(state, message){
+            state.snackbar_message = message;
+        },
+
         updateChosen_leaf(state, value) {
             state.chosen_leaf = value;
         },
@@ -491,6 +471,9 @@ const store = new Vuex.Store({
         },
         getSnackbar(state) {
             return state.snackbar;
+        },
+        getSnackbarMessage(state){
+            return state.snackbar_message;
         },
         getTimestamp(state) {
             return state.timestamp;

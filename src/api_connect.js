@@ -1,46 +1,76 @@
-const files = [...document.querySelector('input[type=file]').files];
-const promises = files.map((file) => {
-    return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            const res = event.target.result;
-            console.log(res);
-            resolve(res);
-            return res;
-        }
-        reader.readAsDataURL(file)
-    })
-})
+import store from './store.js';
 
-Promise.all(promises).then(
-    (base64files) => {//console.log(base64files)
+const api_connection = function(image){
+    Promise.all(image).then(
+        () => {
+            console.log(image)
 
-        const data = {
-            api_key: "jw2iRh1UfQKvxZGe7mCzPAHEaZTNuRamNqcYUWyHHTc0uCpG7t",
-            images: base64files,
-            modifiers: ["crops_fast", "similar_images"],
-            plant_language: "en",
-            plant_details: ["common_names",
-                "url",
-                "name_authority",
-                "wiki_description",
-                "taxonomy",
-                "synonyms"]
-        };
-        console.log(data)
+            const datas = {
+                api_key: "ZA54kZ7WT2A7nQhCyvYvePuXucjnAIDW0v4qzJq98GOYQ1268c",
+                images: [image],
+                modifiers: ["crops_fast", "similar_images"],
+                plant_language: "en",
+                plant_details: ["common_names",
+                    "url",
+                    "name_authority",
+                    "wiki_description",
+                    "taxonomy",
+                    "synonyms"]
+            };
+            console.log(datas)
 
-        fetch('https://api.plant.id/v2/identify', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
+            fetch('https://api.plant.id/v2/identify', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(datas),
             })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    })
+                .then(response => response.json())
+                .then(datas => {
+                    let cards;
+                    cards = [
+                        {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null},
+                        {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null},
+                        {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null},
+                        {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null}
+                    ]
+                    let i;
+                    for (i = 0; i < 4; i++) {
+                        if (datas.suggestions[i].probability !== null) {
+                            cards[i].percentage = Math.round(datas.suggestions[i].probability * 1000) / 10;
+                        } else{
+                            cards[i].percentage = 0;
+                        }
+                        if (datas.suggestions[i].plant_details.common_names !== null){
+                            cards[i].title = datas.suggestions[i].plant_details.common_names[0];
+                        } else {
+                            cards[i].title = "Unknown common name"
+                        }
+                        if(datas.suggestions[i].plant_details.scientific_name !== null){
+                            cards[i].subtitle = datas.suggestions[i].plant_details.scientific_name;
+                        } else {
+                            cards[i].subtitle = "Unknown scientific name"
+                        }
+                        if(datas.suggestions[i].plant_details.wiki_description !== null){
+                            cards[i].info = datas.suggestions[i].plant_details.wiki_description.value;
+                        } else {
+                            cards[i].info = "Unknown wiki info"
+                        }
+                        if(datas.suggestions[i].similar_images !== null){
+                            cards[i].src = datas.suggestions[i].similar_images[0].url;
+                        } else {
+                            cards[i].src = image;
+                        }
+                    }
+                    store.commit('updateInformationCards', cards);
+                })
+                .catch((error) => {
+                    store.commit("updateSnackbarMessage",'Something went wrong! please try again later.' );
+                    store.commit("updateSnackbar", true);
+                    console.error('Error:', error);
+                });
+        })
+}
+
+export default api_connection;
