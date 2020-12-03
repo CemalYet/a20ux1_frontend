@@ -33,7 +33,6 @@ const store = new Vuex.Store({
         longitude:null,
         snackbar: false,
         snackbar_message: null,
-        //MERGE PROBLEM: pictures from sharing
         discoveryImages: [
         ],
 
@@ -103,78 +102,11 @@ const store = new Vuex.Store({
         taggedFriendsData:[],
 
         //templates
-        userData: [
-        ],
+        userData: [],
 
         fetchedUserData: null,
 
-        discoveries: [
-            {   userId:16,
-                discoveryId: '1',
-                avatar: null,
-                photoPath: "https://img.freepik.com/vrije-photo/close-up-van-een-giftige-rode-muhamor-paddestoel-in-het-bos_75145-275.jpg?size=626&ext=jpg",
-                leafId: '0',
-                userName: "Seppe Fleerackers Jr",
-                takenDate: "Yesterday 11:43",
-                title: "Mushroom I spotted this morning!",
-
-            },
-            {   userId:17,
-                discoveryId: '2',
-                avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/72281335_3233116936715489_818658218732421120_o.jpg?_nc_cat=109&ccb=2&_nc_sid=09cbfe&_nc_ohc=Ag-ed4FZ5DsAX_OoYsw&_nc_ht=scontent-bru2-1.xx&oh=7566a5438a01f20dcb8c0f5a9c3abf67&oe=5FC98598",
-                photoPath: "https://www.gardeningknowhow.com/wp-content/uploads/2017/07/hardwood-tree.jpg",
-                leafId: '1',
-                userName: "Marnix Lijnen",
-                takenDate: "Yesterday 12:43",
-                title: "Walking with the boys",
-                description:'',
-                plantName: 'plant 2'
-            },
-            {   userId:127,
-                discoveryId: '3',
-                avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/71499627_2643828155667264_8670036088552685568_o.jpg?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_ohc=7JZcQkduNz4AX9epCIn&_nc_ht=scontent-bru2-1.xx&oh=77a9c3c4a11f0ad0f86c78288349ccad&oe=5FCA7F28",
-                photoPath: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Cosmos_bipinnatus_pink%2C_Burdwan%2C_West_Bengal%2C_India_10_01_2013.jpg/1200px-Cosmos_bipinnatus_pink%2C_Burdwan%2C_West_Bengal%2C_India_10_01_2013.jpg",
-                leafId: '2',
-                userName: "Helena Majoor",
-                takenDate: "Yesterday 12:43",
-                title: "Walking with the girls dit is een veel te lange tekst",
-                description:'',
-                plantName: 'plant 3'
-            },
-            {   userId:12,
-                discoveryId: '4',
-                avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/64679357_2322740734614282_6203291312234430464_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=PitKaogm5B8AX8yIcyY&_nc_ht=scontent-bru2-1.xx&oh=479eea55195404be5f5296a91c782c10&oe=5FC9BBE7",
-                photoPath: "https://theday.co.uk/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaWswT1RNM05XUXpNaTB6WWprekxUUTRPR010T0RJeE5TMDJNREZpTURnMFpUTm1OREFHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6ImJsb2JfaWQifX0=--cd717cd0a3f3db326a7f2808b1db0a281e27cc73/-images-stories-2019-2019-09-2019-09-19_sunflowers.jpg",
-                leafId: '3',
-                userName: "Juliana Buzanello",
-                takenDate: "2/10 at 12:15",
-                title: "Morning hike",
-                description: '',
-                plantName: 'plant 4'
-            },
-            {   userId:48,
-                discoveryId: '5',
-                avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/119704647_3219531741455823_89414004719577010_o.jpg?_nc_cat=107&ccb=2&_nc_sid=09cbfe&_nc_ohc=SO6L9J8aGewAX9HxnoD&_nc_ht=scontent-bru2-1.xx&oh=41547f9a45d4a328835c7e7c62113949&oe=5FCB52C6",
-                photoPath: "https://media.npr.org/assets/img/2017/04/25/istock-115796521-fcf434f36d3d0865301cdcb9c996cfd80578ca99.jpg",
-                leafId: '4',
-                userName: "Benno Debals",
-                takenDate: "2/10 at 12:15",
-                title: "Walking with Juliana",
-                description: '',
-                plantName: 'plant 5',
-            },
-            {   userId:18,
-                discoveryId: '6',
-                avatar: null,
-                photoPath: "https://d36tnp772eyphs.cloudfront.net/blogs/1/2015/07/VAN-LAKE-2-940x627.jpg",
-                leafId: '3',
-                userName: "Cemal Yetismis",
-                takenDate: "9/8 at 15:20",
-                title: "Discovering Turkish nature",
-                description: '',
-                plantName: 'plant 6'
-            },
-        ],
+        discoveries: []
     },
 
     mutations: {
@@ -204,6 +136,12 @@ const store = new Vuex.Store({
         updateFetchedUserData(state, fetchedUserData){
             state.fetchedUserData = fetchedUserData;
             // console.log(JSON.stringify(this.getters.getFetchedUserData.userId))
+        },
+
+        ///// FEED /////
+
+        updateDiscoveries(state, discoveries){
+            state.discoveries = discoveries;
         },
 
         ///// FRIENDS /////
@@ -341,13 +279,20 @@ const store = new Vuex.Store({
         },
 
 
-
         logOut(context){
             axios.get('/public/login/logout').then(response => {
                 context.commit('updateCurrentUserData', null);
                 console.log(JSON.stringify(response.data));
             })
         },
+
+        ///// FEED /////
+        fetchFriendsDiscoveries(context){
+            axios.get('/public/feedcontroller/getdiscoveries').then(response => {
+                context.commit('updateDiscoveries', response);
+            })
+        },
+
 
         ///// FRIENDS /////
         fetchFriends(context) {

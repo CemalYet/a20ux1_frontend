@@ -1,7 +1,12 @@
 <template>
   <v-container>
     <br>
+    <div v-if="discoveriesData.length === 0" style="text-align: center">
+      <div class="text-h2">Your friends discoveries will show up here</div>
+      <h2>Go make some friends so you can enjoy there discoveries!</h2>
+    </div>
     <div class="leaf_grid"
+         v-if="discoveriesData !== 0"
          :style="{'grid-template-columns': itemsPerRow}"
     >
       <div class="discovery_container" v-for="j in discoveriesData.length" :key="j">
@@ -98,6 +103,7 @@ export default {
 
   mounted() {
     this.$store.dispatch('fetchFriendRequestNotifications')
+    this.$store.dispatch('fetchFriendsDiscoveries')
   }
 
 }
