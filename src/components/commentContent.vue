@@ -7,8 +7,8 @@
         <div class="infoBox text-truncate">
           <v-list-item three-line>
             <v-list-item-content>
-              <v-list-item-title style="white-space: normal;">{{getDiscovery.title}}</v-list-item-title>
-              <v-list-item-subtitle class="wrap-text"> {{ getDiscoveryExtraInfo.description }} </v-list-item-subtitle>
+              <v-list-item-title style="white-space: normal;">{{updateDiscoveryData[0].title}}</v-list-item-title>
+              <v-list-item-subtitle class="wrap-text"> {{ updateDiscoveryData[0].description }} </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </div>
@@ -17,7 +17,9 @@
 
       <!-- Comments -->
       <!-- NOT IMPLEMENTED YET: you have to refresh to see a new comment -->
+      <div class="text-body-1" v-if="getComments.length === 0" style="margin: 12px"> There seems to be nothing here. Tell your friends about your post!</div>
       <div
+          v-else
           class="commentBox"
           v-for="comment in getComments"
           :key="comment">
@@ -85,14 +87,8 @@ export default {
   },
 
   computed:{
-    getUserData(){
-      return this.$store.getters.getUserData;
-    },
-    getDiscovery(){
-      return this.$store.getters.getDiscoveryBasedOnId(this.$route.params.discovery_id);
-    },
-    getDiscoveryExtraInfo(){
-      return this.$store.getters.getDiscoveryExtraInfo;
+    updateDiscoveryData(){
+      return this.$store.getters.getDiscoveryPostData;
     },
     getComments(){
       return this.$store.getters.getComments;

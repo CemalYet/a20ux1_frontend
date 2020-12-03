@@ -12,13 +12,18 @@
                 outlined
                 small
                 color=var(--dark-color)
-            > {{ getDiscoveryExtraInfo.plantName }} </v-btn>
+            > See plant info </v-btn>
           </div>
         </div>
         <!-- Image from the discovery-->
-        <!-- NOT IMPLEMENTED YET: multiple images in a carousel -->
-        <v-img :src="getDiscovery.photoPath"></v-img>
-
+        <v-carousel hide-delimiters style="height: auto">
+          <v-carousel-item
+              v-for="image in updateDiscoveryPostPhotos"
+              :key="image"
+              :src="image.PhotoPath"
+          >
+          </v-carousel-item>
+        </v-carousel>
       </div>
 
       <!-- Icons: like, comments, tags, share -->
@@ -78,11 +83,11 @@
           <div class="infoBox text-truncate">
 
               <v-list-item three-line>
-                <avatar :size="48" :user-name="getDiscovery.userName" :picture="getDiscovery.avatar"
-                        @click.native="goToPost(getDiscovery.userId)"></avatar>
+                <avatar :size="48" :user-name="updateDiscoveryData[0].userName" :picture="updateDiscoveryData[0].avatar"
+                        @click.native="goToPost(updateDiscoveryData[0].userId)"></avatar>
                 <v-list-item-content>
-                  <v-list-item-title style="white-space: normal;">{{getDiscovery.title}}</v-list-item-title>
-                  <v-list-item-subtitle class="wrap-text"> {{ getDiscoveryExtraInfo.description }} </v-list-item-subtitle>
+                  <v-list-item-title style="white-space: normal;">{{updateDiscoveryData[0].title}}</v-list-item-title>
+                  <v-list-item-subtitle class="wrap-text"> {{ [0].description }} </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
 
@@ -102,10 +107,17 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item>
+            <v-list-item v-if="getComments.length !== 0">
               <v-list-item-content>
                 <v-list-item-subtitle @click="goToComments">
                   And {{getComments.length}} more...
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item v-if="getComments.length === 0">
+              <v-list-item-content>
+                <v-list-item-subtitle @click="goToComments">
+                  No comments yet
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -171,7 +183,7 @@ export default {
   methods: {
     sendLikeToDb: function() {
       const json = JSON.stringify({
-        userId: this.$store.getters.getUserData[0].userId,
+        userId: this.$store.getters.getLoggedInUserData[0].userId,
         discoId: this.$route.params.discovery_id
       });
       axios.post('savelike', json)
@@ -184,7 +196,7 @@ export default {
     },
     deleteLikeFromDb: function() {
       const json = JSON.stringify({
-        userId: this.$store.getters.getUserData[0].userId,
+        userId: this.$store.getters.getLoggedInUserData[0].userId,
         discoId: this.$route.params.discovery_id
       });
       axios.post('deletelike', json)
@@ -212,13 +224,7 @@ export default {
 
   computed:{
     getUserData(){
-      return this.$store.getters.getUserData;
-    },
-    getDiscovery(){
-      return this.$store.getters.getDiscoveryBasedOnId(this.$route.params.discovery_id);
-    },
-    getDiscoveryExtraInfo(){
-      return this.$store.getters.getDiscoveryExtraInfo;
+      return this.$store.getters.getLoggedInUserData;
     },
     getLikes(){
       return this.$store.getters.getLikes;
@@ -236,24 +242,28 @@ export default {
       set(value){
         this.$store.commit('updateDeleteDialog', value);
       }
+    },
+    updateDiscoveryPostPhotos(){
+      return this.$store.getters.getDiscoveryPostPhotos;
+    },
+    updateDiscoveryData(){
+      return this.$store.getters.getDiscoveryPostData;
     }
   },
 
 
   mounted() {
-    /* uncomment if deployed
-    this.$store.dispatch('fetchDiscoveryBasedOnId', this.$route.params.disoveryId);
-    this.$store.dispatch('fetchDiscoveryExtraInfo', this.$route.params.disoveryId);
-    this.$store.dispatch('fetchLikes', this.$route.params.disoveryId);
-    this.$store.dispatch('fetchComments', this.$route.params.disoveryId);
-    this.$store.dispatch('fetchTags', this.$route.params.disoveryId);
-
-     */
+    this.$store.dispatch('fetchDiscoveryBasedOnId', this.$route.params.discovery_id);
+    this.$store.dispatch('fetchDiscoveryPostPhotosOnId', this.$route.params.discovery_id);
+    this.$store.dispatch('fetchLikes', this.$route.params.discovery_id);
+    this.$store.dispatch('fetchComments', this.$route.params.discovery_id);
+    this.$store.dispatch('fetchTags', this.$route.params.discovery_id);
   },
 
   watch: {
     $route(to) {
-      this.$store.dispatch('fetchDiscoveryBasedOnId', to);
+      console.log(to.params)
+      this.$store.dispatch('fetchDiscoveryBasedOnId', to.params);
       // react to route changes...
     }
   }

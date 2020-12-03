@@ -169,12 +169,12 @@ export default {
 
   computed:{
     updatedUserData(){
-      return this.$store.getters.getUserData;
+      return this.$store.getters.getLoggedInUserData;
     }
   },
 
   mounted(){
-    this.$store.dispatch('fetchUserData') 
+    this.$store.dispatch('fetchLoggedInUserData')
   },
 
   methods:{
@@ -202,7 +202,7 @@ export default {
     },
 
     updateProfile(){
-      this.$store.dispatch('uploadUserData', this.updatedUserData);
+      this.$store.dispatch('uploadLoggedInUserData', this.updatedUserData);
 
       let currentObj = this;
 

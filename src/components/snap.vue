@@ -4,20 +4,18 @@
     <!--Camera-->
     <v-container>
       <div class="mx-auto" style="max-width: 100%">
-        <div align="center" style="font-weight: bold">
-          <div>You can add as many pictures until you are happy with your match.</div>
+        <div style="text-align: center">
+          <h3>You can add as many pictures until you are happy with your match.</h3>
         </div>
         <v-layout class="justify-center">
           <video
-              width="800"
               ref="video"
               id="video"
               autoplay
-              style="max-width: 100%; border-radius: 5px"
           >
           </video>
         </v-layout>
-        <canvas ref="canvas" id="canvas" width="800" height="480"></canvas>
+        <canvas ref="canvas" id="canvas"></canvas>
 
         <!-- Camera button -->
         <v-row
@@ -47,8 +45,8 @@
         v-if="getInformationCards[0].title != null"
     >
       <div class="mx-auto" style="max-width: 100%">
-        <div align="center" style="font-weight: bold">
-          <div>Click on a match to see more information and confirm the one you want to add to the discovery.</div>
+        <div style="text-align: center">
+          <h3>Click on a match to see more information and confirm the one you want to add to the discovery.</h3>
         </div>
         <v-row
             class="mx-auto"
@@ -56,7 +54,7 @@
         >
           <template v-for="(card, i) in getInformationCards">
             <v-col :key="i">
-              <v-card style="height: 200px" class="card-outter">
+              <v-card id="card-outer">
                 <v-progress-linear
                     :value=card.percentage
                     color=var(--dark-color)
@@ -65,33 +63,32 @@
                 >
                   {{ card.percentage }}%
                 </v-progress-linear>
-                <div class="d-flex flex-no-wrap justify-space-between">
-                  <div>
+                <div class="d-flex flex-no-wrap justify-space-between card_wrapper">
+                  <div id="card_text">
                     <h1 class="headline">{{card.title}}</h1>
                     <v-card-subtitle style="padding: 0; margin-left: 16px">
                       <p class="font-italic">
                         {{ card.subtitle }}
                       </p>
                     </v-card-subtitle>
-                    <v-card-actions style="padding: 0" class="card-actions">
                       <v-btn
-                          class="ml-2 mt-5"
+                          id="info_button"
                           outlined
                           small
                           @click="getInformation(i)"
                       >
                         MORE INFORMATION
                       </v-btn>
-                    </v-card-actions>
                   </div>
 
+                  <div class="image">
                   <v-avatar
-                      class="ma-3"
                       size="125"
                       tile
                   >
                     <v-img :src="card.src"></v-img>
                   </v-avatar>
+                  </div>
                 </div>
               </v-card>
             </v-col>
@@ -221,19 +218,16 @@ main {
   font-weight: bold;
   text-align: center;
   margin: 10px 10px 0 0;
-  /*background-color: var(--main-color);*/
-  /*float: top;*/
-}
-
-#video {
-  text-align: center;
 }
 
 #video {
   background-color: #000000;
+  max-width: 100%;
+  border-radius: 5px;
 }
 
 #canvas {
+  width: 100%;
   display: none;
 }
 
@@ -241,13 +235,29 @@ main {
   margin: 2px 2px 2px 16px;
 }
 
-.card-outter {
+#card-outer {
   position: relative;
-  padding-bottom: 25px;
+  height: 200px;
 }
-.card-actions {
+
+.card_wrapper{
+  display: grid;
+  grid-template-columns: 1fr 0.3fr;
+  grid-template-rows: repeat(4, 1fr);
+}
+
+#card_text{
+  grid-area: 1 / 1 / 5 / 2;
+}
+
+.image {
+  grid-area: 1 / 2 / 5 / 3;
+}
+
+#info_button {
   position: absolute;
   bottom: 15px;
+  margin-left: 16px;
 }
 
 </style>

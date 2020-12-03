@@ -5,14 +5,13 @@
     <div class="content">
 
       <!--User Info-->
-      <!-- <userAvatarPlusInfo :style="{width:avatarWidth}" style="margin: auto;" ></userAvatarPlusInfo> -->
-      <v-list-item two-line>
-        <v-list-item-avatar size="70">
-          <v-img :src="getData.avatar"></v-img>
-        </v-list-item-avatar>
+      <v-list-item
+          two-line
+      >
+        <avatar :size="70" :user-name="getUserData[0].userName" :picture="getUserData[0].avatar"></avatar>
         <v-list-item-content>
-          <v-list-item-title>{{getData.userName}}</v-list-item-title>
-          <v-list-item-subtitle>{{getData.emailAddress}}</v-list-item-subtitle>
+          <v-list-item-title>{{getUserData[0].userName}}</v-list-item-title>
+          <v-list-item-subtitle>{{getUserData[0].emailAddress}}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
@@ -35,19 +34,156 @@
       <v-tabs-items
           v-model="tab">
         <v-tab-item>
-          <div class="photo_grid tab_item_container" :style="{'grid-template-columns': itemsPerRow}">
-            <div class="photo_container" v-for="j in $store.getters.getDiscoveries.length" :key="j">
-              <img class="photo" :src="$store.getters.getDiscoveries[j-1].photoPath" alt="">
-            </div>
-          </div>
+          <v-container
+              style="max-width: 1000px;"
+              v-if="updateMyDiscoveries.length === 0"
+          >
+            <v-row
+                align="start"
+                dense
+            >
+              <v-col
+                  v-for="n in 18"
+                  :key="n"
+                  class="d-flex child-flex"
+                  :cols="itemsPerRowGrid"
+              >
+
+                <v-img
+                    aspect-ratio="1"
+                    class="grey lighten-2"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                    >
+                      <v-skeleton-loader
+                          class="mx-auto"
+                          type="image"
+                      ></v-skeleton-loader>
+                    </v-row>
+                  </template>
+                </v-img>
+              </v-col>
+            </v-row>
+          </v-container>
+
+          <v-container
+              style="max-width: 1000px;"
+          >
+            <v-row
+                align="start"
+                dense
+            >
+              <v-col
+                  v-for="discovery in updateMyDiscoveries"
+                  :key="discovery"
+                  class="d-flex child-flex"
+                  :cols="itemsPerRowGrid"
+              >
+
+                  <v-img
+                      :src="discovery.photoPath"
+                      :lazy-src="discovery.photoPath"
+                      aspect-ratio="1"
+                      class="grey lighten-2"
+                      v-ripple
+                      @click="goToPost(discovery)"
+                  >
+                    <template v-slot:placeholder>
+                      <v-row
+                          class="fill-height ma-0"
+                          align="center"
+                          justify="center"
+                      >
+                        <v-progress-circular
+                            indeterminate
+                            color="grey lighten-5"
+                        ></v-progress-circular>
+                      </v-row>
+                    </template>
+                  </v-img>
+              </v-col>
+            </v-row>
+          </v-container>
         </v-tab-item>
 
         <v-tab-item>
-          <div class="photo_grid tab_item_container" :style="{'grid-template-columns': itemsPerRow}">
-            <div class="photo_container" v-for="j in $store.getters.getDiscoveries.length" :key="j">
-              <img class="photo" :src="$store.getters.getDiscoveries[j-1].photoPath" alt="">
-            </div>
-          </div>
+
+          <v-container
+              style="max-width: 1000px;"
+              v-if="updateTaggedDiscoveries.length === 0"
+          >
+            <v-row
+                align="start"
+                dense
+            >
+              <v-col
+                  v-for="n in 18"
+                  :key="n"
+                  class="d-flex child-flex"
+                  :cols="itemsPerRowGrid"
+              >
+
+                <v-img
+                    aspect-ratio="1"
+                    class="grey lighten-2"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                    >
+                      <v-skeleton-loader
+                          class="mx-auto"
+                          type="image"
+                      ></v-skeleton-loader>
+                    </v-row>
+                  </template>
+                </v-img>
+              </v-col>
+            </v-row>
+          </v-container>
+
+          <v-container
+              style="max-width: 1000px;"
+          >
+            <v-row
+                align="start"
+                dense
+            >
+              <v-col
+                  v-for="discovery in updateTaggedDiscoveries"
+                  :key="discovery"
+                  class="d-flex child-flex"
+                  :cols="itemsPerRowGrid"
+              >
+                <v-img
+                    :src="discovery.photoPath"
+                    :lazy-src="discovery.photoPath"
+                    aspect-ratio="1"
+                    class="grey lighten-2"
+                    @click="goToPost(discovery)"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                    >
+                      <v-progress-circular
+                          indeterminate
+                          color="grey lighten-5"
+                      ></v-progress-circular>
+                    </v-row>
+                  </template>
+                </v-img>
+              </v-col>
+            </v-row>
+          </v-container>
         </v-tab-item>
 
         <v-tab-item>
@@ -69,36 +205,41 @@
 
 <script>
 import Badge from "@/components/Badge";
+import Avatar from "@/components/avatar";
+import axios from "axios";
 
 export default {
   name: "profileContent",
 
   components:{
     Badge,
-    // userAvatarPlusInfo
+    Avatar
   },
 
   data: () => ({
     tags: null,
     badges: null,
     tab: null,
+    myDiscoveries: [],
+    taggedDiscoveries: [],
   }),
 
   computed: {
-    itemsPerRow() {
+
+    itemsPerRowGrid() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':
-          return "auto"
+          return "4"
         case 'sm':
-          return "auto"
+          return "4"
         case 'md':
-          return "auto auto"
+          return "4"
         case 'lg':
-          return "auto auto auto"
+          return "3"
         case 'xl':
-          return "auto auto auto auto"
+          return "3"
       }
-      return 1;
+      return "12";
     },
     badgesPerRow() {
       switch (this.$vuetify.breakpoint.name) {
@@ -115,70 +256,68 @@ export default {
       }
       return 1;
     },
-    avatarWidth() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs':
-          return "100%"
-        case 'sm':
-          return "100%"
-        case 'md':
-          return "50%"
-        case 'lg':
-          return "50%"
-        case 'xl':
-          return "50%"
+
+    getUserData(){
+      if (this.$route.params.id !== this.$store.getters.getLoggedInUserData[0].userId) {
+        return this.$store.getters.getFetchedUserData;
+      } else{
+        return this.$store.getters.getLoggedInUserData;
       }
-      return 1;
     },
-    getData(){
-      return this.$store.getters.getFetchedUserData;
-    }
+    updateMyDiscoveries:{
+      get(){
+        return this.myDiscoveries;
+      },
+      set(value) {
+        this.myDiscoveries = value;
+      }
+    },
+    updateTaggedDiscoveries:{
+      get(){
+        return this.taggedDiscoveries;
+      },
+      set(value){
+        this.taggedDiscoveries = value;
+      }
+    },
   },
 
   mounted(){
     this.postUserId();
-    this.$store.dispatch('fetchUserData') 
+
+    // get my discoveries
+    axios.get('/public/profile/getowndiscoveries').then(response => {
+      this.updateMyDiscoveries = response["data"];
+    })
+
+    //get tagged discoveries
+    axios.get('/public/profile/gettaggeddiscoveries').then(response => {
+      this.updateTaggedDiscoveries = response["data"];
+    })
+
   },
 
   methods: {
     postUserId(){
-      const userId = JSON.stringify({
-      userId: this.$route.params.id
-      });
+      if (this.$route.params.id !== this.$store.getters.getLoggedInUserData[0].user){
+        const userId = JSON.stringify({
+          userId: this.$route.params.id
+        });
 
-      let formData = new FormData()
-      formData.append('data', userId)
+        let formData = new FormData()
+        formData.append('data', userId)
 
-      this.$store.dispatch('fetchUserDataById', formData)
+        this.$store.dispatch('fetchUserDataById', formData)
+      }
+    },
+    goToPost(discovery){
+      this.$router.push({path: `/post/${discovery.discoveryId}`})
     }
   },
 }
 </script>
 
 <style scoped>
-.photo_grid {
-  display: grid;
-  /* grid-template-columns: auto auto auto; */
-  text-align: center;
-  align-content: stretch;
-  /* margin: 2rem 3rem 1rem 3rem; */
-  align-items: start;
-  justify-content: center;
-  /* border: 2px solid black; */
-  gap: 3rem;
-}
-
-.photo_container {
-  text-align: center;
-  display: inline;
-}
-
-.photo{
-  width: 20rem;
-  height: 20rem;
-  object-fit:cover;
-  border: 1px solid black;
-}
 
 .badgesContainer {
   display: grid;

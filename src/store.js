@@ -8,7 +8,10 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
 
     state: {
-        //data
+        ///// USERDATA /////
+        loggedInUserData: [],
+
+        //?????
         userdata: {
             emailAddress: null,
             userId: null,
@@ -19,8 +22,12 @@ const store = new Vuex.Store({
         //navbar
         drawer: false,
 
-        //notifications
-        notifications: 2,
+        ///// FEED /////
+        discoveries: [],
+
+        ///// PROFILE /////
+        fetchedUserData: [],
+
 
         ///// SHARE DISCOVERY /////
         title: null,
@@ -60,7 +67,7 @@ const store = new Vuex.Store({
 
         ///// DISCOVERY POST /////
         deleteDialog: false,
-        discoveryLikes: null,
+        discoveryLikes: 0,
         discoveryComments: [
             {   userId:16,
                 userName: "Seppe Fleerackers",
@@ -72,41 +79,20 @@ const store = new Vuex.Store({
                 avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/64679357_2322740734614282_6203291312234430464_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=PitKaogm5B8AX8yIcyY&_nc_ht=scontent-bru2-1.xx&oh=479eea55195404be5f5296a91c782c10&oe=5FC9BBE7",
                 comment: "trekt op niks. leluk."
             }
-
         ],
-        discoveryTags: [
-            {
-                userName: 'Jefke',
-            },
-            {
-                userName: 'jannis',
-            },
-            {
-                userName: 'Jonas',
-            },
-            {
-                userName: 'Jantje',
-            }
-        ],
-        discoveryExtraInfo:{
-            description:'Dit is een of andere vage uitleg om te testen of die vage uitleg daar ook effectief komt te staan aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-            plantName: 'plant 1'
-        },
+        discoveryTags: [],
+        discoveryPostData:[],
+        discoveryPostPhotos:[ ],
 
         ///// FRIENDS /////
         friendsData: [],
         friendRequests:[],
-        friendRequestNotifications: null,
+        friendRequestNotifications: 0,
 
         /////TAGGED FRIENDS////
         taggedFriendsData:[],
 
         //templates
-        userData: [],
-
-        fetchedUserData: null,
-
-        discoveries: []
     },
 
     mutations: {
@@ -123,9 +109,9 @@ const store = new Vuex.Store({
             state.userdata.avatar = userdata.avatar;
             state.userdata.emailAddress = userdata.emailAddress;
         },
-        updateUserData(state, userData) {
-            state.userData = userData;
-            // alert(JSON.stringify(this.getters.getUserData[0].userId))
+        updateLoggedInUserData(state, userData) {
+            state.loggedInUserData = userData;
+            // alert(JSON.stringify(this.getters.getLoggedInUserData[0].userId))
         },
         updateUserEmail(state, email) {
             state.userdata.emailAddress = email
@@ -161,7 +147,12 @@ const store = new Vuex.Store({
             state.friendRequests.splice(state.friendRequests.indexOf(request), 1);
         },
         updateFriendRequestNotifications(state, value){
-            state.friendRequestNotifications = parseInt(value[0].amountOfFriendRequests);
+            if (value.length !== 0){
+                state.friendRequestNotifications = parseInt(value[0].amountOfFriendRequests);
+
+            } else {
+                state.friendRequestNotifications = 0
+            }
         },
 
 
@@ -255,6 +246,17 @@ const store = new Vuex.Store({
         ///// POST CONTENT /////
         updateTaggedFriendsData(state,taggedFriendsData){
             state.taggedFriendsData = taggedFriendsData;
+        },
+
+        updateDiscoveryPostData(state, value){
+            state.discoveryPostData = value;
+        },
+
+        updateDiscoveryPostPhotos(state, value){
+            state.discoveryPostPhotos = value;
+        },
+        updateDiscoveryComments(state, value){
+            state.discoveryComments = value;
         }
     },
 
@@ -268,28 +270,28 @@ const store = new Vuex.Store({
         },
 
         // current user's data
-        fetchUserData(context){
+        fetchLoggedInUserData(context){
             axios.get('/public/profile/getCurrentUserData').then(response => {
-                context.commit('updateUserData', response["data"]);
+                context.commit('updateLoggedInUserData', response["data"]);
             })
         },
 
-        uploadUserData(context, updatedUserData){
-            context.commit('updateUserData', updatedUserData);
+        uploadLoggedInUserData(context, updatedUserData){
+            context.commit('updateLoggedInUserData', updatedUserData);
         },
 
 
         logOut(context){
+            // eslint-disable-next-line no-unused-vars
             axios.get('/public/login/logout').then(response => {
-                context.commit('updateCurrentUserData', null);
-                console.log(JSON.stringify(response.data));
+                context.commit('updateLoggedInUserData', []);
             })
         },
 
         ///// FEED /////
         fetchFriendsDiscoveries(context){
             axios.get('/public/feedcontroller/getdiscoveries').then(response => {
-                context.commit('updateDiscoveries', response);
+                context.commit('updateDiscoveries', response["data"]);
             })
         },
 
@@ -305,8 +307,8 @@ const store = new Vuex.Store({
             axios.get('/public/friends/getFriendRequest').then(response => (context.commit('updateFriendRequests', response["data"])))
         },
         /*
-        uploadUserData(context, updatedUserData) {
-            context.commit('updateUserData', updatedUserData);
+        uploadLoggedInUserData(context, updatedUserData) {
+            context.commit('updateLoggedInUserData', updatedUserData);
         },
         */
 
@@ -381,11 +383,25 @@ const store = new Vuex.Store({
             });
         },
         ///// Post Content PAGE /////
-        getTaggedFriends(context){
-            axios.get('/public/discovery/getTags').then(response => {
+        getTaggedFriends(context, discoveryId){
+            axios.get('/public/discovery/getTags', {params: {data: discoveryId}}).then(response => {
                 context.commit('updateTaggedFriendsData', response["data"])
                 })
-
+        },
+        fetchDiscoveryBasedOnId(context, discoveryId){
+            axios.get('/public/discovery/getdiscoinfo', {params: {data: discoveryId}}).then(response => {
+                context.commit('updateDiscoveryPostData', response["data"])
+            })
+        },
+        fetchDiscoveryPostPhotosOnId(context, discoveryId){
+            axios.get('/public/mapcontroller/getDiscoveryPhotos', {params: {data: discoveryId}}).then(response => {
+                context.commit("updateDiscoveryPostPhotos", response["data"])
+            });
+        },
+        fetchComments(context, discoveryId){
+            axios.get('/public/discovery/getComments', {params: {data: discoveryId}}).then(response => {
+                context.commit("updateDiscoveryComments", response["data"])
+            });
         }
     },
 
@@ -397,8 +413,8 @@ const store = new Vuex.Store({
         getNotifications(state) {
             return state.notifications;
         },
-        getUserData(state) {
-            return state.userData;
+        getLoggedInUserData(state) {
+            return state.loggedInUserData;
         },
         getFetchedUserData(state){
             return state.fetchedUserData;
@@ -481,18 +497,6 @@ const store = new Vuex.Store({
 
 
         ///// DISCOVERY POST /////
-        getDiscoveryBasedOnId: (state) => (discoveryId) => {
-            for (let i = 0; i < state.discoveries.length; i++) {
-                if (discoveryId === state.discoveries[i].discoveryId) {
-                    return state.discoveries[i];
-                }
-            }
-            //if not found, search the database for the disco
-            return state.discoveries[0];
-        },
-        getDiscoveryExtraInfo(state) {
-            return state.discoveryExtraInfo;
-        },
         getLikes(state) {
             return state.discoveryLikes;
         },
@@ -525,8 +529,14 @@ const store = new Vuex.Store({
 
         //// POST CONTENT ///
         getTaggedFriends(state){
-            return state.taggedFriendsData
-        }
+            return state.taggedFriendsData;
+        },
+        getDiscoveryPostData(state){
+            return state.discoveryPostData;
+        },
+        getDiscoveryPostPhotos(state){
+            return state.discoveryPostPhotos;
+        },
     }
 })
 
