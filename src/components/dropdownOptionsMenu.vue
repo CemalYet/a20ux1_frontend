@@ -10,17 +10,15 @@
       </v-btn>
     </template>
     <v-list>
-      <router-link to="profile/edit">
-        <v-list-item>
-          <v-icon
-              color=var(--dark-color)
-              left>
-            mdi-account-edit-outline
-          </v-icon>
-          <v-list-item-title>Edit profile</v-list-item-title>
-        </v-list-item>
-      </router-link>
-        <v-list-item @click="logOut()">
+      <v-list-item @click="goToEdit">
+        <v-icon
+            color=var(--dark-color)
+            left>
+          mdi-account-edit-outline
+        </v-icon>
+        <v-list-item-title>Edit profile</v-list-item-title>
+      </v-list-item>
+        <v-list-item @click="logOut">
         <v-icon
             color=var(--dark-color)
             left>
@@ -40,13 +38,17 @@ export default {
       return this.$store.getters.getFetchedUserData;
     },
     getCurrentData(){
-      return this.$store.getters.getUserData;
+      return this.$store.getters.getLoggedInUserData;
     }
   },
   methods:{
     logOut() {
       this.$store.dispatch('logOut');
+      this.$router.push({path: '/login'});
     },
+    goToEdit(){
+      this.$router.push({path: '/profile/edit'})
+    }
   }
 }
 

@@ -8,7 +8,10 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
 
     state: {
-        //data
+        ///// USERDATA /////
+        loggedInUserData: [],
+
+        //?????
         userdata: {
             emailAddress: null,
             userId: null,
@@ -19,8 +22,12 @@ const store = new Vuex.Store({
         //navbar
         drawer: false,
 
-        //notifications
-        notifications: 2,
+        ///// FEED /////
+        discoveries: [],
+
+        ///// PROFILE /////
+        fetchedUserData: [],
+
 
         ///// SHARE DISCOVERY /////
         title: null,
@@ -96,17 +103,12 @@ const store = new Vuex.Store({
         ///// FRIENDS /////
         friendsData: [],
         friendRequests:[],
-        friendRequestNotifications: null,
+        friendRequestNotifications: 0,
 
         /////TAGGED FRIENDS////
         taggedFriendsData:[],
 
         //templates
-        userData: [],
-
-        fetchedUserData: null,
-
-        discoveries: []
     },
 
     mutations: {
@@ -123,9 +125,9 @@ const store = new Vuex.Store({
             state.userdata.avatar = userdata.avatar;
             state.userdata.emailAddress = userdata.emailAddress;
         },
-        updateUserData(state, userData) {
-            state.userData = userData;
-            // alert(JSON.stringify(this.getters.getUserData[0].userId))
+        updateLoggedInUserData(state, userData) {
+            state.loggedInUserData = userData;
+            // alert(JSON.stringify(this.getters.getLoggedInUserData[0].userId))
         },
         updateUserEmail(state, email) {
             state.userdata.emailAddress = email
@@ -161,7 +163,12 @@ const store = new Vuex.Store({
             state.friendRequests.splice(state.friendRequests.indexOf(request), 1);
         },
         updateFriendRequestNotifications(state, value){
-            state.friendRequestNotifications = parseInt(value[0].amountOfFriendRequests);
+            if (value.length !== 0){
+                state.friendRequestNotifications = parseInt(value[0].amountOfFriendRequests);
+
+            } else {
+                state.friendRequestNotifications = 0
+            }
         },
 
 
@@ -268,28 +275,28 @@ const store = new Vuex.Store({
         },
 
         // current user's data
-        fetchUserData(context){
+        fetchLoggedInUserData(context){
             axios.get('/public/profile/getCurrentUserData').then(response => {
-                context.commit('updateUserData', response["data"]);
+                context.commit('updateLoggedInUserData', response["data"]);
             })
         },
 
-        uploadUserData(context, updatedUserData){
-            context.commit('updateUserData', updatedUserData);
+        uploadLoggedInUserData(context, updatedUserData){
+            context.commit('updateLoggedInUserData', updatedUserData);
         },
 
 
         logOut(context){
+            // eslint-disable-next-line no-unused-vars
             axios.get('/public/login/logout').then(response => {
-                context.commit('updateCurrentUserData', null);
-                console.log(JSON.stringify(response.data));
+                context.commit('updateLoggedInUserData', []);
             })
         },
 
         ///// FEED /////
         fetchFriendsDiscoveries(context){
             axios.get('/public/feedcontroller/getdiscoveries').then(response => {
-                context.commit('updateDiscoveries', response);
+                context.commit('updateDiscoveries', response["data"]);
             })
         },
 
@@ -305,8 +312,8 @@ const store = new Vuex.Store({
             axios.get('/public/friends/getFriendRequest').then(response => (context.commit('updateFriendRequests', response["data"])))
         },
         /*
-        uploadUserData(context, updatedUserData) {
-            context.commit('updateUserData', updatedUserData);
+        uploadLoggedInUserData(context, updatedUserData) {
+            context.commit('updateLoggedInUserData', updatedUserData);
         },
         */
 
@@ -397,8 +404,8 @@ const store = new Vuex.Store({
         getNotifications(state) {
             return state.notifications;
         },
-        getUserData(state) {
-            return state.userData;
+        getLoggedInUserData(state) {
+            return state.loggedInUserData;
         },
         getFetchedUserData(state){
             return state.fetchedUserData;

@@ -12,7 +12,13 @@ export default {
 
   methods:{
     goToProfile(){
-      this.$router.push({path:"profile"})
+      this.$router.push({path: `/profile/${this.getLoggedInUserData[0].userId}`})
+    }
+  },
+
+  computed:{
+    getLoggedInUserData(){
+      return this.$store.getters.getLoggedInUserData;
     }
   }
 }

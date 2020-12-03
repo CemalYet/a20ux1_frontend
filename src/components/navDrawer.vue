@@ -77,7 +77,7 @@ export default {
       }
     },
     userData(){
-      return this.$store.getters.getUserData;
+      return this.$store.getters.getLoggedInUserData;
     },
     friendRequestNotifications(){
       return this.$store.getters.getFriendRequestNotifications;

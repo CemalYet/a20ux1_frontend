@@ -5,14 +5,13 @@
     <div class="content">
 
       <!--User Info-->
-      <!-- <userAvatarPlusInfo :style="{width:avatarWidth}" style="margin: auto;" ></userAvatarPlusInfo> -->
-      <v-list-item two-line>
-        <v-list-item-avatar size="70">
-          <v-img :src="getData.avatar"></v-img>
-        </v-list-item-avatar>
+      <v-list-item
+          two-line
+      >
+        <avatar :size="70" :user-name="getUserData[0].userName" :picture="getUserData[0].avatar"></avatar>
         <v-list-item-content>
-          <v-list-item-title>{{getData.userName}}</v-list-item-title>
-          <v-list-item-subtitle>{{getData.emailAddress}}</v-list-item-subtitle>
+          <v-list-item-title>{{getUserData[0].userName}}</v-list-item-title>
+          <v-list-item-subtitle>{{getUserData[0].emailAddress}}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
@@ -36,16 +35,18 @@
           v-model="tab">
         <v-tab-item>
           <div class="photo_grid tab_item_container" :style="{'grid-template-columns': itemsPerRow}">
-            <div class="photo_container" v-for="j in $store.getters.getDiscoveries.length" :key="j">
-              <img class="photo" :src="$store.getters.getDiscoveries[j-1].photoPath" alt="">
+            <div class="photo_container"
+                 v-for="discovery in updateMyDiscoveries"
+                 :key="discovery">
+              <img class="photo" :src="discovery.photoPath" alt="">
             </div>
           </div>
         </v-tab-item>
 
         <v-tab-item>
           <div class="photo_grid tab_item_container" :style="{'grid-template-columns': itemsPerRow}">
-            <div class="photo_container" v-for="j in $store.getters.getDiscoveries.length" :key="j">
-              <img class="photo" :src="$store.getters.getDiscoveries[j-1].photoPath" alt="">
+            <div class="photo_container" v-for="discovery in updateTaggedDiscoveries" :key="discovery">
+              <img class="photo" :src="discovery.photoPath" alt="">
             </div>
           </div>
         </v-tab-item>
@@ -69,12 +70,15 @@
 
 <script>
 import Badge from "@/components/Badge";
+import Avatar from "@/components/avatar";
+import axios from "axios";
 
 export default {
   name: "profileContent",
 
   components:{
     Badge,
+    Avatar
     // userAvatarPlusInfo
   },
 
@@ -82,6 +86,8 @@ export default {
     tags: null,
     badges: null,
     tab: null,
+    myDiscoveries: [],
+    taggedDiscoveries: [],
   }),
 
   computed: {
@@ -130,26 +136,58 @@ export default {
       }
       return 1;
     },
-    getData(){
-      return this.$store.getters.getFetchedUserData;
+    getUserData(){
+      if (this.$route.params.id !== this.$store.getters.getLoggedInUserData[0].userId) {
+        return this.$store.getters.getFetchedUserData;
+      } else{
+        return this.$store.getters.getLoggedInUserData;
+      }
+    },
+    updateMyDiscoveries:{
+      get(){
+        return this.myDiscoveries;
+      },
+      set(value) {
+        this.myDiscoveries = value;
+      }
+    },
+    updateTaggedDiscoveries:{
+      get(){
+        return this.taggedDiscoveries;
+      },
+      set(value){
+        this.taggedDiscoveries = value;
+      }
     }
   },
 
   mounted(){
     this.postUserId();
-    this.$store.dispatch('fetchUserData') 
+
+    // get my discoveries
+    axios.get('/public/profile/getowndiscoveries').then(response => {
+      this.updateMyDiscoveries = response["data"];
+    })
+
+    //get tagged discoveries
+    axios.get('/public/profile/gettaggeddiscoveries').then(response => {
+      this.updateTaggedDiscoveries = response["data"];
+    })
+
   },
 
   methods: {
     postUserId(){
-      const userId = JSON.stringify({
-      userId: this.$route.params.id
-      });
+      if (this.$route.params.id !== this.$store.getters.getLoggedInUserData[0].user){
+        const userId = JSON.stringify({
+          userId: this.$route.params.id
+        });
 
-      let formData = new FormData()
-      formData.append('data', userId)
+        let formData = new FormData()
+        formData.append('data', userId)
 
-      this.$store.dispatch('fetchUserDataById', formData)
+        this.$store.dispatch('fetchUserDataById', formData)
+      }
     }
   },
 }
@@ -177,7 +215,7 @@ export default {
   width: 20rem;
   height: 20rem;
   object-fit:cover;
-  border: 1px solid black;
+  border: 1px solid var(--dark-color);
 }
 
 .badgesContainer {

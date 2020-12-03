@@ -1,10 +1,13 @@
 <template>
-  <v-list-item two-line>
-    <avatar :size="70" :user-name="getUserData.userName" :picture="getUserData.avatar"
-            @click.native="goToUser(getUserData.userId)"></avatar>
+  <v-list-item
+      two-line
+      v-if="getLoggedInUserData.length !== 0"
+  >
+    <avatar :size="70" :user-name="getLoggedInUserData.userName" :picture="getLoggedInUserData.avatar"
+            @click.native="goToUser(getLoggedInUserData.userId)"></avatar>
     <v-list-item-content>
-      <v-list-item-title>{{getUserData.userName}}</v-list-item-title>
-      <v-list-item-subtitle>{{getUserData.emailAddress}}</v-list-item-subtitle>
+      <v-list-item-title>{{getLoggedInUserData.userName}}</v-list-item-title>
+      <v-list-item-subtitle>{{getLoggedInUserData.emailAddress}}</v-list-item-subtitle>
     </v-list-item-content>
   </v-list-item>
 </template>
@@ -15,8 +18,8 @@ export default {
   name: "userAvatarPlusInfo",
   components: {Avatar},
   computed:{
-    getUserData(){
-      return this.$store.getters.getUserData[0];
+    getLoggedInUserData(){
+      return this.$store.getters.getLoggedInUserData[0];
     }
   },
   methods:{

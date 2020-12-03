@@ -171,7 +171,7 @@ export default {
   methods: {
     sendLikeToDb: function() {
       const json = JSON.stringify({
-        userId: this.$store.getters.getUserData[0].userId,
+        userId: this.$store.getters.getLoggedInUserData[0].userId,
         discoId: this.$route.params.discovery_id
       });
       axios.post('savelike', json)
@@ -184,7 +184,7 @@ export default {
     },
     deleteLikeFromDb: function() {
       const json = JSON.stringify({
-        userId: this.$store.getters.getUserData[0].userId,
+        userId: this.$store.getters.getLoggedInUserData[0].userId,
         discoId: this.$route.params.discovery_id
       });
       axios.post('deletelike', json)
@@ -212,7 +212,7 @@ export default {
 
   computed:{
     getUserData(){
-      return this.$store.getters.getUserData;
+      return this.$store.getters.getLoggedInUserData;
     },
     getDiscovery(){
       return this.$store.getters.getDiscoveryBasedOnId(this.$route.params.discovery_id);

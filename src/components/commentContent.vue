@@ -86,7 +86,7 @@ export default {
 
   computed:{
     getUserData(){
-      return this.$store.getters.getUserData;
+      return this.$store.getters.getLoggedInUserData;
     },
     getDiscovery(){
       return this.$store.getters.getDiscoveryBasedOnId(this.$route.params.discovery_id);

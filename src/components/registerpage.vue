@@ -309,7 +309,7 @@ export default {
       this.$store.commit("updateUserEmail", this.emailAddress);
     },
     fetchUserData: function () {
-      this.$store.dispatch('fetchUserData');
+      this.$store.dispatch('fetchLoggedInUserData');
     },
 
     goBackToLogin: function () {

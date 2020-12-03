@@ -114,7 +114,7 @@ export default {
       this.fetchUserData();
     },
     fetchUserData: function () {
-      this.$store.dispatch('fetchUserData');
+      this.$store.dispatch('fetchLoggedInUserData');
     }
   }
 }
