@@ -67,7 +67,7 @@ const store = new Vuex.Store({
 
         ///// DISCOVERY POST /////
         deleteDialog: false,
-        discoveryLikes: null,
+        discoveryLikes: 0,
         discoveryComments: [
             {   userId:16,
                 userName: "Seppe Fleerackers",
@@ -79,26 +79,10 @@ const store = new Vuex.Store({
                 avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/64679357_2322740734614282_6203291312234430464_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=PitKaogm5B8AX8yIcyY&_nc_ht=scontent-bru2-1.xx&oh=479eea55195404be5f5296a91c782c10&oe=5FC9BBE7",
                 comment: "trekt op niks. leluk."
             }
-
         ],
-        discoveryTags: [
-            {
-                userName: 'Jefke',
-            },
-            {
-                userName: 'jannis',
-            },
-            {
-                userName: 'Jonas',
-            },
-            {
-                userName: 'Jantje',
-            }
-        ],
-        discoveryExtraInfo:{
-            description:'Dit is een of andere vage uitleg om te testen of die vage uitleg daar ook effectief komt te staan aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-            plantName: 'plant 1'
-        },
+        discoveryTags: [],
+        discoveryPostData:[],
+        discoveryPostPhotos:[ ],
 
         ///// FRIENDS /////
         friendsData: [],
@@ -262,6 +246,17 @@ const store = new Vuex.Store({
         ///// POST CONTENT /////
         updateTaggedFriendsData(state,taggedFriendsData){
             state.taggedFriendsData = taggedFriendsData;
+        },
+
+        updateDiscoveryPostData(state, value){
+            state.discoveryPostData = value;
+        },
+
+        updateDiscoveryPostPhotos(state, value){
+            state.discoveryPostPhotos = value;
+        },
+        updateDiscoveryComments(state, value){
+            state.discoveryComments = value;
         }
     },
 
@@ -388,11 +383,25 @@ const store = new Vuex.Store({
             });
         },
         ///// Post Content PAGE /////
-        getTaggedFriends(context){
-            axios.get('/public/discovery/getTags').then(response => {
+        getTaggedFriends(context, discoveryId){
+            axios.get('/public/discovery/getTags', {params: {data: discoveryId}}).then(response => {
                 context.commit('updateTaggedFriendsData', response["data"])
                 })
-
+        },
+        fetchDiscoveryBasedOnId(context, discoveryId){
+            axios.get('/public/discovery/getdiscoinfo', {params: {data: discoveryId}}).then(response => {
+                context.commit('updateDiscoveryPostData', response["data"])
+            })
+        },
+        fetchDiscoveryPostPhotosOnId(context, discoveryId){
+            axios.get('/public/mapcontroller/getDiscoveryPhotos', {params: {data: discoveryId}}).then(response => {
+                context.commit("updateDiscoveryPostPhotos", response["data"])
+            });
+        },
+        fetchComments(context, discoveryId){
+            axios.get('/public/discovery/getComments', {params: {data: discoveryId}}).then(response => {
+                context.commit("updateDiscoveryComments", response["data"])
+            });
         }
     },
 
@@ -488,18 +497,6 @@ const store = new Vuex.Store({
 
 
         ///// DISCOVERY POST /////
-        getDiscoveryBasedOnId: (state) => (discoveryId) => {
-            for (let i = 0; i < state.discoveries.length; i++) {
-                if (discoveryId === state.discoveries[i].discoveryId) {
-                    return state.discoveries[i];
-                }
-            }
-            //if not found, search the database for the disco
-            return state.discoveries[0];
-        },
-        getDiscoveryExtraInfo(state) {
-            return state.discoveryExtraInfo;
-        },
         getLikes(state) {
             return state.discoveryLikes;
         },
@@ -532,8 +529,14 @@ const store = new Vuex.Store({
 
         //// POST CONTENT ///
         getTaggedFriends(state){
-            return state.taggedFriendsData
-        }
+            return state.taggedFriendsData;
+        },
+        getDiscoveryPostData(state){
+            return state.discoveryPostData;
+        },
+        getDiscoveryPostPhotos(state){
+            return state.discoveryPostPhotos;
+        },
     }
 })
 

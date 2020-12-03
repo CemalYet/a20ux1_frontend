@@ -47,7 +47,7 @@ export default {
       this.$router.push({path: '/login'});
     },
     goToEdit(){
-      this.$router.push({path: '/profile/edit'})
+      this.$router.push({path: 'profile/edit'})
     }
   }
 }

@@ -34,21 +34,156 @@
       <v-tabs-items
           v-model="tab">
         <v-tab-item>
-          <div class="photo_grid tab_item_container" :style="{'grid-template-columns': itemsPerRow}">
-            <div class="photo_container"
-                 v-for="discovery in updateMyDiscoveries"
-                 :key="discovery">
-              <img class="photo" :src="discovery.photoPath" alt="">
-            </div>
-          </div>
+          <v-container
+              style="max-width: 1000px;"
+              v-if="updateMyDiscoveries.length === 0"
+          >
+            <v-row
+                align="start"
+                dense
+            >
+              <v-col
+                  v-for="n in 18"
+                  :key="n"
+                  class="d-flex child-flex"
+                  :cols="itemsPerRowGrid"
+              >
+
+                <v-img
+                    aspect-ratio="1"
+                    class="grey lighten-2"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                    >
+                      <v-skeleton-loader
+                          class="mx-auto"
+                          type="image"
+                      ></v-skeleton-loader>
+                    </v-row>
+                  </template>
+                </v-img>
+              </v-col>
+            </v-row>
+          </v-container>
+
+          <v-container
+              style="max-width: 1000px;"
+          >
+            <v-row
+                align="start"
+                dense
+            >
+              <v-col
+                  v-for="discovery in updateMyDiscoveries"
+                  :key="discovery"
+                  class="d-flex child-flex"
+                  :cols="itemsPerRowGrid"
+              >
+
+                  <v-img
+                      :src="discovery.photoPath"
+                      :lazy-src="discovery.photoPath"
+                      aspect-ratio="1"
+                      class="grey lighten-2"
+                      v-ripple
+                      @click="goToPost(discovery)"
+                  >
+                    <template v-slot:placeholder>
+                      <v-row
+                          class="fill-height ma-0"
+                          align="center"
+                          justify="center"
+                      >
+                        <v-progress-circular
+                            indeterminate
+                            color="grey lighten-5"
+                        ></v-progress-circular>
+                      </v-row>
+                    </template>
+                  </v-img>
+              </v-col>
+            </v-row>
+          </v-container>
         </v-tab-item>
 
         <v-tab-item>
-          <div class="photo_grid tab_item_container" :style="{'grid-template-columns': itemsPerRow}">
-            <div class="photo_container" v-for="discovery in updateTaggedDiscoveries" :key="discovery">
-              <img class="photo" :src="discovery.photoPath" alt="">
-            </div>
-          </div>
+
+          <v-container
+              style="max-width: 1000px;"
+              v-if="updateTaggedDiscoveries.length === 0"
+          >
+            <v-row
+                align="start"
+                dense
+            >
+              <v-col
+                  v-for="n in 18"
+                  :key="n"
+                  class="d-flex child-flex"
+                  :cols="itemsPerRowGrid"
+              >
+
+                <v-img
+                    aspect-ratio="1"
+                    class="grey lighten-2"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                    >
+                      <v-skeleton-loader
+                          class="mx-auto"
+                          type="image"
+                      ></v-skeleton-loader>
+                    </v-row>
+                  </template>
+                </v-img>
+              </v-col>
+            </v-row>
+          </v-container>
+
+          <v-container
+              style="max-width: 1000px;"
+          >
+            <v-row
+                align="start"
+                dense
+            >
+              <v-col
+                  v-for="discovery in updateTaggedDiscoveries"
+                  :key="discovery"
+                  class="d-flex child-flex"
+                  :cols="itemsPerRowGrid"
+              >
+                <v-img
+                    :src="discovery.photoPath"
+                    :lazy-src="discovery.photoPath"
+                    aspect-ratio="1"
+                    class="grey lighten-2"
+                    @click="goToPost(discovery)"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                    >
+                      <v-progress-circular
+                          indeterminate
+                          color="grey lighten-5"
+                      ></v-progress-circular>
+                    </v-row>
+                  </template>
+                </v-img>
+              </v-col>
+            </v-row>
+          </v-container>
         </v-tab-item>
 
         <v-tab-item>
@@ -79,7 +214,6 @@ export default {
   components:{
     Badge,
     Avatar
-    // userAvatarPlusInfo
   },
 
   data: () => ({
@@ -91,20 +225,21 @@ export default {
   }),
 
   computed: {
-    itemsPerRow() {
+
+    itemsPerRowGrid() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':
-          return "auto"
+          return "4"
         case 'sm':
-          return "auto"
+          return "4"
         case 'md':
-          return "auto auto"
+          return "4"
         case 'lg':
-          return "auto auto auto"
+          return "3"
         case 'xl':
-          return "auto auto auto auto"
+          return "3"
       }
-      return 1;
+      return "12";
     },
     badgesPerRow() {
       switch (this.$vuetify.breakpoint.name) {
@@ -121,21 +256,7 @@ export default {
       }
       return 1;
     },
-    avatarWidth() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs':
-          return "100%"
-        case 'sm':
-          return "100%"
-        case 'md':
-          return "50%"
-        case 'lg':
-          return "50%"
-        case 'xl':
-          return "50%"
-      }
-      return 1;
-    },
+
     getUserData(){
       if (this.$route.params.id !== this.$store.getters.getLoggedInUserData[0].userId) {
         return this.$store.getters.getFetchedUserData;
@@ -158,7 +279,7 @@ export default {
       set(value){
         this.taggedDiscoveries = value;
       }
-    }
+    },
   },
 
   mounted(){
@@ -188,35 +309,15 @@ export default {
 
         this.$store.dispatch('fetchUserDataById', formData)
       }
+    },
+    goToPost(discovery){
+      this.$router.push({path: `/post/${discovery.discoveryId}`})
     }
   },
 }
 </script>
 
 <style scoped>
-.photo_grid {
-  display: grid;
-  /* grid-template-columns: auto auto auto; */
-  text-align: center;
-  align-content: stretch;
-  /* margin: 2rem 3rem 1rem 3rem; */
-  align-items: start;
-  justify-content: center;
-  /* border: 2px solid black; */
-  gap: 3rem;
-}
-
-.photo_container {
-  text-align: center;
-  display: inline;
-}
-
-.photo{
-  width: 20rem;
-  height: 20rem;
-  object-fit:cover;
-  border: 1px solid var(--dark-color);
-}
 
 .badgesContainer {
   display: grid;
