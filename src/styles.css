@@ -9,7 +9,7 @@
 }
 
 #Title {
-    font-family: 'Merriweather', serif;
+    font-family: Anton, sans-serif !important;
     font-size: 35px;
     color: var(--dark-color);
 }
