@@ -16,7 +16,10 @@
           </div>
         </div>
         <!-- Image from the discovery-->
-        <v-carousel hide-delimiters style="height: auto">
+        <v-carousel
+            hide-delimiters
+            :height="carouselHeight"
+        >
           <v-carousel-item
               v-for="image in updateDiscoveryPostPhotos"
               :key="image"
@@ -87,7 +90,7 @@
                         @click.native="goToPost(updateDiscoveryData[0].userId)"></avatar>
                 <v-list-item-content>
                   <v-list-item-title style="white-space: normal;">{{updateDiscoveryData[0].title}}</v-list-item-title>
-                  <v-list-item-subtitle class="wrap-text"> {{ [0].description }} </v-list-item-subtitle>
+                  <v-list-item-subtitle class="wrap-text"> {{ updateDiscoveryData[0].description }} </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
 
@@ -96,7 +99,7 @@
         <v-divider></v-divider>
         <!-- For loop to show the comments -->
         <div class="commentBox">
-          <div class="infoBox text-truncate">
+          <div class="infoBox text-truncate" v-if="getComments.length !== 0">
             <v-list-item three-line>
               <avatar :size="48" :user-name="getComments[0].userName" :picture="getComments[0].avatar"
                       @click.native="goToPost(getComments[0].userId)"></avatar>
@@ -248,7 +251,24 @@ export default {
     },
     updateDiscoveryData(){
       return this.$store.getters.getDiscoveryPostData;
-    }
+    },
+
+    carouselHeight(){
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return "40vh"
+        case 'sm':
+          return "40vh"
+        case 'md':
+          return "500"
+        case 'lg':
+          return "500"
+        case 'xl':
+          return "500"
+      }
+      return "500";
+    },
+
   },
 
 
@@ -275,6 +295,7 @@ export default {
   position: relative;
   margin: auto;
   width: 100%;
+  margin-top: 8px;
 }
 
 .middleContainer {

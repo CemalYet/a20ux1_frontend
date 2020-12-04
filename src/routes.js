@@ -432,10 +432,18 @@ router.beforeEach((to, from, next) => {
                 if (store.getters.getLoggedInUserData.length === 0){
                     next({ path: '/login' })
                 }
+                else {
+                    next();
+                }
             })
         }
+        else {
+            next();
+        }
     }
-    next();
+    else{
+        next();
+    }
 })
 
 

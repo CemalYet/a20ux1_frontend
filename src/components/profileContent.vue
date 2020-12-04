@@ -34,16 +34,25 @@
       <v-tabs-items
           v-model="tab">
         <v-tab-item>
+
+          <div
+              class="text-body-2"
+              v-if="noMyDiscoveries === true"
+              style="margin: 16px"
+          >
+            You don't have any discoveries yet! Be sure to go out in nature and make some snaps of nice plants!
+          </div>
+
           <v-container
               style="max-width: 1000px;"
-              v-if="updateMyDiscoveries.length === 0"
+              v-if="updateMyDiscoveries.length === 0 && this.noMyDiscoveries === false"
           >
             <v-row
                 align="start"
                 dense
             >
               <v-col
-                  v-for="n in 18"
+                  v-for="n in 12"
                   :key="n"
                   class="d-flex child-flex"
                   :cols="itemsPerRowGrid"
@@ -112,16 +121,24 @@
 
         <v-tab-item>
 
+          <div
+              class="text-body-2"
+              v-if="noTaggedDiscoveries === true"
+              style="margin: 16px"
+          >
+            None of your friends have tagged you yet :( Be sure to go out and explore with your friends
+          </div>
+
           <v-container
               style="max-width: 1000px;"
-              v-if="updateTaggedDiscoveries.length === 0"
+              v-if="updateTaggedDiscoveries.length === 0 && noTaggedDiscoveries === false"
           >
             <v-row
                 align="start"
                 dense
             >
               <v-col
-                  v-for="n in 18"
+                  v-for="n in 12"
                   :key="n"
                   class="d-flex child-flex"
                   :cols="itemsPerRowGrid"
@@ -221,7 +238,9 @@ export default {
     badges: null,
     tab: null,
     myDiscoveries: [],
+    noMyDiscoveries: false,
     taggedDiscoveries: [],
+    noTaggedDiscoveries: false,
   }),
 
   computed: {
@@ -287,12 +306,20 @@ export default {
 
     // get my discoveries
     axios.get('/public/profile/getowndiscoveries').then(response => {
-      this.updateMyDiscoveries = response["data"];
+      if (response["data"].length !== 0){
+        this.updateMyDiscoveries = response["data"];
+      } else {
+        this.noMyDiscoveries = true;
+      }
     })
 
     //get tagged discoveries
     axios.get('/public/profile/gettaggeddiscoveries').then(response => {
-      this.updateTaggedDiscoveries = response["data"];
+      if (response["data"].length !== 0){
+        this.updateTaggedDiscoveries = response["data"];
+      } else {
+        this.noTaggedDiscoveries = true;
+      }
     })
 
   },
