@@ -195,7 +195,7 @@
                   :key="n"
                   class="listItem"
               >
-              <leafB style="width: 150px" v-if="n % 2 ===0 "/>
+              <leafB class="evenStyle" v-if="n % 2 ===0 "/>
               <leafB  class="img-hor-vert" v-else-if=" n % 2 !== 0 "/>
               </v-list-item>
             </v-list>
@@ -227,10 +227,6 @@ export default {
     tab: null,
     myDiscoveries: [],
     taggedDiscoveries: [],
-    images: [
-      {
-        img:"../assets/tree.png",
-      },]
 
   }),
 
@@ -335,7 +331,34 @@ export default {
   -webkit-transform: scaleX(-1);
   transform: scaleX(-1);
   width: 150px;
+  margin-left: 15.5%;
+  padding: 0;
 }
+.evenStyle {
+  width: 150px;
+  margin-right: 15%;
+}
+@media only screen and (max-width: 600px) {
+  .img-hor-vert {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    width: 150px;
+    margin-left: 53.5%;
+    padding: 0;
+  }
+  .evenStyle {
+    width: 150px;
+    margin-right: 53%;
+  }
+}
+@media only screen and (max-width: 600px) {
+
+}
+
+
+
 .listItem{
   justify-content: center;
 
