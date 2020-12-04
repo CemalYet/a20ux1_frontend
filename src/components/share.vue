@@ -127,7 +127,6 @@
               <leaf1 class="leaf leaf1" @click.native="select_leaf(1)"/>
               <leaf2 class="leaf leaf2" @click.native="select_leaf(2)"/>
               <leaf3 class="leaf leaf3" @click.native="select_leaf(3)"/>
-
               <leaf4 class="leaf leaf4" @click.native="select_leaf(4)"/>
               <leaf5 class="leaf leaf5" @click.native="select_leaf(5)"/>
 
@@ -478,7 +477,6 @@
                     class=" white--text"
                     :loading="loading"
                     :disabled="(invalid || loading)"
-                    @click="loader = 'loading'"
                 >
                   finish
                 </v-btn>
@@ -612,10 +610,14 @@ export default {
       this.updateLeafShape = int;
     },
     check_data: function () {
+      console.log('test check_data 1')
+      this.loader = 'loading'
       if (this.$store.getters.getChosen_leaf === null) {
+        console.log('test check_data 2')
         this.errorText = "Please choose a leaf for your discovery";
         this.$store.commit('updateSnackbar', true);
       } else {
+        console.log('test check_data 3')
         this.errorText = "Failed to upload. Please try again later.";
         this.$store.dispatch('sharePost', this.taggedFriendsId);
       }

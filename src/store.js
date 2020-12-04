@@ -321,18 +321,17 @@ const store = new Vuex.Store({
                 my_taggedFriends: taggedFriendsId,
                 images: context.getters.getDiscoveryImages,
             });
-
             axios.post('/public/sharecontroller/save', json,
                 {
                     headers: {'Content-Type': 'application/json'}
-                }).catch(error => {
+                    // eslint-disable-next-line no-unused-vars
+                }).then(response => {
+                //doesn't wannaaa wooorrkkkk
+                console.log(response['data'])
+                router.push({path: `/post/${response['data'][0].discoveryId}`});
+            }).catch(error => {
                 if (error.response) {
                     context.commit('updateSnackbar', true);
-                }
-                else {
-                    //doesn't wannaaa wooorrkkkk
-                    console.log('test test')
-                    router.push({path: '/'});
                 }
                 });
         },
