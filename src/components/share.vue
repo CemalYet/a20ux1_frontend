@@ -124,12 +124,12 @@
 
           <div class="flex_box_leaf_choices">
 
-              <leaf1 class="leaf" @click.native="select_leaf(1)"/>
-              <leaf2 class="leaf" @click.native="select_leaf(2)"/>
-              <leaf3 class="leaf" @click.native="select_leaf(3)"/>
+              <leaf1 class="leaf leaf1" @click.native="select_leaf(1)"/>
+              <leaf2 class="leaf leaf2" @click.native="select_leaf(2)"/>
+              <leaf3 class="leaf leaf3" @click.native="select_leaf(3)"/>
 
-              <leaf4 class="leaf" @click.native="select_leaf(4)"/>
-              <leaf5 class="leaf" @click.native="select_leaf(5)"/>
+              <leaf4 class="leaf leaf4" @click.native="select_leaf(4)"/>
+              <leaf5 class="leaf leaf5" @click.native="select_leaf(5)"/>
 
           </div>
           <br>
@@ -792,13 +792,35 @@ export default {
 .leaf {
   margin-left: 6px;
   margin-right: 6px;
+  max-height: 100px;
 }
 
 .flex_box_leaf_choices {
-  display: flex;
-  max-height: 100px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: 12px;
   justify-content: center;
+  justify-items: center;
+  grid-template-areas:
+    "leaf1 leaf2 leaf3 leaf4 leaf5"
 }
+
+.leaf1 {
+  grid-area: leaf1;
+}
+.leaf2 {
+  grid-area: leaf2;
+}
+.leaf3 {
+  grid-area: leaf3;
+}
+.leaf4 {
+  grid-area: leaf4;
+}
+.leaf5 {
+  grid-area: leaf5;
+}
+
 
 .small_leaf {
   max-width: 400px;

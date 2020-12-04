@@ -19,7 +19,7 @@ export default {
   name: "leaf5",
 
   props: {
-    picture: Object
+    picture: String
   }
 }
 </script>
