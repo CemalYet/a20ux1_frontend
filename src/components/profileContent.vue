@@ -193,8 +193,7 @@
               <v-list-item
                   v-for="n in 45"
                   :key="n"
-                  style="text-align: center"
-
+                  class="listItem"
               >
               <leafB style="width: 150px" v-if="n % 2 ===0 "/>
               <leafB  class="img-hor-vert" v-else-if=" n % 2 !== 0 "/>
@@ -336,6 +335,10 @@ export default {
   -webkit-transform: scaleX(-1);
   transform: scaleX(-1);
   width: 150px;
+}
+.listItem{
+  justify-content: center;
+
 }
 
 .list{
