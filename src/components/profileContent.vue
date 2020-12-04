@@ -187,14 +187,19 @@
         </v-tab-item>
 
         <v-tab-item>
-          <div class="badgesContainer tab_item_container" :style="{'grid-template-columns': badgesPerRow}">
-            <!-- <Badge title="badges[j-1].title"/> -->
-            <Badge title="Made 10 Discoveries"/>
-            <Badge title="Scanned a wild animal"/>
-            <Badge title="Scanned 10 Oak Trees"/>
-            <Badge title="Made 10 Discoveries"/>
-            <Badge title="Scanned a wild animal"/>
-            <Badge title="Scanned 10 Oak Trees"/>
+          <div
+              id="example1">
+            <v-list class="list">
+              <v-list-item
+                  v-for="n in 45"
+                  :key="n"
+                  style="text-align: center"
+
+              >
+              <leafB style="width: 150px" v-if="n % 2 ===0 "/>
+              <leafB  class="img-hor-vert" v-else-if=" n % 2 !== 0 "/>
+              </v-list-item>
+            </v-list>
           </div>
         </v-tab-item>
       </v-tabs-items>
@@ -204,15 +209,16 @@
 </template>
 
 <script>
-import Badge from "@/components/Badge";
+
 import Avatar from "@/components/avatar";
 import axios from "axios";
+import leafB from "@/components/leaves/leafB";
 
 export default {
   name: "profileContent",
 
   components:{
-    Badge,
+    leafB,
     Avatar
   },
 
@@ -222,6 +228,11 @@ export default {
     tab: null,
     myDiscoveries: [],
     taggedDiscoveries: [],
+    images: [
+      {
+        img:"../assets/tree.png",
+      },]
+
   }),
 
   computed: {
@@ -319,12 +330,22 @@ export default {
 
 <style scoped>
 
-.badgesContainer {
-  display: grid;
-  /* grid-template-columns: auto auto;  */
+.img-hor-vert {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  width: 150px;
 }
 
-.tab_item_container{
-  margin-top: 12px;
+.list{
+  background: transparent;
+  text-align: center;
+}
+#example1 {
+  background:
+      url(../assets/tree.png) center repeat-y,
+      url(./leaves.png) repeat;
+  background-size: 140px, auto;
 }
 </style>
