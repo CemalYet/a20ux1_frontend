@@ -68,18 +68,7 @@ const store = new Vuex.Store({
         ///// DISCOVERY POST /////
         deleteDialog: false,
         discoveryLikes: 0,
-        discoveryComments: [
-            {   userId:16,
-                userName: "Seppe Fleerackers",
-                avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/27907755_964224010401572_4566376548678829171_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=2wrEVoQrdBkAX9MBLOP&_nc_ht=scontent-bru2-1.xx&oh=81c5c254570b087bda35d1ced5624cac&oe=5FC6E541",
-                comment: 'waaaaaw mooi isjfko pksjdfoihj oipsjfoipsjdfiopjsh sodjfosijfoi asfddsf sdf sdf sd f'
-            },
-            {   userId:12,
-                userName: "Juliana Buzanello",
-                avatar: "https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/64679357_2322740734614282_6203291312234430464_o.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=PitKaogm5B8AX8yIcyY&_nc_ht=scontent-bru2-1.xx&oh=479eea55195404be5f5296a91c782c10&oe=5FC9BBE7",
-                comment: "trekt op niks. leluk."
-            }
-        ],
+        discoveryComments: [],
         discoveryTags: [],
         discoveryPostData:[],
         discoveryPostPhotos:[ ],
