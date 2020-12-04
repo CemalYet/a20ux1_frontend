@@ -22,7 +22,7 @@ export default {
 
   methods:{
     goToCamera(){
-      this.$router.push({path:'camera'})
+      this.$router.push({path:'snap'})
     },
     goToMap(){
       this.$router.push({path:'map'})

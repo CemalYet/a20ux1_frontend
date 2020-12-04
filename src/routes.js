@@ -27,7 +27,6 @@ import snap from "@/components/snap";
 
 import store from './store.js';
 import axios from 'axios';
-import camera from "@/components/camera";
 
 
 Vue.use(VueRouter);
@@ -140,34 +139,6 @@ const router = new VueRouter({
                     props:{
                         appBar:{
                             title: "Friends"
-                        }
-                    },
-                }
-            ],
-        },
-        {
-            path: '/camera',
-            components:{
-                layout: defaultLayout,
-            },
-            children:[
-                {
-                    path: '',
-                    components:{
-                        appBar: appBar,
-                        pageContent: camera,
-                    },
-                    children:[
-                        {
-                            path: '',
-                            components:{
-                                buttonLeft: backButton,
-                            },
-                        }
-                    ],
-                    props:{
-                        appBar:{
-                            title: "Share"
                         }
                     },
                 }
