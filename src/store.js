@@ -40,8 +40,7 @@ const store = new Vuex.Store({
         longitude:null,
         snackbar: false,
         snackbar_message: null,
-        discoveryImages: [
-        ],
+        discoveryImages: [],
 
         // MAP PAGE /////
         map_center: {lat: 50.87959, lng: 4.70093}, //Leuven default value

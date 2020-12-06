@@ -7,15 +7,8 @@
         <div style="text-align: center">
           <h3>You can add as many pictures until you are happy with your match.</h3>
         </div>
-        <v-layout class="justify-center">
-          <video
-              ref="video"
-              id="video"
-              autoplay
-          >
-          </video>
-        </v-layout>
-        <canvas ref="canvas" id="canvas"></canvas>
+
+        <pictureSlideGroup></pictureSlideGroup>
 
         <!-- Camera button -->
         <v-row
@@ -24,17 +17,17 @@
             class="py-3"
         >
           <v-btn
-              class="mx-auto"
-              @click="capture"
+              class="white--text"
+              @click="scan"
               color=var(--dark-color)
-              align-center
               elevation="2"
               raised
-              :ripple="false"
-              height="55"
-              width="100"
+              x-large
+              :loading="loading"
+              :disabled="(updateDiscoveryImages.length === 0 || loading)"
           >
-            <v-icon x-large color="white">mdi-camera-plus-outline</v-icon>
+            scan plant
+            <v-icon right color="white">mdi-magnify-scan</v-icon>
           </v-btn>
         </v-row>
       </div>
@@ -42,7 +35,7 @@
 
     <!--Picture carousel-->
     <v-container
-        v-if="getInformationCards[0].title != null"
+        v-if="getInformationCards[0].title !== null"
     >
       <div class="mx-auto" style="max-width: 100%">
         <div style="text-align: center">
@@ -122,33 +115,29 @@
 
 <script>
 
-import api_connection from "@/api_connect";
+import api_scan from "@/api_connect";
+import pictureSlideGroup from "@/components/pictureSlideGroup";
 
 export default {
   name: "snap",
 
+  components:{
+    pictureSlideGroup
+  },
+
   data: () => ({
-    video: {},
-    canvas: {},
-    captures: [],
     cols: 1,
     model: null,
     show: false,
     storeData: null,
+    loading: false,
   }),
 
-  mounted() {
-    const constraints = (window.constraints = {
-      audio: false,
-      video: { facingMode: "environment" }
-    });
-    this.video = this.$refs.video;
-    navigator.mediaDevices.getUserMedia(constraints)
-        .then(mediaStream => {
-          this.mediaStream = mediaStream
-          this.video.srcObject = mediaStream
-          this.video.play()
-        })
+  watch:{
+    getInformationCards: function(){
+      if (this.getInformationCards[0].title !== null)
+        this.loading = false;
+    }
   },
 
   computed: {
@@ -165,41 +154,20 @@ export default {
     },
     updateSnackbarMessage() {
       return this.$store.getters.getSnackbarMessage;
-    }
+    },
+    updateDiscoveryImages(){
+      return this.$store.getters.getDiscoveryImages;
+    },
   },
 
-
   methods: {
-    updateDiscoveryImages() {
-      this.$store.commit('updateDiscoveryImages', this.captures[0])
-    },
     getInformation(id) {
       this.$store.commit('updateCardId', id);
       this.$router.push({path: '/information'});
     },
-
-
-    capture() {
-      this.show = true;
-      this.canvas = this.$refs.canvas;
-      let context = this.canvas.getContext("2d")
-      context.drawImage(this.video, 0, 0, 640, 480);
-      this.captures.push(this.canvas.toDataURL("image/png"));
-      //console.log(this.captures)
-
-      const mediaStreamTrack = this.mediaStream.getVideoTracks()[0]
-      const imageCapture = new window.ImageCapture(mediaStreamTrack)
-      // eslint-disable-next-line no-unused-vars
-      imageCapture.takePhoto().then(blob => {
-        api_connection(this.captures[0]); ['nsbdfijwhbfiuwfbweiufbifubfiuwefbwieufbweiufb']  [{naam: 'iets', photoPath: 'sdkjhfsiufhsdiufhsdfhdsdsfsdf'}]
-      })
-      this.$store.commit('updateDiscoveryImages', this.captures[0])
-    },
-    stopCameraStream() {
-      let tracks = this.$refs.video.srcObject.getTracks();
-      tracks.forEach(track => {
-        track.stop();
-      });
+    scan() {
+      this.loading = true;
+      api_scan();
     },
   }
 }

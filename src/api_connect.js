@@ -1,11 +1,14 @@
 import store from './store.js';
 
-const api_connection = function(image){
-    Promise.all(image).then(
-        () => {
+const api_scan = function(){
+            let imagesToScan = [];
+            for(let i = 0 ; i < store.getters.getDiscoveryImages.length ; i++){
+
+                imagesToScan.push(store.getters.getDiscoveryImages[i].photoPath)
+            }
             const datas = {
                 api_key: "ZA54kZ7WT2A7nQhCyvYvePuXucjnAIDW0v4qzJq98GOYQ1268c",
-                images: [image],
+                images: imagesToScan,
                 modifiers: ["crops_fast", "similar_images"],
                 plant_language: "en",
                 plant_details: ["common_names",
@@ -57,7 +60,7 @@ const api_connection = function(image){
                         if(datas.suggestions[i].similar_images !== null){
                             cards[i].src = datas.suggestions[i].similar_images[0].url;
                         } else {
-                            cards[i].src = image;
+                            cards[i].src = store.getters.getDiscoveryImages[0].photoPath;
                         }
                     }
                     store.commit('updateInformationCards', cards);
@@ -67,7 +70,6 @@ const api_connection = function(image){
                     store.commit("updateSnackbar", true);
                     console.error('Error:', error);
                 });
-        })
 }
 
-export default api_connection;
+export default api_scan;

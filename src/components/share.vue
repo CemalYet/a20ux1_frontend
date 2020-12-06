@@ -50,44 +50,8 @@
             step="1"
             class="stepper_content"
         >
-          <v-slide-group
-              show-arrows="desktop"
-          >
-            <v-slide-item>
-              <v-card
-                  class="added_discovery_images ma-2"
-                  color=var(--light-color)
-                  style="opacity: 50%; width: 160px;"
-                  ripple
-                  @click="$refs.camera.click()"
-              >
-                <input id="input_img" type="file" ref="camera" accept="image/*" capture="camera" style="display: none;"  @change="addImage"/>
-                <v-icon class="added_discovery_images" style="width: 160px;" size="68" color="white">
-                  mdi-camera-plus
-                </v-icon>
-              </v-card>
-            </v-slide-item>
-            <v-slide-item
-                v-for="image in updateDiscoveryImages"
-                :key="image"
-            >
-              <div style="position: relative">
-                <div class="delete_button_container">
-                  <v-btn
-                      elevation="2"
-                      fab
-                      x-small
-                      @click="deleteImage(image)"
-                      color="error"
-                      raised
-                  >
-                    <v-icon>mdi-delete</v-icon>
-                  </v-btn>
-                </div>
-                <v-img class="added_discovery_images ma-2" :src="image.photoPath"></v-img>
-              </div>
-            </v-slide-item>
-          </v-slide-group>
+
+          <pictureSlideGroup></pictureSlideGroup>
 
           <br>
           <v-divider></v-divider>
@@ -492,7 +456,7 @@
         color="error"
         style="padding: 12px"
     >
-      {{errorText}}
+      {{updateSnackBarMessage}}
       <template v-slot:action="{ attrs }">
         <v-btn
             text
@@ -515,6 +479,7 @@ import leaf5 from "@/components/leaves/leaf5";
 import axios from "axios";
 import { required, max } from 'vee-validate/dist/rules'
 import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
+import pictureSlideGroup from "@/components/pictureSlideGroup";
 
 setInteractionMode('eager')
 
@@ -540,6 +505,7 @@ export default {
     leaf5,
     ValidationProvider,
     ValidationObserver,
+    pictureSlideGroup
   },
 
   data: () => ({
@@ -552,7 +518,6 @@ export default {
     steps: 1,
     taggedFriends:[],
     taggedFriendsId:[],
-    errorText: null,
     loader: null,
     loading: false,
   }),
@@ -614,11 +579,11 @@ export default {
       this.loader = 'loading'
       if (this.$store.getters.getChosen_leaf === null) {
         console.log('test check_data 2')
-        this.errorText = "Please choose a leaf for your discovery";
+        this.updateSnackBarMessage = "Please choose a leaf for your discovery";
         this.$store.commit('updateSnackbar', true);
       } else {
         console.log('test check_data 3')
-        this.errorText = "Failed to upload. Please try again later.";
+        this.updateSnackBarMessage = "Failed to upload. Please try again later.";
         this.$store.dispatch('sharePost', this.taggedFriendsId);
       }
     },
@@ -634,48 +599,19 @@ export default {
       this.taggedFriendsId.splice(this.taggedFriendsId.indexOf(user.userId))
       console.log(this.taggedFriendsId)
     },
-
-    addImage(event){
-      const { maxSize } = 4096
-      let imageFile = event.target.files[0]
-      const reader = new FileReader();
-      if (event.target.files.length>0) {
-        let size = imageFile.size / maxSize / maxSize
-        if (!imageFile.type.match('image.*')) {
-          // check whether the upload is an image
-          this.errorText = 'Please choose an image file';
-          this.$store.commit('updateSnackbar', true);
-        } else if (size>1) {
-          // check whether the size is greater than the size limit
-          this.errorText = 'Your file is too big! Please select an image under 4MB';
-          this.$store.commit('updateSnackbar', true);
-        } else {
-          let newImage = {'photoPath': null};
-          reader.onload = e => {
-            newImage.photoPath = e.target.result;
-            this.$store.commit('pushNewDiscoveryImage', newImage);
-          };
-          reader.readAsDataURL(imageFile);
-        }
-      }
-    },
-
-    deleteImage(image){
-      console.log(this.$store.getters.getDiscoveryImages.indexOf(image));
-      if (this.$store.getters.getDiscoveryImages.length === 1){
-        this.errorText = 'You need at least 1 image!';
-        this.$store.commit('updateSnackbar', true);
-      }
-      else{
-        this.$store.commit('deleteDiscoveryImage', image);
-
-      }
-    }
   },
 
   computed: {
     updateDiscoveryImages(){
       return this.$store.getters.getDiscoveryImages;
+    },
+    updateSnackBarMessage:{
+      get(){
+        return this.$store.getters.getSnackbarMessage;
+      },
+      set(value){
+        this.$store.commit('updateSnackbarMessage', value);
+      }
     },
     updateTitle: {
       get() {
@@ -828,12 +764,6 @@ export default {
   max-width: 400px;
   width: auto;
   margin: auto;
-}
-
-.added_discovery_images {
-  width: 220px;
-  height: 160px;
-  object-fit: cover;
 }
 
 .delete_button_container{
