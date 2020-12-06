@@ -195,8 +195,8 @@
                   :key="n"
                   class="listItem"
               >
-              <leafB class="evenStyle" v-if="n % 2 ===0 "/>
-              <leafB  class="img-hor-vert" v-else-if=" n % 2 !== 0 "/>
+              <leafB class="evenStyle" :style="{'margin-right':leafPosition}" v-if="n % 2 ===0 "/>
+              <leafB class="img-hor-vert" :style="{'margin-left':leafPosition}" v-else-if=" n % 2 !== 0 "/>
               </v-list-item>
             </v-list>
           </div>
@@ -227,6 +227,8 @@ export default {
     tab: null,
     myDiscoveries: [],
     taggedDiscoveries: [],
+    win:null,
+
 
   }),
 
@@ -247,6 +249,11 @@ export default {
       }
       return "12";
     },
+    leafPosition() {
+      let leafPosition= (window.innerWidth/50)+188+'px'
+      console.log(leafPosition)
+      return leafPosition
+      },
     badgesPerRow() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':
@@ -291,6 +298,8 @@ export default {
   mounted(){
     this.postUserId();
 
+
+
     // get my discoveries
     axios.get('/public/profile/getowndiscoveries').then(response => {
       this.updateMyDiscoveries = response["data"];
@@ -326,43 +335,30 @@ export default {
 <style scoped>
 
 .img-hor-vert {
-  -moz-transform: scaleX(-1);
-  -o-transform: scaleX(-1);
-  -webkit-transform: scaleX(-1);
-  transform: scaleX(-1);
-  width: 150px;
-  margin-left: 15.5%;
-  padding: 0;
+  -moz-transform: rotate(150deg);
+  -o-transform: rotate(150deg);
+  -webkit-transform: rotate(150deg);
+  transform: rotate(150deg);
+  width: 180px;
+  padding: 0px;
 }
 .evenStyle {
-  width: 150px;
-  margin-right: 15%;
+  -webkit-transform:rotate(-30deg);
+  -moz-transform: rotate(-30deg);
+  -ms-transform: rotate(-30deg);
+  -o-transform: rotate(-30deg);
+  transform: rotate(-30deg);
+  width: 180px;
+  padding: 0px;
 }
-@media only screen and (max-width: 600px) {
-  .img-hor-vert {
-    -moz-transform: scaleX(-1);
-    -o-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
-    width: 150px;
-    margin-left: 53.5%;
-    padding: 0;
-  }
-  .evenStyle {
-    width: 150px;
-    margin-right: 53%;
-  }
-}
-@media only screen and (max-width: 600px) {
-
-}
-
-
 
 .listItem{
   justify-content: center;
+  margin: 0;
+  padding: 0;
 
 }
+
 
 .list{
   background: transparent;
@@ -373,5 +369,7 @@ export default {
       url(../assets/tree.png) center repeat-y,
       url(./leaves.png) repeat;
   background-size: 140px, auto;
+  margin: 0;
+  padding: 0;
 }
 </style>
