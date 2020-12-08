@@ -191,12 +191,23 @@
               id="example1">
             <v-list class="list">
               <v-list-item
-                  v-for="n in 45"
-                  :key="n"
+                  v-for="badge in badges "
+                  :key="badge"
                   class="listItem"
               >
-              <leafB class="evenStyle" :style="{'margin-right':leafPosition}" v-if="n % 2 ===0 "/>
-              <leafB class="img-hor-vert" :style="{'margin-left':leafPosition}" v-else-if=" n % 2 !== 0 "/>
+                <leafB
+                    class="evenStyle"
+                    :style="{'margin-right':leafPosition}"
+                    v-bind:text="badge.text"
+                    v-if="badge.id % 2 ===0"
+                    >
+
+                </leafB>
+              <leafB class="img-hor-vert"
+                     :style="{'margin-left':leafPosition}"
+                     v-bind:text="badge.text"
+                     v-else-if="badge.id % 2 !== 0 ">
+              </leafB>
               </v-list-item>
             </v-list>
           </div>
@@ -223,11 +234,16 @@ export default {
 
   data: () => ({
     tags: null,
-    badges: null,
+    badges: [{id:1,
+      text:"Made 1000 discoveries"},{id:2,
+      text:"Made 100 discoveries"},{id:3,
+      text:"Made 5 discoveries"},
+      {id:4,
+        text:"Made 56 discoveries"}],
     tab: null,
     myDiscoveries: [],
     taggedDiscoveries: [],
-    win:null,
+    status:1,
 
 
   }),
@@ -294,11 +310,16 @@ export default {
       }
     },
   },
-
+  /*
+  created() {
+    window.addEventListener("resize", this.myEventHandler);
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.myEventHandler);
+  },
+*/
   mounted(){
     this.postUserId();
-
-
 
     // get my discoveries
     axios.get('/public/profile/getowndiscoveries').then(response => {
@@ -327,7 +348,12 @@ export default {
     },
     goToPost(discovery){
       this.$router.push({path: `/post/${discovery.discoveryId}`})
+    },
+    /*
+    myEventHandler() {
+      window.location.reload(false);
     }
+     */
   },
 }
 </script>
@@ -341,6 +367,9 @@ export default {
   transform: rotate(150deg);
   width: 180px;
   padding: 0px;
+  fill: var(--light-color);
+
+
 }
 .evenStyle {
   -webkit-transform:rotate(-30deg);
@@ -350,6 +379,8 @@ export default {
   transform: rotate(-30deg);
   width: 180px;
   padding: 0px;
+  fill: var(--dark-color);
+
 }
 
 .listItem{
