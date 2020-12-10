@@ -201,22 +201,25 @@
                       width="500"
                   >
                     <template v-slot:activator="{ on, attrs }">
-                      <div class="leaves" v-if="badge.badgeBasicId % 2 == 0"
+                      <div class="leaves" v-if="badge.badgeBasicId % 2 === 0"
                            :style="{'margin-right':leafPosition}"
                            v-bind="attrs"
                            v-on="on">
                         <leafB
+                            :style="[parseInt(badge.completed) === 0 ? parseInt(badge.currentPoints) === 0 ? {'fill':'darkgray'} : {'fill':'chocolate'} : {'fill':'#39796B'}]"
                             class="evenStyle"
                             v-bind:text="badge.title"
                         >
                         </leafB>
-                      </div>fill
+                      </div>
                       <div class="leaves" v-bind="attrs"
                            :style="{'margin-left':leafPosition}"
                            v-on="on"
                            v-else-if="badge.badgeBasicId % 2 !== 0 ">
-                        <leafB class="img-hor-vert"
-                               v-bind:text2="badge.title"
+                        <leafB
+                            :style="[parseInt(badge.completed) === 0 ? parseInt(badge.currentPoints) === 0 ? {'fill':'darkgray'} : {'fill':'chocolate'} : {'fill':'#39796B'}]"
+                            class="img-hor-vert"
+                            v-bind:text2="badge.title"
                         >
                         </leafB>
                       </div>
@@ -231,15 +234,16 @@
                       </v-card-text>
                       <v-divider></v-divider>
                       <v-progress-linear
-
+                          :value="calculatePoints(badge)"
+                          color=var(--main-color)
                           height="15"
                       >
-                        <strong>{{ Math.ceil((((badge.reqPoints-badge.currentPoints)-badge.reqPoints)/badge.reqPoints)*(-100)) }}%</strong>
+                        <strong>  {{ Math.ceil(calculatePoints(badge)) }}%</strong>
                       </v-progress-linear>
                       <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn
-                            color="primary"
+                            color=var(--main-color)
                             text
                             @click="badge.show = false"
                         >
@@ -390,6 +394,13 @@ export default {
     goToPost(discovery) {
       this.$router.push({path: `/post/${discovery.discoveryId}`})
     },
+    calculatePoints(badge){
+      if(badge.currentPoints >= badge.reqPoints){
+        return 100
+      }else {
+        return (((badge.reqPoints - badge.currentPoints) - badge.reqPoints) / badge.reqPoints) * (-100)
+      }
+    }
     /*
     myEventHandler() {
       window.location.reload(false);
@@ -408,9 +419,6 @@ export default {
   transform: rotate(150deg);
   width: 180px;
   padding: 0px;
-  fill: var(--light-color);
-
-
 
 
 }
@@ -423,8 +431,6 @@ export default {
   transform: rotate(-30deg);
   width: 180px;
   padding: 0px;
-  fill: var(--dark-color);
-
 }
 
 .listItem {
