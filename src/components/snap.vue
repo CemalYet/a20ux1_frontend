@@ -2,10 +2,10 @@
   <v-container>
     <br>
     <!--Camera-->
-    <v-container>
+
       <div class="mx-auto" style="max-width: 100%">
-        <div style="text-align: center">
-          <h3>You can add as many pictures until you are happy with your match.</h3>
+        <div class="text-subtitle-1" style="text-align: center">
+          You can add up to 5 pictures to scan
         </div>
 
         <pictureSlideGroup></pictureSlideGroup>
@@ -31,13 +31,14 @@
           </v-btn>
         </v-row>
       </div>
-    </v-container>
+
 
     <!--Picture carousel-->
-    <v-container
-        v-if="getInformationCards[0].title !== null"
-    >
-      <div class="mx-auto" style="max-width: 100%">
+      <div
+          class="mx-auto"
+          style="max-width: 100%"
+          v-if="getInformationCards[0].title !== null"
+      >
         <div style="text-align: center">
           <h3>Click on a match to see more information and confirm the one you want to add to the discovery.</h3>
         </div>
@@ -47,7 +48,10 @@
         >
           <template v-for="(card, i) in getInformationCards">
             <v-col :key="i">
-              <v-card id="card-outer">
+              <v-card
+                  id="card-outer"
+                  height="173"
+              >
                 <v-progress-linear
                     :value=card.percentage
                     color=var(--dark-color)
@@ -56,32 +60,28 @@
                 >
                   {{ card.percentage }}%
                 </v-progress-linear>
-                <div class="d-flex flex-no-wrap justify-space-between card_wrapper">
-                  <div id="card_text">
-                    <h1 class="headline">{{card.title}}</h1>
-                    <v-card-subtitle style="padding: 0; margin-left: 16px">
-                      <p class="font-italic">
-                        {{ card.subtitle }}
-                      </p>
-                    </v-card-subtitle>
+                <div class="d-flex flex-no-wrap justify-space-between">
+                  <div class="text-truncate">
+                    <v-card-title>{{card.title}}</v-card-title>
+                    <v-card-subtitle>{{ card.subtitle }}</v-card-subtitle>
+                    <v-card-actions>
                       <v-btn
-                          id="info_button"
+                          class="ml-2 mt-3"
                           outlined
                           small
                           @click="getInformation(i)"
                       >
                         MORE INFORMATION
                       </v-btn>
+                    </v-card-actions>
                   </div>
-
-                  <div class="image">
                   <v-avatar
+                      class="ma-3"
                       size="125"
                       tile
                   >
                     <v-img :src="card.src"></v-img>
                   </v-avatar>
-                  </div>
                 </div>
               </v-card>
             </v-col>
@@ -93,7 +93,7 @@
           </template>
         </v-row>
       </div>
-    </v-container>
+
     <v-snackbar
         v-model="updateSnackbar"
         color="error"
@@ -205,7 +205,6 @@ main {
 
 #card-outer {
   position: relative;
-  height: 200px;
 }
 
 .card_wrapper{

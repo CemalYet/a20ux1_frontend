@@ -26,6 +26,7 @@
             style="opacity: 50%; width: 160px"
             ripple
             @click="$refs.camera.click()"
+            :disabled="updateDiscoveryImages.length >= 5"
         >
           <input type="file" ref="camera" accept="image/*" capture="camera" style="display: none;"  @change="addImage"/>
           <v-icon class="added_discovery_images" style="width: 160px" size="68" color="white">
