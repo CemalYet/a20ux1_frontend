@@ -47,7 +47,10 @@
         >
           <template v-for="(card, i) in getInformationCards">
             <v-col :key="i">
-              <v-card id="card-outer">
+              <v-card
+                  id="card-outer"
+                  height="173"
+              >
                 <v-progress-linear
                     :value=card.percentage
                     color=var(--dark-color)
@@ -56,32 +59,28 @@
                 >
                   {{ card.percentage }}%
                 </v-progress-linear>
-                <div class="d-flex flex-no-wrap justify-space-between card_wrapper">
-                  <div id="card_text">
-                    <h1 class="headline">{{card.title}}</h1>
-                    <v-card-subtitle style="padding: 0; margin-left: 16px">
-                      <p class="font-italic">
-                        {{ card.subtitle }}
-                      </p>
-                    </v-card-subtitle>
+                <div class="d-flex justify-space-between">
+                  <div id="card_text" class="text-truncate">
+                    <v-card-title>{{card.title}}</v-card-title>
+                    <v-card-subtitle>{{ card.subtitle }}</v-card-subtitle>
+                    <v-card-actions>
                       <v-btn
-                          id="info_button"
+                          class="ml-2 mt-3"
                           outlined
                           small
                           @click="getInformation(i)"
                       >
                         MORE INFORMATION
                       </v-btn>
+                    </v-card-actions>
                   </div>
-
-                  <div class="image">
                   <v-avatar
+                      class="ma-3"
                       size="125"
                       tile
                   >
                     <v-img :src="card.src"></v-img>
                   </v-avatar>
-                  </div>
                 </div>
               </v-card>
             </v-col>
@@ -205,7 +204,6 @@ main {
 
 #card-outer {
   position: relative;
-  height: 200px;
 }
 
 .card_wrapper{
