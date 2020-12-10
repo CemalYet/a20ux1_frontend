@@ -557,6 +557,7 @@ export default {
     errorText: null,
     loader: null,
     loading: false,
+
   }),
 
   watch:{

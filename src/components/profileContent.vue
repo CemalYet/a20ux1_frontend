@@ -10,8 +10,8 @@
       >
         <avatar :size="70" :user-name="getUserData[0].userName" :picture="getUserData[0].avatar"></avatar>
         <v-list-item-content>
-          <v-list-item-title>{{getUserData[0].userName}}</v-list-item-title>
-          <v-list-item-subtitle>{{getUserData[0].emailAddress}}</v-list-item-subtitle>
+          <v-list-item-title>{{ getUserData[0].userName }}</v-list-item-title>
+          <v-list-item-subtitle>{{ getUserData[0].emailAddress }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
@@ -84,27 +84,27 @@
                   :cols="itemsPerRowGrid"
               >
 
-                  <v-img
-                      :src="discovery.photoPath"
-                      :lazy-src="discovery.photoPath"
-                      aspect-ratio="1"
-                      class="grey lighten-2"
-                      v-ripple
-                      @click="goToPost(discovery)"
-                  >
-                    <template v-slot:placeholder>
-                      <v-row
-                          class="fill-height ma-0"
-                          align="center"
-                          justify="center"
-                      >
-                        <v-progress-circular
-                            indeterminate
-                            color="grey lighten-5"
-                        ></v-progress-circular>
-                      </v-row>
-                    </template>
-                  </v-img>
+                <v-img
+                    :src="discovery.photoPath"
+                    :lazy-src="discovery.photoPath"
+                    aspect-ratio="1"
+                    class="grey lighten-2"
+                    v-ripple
+                    @click="goToPost(discovery)"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                    >
+                      <v-progress-circular
+                          indeterminate
+                          color="grey lighten-5"
+                      ></v-progress-circular>
+                    </v-row>
+                  </template>
+                </v-img>
               </v-col>
             </v-row>
           </v-container>
@@ -195,19 +195,60 @@
                   :key="badge"
                   class="listItem"
               >
-                <leafB
-                    class="evenStyle"
-                    :style="{'margin-right':leafPosition}"
-                    v-bind:text="badge.text"
-                    v-if="badge.id % 2 ===0"
-                    >
+                <v-list-item-action class="mr-0 ml-0">
+                  <v-dialog
+                      v-model="badge.show"
+                      width="500"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <div class="leaves" v-if="badge.badgeBasicId % 2 == 0"
+                           :style="{'margin-right':leafPosition}"
+                           v-bind="attrs"
+                           v-on="on">
+                        <leafB
+                            class="evenStyle"
+                            v-bind:text="badge.title"
+                        >
+                        </leafB>
+                      </div>fill
+                      <div class="leaves" v-bind="attrs"
+                           :style="{'margin-left':leafPosition}"
+                           v-on="on"
+                           v-else-if="badge.badgeBasicId % 2 !== 0 ">
+                        <leafB class="img-hor-vert"
+                               v-bind:text2="badge.title"
+                        >
+                        </leafB>
+                      </div>
+                    </template>
+                    <v-card>
+                      <v-card-title class="headline grey lighten-2">
+                        {{ badge.title }}
+                      </v-card-title>
 
-                </leafB>
-              <leafB class="img-hor-vert"
-                     :style="{'margin-left':leafPosition}"
-                     v-bind:text="badge.text"
-                     v-else-if="badge.id % 2 !== 0 ">
-              </leafB>
+                      <v-card-text>
+                        {{ badge.description }}
+                      </v-card-text>
+                      <v-divider></v-divider>
+                      <v-progress-linear
+
+                          height="15"
+                      >
+                        <strong>{{ Math.ceil((((badge.reqPoints-badge.currentPoints)-badge.reqPoints)/badge.reqPoints)*(-100)) }}%</strong>
+                      </v-progress-linear>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            color="primary"
+                            text
+                            @click="badge.show = false"
+                        >
+                          Close
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </v-list-item-action>
               </v-list-item>
             </v-list>
           </div>
@@ -227,23 +268,18 @@ import leafB from "@/components/leaves/leafB";
 export default {
   name: "profileContent",
 
-  components:{
+  components: {
     leafB,
     Avatar
   },
 
   data: () => ({
     tags: null,
-    badges: [{id:1,
-      text:"Made 1000 discoveries"},{id:2,
-      text:"Made 100 discoveries"},{id:3,
-      text:"Made 5 discoveries"},
-      {id:4,
-        text:"Made 56 discoveries"}],
+    badges: null,
     tab: null,
     myDiscoveries: [],
     taggedDiscoveries: [],
-    status:1,
+
 
 
   }),
@@ -266,10 +302,11 @@ export default {
       return "12";
     },
     leafPosition() {
-      let leafPosition= (window.innerWidth/50)+188+'px'
+      let leafPosition = (window.innerWidth /50) + 188 + 'px'
       console.log(leafPosition)
       return leafPosition
-      },
+    },
+
     badgesPerRow() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':
@@ -286,26 +323,26 @@ export default {
       return 1;
     },
 
-    getUserData(){
+    getUserData() {
       if (this.$route.params.id !== this.$store.getters.getLoggedInUserData[0].userId) {
         return this.$store.getters.getFetchedUserData;
-      } else{
+      } else {
         return this.$store.getters.getLoggedInUserData;
       }
     },
-    updateMyDiscoveries:{
-      get(){
+    updateMyDiscoveries: {
+      get() {
         return this.myDiscoveries;
       },
       set(value) {
         this.myDiscoveries = value;
       }
     },
-    updateTaggedDiscoveries:{
-      get(){
+    updateTaggedDiscoveries: {
+      get() {
         return this.taggedDiscoveries;
       },
-      set(value){
+      set(value) {
         this.taggedDiscoveries = value;
       }
     },
@@ -318,7 +355,7 @@ export default {
     window.removeEventListener("resize", this.myEventHandler);
   },
 */
-  mounted(){
+  mounted() {
     this.postUserId();
 
     // get my discoveries
@@ -330,12 +367,16 @@ export default {
     axios.get('/public/profile/gettaggeddiscoveries').then(response => {
       this.updateTaggedDiscoveries = response["data"];
     })
-
+    //get badges
+    axios.get('/public/BadgeController/showALLBadges').then(response => {
+      this.badges = response["data"];
+      console.log(this.badges)
+    })
   },
 
   methods: {
-    postUserId(){
-      if (this.$route.params.id !== this.$store.getters.getLoggedInUserData[0].user){
+    postUserId() {
+      if (this.$route.params.id !== this.$store.getters.getLoggedInUserData[0].user) {
         const userId = JSON.stringify({
           userId: this.$route.params.id
         });
@@ -346,7 +387,7 @@ export default {
         this.$store.dispatch('fetchUserDataById', formData)
       }
     },
-    goToPost(discovery){
+    goToPost(discovery) {
       this.$router.push({path: `/post/${discovery.discoveryId}`})
     },
     /*
@@ -370,9 +411,12 @@ export default {
   fill: var(--light-color);
 
 
+
+
 }
+
 .evenStyle {
-  -webkit-transform:rotate(-30deg);
+  -webkit-transform: rotate(-30deg);
   -moz-transform: rotate(-30deg);
   -ms-transform: rotate(-30deg);
   -o-transform: rotate(-30deg);
@@ -383,22 +427,29 @@ export default {
 
 }
 
-.listItem{
+.listItem {
   justify-content: center;
   margin: 0;
   padding: 0;
 
 }
 
+.leaves {
+  width: 200px;
 
-.list{
+
+
+
+}
+
+.list {
   background: transparent;
   text-align: center;
 }
+
 #example1 {
-  background:
-      url(../assets/tree.png) center repeat-y,
-      url(./leaves.png) repeat;
+  background: url(../assets/tree.png) center repeat-y,
+  url(./leaves.png) repeat;
   background-size: 140px, auto;
   margin: 0;
   padding: 0;
