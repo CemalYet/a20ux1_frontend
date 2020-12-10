@@ -62,11 +62,7 @@
           </div>
           <br>
           <div class="text-body-1">
-            You need at least 1 image to upload your discovery, but feel free to add more!
-          </div>
-          <br>
-          <div class="text-body-1">
-            The first picture in the list will be visible in the leaf on the feed.
+            You can add up to 5 pictures. The last one show in the leaf on the feed.
           </div>
 
           <div class="stepper_buttons_container">

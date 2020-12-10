@@ -2,10 +2,10 @@
   <v-container>
     <br>
     <!--Camera-->
-    <v-container>
+
       <div class="mx-auto" style="max-width: 100%">
-        <div style="text-align: center">
-          <h3>You can add as many pictures until you are happy with your match.</h3>
+        <div class="text-subtitle-1" style="text-align: center">
+          You can add up to 5 pictures to scan
         </div>
 
         <pictureSlideGroup></pictureSlideGroup>
@@ -31,13 +31,14 @@
           </v-btn>
         </v-row>
       </div>
-    </v-container>
+
 
     <!--Picture carousel-->
-    <v-container
-        v-if="getInformationCards[0].title !== null"
-    >
-      <div class="mx-auto" style="max-width: 100%">
+      <div
+          class="mx-auto"
+          style="max-width: 100%"
+          v-if="getInformationCards[0].title !== null"
+      >
         <div style="text-align: center">
           <h3>Click on a match to see more information and confirm the one you want to add to the discovery.</h3>
         </div>
@@ -59,8 +60,8 @@
                 >
                   {{ card.percentage }}%
                 </v-progress-linear>
-                <div class="d-flex justify-space-between">
-                  <div id="card_text" class="text-truncate">
+                <div class="d-flex flex-no-wrap justify-space-between">
+                  <div class="text-truncate">
                     <v-card-title>{{card.title}}</v-card-title>
                     <v-card-subtitle>{{ card.subtitle }}</v-card-subtitle>
                     <v-card-actions>
@@ -92,7 +93,7 @@
           </template>
         </v-row>
       </div>
-    </v-container>
+
     <v-snackbar
         v-model="updateSnackbar"
         color="error"
