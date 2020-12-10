@@ -15,6 +15,8 @@
         </v-list-item-content>
       </v-list-item>
 
+      <p> {{ getUserData[0] }} </p>
+
       <v-tabs
           v-model="tab"
           background-color="transparent"
@@ -283,6 +285,7 @@ export default {
         return this.$store.getters.getLoggedInUserData;
       }
     },
+
     updateMyDiscoveries:{
       get(){
         return this.myDiscoveries;
@@ -302,10 +305,13 @@ export default {
   },
 
   mounted(){
+
     this.postUserId();
 
+    //this.$store.dispatch('fetchUserDataById', this.$route.params.id);
+
     // get my discoveries
-    axios.get('/public/profile/getowndiscoveries').then(response => {
+    axios.get('/public/profile/getuserdiscoveries', {params: {data: this.$route.params.id}}).then(response => {
       if (response["data"].length !== 0){
         this.updateMyDiscoveries = response["data"];
       } else {
@@ -334,7 +340,8 @@ export default {
         let formData = new FormData()
         formData.append('data', userId)
 
-        this.$store.dispatch('fetchUserDataById', formData)
+        this.$store.dispatch('fetchUserDataById', formData);
+
       }
     },
     goToPost(discovery){

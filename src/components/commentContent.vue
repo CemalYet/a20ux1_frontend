@@ -20,7 +20,7 @@
       <div class="text-body-1" v-if="getComments.length === 0" style="margin: 12px"> There seems to be nothing here. Tell your friends about your post!</div>
       <div
           class="commentBox"
-          v-for="comment in getComments"
+          v-for="comment in comments"
           :key="comment">
         <div class="infoBox text-truncate">
           <v-list-item three-line dense>
@@ -51,32 +51,41 @@
 </template>
 
 <script>
-import axios from "axios";
+
 import avatar from "@/components/avatar";
+//import axios from "axios";
 
 export default {
   name: "commentContent",
 
   data: () => ({
     newComment: null,
+    comments: []
   }),
 
   components: {
     avatar
   },
 
+  mounted: {
+    getCs() {
+      this.comments = this.$store.getters.getComments;
+    }
+  },
+
   methods: {
     sendCommentToDb: function() {
       const json = JSON.stringify({
-        my_comment: this.newComment
+        userId: this.$store.getters.getLoggedInUserData[0].userId,
+        discoId: this.$route.params.discovery_id,
+        comment: this.newComment
       });
-      axios.post('savecomment', json)
-          .then(function (res) {
-            console.log(res);
-          })
-          .catch(function(err){
-            console.log(err);
-          });
+      this.$store.dispatch('uploadNewComment', json).then(response => {
+            console.log(response);
+            this.comments = this.$store.getters.getComments;
+            // Hoped this would update the comments on the screen but it doesn't
+          }
+      );
     },
     goToUser(user_id){
       console.log(user_id);

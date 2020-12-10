@@ -27,6 +27,7 @@ const store = new Vuex.Store({
 
         ///// PROFILE /////
         fetchedUserData: [],
+        user_id: null,
 
 
         ///// SHARE DISCOVERY /////
@@ -335,6 +336,12 @@ const store = new Vuex.Store({
                 });
         },
 
+        uploadNewComment(context, comment){
+            axios.post('/public/discovery/savecomment', comment).then(response => {
+                context.commit('fetchComments', response["data"]);
+            });
+        },
+
         ///// MAP PAGE /////
         MapCenter(context) {
             navigator.geolocation.getCurrentPosition(position => {
@@ -408,6 +415,11 @@ const store = new Vuex.Store({
         },
         getDiscoveries(state){
             return state.discoveries;
+        },
+
+        ///// PROFILE /////
+        getUserId(state){
+            return state.user_id;
         },
 
         ///// SHARE POST /////
