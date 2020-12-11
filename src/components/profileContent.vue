@@ -389,7 +389,7 @@ export default {
       }
     })
     //get badges
-    axios.get('/public/BadgeController/showALLBadges').then(response => {
+    axios.get('/public/BadgeController/showALLBadges', {params:{userId: this.$route.params.id}}).then(response => {
       this.badges = response["data"];
       console.log(this.badges)
     })

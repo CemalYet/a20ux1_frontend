@@ -27,7 +27,7 @@ const store = new Vuex.Store({
 
         ///// PROFILE /////
         fetchedUserData: [],
-        user_id: null,
+        user_id: 130,
 
 
         ///// SHARE DISCOVERY /////
@@ -349,13 +349,13 @@ const store = new Vuex.Store({
             });
         },
         discoveriesMe(context) {
-            axios.get('/public/mapController/getMyDiscoveries').then(response => {
+            axios.get('/public/mapController/getMyDiscoveries', {params: {userId: context.getters.getUserId}}).then(response => {
                 context.commit("updateMapMarkers", response["data"])
             });
         },
 
         discoveriesFriends(context) {
-            axios.get('/public/mapController/getFriendDiscoveries').then(response => {
+            axios.get('/public/mapController/getFriendDiscoveries', {params: {userId: context.getters.getUserId}}).then(response => {
                 context.commit("updateMapMarkers", response["data"])
             });
         },

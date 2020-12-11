@@ -174,15 +174,7 @@
                 :key="taggedFriend"
             >
               <div class="tagged_container">
-                <v-avatar
-                    size="56"
-                >
-                  <v-img
-                      :alt="`${taggedFriend.userName} avatar`"
-                      :src="taggedFriend.avatar"
-                  >
-                  </v-img>
-                </v-avatar>
+                <avatar :size="56" :user-name="taggedFriend.userName" :picture="taggedFriend.avatar"></avatar>
                 <div class="text-caption text-truncate">
                   {{taggedFriend.userName}}
                 </div>
@@ -213,13 +205,7 @@
           >
             <template v-slot:default="{ item }">
               <v-list-item>
-                <v-list-item-avatar>
-                  <v-img
-                      :alt="`${item.userName} avatar`"
-                      :src="item.avatar"
-                  ></v-img>
-                </v-list-item-avatar>
-
+                <avatar :size="56" :user-name="item.userName" :picture="item.avatar"></avatar>
                 <v-list-item-content>
                   <v-list-item-title>{{item.userName}}</v-list-item-title>
                 </v-list-item-content>
@@ -476,6 +462,7 @@ import axios from "axios";
 import { required, max } from 'vee-validate/dist/rules'
 import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
 import pictureSlideGroup from "@/components/pictureSlideGroup";
+import Avatar from "@/components/avatar";
 
 setInteractionMode('eager')
 
@@ -494,6 +481,7 @@ export default {
   name: "share",
 
   components: {
+    Avatar,
     leaf1,
     leaf2,
     leaf3,
