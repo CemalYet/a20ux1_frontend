@@ -516,6 +516,7 @@ export default {
     taggedFriendsId:[],
     loader: null,
     loading: false,
+
   }),
 
   watch:{
