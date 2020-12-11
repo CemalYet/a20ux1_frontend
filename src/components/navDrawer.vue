@@ -31,11 +31,11 @@
         </v-list-item-icon>
         <v-list-item-title>Friends</v-list-item-title>
       </v-list-item>
-      <v-list-item link :ripple="false">
+      <v-list-item link :ripple="false"  @click.native="goToBadges">
         <v-list-item-icon>
           <v-icon large color=var(--main-color)>mdi-shield-star-outline</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>Badges</v-list-item-title>
+        <v-list-item-title >Badges</v-list-item-title >
       </v-list-item>
       <v-list-item link :ripple="false" @click.native="goToMap">
         <v-list-item-icon>
@@ -62,11 +62,16 @@ import userAvatarPlusInfo from "@/components/userAvatarPlusInfo";
 
 export default {
   name: "navDrawer",
+  data: () => ({
+    userId:null
+  }),
 
   components:{
     userAvatarPlusInfo
   },
-
+  mounted() {
+    this.userId=this.$store.getters.getLoggedInUserData[0].userId
+  },
   computed:{
     updateDrawer: {
       get() {
@@ -82,6 +87,7 @@ export default {
     friendRequestNotifications(){
       return this.$store.getters.getFriendRequestNotifications;
     },
+
   },
 
   methods:{
@@ -90,6 +96,10 @@ export default {
     },
     goToFriends(){
       this.$router.push({path: "friends"});
+    },
+    goToBadges(){
+      if(typeof(this.userId)!=='undefined'){
+        this.$router.push({path: `/profile/${this.userId}?tab=badges`})}
     }
   }
 }

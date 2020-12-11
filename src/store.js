@@ -365,13 +365,13 @@ const store = new Vuex.Store({
             });
         },
         discoveriesMe(context) {
-            axios.get('/public/mapController/getMyDiscoveries').then(response => {
+            axios.get('/public/mapController/getMyDiscoveries', {params: {userId: context.getters.getLoggedInUserData[0].userId}}).then(response => {
                 context.commit("updateMapMarkers", response["data"])
             });
         },
 
         discoveriesFriends(context) {
-            axios.get('/public/mapController/getFriendDiscoveries').then(response => {
+            axios.get('/public/mapController/getFriendDiscoveries', {params: {userId: context.getters.getLoggedInUserData[0].userId}}).then(response => {
                 context.commit("updateMapMarkers", response["data"])
             });
         },
