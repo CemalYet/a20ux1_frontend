@@ -535,9 +535,7 @@ export default {
           console.log(error.message);
         },
     )
-    this.$store.dispatch('fetchFriends').then(response=>{//Please do not remove this otherwise friends are removed
-      this.updateFriends=response["data"]
-    })
+    this.$store.dispatch('fetchFriends');
 
   },
 
