@@ -251,8 +251,9 @@
                       <v-divider></v-divider>
                       <v-progress-linear
                           :value="calculatePoints(badge)"
+                          dark
                           color=var(--main-color)
-                          height="15"
+                          height="30"
                       >
                         <strong>  {{ Math.ceil(calculatePoints(badge)) }}%</strong>
                       </v-progress-linear>
@@ -357,14 +358,14 @@ export default {
       }
   },
 
-  /*
+
   created() {
     window.addEventListener("resize", this.myEventHandler);
   },
   destroyed() {
     window.removeEventListener("resize", this.myEventHandler);
   },
-*/
+
   mounted() {
     this.postUserId();
 
@@ -411,17 +412,17 @@ export default {
       this.$router.push({path: `/post/${discovery.discoveryId}`})
     },
     calculatePoints(badge){
-      if(badge.currentPoints >= badge.reqPoints){
+      if(badge.currentPoints > badge.reqPoints){
         return 100
       }else {
-        return (((badge.reqPoints - badge.currentPoints) - badge.reqPoints) / badge.reqPoints) * (-100)
+        return ( badge.currentPoints / badge.reqPoints) * (100)
       }
-    }
-    /*
+    },
+
     myEventHandler() {
       window.location.reload(false);
     }
-     */
+
   },
 }
 </script>
