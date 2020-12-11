@@ -571,14 +571,11 @@ export default {
       this.updateLeafShape = int;
     },
     check_data: function () {
-      console.log('test check_data 1')
       this.loader = 'loading'
       if (this.$store.getters.getChosen_leaf === null) {
-        console.log('test check_data 2')
         this.updateSnackBarMessage = "Please choose a leaf for your discovery";
         this.$store.commit('updateSnackbar', true);
       } else {
-        console.log('test check_data 3')
         this.updateSnackBarMessage = "Failed to upload. Please try again later.";
         this.$store.dispatch('sharePost', this.taggedFriendsId);
       }

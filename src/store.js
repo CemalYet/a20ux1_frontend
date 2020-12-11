@@ -321,7 +321,7 @@ const store = new Vuex.Store({
                 my_taggedFriends: taggedFriendsId,
                 images: context.getters.getDiscoveryImages,
             });
-            axios.post('/public/sharecontroller/save', json,
+            axios.post('/public/shareController/save', json,
                 {
                     headers: {'Content-Type': 'application/json'}
                     // eslint-disable-next-line no-unused-vars
@@ -349,30 +349,30 @@ const store = new Vuex.Store({
             });
         },
         discoveriesMe(context) {
-            axios.get('/public/mapcontroller/getMyDiscoveries').then(response => {
+            axios.get('/public/mapController/getMyDiscoveries').then(response => {
                 context.commit("updateMapMarkers", response["data"])
             });
         },
 
         discoveriesFriends(context) {
-            axios.get('/public/mapcontroller/getFriendDiscoveries').then(response => {
+            axios.get('/public/mapController/getFriendDiscoveries').then(response => {
                 context.commit("updateMapMarkers", response["data"])
             });
         },
 
         discoveriesPopular(context) {
-            axios.get('/public/mapcontroller/getPopularDiscoveries').then(response => {
+            axios.get('/public/mapController/getPopularDiscoveries').then(response => {
                 context.commit("updateMapMarkers", response["data"])
             });
         },
         searchDiscoveries(context) {
-            axios.get('/public/mapcontroller/searching', {params: {data: context.getters.getSearchField}}).then(response => {
+            axios.get('/public/mapController/searching', {params: {data: context.getters.getSearchField}}).then(response => {
                 context.commit("updateSearchResults", response["data"])
                 context.commit("updateMapMarkers", response["data"])
             });
         },
         getPictures(context) {
-            axios.get('/public/mapcontroller/getDiscoveryPhotos', {params: {data: context.getters.getDiscoveryId}}).then(response => {
+            axios.get('/public/mapController/getDiscoveryPhotos', {params: {data: context.getters.getDiscoveryId}}).then(response => {
                 context.commit("updateDiscoveryPhotos", response["data"])
             });
         },
@@ -388,7 +388,7 @@ const store = new Vuex.Store({
             })
         },
         fetchDiscoveryPostPhotosOnId(context, discoveryId){
-            axios.get('/public/mapcontroller/getDiscoveryPhotos', {params: {data: discoveryId}}).then(response => {
+            axios.get('/public/mapController/getDiscoveryPhotos', {params: {data: discoveryId}}).then(response => {
                 context.commit("updateDiscoveryPostPhotos", response["data"])
             });
         },

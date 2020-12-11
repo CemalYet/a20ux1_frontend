@@ -189,7 +189,7 @@ export default {
         userId: this.$store.getters.getLoggedInUserData[0].userId,
         discoId: this.$route.params.discovery_id
       });
-      axios.post('savelike', json)
+      axios.post('/public/discovery/savelike', json)
           .then(function (res) {
             console.log(res);
           })
@@ -202,7 +202,7 @@ export default {
         userId: this.$store.getters.getLoggedInUserData[0].userId,
         discoId: this.$route.params.discovery_id
       });
-      axios.post('deletelike', json)
+      axios.post('/public/discovery/deletelike', json)
           .then(function (res) {
             console.log(res);
           })
