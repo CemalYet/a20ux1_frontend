@@ -110,7 +110,6 @@ const store = new Vuex.Store({
         },
         updateFetchedUserData(state, fetchedUserData){
             state.fetchedUserData = fetchedUserData;
-            // console.log(JSON.stringify(this.getters.getFetchedUserData.userId))
         },
 
         ///// FEED /////
@@ -246,6 +245,17 @@ const store = new Vuex.Store({
         },
         updateDiscoveryComments(state, value){
             state.discoveryComments = value;
+        },
+
+        ///// COMMENTS /////
+        appendNewComment(state, comment){
+            let newComment = {
+                "commentedByUserIdFk": state.loggedInUserData[0].userId,
+                "avatar": state.loggedInUserData[0].avatar,
+                "userName": state.loggedInUserData[0].userName,
+                "comment": comment
+            }
+            state.discoveryComments.push(newComment);
         }
     },
 
@@ -253,7 +263,14 @@ const store = new Vuex.Store({
         ///// USERDATA /////
         // user whose profile is being viewed
         fetchUserDataById(context, id){
-            axios.post('/public/profile/getFetchedUserData', id).then(response => {
+            const userId = JSON.stringify({
+                userId: id
+            });
+
+            let formData = new FormData()
+            formData.append('data', userId)
+
+            axios.post('/public/profile/getFetchedUserData', formData).then(response => {
                 context.commit('updateFetchedUserData', response["data"])
             })
         },
@@ -321,12 +338,11 @@ const store = new Vuex.Store({
                 my_taggedFriends: taggedFriendsId,
                 images: context.getters.getDiscoveryImages,
             });
-            axios.post('/public/sharecontroller/save', json,
+            axios.post('/public/shareController/save', json,
                 {
                     headers: {'Content-Type': 'application/json'}
                     // eslint-disable-next-line no-unused-vars
                 }).then(response => {
-                //doesn't wannaaa wooorrkkkk
                 console.log(response['data'])
                 router.push({path: `/post/${response['data'][0].discoveryId}`});
             }).catch(error => {
@@ -349,30 +365,30 @@ const store = new Vuex.Store({
             });
         },
         discoveriesMe(context) {
-            axios.get('/public/mapcontroller/getMyDiscoveries').then(response => {
+            axios.get('/public/mapController/getMyDiscoveries', {params: {userId: context.getters.getLoggedInUserData[0].userId}}).then(response => {
                 context.commit("updateMapMarkers", response["data"])
             });
         },
 
         discoveriesFriends(context) {
-            axios.get('/public/mapcontroller/getFriendDiscoveries').then(response => {
+            axios.get('/public/mapController/getFriendDiscoveries', {params: {userId: context.getters.getLoggedInUserData[0].userId}}).then(response => {
                 context.commit("updateMapMarkers", response["data"])
             });
         },
 
         discoveriesPopular(context) {
-            axios.get('/public/mapcontroller/getPopularDiscoveries').then(response => {
+            axios.get('/public/mapController/getPopularDiscoveries').then(response => {
                 context.commit("updateMapMarkers", response["data"])
             });
         },
         searchDiscoveries(context) {
-            axios.get('/public/mapcontroller/searching', {params: {data: context.getters.getSearchField}}).then(response => {
+            axios.get('/public/mapController/searching', {params: {data: context.getters.getSearchField}}).then(response => {
                 context.commit("updateSearchResults", response["data"])
                 context.commit("updateMapMarkers", response["data"])
             });
         },
         getPictures(context) {
-            axios.get('/public/mapcontroller/getDiscoveryPhotos', {params: {data: context.getters.getDiscoveryId}}).then(response => {
+            axios.get('/public/mapController/getDiscoveryPhotos', {params: {data: context.getters.getDiscoveryId}}).then(response => {
                 context.commit("updateDiscoveryPhotos", response["data"])
             });
         },
@@ -388,7 +404,7 @@ const store = new Vuex.Store({
             })
         },
         fetchDiscoveryPostPhotosOnId(context, discoveryId){
-            axios.get('/public/mapcontroller/getDiscoveryPhotos', {params: {data: discoveryId}}).then(response => {
+            axios.get('/public/mapController/getDiscoveryPhotos', {params: {data: discoveryId}}).then(response => {
                 context.commit("updateDiscoveryPostPhotos", response["data"])
             });
         },

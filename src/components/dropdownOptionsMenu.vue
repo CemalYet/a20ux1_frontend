@@ -1,5 +1,5 @@
 <template>
-  <v-menu offset-y v-if="getFetchedData.userId === getCurrentData[0].userId">
+  <v-menu offset-y v-if="this.$route.params.id === getCurrentData[0].userId">
     <template v-slot:activator="{ on, attrs }">
       <v-btn
           icon
@@ -34,9 +34,6 @@
 export default {
   name: "dropdownOptionsMenu",
   computed:{
-    getFetchedData(){
-      return this.$store.getters.getFetchedUserData;
-    },
     getCurrentData(){
       return this.$store.getters.getLoggedInUserData;
     }
