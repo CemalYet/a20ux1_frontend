@@ -3,7 +3,7 @@
       fixed
       grow
       extended>
-    <v-btn color="white" :ripple="false">
+    <v-btn color="white" :ripple="false" @click.native="goToBadges()">
       <v-icon large color=var(--main-color)>mdi-shield-star-outline</v-icon>
     </v-btn>
 
@@ -19,7 +19,13 @@
 <script>
 export default {
   name: "bottomNavBar",
+  data: () => ({
+    userId:null
+  }),
 
+  mounted() {
+    this.userId=this.$store.getters.getLoggedInUserData[0].userId
+  },
   methods:{
     goToCamera(){
       this.$router.push({path:'camera'})
@@ -27,6 +33,10 @@ export default {
     goToMap(){
       this.$router.push({path:'map'})
     },
+    goToBadges(){
+      if(typeof(this.userId)!=='undefined'){
+        this.$router.push({path: `/profile/${this.userId}?tab=badges`})}
+    }
   }
 }
 </script>

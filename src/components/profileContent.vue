@@ -20,20 +20,19 @@
           background-color="transparent"
           fixed-tabs
           color=var(--dark-color)>
-        <v-tab>
+        <v-tab href="#pictures">
           My pictures
         </v-tab>
-        <v-tab>
+        <v-tab href="#tags">
           Tags
         </v-tab>
-        <v-tab>
+        <v-tab href="#badges">
           Badges
         </v-tab>
       </v-tabs>
-
       <v-tabs-items
-          v-model="tab">
-        <v-tab-item>
+          :value="tab">
+        <v-tab-item value="pictures">
           <v-container
               style="max-width: 1000px;"
               v-if="updateMyDiscoveries.length === 0"
@@ -110,7 +109,7 @@
           </v-container>
         </v-tab-item>
 
-        <v-tab-item>
+        <v-tab-item value="tags">
 
           <v-container
               style="max-width: 1000px;"
@@ -186,7 +185,7 @@
           </v-container>
         </v-tab-item>
 
-        <v-tab-item>
+        <v-tab-item value="badges">
           <div
               id="example1">
             <v-list class="list">
@@ -280,11 +279,9 @@ export default {
   data: () => ({
     tags: null,
     badges: null,
-    tab: null,
+
     myDiscoveries: [],
     taggedDiscoveries: [],
-
-
 
   }),
 
@@ -310,23 +307,6 @@ export default {
       console.log(leafPosition)
       return leafPosition
     },
-
-    badgesPerRow() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs':
-          return "auto"
-        case 'sm':
-          return "auto"
-        case 'md':
-          return "auto auto"
-        case 'lg':
-          return "auto auto"
-        case 'xl':
-          return "auto auto"
-      }
-      return 1;
-    },
-
     getUserData() {
       if (this.$route.params.id !== this.$store.getters.getLoggedInUserData[0].userId) {
         return this.$store.getters.getFetchedUserData;
@@ -350,6 +330,14 @@ export default {
         this.taggedDiscoveries = value;
       }
     },
+      tab: {
+        set (tab) {
+          this.$router.replace({ query: { ...this.$route.query, tab } })
+        },
+        get () {
+          return this.$route.query.tab
+        }
+      }
   },
   /*
   created() {
@@ -439,12 +427,8 @@ export default {
   padding: 0;
 
 }
-
 .leaves {
   width: 200px;
-
-
-
 
 }
 
