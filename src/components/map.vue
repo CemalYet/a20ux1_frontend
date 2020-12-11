@@ -147,6 +147,18 @@ export default {
     };
   },
 
+  metaInfo() {
+    return {
+      title: "Google Maps Verify",
+      meta: [
+        {
+          name: "google-site-verification",
+          content:"xULstTpcIKRJ3vI6qaH7l8PIhDTlWZN4l55SYOlbADA",
+        }
+      ]
+    }
+  },
+
   components: {
     'gmap-custom-marker': GmapCustomMarker,
     avatar
