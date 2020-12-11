@@ -46,8 +46,10 @@
                   :counter=25
                   required
                   outlined
+                  clearable
                   color=var(--main-color);
                   background-color=white;
+                  @click:clear="reloadUserName"
               ></v-text-field>
               <v-text-field
                   v-model="emailAddress"
@@ -86,24 +88,26 @@
             </v-container>
           </v-form>
         </div>
-
-        <div class="centerButtons">
-          <v-btn
-              class="buttons"
-              @click.native="goBackToLogin"
-              elevation="2"
-          >
-            Back
-          </v-btn>
-          <v-btn
-              class="buttons white--text"
-              color=var(--dark-color)
-              elevation="2"
-              @click.native="checkRegData"
-          >
-            Continue
-          </v-btn>
+        <div class="coverButtons">
+          <div class="centerButtons">
+            <v-btn
+                class="buttons"
+                @click.native="goBackToLogin"
+                elevation="2"
+            >
+              Back
+            </v-btn>
+            <v-btn
+                class="buttons white--text"
+                color=var(--dark-color)
+                elevation="2"
+                @click.native="checkRegData"
+            >
+              Continue
+            </v-btn>
+          </div>
         </div>
+
         <v-snackbar
             v-model="snackBar"
             color="error"
@@ -138,24 +142,27 @@
             ></v-checkbox>
           </div>
         </div>
-        <div class="centerButtons">
-          <v-btn
-              class="buttons"
-              @click="e1 = 1"
-              elevation="2"
-          >
-            Back
-          </v-btn>
-          <v-btn
-              color=var(--dark-color)
-              @click="e1 = 3"
-              class="buttons white--text"
-              elevation="2"
-              @click.native="updateUserEmail"
-          >
-            Continue
-          </v-btn>
+        <div class="coverButtons">
+          <div class="centerButtons">
+            <v-btn
+                class="buttons"
+                @click="e1 = 1"
+                elevation="2"
+            >
+              Back
+            </v-btn>
+            <v-btn
+                color=var(--dark-color)
+                @click="e1 = 3"
+                class="buttons white--text"
+                elevation="2"
+                @click.native="updateUserEmail"
+            >
+              Continue
+            </v-btn>
+          </div>
         </div>
+
       </v-stepper-content>
 
 
@@ -227,24 +234,27 @@
             </v-container>
           </v-form>
         </div>
-        <div class="centerButtons">
-          <v-btn
-              class="buttons"
-              @click="e1 = 2"
-              elevation="2"
-          >
-            Back
-          </v-btn>
-          <v-btn
-              color=var(--dark-color)
-              @click="e1 = 4"
-              class="buttons white--text"
-              elevation="2"
-              @click.native="save"
-          >
-            Continue
-          </v-btn>
+        <div class="coverButtons">
+          <div class="centerButtons">
+            <v-btn
+                class="buttons"
+                @click="e1 = 2"
+                elevation="2"
+            >
+              Back
+            </v-btn>
+            <v-btn
+                color=var(--dark-color)
+                @click="e1 = 4"
+                class="buttons white--text"
+                elevation="2"
+                @click.native="save"
+            >
+              Continue
+            </v-btn>
+          </div>
         </div>
+
       </v-stepper-content>
 
 
@@ -305,6 +315,9 @@ export default {
   }),
 
   methods: {
+    reloadUserName: function () {
+      this.userName = null;
+    },
     updateUserEmail: function () {
       this.$store.commit("updateUserEmail", this.emailAddress);
     },
@@ -398,7 +411,14 @@ export default {
 .content {
   align-content: center;
   padding: 10px 0;
-  height: calc(100vh - 83px - 66px);
+  position: relative;
+}
+
+.coverButtons {
+  display: flex;
+  justify-content: flex-end;
+  margin: auto;
+  width: 276px;
 }
 
 .centerButtons {
@@ -407,7 +427,9 @@ export default {
   padding-top: 20px;
   padding-bottom: 5px;
   max-width: 276px;
-  margin: auto auto 5px;
+  /*margin: auto auto 5px;*/
+  position: absolute;
+  bottom: 0;
 }
 
 .buttons {
