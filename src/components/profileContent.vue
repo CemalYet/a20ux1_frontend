@@ -251,8 +251,9 @@
                       <v-divider></v-divider>
                       <v-progress-linear
                           :value="calculatePoints(badge)"
+                          dark
                           color=var(--main-color)
-                          height="15"
+                          height="30"
                       >
                         <strong>  {{ Math.ceil(calculatePoints(badge)) }}%</strong>
                       </v-progress-linear>
@@ -296,6 +297,7 @@ export default {
   data: () => ({
     tags: null,
     badges: null,
+    tab: null,
     myDiscoveries: [],
     noMyDiscoveries: false,
     taggedDiscoveries: [],
@@ -357,18 +359,18 @@ export default {
       }
   },
 
-  /*
+
   created() {
     window.addEventListener("resize", this.myEventHandler);
   },
   destroyed() {
     window.removeEventListener("resize", this.myEventHandler);
   },
-*/
+
   mounted() {
     this.postUserId();
 
-    this.$store.dispatch('fetchUserDataById', this.$route.params.id);
+    //this.$store.dispatch('fetchUserDataById', this.$route.params.id);
 
     // get my discoveries
     axios.get('/public/profile/getUserDiscoveries', {params: {data: this.$route.params.id}}).then(response => {
@@ -404,24 +406,25 @@ export default {
         let formData = new FormData()
         formData.append('data', userId)
 
-        this.$store.dispatch('fetchUserDataById', formData)
+        this.$store.dispatch('fetchUserDataById', formData);
+
       }
     },
     goToPost(discovery){
       this.$router.push({path: `/post/${discovery.discoveryId}`})
     },
     calculatePoints(badge){
-      if(badge.currentPoints >= badge.reqPoints){
+      if(badge.currentPoints > badge.reqPoints){
         return 100
       }else {
-        return (((badge.reqPoints - badge.currentPoints) - badge.reqPoints) / badge.reqPoints) * (-100)
+        return ( badge.currentPoints / badge.reqPoints) * (100)
       }
-    }
-    /*
+    },
+
     myEventHandler() {
       window.location.reload(false);
     }
-     */
+
   },
 }
 </script>

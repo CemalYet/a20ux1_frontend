@@ -6,7 +6,9 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import store from "@/store";
 import * as VueGoogleMaps from "vue2-google-maps";
+import Meta from "vue-meta";
 
+Vue.use(Meta);
 Vue.use(VueGoogleMaps, {
   load: {
     key: "AIzaSyDbKibifXFsF7V5MAkALsXbG6B3P7ELwhY",
