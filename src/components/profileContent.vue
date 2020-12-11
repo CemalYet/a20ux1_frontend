@@ -15,8 +15,6 @@
         </v-list-item-content>
       </v-list-item>
 
-      <p> {{ getUserData[0] }} </p>
-
       <v-tabs
           v-model="tab"
           background-color="transparent"
@@ -306,12 +304,12 @@ export default {
 
   mounted(){
 
-    this.postUserId();
+    //this.postUserId();
 
-    //this.$store.dispatch('fetchUserDataById', this.$route.params.id);
+    this.$store.dispatch('fetchUserDataById', this.$route.params.id);
 
     // get my discoveries
-    axios.get('/public/profile/getuserdiscoveries', {params: {data: this.$route.params.id}}).then(response => {
+    axios.get('/public/profile/getUserDiscoveries', {params: {data: this.$route.params.id}}).then(response => {
       if (response["data"].length !== 0){
         this.updateMyDiscoveries = response["data"];
       } else {
@@ -320,7 +318,7 @@ export default {
     })
 
     //get tagged discoveries
-    axios.get('/public/profile/gettaggeddiscoveries').then(response => {
+    axios.get('/public/profile/getTaggedDiscoveries').then(response => {
       if (response["data"].length !== 0){
         this.updateTaggedDiscoveries = response["data"];
       } else {

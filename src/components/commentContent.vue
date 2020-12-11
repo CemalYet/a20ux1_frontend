@@ -20,7 +20,7 @@
       <div class="text-body-1" v-if="getComments.length === 0" style="margin: 12px"> There seems to be nothing here. Tell your friends about your post!</div>
       <div
           class="commentBox"
-          v-for="comment in comments"
+          v-for="comment in getComments"
           :key="comment">
         <div class="infoBox text-truncate">
           <v-list-item three-line dense>
@@ -60,17 +60,14 @@ export default {
 
   data: () => ({
     newComment: null,
-    comments: []
   }),
 
   components: {
     avatar
   },
 
-  mounted: {
-    getCs() {
-      this.comments = this.$store.getters.getComments;
-    }
+  mounted() {
+    this.$store.dispatch('fetchComments', this.$route.params.discovery_id);
   },
 
   methods: {
@@ -86,6 +83,8 @@ export default {
             // Hoped this would update the comments on the screen but it doesn't
           }
       );
+      this.$store.commit("appendNewComment", this.newComment);
+      this.newComment = null;
     },
     goToUser(user_id){
       console.log(user_id);

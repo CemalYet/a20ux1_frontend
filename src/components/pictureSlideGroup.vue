@@ -70,7 +70,7 @@ export default {
 
   methods:{
     addImage(event){
-      const { maxSize } = 4096
+      let maxSize = 1024
       let imageFile = event.target.files[0]
       const reader = new FileReader();
       if (event.target.files.length>0) {
@@ -79,9 +79,9 @@ export default {
           // check whether the upload is an image
           this.updateSnackBarMessage('Please choose an image file');
           this.$store.commit('updateSnackbar', true);
-        } else if (size>1) {
+        } else if (size>16) {
           // check whether the size is greater than the size limit
-          this.updateSnackBarMessage('Your file is too big! Please select an image under 4MB');
+          this.updateSnackBarMessage('Your file is too big! Please select an image under 16MB');
           this.$store.commit('updateSnackbar', true);
         } else {
           let newImage = {'photoPath': null};

@@ -51,10 +51,10 @@
             // check whether the upload is an image
             this.errorDialog = true
             this.errorText = 'Please choose an image file'
-          } else if (size>1) {
+          } else if (size>16) {
             // check whether the size is greater than the size limit
             this.errorDialog = true
-            this.errorText = 'Your file is too big! Please select an image under 1MB'
+            this.errorText = 'Your file is too big! Please select an image under 16MB'
           } else {
             // let formData = new FormData()
             // let imageURL = URL.createObjectURL(imageFile)
