@@ -423,6 +423,7 @@
                     class=" white--text"
                     :loading="loading"
                     :disabled="(invalid || loading)"
+                    @click="updateChallenges"
                 >
                   finish
                 </v-btn>
@@ -581,6 +582,10 @@ export default {
       this.taggedFriendsId.splice(this.taggedFriendsId.indexOf(user.userId))
       console.log(this.taggedFriendsId)
     },
+    updateChallenges: function () {
+      console.log(this.$store.getters.getLoggedInUserData[0].userId);
+      axios.post('/public/BadgeController/checkChallenges', {params: {userId: this.$store.getters.getLoggedInUserData[0].userId}});
+    }
   },
 
   computed: {
