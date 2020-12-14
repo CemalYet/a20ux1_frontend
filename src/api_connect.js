@@ -7,7 +7,7 @@ const api_scan = function(){
                 imagesToScan.push(store.getters.getDiscoveryImages[i].photoPath)
             }
             const datas = {
-                api_key: "ZA54kZ7WT2A7nQhCyvYvePuXucjnAIDW0v4qzJq98GOYQ1268c",
+                api_key: "ivH7PTesHqkdQyHaj3y5ZPNOCkrpzFBOzU9wcNJ1TK5hzYfESo",
                 images: imagesToScan,
                 modifiers: ["crops_fast", "similar_images"],
                 plant_language: "en",

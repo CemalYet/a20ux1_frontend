@@ -49,6 +49,7 @@ const store = new Vuex.Store({
         snackbar: false,
         snackbar_message: null,
         discoveryImages: [],
+        cancelDialog: false,
 
         // MAP PAGE /////
         map_center: {lat: 50.87959, lng: 4.70093}, //Leuven default value
@@ -78,7 +79,8 @@ const store = new Vuex.Store({
         discoveryComments: [],
         discoveryTags: [],
         discoveryPostData:[],
-        discoveryPostPhotos:[ ],
+        discoveryPostPhotos:[],
+        prevDiscoveryId: 0,
 
         ///// FRIENDS /////
         friendsData: [],
@@ -219,6 +221,9 @@ const store = new Vuex.Store({
         deleteDiscoveryImage(state, image){
             state.discoveryImages.splice(state.discoveryImages.indexOf(image),1);
         },
+        updateCancelDialog(state, value){
+            state.cancelDialog = value;
+        },
 
         ///// MAP PAGE /////
         updateMapCenter(state, value) {
@@ -251,7 +256,19 @@ const store = new Vuex.Store({
             state.discovery_id = value;
         },
 
-        /// INFORMATION PAGE ///
+        ///// SNAP PAGE /////
+        clearScanData(state){
+            state.info_cards = [
+                {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null},
+                {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null},
+                {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null},
+                {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null}
+            ];
+            state.card_id = null;
+            state.discoveryImages = [];
+        },
+
+        ///// INFORMATION PAGE /////
         updateInformationCards(state, value) {
             state.info_cards = value;
         },
@@ -267,7 +284,6 @@ const store = new Vuex.Store({
             state.deleteDialog = value;
         },
 
-        ///// POST CONTENT /////
         updateTaggedFriendsData(state,taggedFriendsData){
             state.taggedFriendsData = taggedFriendsData;
         },
@@ -281,6 +297,16 @@ const store = new Vuex.Store({
         },
         updateDiscoveryComments(state, value){
             state.discoveryComments = value;
+        },
+
+        updatePrevDiscoveryId(state, value){
+            state.prevDiscoveryId = value;
+        },
+        resetDiscoveryData(state){
+            state.discoveryPostData = [];
+            state.discoveryPostPhotos = [];
+            state.discoveryComments = [];
+            state.taggedFriendsData = [];
         },
 
         ///// COMMENTS /////
@@ -545,6 +571,9 @@ const store = new Vuex.Store({
         getDiscoveryImages(state){
             return state.discoveryImages;
         },
+        getCancelDialog(state){
+            return state.cancelDialog;
+        },
 
         ///// MAP PAGE /////
         getMapCenter(state) {
@@ -625,6 +654,9 @@ const store = new Vuex.Store({
         getDiscoveryPostPhotos(state){
             return state.discoveryPostPhotos;
         },
+        getPrevDiscoveryId(state){
+            return state.prevDiscoveryId;
+        }
     }
 })
 

@@ -24,6 +24,7 @@ import loginpage from "@/components/loginpage";
 import registerpage from "@/components/registerpage";
 import information from "@/components/information";
 import snap from "@/components/snap";
+import cancelButton from "@/components/cancelButton";
 
 import store from './store.js';
 import axios from 'axios';
@@ -160,7 +161,7 @@ const router = new VueRouter({
                         {
                             path: '',
                             components:{
-                                buttonLeft: backButton,
+                                buttonLeft: cancelButton,
                             },
                         }
                     ],

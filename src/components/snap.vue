@@ -169,6 +169,17 @@ export default {
       this.loading = true;
       api_scan();
     },
+    clearScanData(){
+      this.$store.commit('clearScanData');
+    }
+  },
+
+  beforeRouteEnter(to, from, next){
+    next(vm => {
+      if(from.path !== '/information'){
+        vm.clearScanData();
+      }
+    })
   }
 }
 </script>
