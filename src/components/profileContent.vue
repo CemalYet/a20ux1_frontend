@@ -34,6 +34,9 @@
       <v-tabs-items
           :value="tab">
         <v-tab-item value="pictures">
+
+          <loader v-if="updateMyDiscoveries.length === 0 && this.noMyDiscoveries === false"></loader>
+
           <div
               class="text-body-2"
               v-if="noMyDiscoveries === true"
@@ -41,42 +44,6 @@
           >
             You don't have any discoveries yet! Be sure to go out in nature and make some snaps of nice plants!
           </div>
-
-          <v-container
-              style="max-width: 1000px;"
-              v-if="updateMyDiscoveries.length === 0 && this.noMyDiscoveries === false"
-          >
-            <v-row
-                align="start"
-                dense
-            >
-              <v-col
-                  v-for="n in 12"
-                  :key="n"
-                  class="d-flex child-flex"
-                  :cols="itemsPerRowGrid"
-              >
-
-                <v-img
-                    aspect-ratio="1"
-                    class="grey lighten-2"
-                >
-                  <template v-slot:placeholder>
-                    <v-row
-                        class="fill-height ma-0"
-                        align="center"
-                        justify="center"
-                    >
-                      <v-skeleton-loader
-                          class="mx-auto"
-                          type="image"
-                      ></v-skeleton-loader>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-col>
-            </v-row>
-          </v-container>
 
           <v-container
               style="max-width: 1000px;"
@@ -120,6 +87,8 @@
 
         <v-tab-item value="tags">
 
+          <loader v-if="updateTaggedDiscoveries.length === 0 && this.noTaggedDiscoveries === false"></loader>
+
           <div
               class="text-body-2"
               v-if="noTaggedDiscoveries === true"
@@ -127,42 +96,6 @@
           >
             None of your friends have tagged you yet :( Be sure to go out and explore with your friends
           </div>
-
-          <v-container
-              style="max-width: 1000px;"
-              v-if="updateTaggedDiscoveries.length === 0 && noTaggedDiscoveries === false"
-          >
-            <v-row
-                align="start"
-                dense
-            >
-              <v-col
-                  v-for="n in 12"
-                  :key="n"
-                  class="d-flex child-flex"
-                  :cols="itemsPerRowGrid"
-              >
-
-                <v-img
-                    aspect-ratio="1"
-                    class="grey lighten-2"
-                >
-                  <template v-slot:placeholder>
-                    <v-row
-                        class="fill-height ma-0"
-                        align="center"
-                        justify="center"
-                    >
-                      <v-skeleton-loader
-                          class="mx-auto"
-                          type="image"
-                      ></v-skeleton-loader>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-col>
-            </v-row>
-          </v-container>
 
           <v-container
               style="max-width: 1000px;"
@@ -285,13 +218,15 @@
 import Avatar from "@/components/avatar";
 import axios from "axios";
 import leafB from "@/components/leaves/leafB";
+import loader from "@/components/loader";
 
 export default {
   name: "profileContent",
 
   components: {
     leafB,
-    Avatar
+    Avatar,
+    loader
   },
 
   data: () => ({
@@ -380,7 +315,7 @@ export default {
       }
     })
     //get badges
-    axios.get('/public/BadgeController/showALLBadges', {params:{userId: this.$route.params.id}}).then(response => {
+    axios.get('/public/badgeController/showAllBadges', {params:{userId: this.$route.params.id}}).then(response => {
       this.badges = response["data"];
       console.log(this.badges)
     })

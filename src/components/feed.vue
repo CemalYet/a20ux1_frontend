@@ -1,7 +1,8 @@
 <template>
   <v-container>
     <br>
-    <div v-if="discoveriesData.length === 0" style="text-align: center">
+    <loader v-if="discoveriesData.length === 0 && feedDataLoading"></loader>
+    <div v-if="discoveriesData.length === 0 && !feedDataLoading" style="text-align: center">
       <div class="text-h3">Your friends discoveries will show up here</div>
       <div class="text-subtitle-1">Go make some friends so you can enjoy there discoveries!</div>
     </div>
@@ -58,6 +59,7 @@ import leaf3 from "@/components/leaves/leaf3";
 import leaf4 from "@/components/leaves/leaf4";
 import leaf5 from "@/components/leaves/leaf5";
 import avatar from "@/components/avatar";
+import loader from "@/components/loader";
 
 export default {
   name: "feed",
@@ -69,6 +71,7 @@ export default {
     leaf4,
     leaf5,
     avatar,
+    loader
   },
 
 
@@ -82,6 +85,10 @@ export default {
   computed: {
     discoveriesData(){
       return this.$store.getters.getDiscoveries;
+    },
+
+    feedDataLoading(){
+      return this.$store.getters.getFeedDataLoading;
     },
 
     itemsPerRow() {
