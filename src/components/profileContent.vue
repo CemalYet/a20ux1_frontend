@@ -295,9 +295,7 @@ export default {
   },
 
   data: () => ({
-    tags: null,
     badges: null,
-    tab: null,
     myDiscoveries: [],
     noMyDiscoveries: false,
     taggedDiscoveries: [],
@@ -359,14 +357,6 @@ export default {
       }
   },
 
-
-  created() {
-    window.addEventListener("resize", this.myEventHandler);
-  },
-  destroyed() {
-    window.removeEventListener("resize", this.myEventHandler);
-  },
-
   mounted() {
     this.postUserId();
 
@@ -420,10 +410,6 @@ export default {
         return ( badge.currentPoints / badge.reqPoints) * (100)
       }
     },
-
-    myEventHandler() {
-      window.location.reload(false);
-    }
 
   },
 }
