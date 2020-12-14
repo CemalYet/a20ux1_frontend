@@ -348,13 +348,13 @@ const router = new VueRouter({
         {
             path: '/login',
             components: {
-                layout: mapLayout,
+                layout: defaultLayout,
             },
             children:[
                 {
                     path: '',
                     components: {
-                        map: loginpage
+                        pageContent: loginpage
                     }
                 }
 

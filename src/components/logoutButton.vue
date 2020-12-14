@@ -2,7 +2,7 @@
   <v-btn
       icon
       @click.native="logOut">
-    <v-icon medium color=var(--main-color)>mdi-logout</v-icon>
+    <v-icon medium color=var(--dark-color)>mdi-logout</v-icon>
   </v-btn>
 </template>
 

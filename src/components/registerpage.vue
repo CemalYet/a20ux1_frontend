@@ -392,19 +392,9 @@ export default {
 
 <style scoped>
 
-
 .stepper {
   height: 100vh;
   margin: 0;
-  padding: 0;
-}
-
-.background {
-  background-image: url(leaves.png);
-  background-color: rgba(255, 255, 255, 0.4);
-  background-blend-mode: lighten;
-  background-repeat: repeat;
-  height: calc(100vh - 83px);
   padding: 0;
 }
 

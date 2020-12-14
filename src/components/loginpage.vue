@@ -1,6 +1,4 @@
 <template>
-  <v-app>
-    <v-main id="main">
       <div class="center">
         <div class="titleLoginPage">
           <h1> snAPP </h1>
@@ -66,8 +64,6 @@
           </template>
         </v-snackbar>
       </div>
-    </v-main>
-  </v-app>
 </template>
 
 <script>
@@ -124,19 +120,6 @@ export default {
 
 <style scoped>
 
-* {
-  margin: 0;
-  padding: 0;
-}
-
-#main {
-  background-image: url(leaves.png);
-  background-color: rgba(255, 255, 255, 0.4);
-  background-blend-mode: lighten;
-  background-repeat: repeat;
-  background-position: center;
-}
-
 .center {
   margin: auto;
   max-width: 300px;
@@ -146,7 +129,7 @@ export default {
   text-align: center;
   font-size: 46px;
   margin-top: 16vh;
-  color: #00251a;
+  color: var(--dark-color);
 }
 
 .form {
