@@ -10,7 +10,7 @@
 
     <!-- Page title -->
     <v-spacer></v-spacer>
-    <div class="userInfoBox">
+    <div class="userInfoBox" v-if="updateDiscoveryData.length !== 0">
       <div class="avatarBox">
         <!-- NOT IMPLEMENTED YET: showing the avatar based on who is logged in, is a default user right now -->
         <avatar :size="52" :user-name="updateDiscoveryData[0].userName" :picture="updateDiscoveryData[0].avatar"

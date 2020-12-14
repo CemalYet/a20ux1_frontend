@@ -1,7 +1,8 @@
 <template>
   <div class="content">
     <br>
-    <div class="middleContainer">
+    <loader v-if="updateDiscoveryData.length === 0"></loader>
+    <div v-if="updateDiscoveryData.length !== 0" class="middleContainer">
       <!-- Caption from the author -->
       <div class="commentBox">
         <div class="infoBox text-truncate">
@@ -53,7 +54,7 @@
 <script>
 
 import avatar from "@/components/avatar";
-//import axios from "axios";
+import loader from "@/components/loader";
 
 export default {
   name: "commentContent",
@@ -63,10 +64,12 @@ export default {
   }),
 
   components: {
-    avatar
+    avatar,
+    loader
   },
 
   mounted() {
+    this.$store.dispatch('fetchDiscoveryBasedOnId', this.$route.params.discovery_id);
     this.$store.dispatch('fetchComments', this.$route.params.discovery_id);
   },
 

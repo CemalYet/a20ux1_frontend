@@ -1,6 +1,7 @@
 <template>
   <div class="content">
-    <div class="middleContainer">
+    <loader v-if="updateDiscoveryData.length === 0"></loader>
+    <div v-if="updateDiscoveryData.length !== 0" class="middleContainer">
 
       <!-- Image + title and leaf -->
       <div class="img">
@@ -110,10 +111,10 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="getComments.length !== 0">
+            <v-list-item v-if="getComments.length > 2">
               <v-list-item-content>
                 <v-list-item-subtitle @click="goToComments">
-                  And {{getComments.length}} more...
+                  And {{getComments.length-1}} more...
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
