@@ -235,7 +235,6 @@ const router = new VueRouter({
                             path: '',
                             components:{
                                 buttonLeft: backButton,
-                                buttonRight: dropdownOptionsMenu
                             },
                         }
                     ],
