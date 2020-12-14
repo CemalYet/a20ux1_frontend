@@ -296,7 +296,7 @@ const store = new Vuex.Store({
 
         ///// FEED /////
         fetchFriendsDiscoveries(context){
-            axios.get('/public/feedcontroller/getdiscoveries').then(response => {
+            axios.get('/public/feedcontroller/getDiscoveries').then(response => {
                 context.commit('updateDiscoveries', response["data"]);
             })
         },

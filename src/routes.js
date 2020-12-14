@@ -12,7 +12,6 @@ import map from "@/components/map";
 import defaultLayout from "./layouts/defaultLayout"
 import profileContent from "@/components/profileContent";
 import profileButton from "@/components/profileButton";
-import dropdownOptionsMenu from "@/components/dropdownOptionsMenu";
 import editProfileContent from "@/components/editProfileContent";
 import postContent from "@/components/postContent";
 import appBarPost from "@/components/appBarPost";
@@ -27,6 +26,8 @@ import snap from "@/components/snap";
 
 import store from './store.js';
 import axios from 'axios';
+import editProfileButton from "@/components/editProfileButton";
+import logoutButton from "@/components/logoutButton";
 
 
 Vue.use(VueRouter);
@@ -211,7 +212,8 @@ const router = new VueRouter({
                             path: '',
                             components:{
                                 buttonLeft: backButton,
-                                buttonRight: dropdownOptionsMenu
+                                buttonRight: editProfileButton,
+                                buttonNextToRight: logoutButton
                             },
                         }
                     ],
@@ -233,7 +235,6 @@ const router = new VueRouter({
                             path: '',
                             components:{
                                 buttonLeft: backButton,
-                                buttonRight: dropdownOptionsMenu
                             },
                         }
                     ],
@@ -347,13 +348,13 @@ const router = new VueRouter({
         {
             path: '/login',
             components: {
-                layout: mapLayout,
+                layout: defaultLayout,
             },
             children:[
                 {
                     path: '',
                     components: {
-                        map: loginpage
+                        pageContent: loginpage
                     }
                 }
 

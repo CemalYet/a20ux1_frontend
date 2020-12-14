@@ -410,7 +410,7 @@ export default {
 .content {
   align-content: center;
   padding: 10px 0;
-  position: relative;
+  /*position: relative;*/
 }
 
 .coverButtons {
@@ -418,6 +418,7 @@ export default {
   justify-content: flex-end;
   margin: auto;
   width: 276px;
+  /*position: fixed;*/
 }
 
 .centerButtons {
@@ -427,8 +428,8 @@ export default {
   padding-bottom: 5px;
   max-width: 276px;
   /*margin: auto auto 5px;*/
-  position: absolute;
-  bottom: 0;
+  position: fixed;
+  top: 600px;
 }
 
 .buttons {
@@ -498,6 +499,12 @@ export default {
 
   .content {
     height: calc(100vh - 99px - 66px);
+  }
+}
+
+@media(max-height: 600px) {
+  .centerButtons {
+    top: 500px;
   }
 }
 
