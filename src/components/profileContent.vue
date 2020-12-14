@@ -3,10 +3,10 @@
 
     <br>
     <div class="content">
-
       <!--User Info-->
       <v-list-item
           two-line
+          v-if="getUserData.length !== 0"
       >
         <avatar :size="70" :user-name="getUserData[0].userName" :picture="getUserData[0].avatar"></avatar>
         <v-list-item-content>
@@ -34,9 +34,12 @@
       <v-tabs-items
           :value="tab">
         <v-tab-item value="pictures">
+
+          <loader v-if="updateProfileDiscoveries.length === 0 && updateProfileDiscoveriesLoading === true"></loader>
+
           <div
               class="text-body-2"
-              v-if="noMyDiscoveries === true"
+              v-if="updateProfileDiscoveries.length === 0 && updateProfileDiscoveriesLoading === false"
               style="margin: 16px"
           >
             You don't have any discoveries yet! Be sure to go out in nature and make some snaps of nice plants!
@@ -44,49 +47,13 @@
 
           <v-container
               style="max-width: 1000px;"
-              v-if="updateMyDiscoveries.length === 0 && this.noMyDiscoveries === false"
           >
             <v-row
                 align="start"
                 dense
             >
               <v-col
-                  v-for="n in 12"
-                  :key="n"
-                  class="d-flex child-flex"
-                  :cols="itemsPerRowGrid"
-              >
-
-                <v-img
-                    aspect-ratio="1"
-                    class="grey lighten-2"
-                >
-                  <template v-slot:placeholder>
-                    <v-row
-                        class="fill-height ma-0"
-                        align="center"
-                        justify="center"
-                    >
-                      <v-skeleton-loader
-                          class="mx-auto"
-                          type="image"
-                      ></v-skeleton-loader>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-col>
-            </v-row>
-          </v-container>
-
-          <v-container
-              style="max-width: 1000px;"
-          >
-            <v-row
-                align="start"
-                dense
-            >
-              <v-col
-                  v-for="discovery in updateMyDiscoveries"
+                  v-for="discovery in updateProfileDiscoveries"
                   :key="discovery"
                   class="d-flex child-flex"
                   :cols="itemsPerRowGrid"
@@ -120,9 +87,11 @@
 
         <v-tab-item value="tags">
 
+          <loader v-if="updateProfileTaggedDiscoveries.length === 0 && updateProfileTaggedDiscoveriesLoading === true"></loader>
+
           <div
               class="text-body-2"
-              v-if="noTaggedDiscoveries === true"
+              v-if="updateProfileTaggedDiscoveries.length === 0 && updateProfileTaggedDiscoveriesLoading === false"
               style="margin: 16px"
           >
             None of your friends have tagged you yet :( Be sure to go out and explore with your friends
@@ -130,49 +99,13 @@
 
           <v-container
               style="max-width: 1000px;"
-              v-if="updateTaggedDiscoveries.length === 0 && noTaggedDiscoveries === false"
           >
             <v-row
                 align="start"
                 dense
             >
               <v-col
-                  v-for="n in 12"
-                  :key="n"
-                  class="d-flex child-flex"
-                  :cols="itemsPerRowGrid"
-              >
-
-                <v-img
-                    aspect-ratio="1"
-                    class="grey lighten-2"
-                >
-                  <template v-slot:placeholder>
-                    <v-row
-                        class="fill-height ma-0"
-                        align="center"
-                        justify="center"
-                    >
-                      <v-skeleton-loader
-                          class="mx-auto"
-                          type="image"
-                      ></v-skeleton-loader>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-col>
-            </v-row>
-          </v-container>
-
-          <v-container
-              style="max-width: 1000px;"
-          >
-            <v-row
-                align="start"
-                dense
-            >
-              <v-col
-                  v-for="discovery in updateTaggedDiscoveries"
+                  v-for="discovery in updateProfileTaggedDiscoveries"
                   :key="discovery"
                   class="d-flex child-flex"
                   :cols="itemsPerRowGrid"
@@ -285,21 +218,19 @@
 import Avatar from "@/components/avatar";
 import axios from "axios";
 import leafB from "@/components/leaves/leafB";
+import loader from "@/components/loader";
 
 export default {
   name: "profileContent",
 
   components: {
     leafB,
-    Avatar
+    Avatar,
+    loader
   },
 
   data: () => ({
     badges: null,
-    myDiscoveries: [],
-    noMyDiscoveries: false,
-    taggedDiscoveries: [],
-    noTaggedDiscoveries: false,
   }),
 
   computed: {
@@ -331,22 +262,19 @@ export default {
         return this.$store.getters.getLoggedInUserData;
       }
     },
-    updateMyDiscoveries: {
-      get() {
-        return this.myDiscoveries;
-      },
-      set(value) {
-        this.myDiscoveries = value;
-      }
+    updateProfileDiscoveries() {
+      return this.$store.getters.getProfileDiscoveries;
     },
-    updateTaggedDiscoveries: {
-      get() {
-        return this.taggedDiscoveries;
-      },
-      set(value){
-        this.taggedDiscoveries = value;
-      }
+    updateProfileDiscoveriesLoading() {
+      return this.$store.getters.getProfileDiscoveriesLoading;
     },
+    updateProfileTaggedDiscoveries() {
+      return this.$store.getters.getProfileTaggedDiscoveries;
+    },
+    updateProfileTaggedDiscoveriesLoading() {
+      return this.$store.getters.getProfileTaggedDiscoveriesLoading;
+    },
+
       tab: {
         set (tab) {
           this.$router.replace({ query: { ...this.$route.query, tab } })
@@ -358,48 +286,27 @@ export default {
   },
 
   mounted() {
-    this.postUserId();
 
-    //this.$store.dispatch('fetchUserDataById', this.$route.params.id);
+    //store a variable so that the page doesn't have to reload data all the time
+    this.$store.commit('updatePrevProfileId', this.$route.params.id);
+
+    if (this.$route.params.id !== this.$store.getters.getLoggedInUserData[0].userId){
+      this.$store.dispatch('fetchUserDataById', this.$route.params.id);
+    }
 
     // get my discoveries
-    axios.get('/public/profile/getUserDiscoveries', {params: {data: this.$route.params.id}}).then(response => {
-      if (response["data"].length !== 0){
-        this.updateMyDiscoveries = response["data"];
-      } else {
-        this.noMyDiscoveries = true;
-      }
-    })
+    this.$store.dispatch('fetchProfileDiscoveries', this.$route.params.id);
 
     //get tagged discoveries
-    axios.get('/public/profile/getTaggedDiscoveries').then(response => {
-      if (response["data"].length !== 0){
-        this.updateTaggedDiscoveries = response["data"];
-      } else {
-        this.noTaggedDiscoveries = true;
-      }
-    })
+    this.$store.dispatch('fetchProfileTaggedDiscoveries', this.$route.params.id);
+
     //get badges
-    axios.get('/public/BadgeController/showALLBadges', {params:{userId: this.$route.params.id}}).then(response => {
+    axios.get('/public/badgeController/showAllBadges', {params:{userId: this.$route.params.id}}).then(response => {
       this.badges = response["data"];
-      console.log(this.badges)
     })
   },
 
   methods: {
-    postUserId(){
-      if (this.$route.params.id !== this.$store.getters.getLoggedInUserData[0].user){
-        const userId = JSON.stringify({
-          userId: this.$route.params.id
-        });
-
-        let formData = new FormData()
-        formData.append('data', userId)
-
-        this.$store.dispatch('fetchUserDataById', formData);
-
-      }
-    },
     goToPost(discovery){
       this.$router.push({path: `/post/${discovery.discoveryId}`})
     },
@@ -412,6 +319,15 @@ export default {
     },
 
   },
+
+  beforeRouteUpdate(to, from, next){
+    console.log('checking user id' + to.params.id + ' and ' + this.$store.getters.getPrevProfileId)
+    if(to.params.id !== this.$store.getters.getPrevProfileId){
+      console.log('clearing data')
+      this.$store.commit('resetProfileContent');
+    }
+    next();
+  }
 }
 </script>
 

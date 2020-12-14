@@ -1,6 +1,7 @@
 <template>
   <div class="content">
-    <div class="middleContainer">
+    <loader class="ma-16" v-if="updateDiscoveryPostPhotos.length === 0"></loader>
+    <div v-if="updateDiscoveryData.length !== 0" class="middleContainer">
 
       <!-- Image + title and leaf -->
       <div class="img">
@@ -110,10 +111,10 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="getComments.length !== 0">
+            <v-list-item v-if="getComments.length > 2">
               <v-list-item-content>
                 <v-list-item-subtitle @click="goToComments">
-                  And {{getComments.length}} more...
+                  And {{getComments.length-1}} more...
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -170,18 +171,20 @@
 <script>
 import axios from "axios";
 import avatar from "@/components/avatar";
+import loader from "@/components/loader";
 
 export default {
   name: "postContent",
+
+  components: {
+    avatar,
+    loader
+  },
 
   data: () => ({
     likeClicked: false,
     favorited: false,
   }),
-
-  components: {
-    avatar
-  },
 
   methods: {
     sendLikeToDb: function() {
@@ -222,7 +225,10 @@ export default {
     },
     closeDelete(){
       this.$store.commit('updateDeleteDialog', false);
-    }
+    },
+    clearPrevDiscoveryData(){
+      this.$store.commit('resetDiscoveryData');
+    },
   },
 
   computed:{
@@ -252,6 +258,14 @@ export default {
     updateDiscoveryData(){
       return this.$store.getters.getDiscoveryPostData;
     },
+    updatePrevDiscoveryId:{
+      get(){
+        return this.$store.getters.getPrevDiscoveryId;
+      },
+      set(value){
+        this.$store.commit('updatePrevDiscoveryId', value)
+      }
+    },
 
     carouselHeight(){
       switch (this.$vuetify.breakpoint.name) {
@@ -277,25 +291,27 @@ export default {
     this.$store.dispatch('fetchDiscoveryPostPhotosOnId', this.$route.params.discovery_id);
     this.$store.dispatch('fetchLikes', this.$route.params.discovery_id);
     this.$store.dispatch('fetchComments', this.$route.params.discovery_id);
-    this.$store.dispatch('fetchTags', this.$route.params.discovery_id);
+    this.$store.dispatch('getTaggedFriends', this.$route.params.discovery_id);
   },
 
-  watch: {
-    $route(to) {
-      console.log(to.params)
-      this.$store.dispatch('fetchDiscoveryBasedOnId', to.params);
-      // react to route changes...
-    }
-  }
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      console.log('checking post id' + to.params.discovery_id + ' and ' + vm.updatePrevDiscoveryId)
+      if (to.params.discovery_id !== vm.updatePrevDiscoveryId){
+        console.log('clearing data')
+        vm.clearPrevDiscoveryData();
+        vm.updatePrevDiscoveryId = to.params.discovery_id;
+      }
+    })
+  },
 }
 </script>
 
 <style scoped>
 .img {
   position: relative;
-  margin: auto;
   width: 100%;
-  margin-top: 8px;
+  margin: 8px auto auto;
 }
 
 .middleContainer {

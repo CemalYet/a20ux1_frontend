@@ -450,6 +450,41 @@
         </v-btn>
       </template>
     </v-snackbar>
+
+    <v-dialog
+        v-model="updateCancelDialog"
+        max-width="290"
+    >
+      <v-card>
+        <v-card-title class="headline">
+          Cancel sharing?
+        </v-card-title>
+
+        <v-card-text>
+          Are you sure you want to stop sharing your discovery? The plant will still show up in your wiki, but your friends won't see it.
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+              color= var(--dark-color)
+              text
+              @click="updateCancelDialog = false"
+          >
+            cancel
+          </v-btn>
+
+          <v-btn
+              color= var(--dark-color)
+              text
+              @click="updateCancelDialog = false; goToFeed()"
+          >
+            continue sharing
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -505,7 +540,6 @@ export default {
     taggedFriendsId:[],
     loader: null,
     loading: false,
-
   }),
 
   watch:{
@@ -583,6 +617,9 @@ export default {
     updateChallenges: function () {
       console.log(this.$store.getters.getLoggedInUserData[0].userId);
       axios.post('/public/BadgeController/checkChallenges', {params: {userId: this.$store.getters.getLoggedInUserData[0].userId}});
+    },
+    goToFeed(){
+      this.$router.push({path:'/'});
     }
   },
 
@@ -672,9 +709,18 @@ export default {
     },
     updateFriends() {
       return this.$store.getters.getFriendsData;
-    }
-  }
+    },
 
+    updateCancelDialog:{
+      get(){
+        return this.$store.getters.getCancelDialog;
+      },
+      set(value){
+        this.$store.commit('updateCancelDialog', value);
+      }
+
+    }
+  },
 }
 </script>
 

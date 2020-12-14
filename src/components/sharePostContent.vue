@@ -1,9 +1,9 @@
 <template>
-  <div class="content">
+  <div class="content" v-if="updateDiscoveryPostPhotos.length !== 0">
     <div class="middleContainer">
       <div class="center">
         <div class="img">
-          <v-img :src="getDiscovery.photoPath"></v-img>
+          <v-img :src="updateDiscoveryPostPhotos[0].PhotoPath"></v-img>
         </div>
         <div class="share">
           <p class="subtitle"> Share discovery </p>
@@ -31,9 +31,13 @@
 export default {
   name: "sharePostContent",
 
+  mounted() {
+    this.$store.dispatch('fetchDiscoveryPostPhotosOnId', this.$route.params.discovery_id);
+  },
+
   computed:{
-    getDiscovery(){
-      return this.$store.getters.getDiscoveryBasedOnId(this.$route.params.discovery_id);
+    updateDiscoveryPostPhotos(){
+      return this.$store.getters.getDiscoveryPostPhotos;
     },
   }
 }

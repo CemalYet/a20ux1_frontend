@@ -24,10 +24,17 @@ const store = new Vuex.Store({
 
         ///// FEED /////
         discoveries: [],
+        feedDataLoading: false,
 
         ///// PROFILE /////
         fetchedUserData: [],
         user_id: null,
+
+        profileDiscoveries: [],
+        profileDiscoveriesLoading: false,
+        profileTaggedDiscoveries: [],
+        profileTaggedDiscoveriesLoading: false,
+        prevProfileId: 0,
 
 
         ///// SHARE DISCOVERY /////
@@ -42,6 +49,7 @@ const store = new Vuex.Store({
         snackbar: false,
         snackbar_message: null,
         discoveryImages: [],
+        cancelDialog: false,
 
         // MAP PAGE /////
         map_center: {lat: 50.87959, lng: 4.70093}, //Leuven default value
@@ -71,7 +79,8 @@ const store = new Vuex.Store({
         discoveryComments: [],
         discoveryTags: [],
         discoveryPostData:[],
-        discoveryPostPhotos:[ ],
+        discoveryPostPhotos:[],
+        prevDiscoveryId: 0,
 
         ///// FRIENDS /////
         friendsData: [],
@@ -112,10 +121,39 @@ const store = new Vuex.Store({
             state.fetchedUserData = fetchedUserData;
         },
 
+        ///// PROFILE /////
+        updateProfileDiscoveries(state, value){
+            state.profileDiscoveries = value;
+        },
+
+        updateProfileDiscoveriesLoading(state, value){
+            state.profileDiscoveriesLoading = value;
+        },
+
+        updateProfileTaggedDiscoveries(state, value){
+            state.profileTaggedDiscoveries = value;
+        },
+
+        updateProfileTaggedDiscoveriesLoading(state, value){
+            state.profileTaggedDiscoveriesLoading = value;
+        },
+
+        resetProfileContent(state){
+            state.profileDiscoveries = [];
+            state.profileTaggedDiscoveries = [];
+        },
+
+        updatePrevProfileId(state, value){
+            state.prevProfileId = value;
+        },
+
         ///// FEED /////
 
         updateDiscoveries(state, discoveries){
             state.discoveries = discoveries;
+        },
+        updateFeedDataLoading(state, value){
+            state.feedDataLoading = value;
         },
 
         ///// FRIENDS /////
@@ -183,6 +221,9 @@ const store = new Vuex.Store({
         deleteDiscoveryImage(state, image){
             state.discoveryImages.splice(state.discoveryImages.indexOf(image),1);
         },
+        updateCancelDialog(state, value){
+            state.cancelDialog = value;
+        },
 
         ///// MAP PAGE /////
         updateMapCenter(state, value) {
@@ -215,7 +256,19 @@ const store = new Vuex.Store({
             state.discovery_id = value;
         },
 
-        /// INFORMATION PAGE ///
+        ///// SNAP PAGE /////
+        clearScanData(state){
+            state.info_cards = [
+                {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null},
+                {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null},
+                {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null},
+                {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null}
+            ];
+            state.card_id = null;
+            state.discoveryImages = [];
+        },
+
+        ///// INFORMATION PAGE /////
         updateInformationCards(state, value) {
             state.info_cards = value;
         },
@@ -231,7 +284,6 @@ const store = new Vuex.Store({
             state.deleteDialog = value;
         },
 
-        ///// POST CONTENT /////
         updateTaggedFriendsData(state,taggedFriendsData){
             state.taggedFriendsData = taggedFriendsData;
         },
@@ -245,6 +297,16 @@ const store = new Vuex.Store({
         },
         updateDiscoveryComments(state, value){
             state.discoveryComments = value;
+        },
+
+        updatePrevDiscoveryId(state, value){
+            state.prevDiscoveryId = value;
+        },
+        resetDiscoveryData(state){
+            state.discoveryPostData = [];
+            state.discoveryPostPhotos = [];
+            state.discoveryComments = [];
+            state.taggedFriendsData = [];
         },
 
         ///// COMMENTS /////
@@ -294,10 +356,29 @@ const store = new Vuex.Store({
             })
         },
 
+        //// PROFILE /////
+        fetchProfileDiscoveries(context, id){
+            context.commit('updateProfileDiscoveriesLoading', true);
+            axios.get('/public/profile/getUserDiscoveries', {params: {data: id}}).then(response => {
+                context.commit('updateProfileDiscoveries', response['data']);
+                context.commit('updateProfileDiscoveriesLoading', false);
+            })
+        },
+
+        fetchProfileTaggedDiscoveries(context, id){
+            context.commit('updateProfileTaggedDiscoveriesLoading', true);
+            axios.get('/public/profile/getTaggedDiscoveries', {params: {data: id}}).then(response => {
+                context.commit('updateProfileTaggedDiscoveries', response['data']);
+                context.commit('updateProfileTaggedDiscoveriesLoading', false);
+            })
+        },
+
         ///// FEED /////
         fetchFriendsDiscoveries(context){
+            context.commit('updateFeedDataLoading', true);
             axios.get('/public/feedcontroller/getDiscoveries').then(response => {
                 context.commit('updateDiscoveries', response["data"]);
+                context.commit('updateFeedDataLoading', false);
             })
         },
 
@@ -432,10 +513,28 @@ const store = new Vuex.Store({
         getDiscoveries(state){
             return state.discoveries;
         },
+        feedDataLoading(state){
+            return state.feedDataLoading;
+        },
 
         ///// PROFILE /////
         getUserId(state){
             return state.user_id;
+        },
+        getProfileDiscoveries(state){
+            return state.profileDiscoveries;
+        },
+        getProfileDiscoveriesLoading(state){
+            return state.profileDiscoveriesLoading;
+        },
+        getProfileTaggedDiscoveries(state){
+            return state.profileTaggedDiscoveries;
+        },
+        getProfileTaggedDiscoveriesLoading(state){
+            return state.profileTaggedDiscoveriesLoading;
+        },
+        getPrevProfileId(state){
+            return state.prevProfileId;
         },
 
         ///// SHARE POST /////
@@ -471,6 +570,9 @@ const store = new Vuex.Store({
         },
         getDiscoveryImages(state){
             return state.discoveryImages;
+        },
+        getCancelDialog(state){
+            return state.cancelDialog;
         },
 
         ///// MAP PAGE /////
@@ -552,6 +654,9 @@ const store = new Vuex.Store({
         getDiscoveryPostPhotos(state){
             return state.discoveryPostPhotos;
         },
+        getPrevDiscoveryId(state){
+            return state.prevDiscoveryId;
+        }
     }
 })
 
