@@ -3,13 +3,11 @@
 }
 
 :root {
-    --light-color: #39796b;
-    --main-color: #075849;
-    --dark-color: #00251a;
+
 }
 
 #Title {
-    font-family: Anton, sans-serif !important;
+    font-family: 'Anton', sans-serif;
     font-size: 35px;
     color: var(--dark-color);
 }

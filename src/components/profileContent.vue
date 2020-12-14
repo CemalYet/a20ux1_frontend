@@ -455,8 +455,10 @@ export default {
 }
 
 #example1 {
-  background: url(../assets/tree.png) center repeat-y,
-  url(./leaves.png) repeat;
+  background-color: transparent;
+  background-image: url(../assets/tree.png);
+  background-repeat: repeat-y;
+  background-position: center;
   background-size: 140px, auto;
   margin: 0;
   padding: 0;
