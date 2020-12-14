@@ -369,14 +369,7 @@ const router = new VueRouter({
                     path: '',
                     components: {
                         map: registerpage
-                    },
-                    children:[{
-                        path: '',
-                        components: {
-                            buttonLeft: backButton
-                        }
                     }
-                    ]
                 }
 
             ]

@@ -1,6 +1,6 @@
 <template>
   <v-stepper v-model="e1" class="stepper" alt-labels>
-    <v-stepper-header>
+    <v-stepper-header id="stepper_header">
       <v-stepper-step
           :complete="e1 > 1"
           step="1"
@@ -392,20 +392,19 @@ export default {
 
 <style scoped>
 
+.background {
+  background: transparent;
+}
+
+#stepper_header {
+  background: white;
+}
 
 .stepper {
   height: 100vh;
   margin: 0;
   padding: 0;
-}
-
-.background {
-  background-image: url(leaves.png);
-  background-color: rgba(255, 255, 255, 0.4);
-  background-blend-mode: lighten;
-  background-repeat: repeat;
-  height: calc(100vh - 83px);
-  padding: 0;
+  background: transparent;
 }
 
 .content {

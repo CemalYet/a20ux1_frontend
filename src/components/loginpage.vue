@@ -1,73 +1,69 @@
 <template>
-  <v-app>
-    <v-main id="main">
-      <div class="center">
-        <div class="titleLoginPage">
-          <h1> snAPP </h1>
-        </div>
+  <div class="center">
+    <div class="titleLoginPage">
+      <h1> snAPP </h1>
+    </div>
 
-        <div class="form">
-          <v-form>
-            <v-container>
-              <v-text-field
-                  v-model="emailAddress"
-                  label="E-mail"
-                  required
-                  outlined
-                  color=var(--main-color);
-                  style="max-width: 300px"
-              ></v-text-field>
-              <v-text-field
-                  v-model="password"
-                  :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                  @click:append="showPassword = !showPassword"
-                  :type="showPassword ? 'text' : 'password'"
-                  label="Password"
-                  required
-                  outlined
-                  color=var(--main-color);
-                  style="max-width: 300px"
-              ></v-text-field>
-            </v-container>
-          </v-form>
-        </div>
+    <div class="form">
+      <v-form>
+        <v-container>
+          <v-text-field
+              v-model="emailAddress"
+              label="E-mail"
+              required
+              outlined
+              color=var(--main-color);
+              style="max-width: 300px"
+          ></v-text-field>
+          <v-text-field
+              v-model="password"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="showPassword = !showPassword"
+              :type="showPassword ? 'text' : 'password'"
+              label="Password"
+              required
+              outlined
+              color=var(--main-color);
+              style="max-width: 300px"
+          ></v-text-field>
+        </v-container>
+      </v-form>
+    </div>
 
-        <div class="loginButtons">
-          <v-btn
-              width="100px"
-              color=var(--dark-color)
-              class="white--text"
-              @click.native="goToRegister"
-          >
-            REGISTER
-          </v-btn>
-          <v-btn
-              width="100px"
-              color=var(--dark-color)
-              class="white--text"
-              @click.native="checkLogin"
-          >
-            LOGIN
-          </v-btn>
-        </div>
-        <v-snackbar
-            v-model="snackBar"
-            color="error"
+    <div class="loginButtons">
+      <v-btn
+          width="100px"
+          color=var(--dark-color)
+          class="white--text"
+          @click.native="goToRegister"
+      >
+        REGISTER
+      </v-btn>
+      <v-btn
+          width="100px"
+          color=var(--dark-color)
+          class="white--text"
+          @click.native="checkLogin"
+      >
+        LOGIN
+      </v-btn>
+    </div>
+    <v-snackbar
+        v-model="snackBar"
+        color="error"
+    >
+      Login credentials are not valid. Try again.
+      <template v-slot:action="{ attrs }">
+        <v-btn
+            text
+            v-bind="attrs"
+            @click="snackBar = false"
         >
-          Login credentials are not valid. Try again.
-          <template v-slot:action="{ attrs }">
-            <v-btn
-                text
-                v-bind="attrs"
-                @click="snackBar = false"
-            >
-              Close
-            </v-btn>
-          </template>
-        </v-snackbar>
-      </div>
-    </v-main>
-  </v-app>
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+  </div>
 </template>
 
 <script>
@@ -84,19 +80,24 @@ export default {
   }),
 
   methods: {
-    goToRegister: function() {
-      this.$router.push({path:"register"});
+    goToRegister: function () {
+      this.$router.push({path: "register"});
     },
 
-    checkLogin: function() {
+    checkLogin: function () {
       if (this.checkTextFields()) {
-        axios.get('register/checklogin', {params: {my_email: this.emailAddress, my_password: this.password}}).then(response =>
+        axios.get('register/checklogin', {
+          params: {
+            my_email: this.emailAddress,
+            my_password: this.password
+          }
+        }).then(response =>
             (this.loggedIn(response["data"])));
       }
 
     },
 
-    loggedIn: function(response) {
+    loggedIn: function (response) {
       if (response === 'Password is valid') {
         this.$router.push({path: "/"});
       } else {
@@ -105,7 +106,7 @@ export default {
       this.updateUserEmail();
     },
 
-    checkTextFields: function() {
+    checkTextFields: function () {
       return !(this.emailAddress === null || this.password === null);
     },
 
@@ -129,14 +130,6 @@ export default {
   padding: 0;
 }
 
-#main {
-  background-image: url(leaves.png);
-  background-color: rgba(255, 255, 255, 0.4);
-  background-blend-mode: lighten;
-  background-repeat: repeat;
-  background-position: center;
-}
-
 .center {
   margin: auto;
   max-width: 300px;
@@ -146,7 +139,7 @@ export default {
   text-align: center;
   font-size: 46px;
   margin-top: 16vh;
-  color: #00251a;
+  color: var(--dark-color);
 }
 
 .form {
