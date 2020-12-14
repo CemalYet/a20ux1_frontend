@@ -252,23 +252,16 @@
           >
             <form @submit.prevent="check_data">
               <!--Text input TITLE-->
-              <validation-provider
-                  v-slot="{errors}"
-                  name="title"
-                  rules="required|max:25"
-              >
                 <v-text-field
                     class="text_field"
                     dense
                     label="Title"
-                    v-model="updateTitle"
+                    v-model="updateInformationCard.title"
                     outlined
                     color=var(--dark-color)
-                    :counter="25"
-                    required
+                    readonly
                     :error-messages="errors"
                 ></v-text-field>
-              </validation-provider>
 
               <div class="timeDateContainer">
                 <!--Modal input HOUR-->
@@ -423,7 +416,7 @@
                     class=" white--text"
                     :loading="loading"
                     :disabled="(invalid || loading)"
-                    @click="updateChallenges"
+                    @click="updateChallenges; updateTitle(updateInformationCard.title)"
                 >
                   finish
                 </v-btn>
@@ -583,7 +576,10 @@ export default {
     updateChallenges: function () {
       console.log(this.$store.getters.getLoggedInUserData[0].userId);
       axios.post('/public/BadgeController/checkChallenges', {params: {userId: this.$store.getters.getLoggedInUserData[0].userId}});
-    }
+    },
+    updateTitle: function (value){
+      this.$store.commit("updateTitle", value)
+    },
   },
 
   computed: {
@@ -596,14 +592,6 @@ export default {
       },
       set(value){
         this.$store.commit('updateSnackbarMessage', value);
-      }
-    },
-    updateTitle: {
-      get() {
-        return this.$store.getters.getTitle;
-      },
-      set(value) {
-        this.$store.commit("updateTitle", value)
       }
     },
     updateTimeStamp: {
@@ -672,6 +660,12 @@ export default {
     },
     updateFriends() {
       return this.$store.getters.getFriendsData;
+    },
+    updateInformationCard(){
+      return this.$store.getters.getInformationCards[this.updateCardId];
+    },
+    updateCardId(){
+      return this.$store.getters.getCardId;
     }
   }
 

@@ -15,7 +15,7 @@
 
         <!--Menu options-->
 
-          <v-list-item link :ripple="false">
+          <v-list-item link :ripple="false" @click="goToWiki">
             <v-list-item-icon>
               <v-icon large color=var(--main-color)>mdi-tree-outline</v-icon>
             </v-list-item-icon>
@@ -99,6 +99,9 @@ export default {
   },
 
   methods:{
+    goToWiki() {
+      this.$router.push({path:'wiki'})
+    },
     goToMap(){
       this.$router.push({path:'map'})
     },

@@ -28,6 +28,7 @@ import store from './store.js';
 import axios from 'axios';
 import editProfileButton from "@/components/editProfileButton";
 import logoutButton from "@/components/logoutButton";
+import wiki from "@/components/wiki";
 
 
 Vue.use(VueRouter);
@@ -168,6 +169,34 @@ const router = new VueRouter({
                     props:{
                         appBar:{
                             title: "Share"
+                        }
+                    },
+                }
+            ],
+        },
+        {
+            path: '/wiki',
+            components:{
+                layout: defaultLayout,
+            },
+            children:[
+                {
+                    path: '',
+                    components:{
+                        appBar: appBar,
+                        pageContent: wiki,
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+                            },
+                        }
+                    ],
+                    props:{
+                        appBar:{
+                            title: "My Discoveries"
                         }
                     },
                 }
@@ -333,7 +362,6 @@ const router = new VueRouter({
                             path: '',
                             components:{
                                 buttonLeft: backButton,
-
                             }
                         }
                     ],
@@ -374,7 +402,7 @@ const router = new VueRouter({
                 }
 
             ]
-        }
+        },
     ],
     scrollBehavior () {
         return { x: 0, y: 0 }
