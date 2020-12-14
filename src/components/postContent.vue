@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <loader v-if="updateDiscoveryData.length === 0"></loader>
+    <loader v-if="updateDiscoveryPostPhotos.length === 0"></loader>
     <div v-if="updateDiscoveryData.length !== 0" class="middleContainer">
 
       <!-- Image + title and leaf -->
@@ -171,18 +171,20 @@
 <script>
 import axios from "axios";
 import avatar from "@/components/avatar";
+import loader from "@/components/loader";
 
 export default {
   name: "postContent",
+
+  components: {
+    avatar,
+    loader
+  },
 
   data: () => ({
     likeClicked: false,
     favorited: false,
   }),
-
-  components: {
-    avatar
-  },
 
   methods: {
     sendLikeToDb: function() {

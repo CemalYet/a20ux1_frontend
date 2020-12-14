@@ -30,6 +30,12 @@ const store = new Vuex.Store({
         fetchedUserData: [],
         user_id: null,
 
+        profileDiscoveries: [],
+        profileDiscoveriesLoading: false,
+        profileTaggedDiscoveries: [],
+        profileTaggedDiscoveriesLoading: false,
+        prevProfileId: 0,
+
 
         ///// SHARE DISCOVERY /////
         title: null,
@@ -111,6 +117,32 @@ const store = new Vuex.Store({
         },
         updateFetchedUserData(state, fetchedUserData){
             state.fetchedUserData = fetchedUserData;
+        },
+
+        ///// PROFILE /////
+        updateProfileDiscoveries(state, value){
+            state.profileDiscoveries = value;
+        },
+
+        updateProfileDiscoveriesLoading(state, value){
+            state.profileDiscoveriesLoading = value;
+        },
+
+        updateProfileTaggedDiscoveries(state, value){
+            state.profileTaggedDiscoveries = value;
+        },
+
+        updateProfileTaggedDiscoveriesLoading(state, value){
+            state.profileTaggedDiscoveriesLoading = value;
+        },
+
+        resetProfileContent(state){
+            state.profileDiscoveries = [];
+            state.profileTaggedDiscoveries = [];
+        },
+
+        updatePrevProfileId(state, value){
+            state.prevProfileId = value;
         },
 
         ///// FEED /////
@@ -298,6 +330,23 @@ const store = new Vuex.Store({
             })
         },
 
+        //// PROFILE /////
+        fetchProfileDiscoveries(context, id){
+            context.commit('updateProfileDiscoveriesLoading', true);
+            axios.get('/public/profile/getUserDiscoveries', {params: {data: id}}).then(response => {
+                context.commit('updateProfileDiscoveries', response['data']);
+                context.commit('updateProfileDiscoveriesLoading', false);
+            })
+        },
+
+        fetchProfileTaggedDiscoveries(context, id){
+            context.commit('updateProfileTaggedDiscoveriesLoading', true);
+            axios.get('/public/profile/getTaggedDiscoveries', {params: {data: id}}).then(response => {
+                context.commit('updateProfileTaggedDiscoveries', response['data']);
+                context.commit('updateProfileTaggedDiscoveriesLoading', false);
+            })
+        },
+
         ///// FEED /////
         fetchFriendsDiscoveries(context){
             context.commit('updateFeedDataLoading', true);
@@ -438,13 +487,28 @@ const store = new Vuex.Store({
         getDiscoveries(state){
             return state.discoveries;
         },
-        getFeedDataLoading(state){
+        feedDataLoading(state){
             return state.feedDataLoading;
         },
 
         ///// PROFILE /////
         getUserId(state){
             return state.user_id;
+        },
+        getProfileDiscoveries(state){
+            return state.profileDiscoveries;
+        },
+        getProfileDiscoveriesLoading(state){
+            return state.profileDiscoveriesLoading;
+        },
+        getProfileTaggedDiscoveries(state){
+            return state.profileTaggedDiscoveries;
+        },
+        getProfileTaggedDiscoveriesLoading(state){
+            return state.profileTaggedDiscoveriesLoading;
+        },
+        getPrevProfileId(state){
+            return state.prevProfileId;
         },
 
         ///// SHARE POST /////

@@ -88,7 +88,7 @@ export default {
     },
 
     feedDataLoading(){
-      return this.$store.getters.getFeedDataLoading;
+      return this.$store.getters.feedDataLoading;
     },
 
     itemsPerRow() {
