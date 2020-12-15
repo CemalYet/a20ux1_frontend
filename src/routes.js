@@ -264,6 +264,7 @@ const router = new VueRouter({
                     children:[
                         {
                             path: '',
+                            name: 'post',
                             components:{
                                 buttonLeft: backButton,
                                 buttonRight: dropDownMenuED
@@ -303,48 +304,6 @@ const router = new VueRouter({
                             }
                         }
                     ],
-                },
-                {
-                    path: '/information',
-                    components: {
-                        appBar: appBar,
-                        pageContent: information,
-                    },
-                    children:[
-                        {
-                            path: '',
-                            components:{
-                                buttonLeft: backButton,
-
-                            }
-                        }
-                    ],
-                    props:{
-                        appBar:{
-                            title: "New snAPP"
-                        }
-                    },
-                },
-                {
-                    path: '/snap',
-                    components: {
-                        appBar: appBar,
-                        pageContent: snap,
-                    },
-                    children:[
-                        {
-                            path: '',
-                            components:{
-                                buttonLeft: backButton,
-
-                            }
-                        }
-                    ],
-                    props:{
-                        appBar:{
-                            title: "New snAPP"
-                        }
-                    },
                 },
             ],
         },

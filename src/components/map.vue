@@ -43,7 +43,7 @@
           <v-list-item
               @click="selectSearch(disco)"
           >
-              <avatar :size="52" :user-name="disco.userName" :picture="disco.PhotoPath"></avatar>
+              <avatar :size="52" :user-name="disco.userName" :picture="disco.photoPath"></avatar>
             <v-list-item-content>
               <v-list-item-title> {{ disco.userName }}</v-list-item-title>
               <v-list-item-subtitle> {{ disco.title }}</v-list-item-subtitle>
@@ -144,6 +144,7 @@ export default {
       mapOptions: {
         disableDefaultUI: true,
       },
+      postToShow: null,
     };
   },
 
@@ -165,8 +166,12 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch('MapCenter');
-    this.$store.dispatch('discoveriesMe');
+    if (this.postToShow !== null){
+      this.$store.dispatch('searchPostToShow', this.postToShow.discovery_id);
+    } else{
+      this.$store.dispatch('MapCenter');
+      this.$store.dispatch('discoveriesMe');
+    }
   },
 
   computed: {
@@ -262,7 +267,23 @@ export default {
           },
       )
     },
+  },
+
+  beforeRouteEnter (to, from, next) {
+    if (from.name === 'post'){
+      next(vm => {
+        vm.postToShow = from.params;
+      })
+    } else{
+      next();
+    }
+  },
+
+  beforeRouteLeave (to, from, next) {
+    this.$store.commit('clearMapData');
+    next();
   }
+
 };
 </script>
 

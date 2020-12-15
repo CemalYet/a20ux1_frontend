@@ -255,6 +255,18 @@ const store = new Vuex.Store({
         updateDiscoveryId(state, value) {
             state.discovery_id = value;
         },
+        setMapDiscoPhotos(state){
+            state.discovery_photos = state.discoveryPostPhotos;
+        },
+        clearMapData(state){
+            state.map_markers= null;
+            state.chosen_marker= null;
+            state.marker_discovery_overlay= false;
+            state.search_results= null;
+            state.search_field= null;
+            state.discovery_photos= null;
+            state.discovery_id= null;
+        },
 
         ///// SNAP PAGE /////
         clearScanData(state){
@@ -424,7 +436,7 @@ const store = new Vuex.Store({
                     headers: {'Content-Type': 'application/json'}
                     // eslint-disable-next-line no-unused-vars
                 }).then(response => {
-                console.log(response['data'])
+
                 router.push({path: `/post/${response['data'][0].discoveryId}`});
             }).catch(error => {
                 if (error.response) {
@@ -466,6 +478,16 @@ const store = new Vuex.Store({
             axios.get('/public/mapController/searching', {params: {data: context.getters.getSearchField}}).then(response => {
                 context.commit("updateSearchResults", response["data"])
                 context.commit("updateMapMarkers", response["data"])
+            });
+        },
+        searchPostToShow(context, id){
+            axios.get('/public/mapController/searchPostToShow', {params: {data: id}}).then(response => {
+                context.commit("updateSearchResults", response["data"])
+                context.commit("updateMapMarkers", response["data"])
+                context.commit("updateSelectedMarker", response["data"][0]);
+                context.commit("updateDiscoCenter", context.getters.getSelectedMarker);
+                context.commit("setMapDiscoPhotos");
+                context.commit("updateMarkerDiscoveryOverlay", true);
             });
         },
         getPictures(context) {
