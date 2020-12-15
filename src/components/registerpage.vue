@@ -269,7 +269,7 @@
             <v-icon
                 x-large
                 color=var(--dark-color)
-                @click.native="fetchUserData(), goToFeed()"
+                @click.native="goToFeed()"
             >
               mdi-check-bold
             </v-icon>
