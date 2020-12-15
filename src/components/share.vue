@@ -84,11 +84,11 @@
 
           <div class="flex_box_leaf_choices">
 
-              <leaf1 class="leaf leaf1" @click.native="select_leaf(1)"/>
-              <leaf2 class="leaf leaf2" @click.native="select_leaf(2)"/>
-              <leaf3 class="leaf leaf3" @click.native="select_leaf(3)"/>
-              <leaf4 class="leaf leaf4" @click.native="select_leaf(4)"/>
-              <leaf5 class="leaf leaf5" @click.native="select_leaf(5)"/>
+            <leaf1 class="leaf leaf1" @click.native="select_leaf(1)"/>
+            <leaf2 class="leaf leaf2" @click.native="select_leaf(2)"/>
+            <leaf3 class="leaf leaf3" @click.native="select_leaf(3)"/>
+            <leaf4 class="leaf leaf4" @click.native="select_leaf(4)"/>
+            <leaf5 class="leaf leaf5" @click.native="select_leaf(5)"/>
 
           </div>
           <br>
@@ -105,7 +105,8 @@
               class="placeholder_text_container text-b1"
               v-if="updateLeafShape === null"
           >
-            This leaf shape will show up in your friends feed, so be sure to take a nice one that complements your first picture.
+            This leaf shape will show up in your friends feed, so be sure to take a nice one that complements your first
+            picture.
           </div>
           <div class="leafId">
             <leaf1 class="small_leaf"
@@ -176,7 +177,7 @@
               <div class="tagged_container">
                 <avatar :size="56" :user-name="taggedFriend.userName" :picture="taggedFriend.avatar"></avatar>
                 <div class="text-caption text-truncate">
-                  {{taggedFriend.userName}}
+                  {{ taggedFriend.userName }}
                 </div>
                 <div class="delete_button_container" style="margin: -12px">
                   <v-btn
@@ -207,7 +208,7 @@
               <v-list-item>
                 <avatar :size="56" :user-name="item.userName" :picture="item.avatar"></avatar>
                 <v-list-item-content>
-                  <v-list-item-title>{{item.userName}}</v-list-item-title>
+                  <v-list-item-title>{{ item.userName }}</v-list-item-title>
                 </v-list-item-content>
 
                 <v-list-item-action>
@@ -225,7 +226,7 @@
           </v-virtual-scroll>
 
           <div class="stepper_buttons_container">
-           <v-btn
+            <v-btn
                 color=var(--dark-color)
                 text
                 @click="steps--"
@@ -252,17 +253,17 @@
           >
             <form @submit.prevent="check_data">
               <!--Text input TITLE-->
-                <v-text-field
-                    class="text_field"
-                    dense
-                    label="Title"
-                    v-model="updateInformationCard.title"
-                    outlined
-                    color=var(--dark-color)
-                    readonly
-                    hide-details
-                    :error-messages="errors"
-                ></v-text-field>
+              <v-text-field
+                  class="text_field"
+                  dense
+                  label="Title"
+                  v-model="updateInformationCard.title"
+                  outlined
+                  color=var(--dark-color)
+                  readonly
+                  hide-details
+                  :error-messages="errors"
+              ></v-text-field>
 
               <div class="timeDateContainer">
                 <!--Modal input HOUR-->
@@ -433,7 +434,7 @@
         color="error"
         style="padding: 12px"
     >
-      {{updateSnackBarMessage}}
+      {{ updateSnackBarMessage }}
       <template v-slot:action="{ attrs }">
         <v-btn
             text
@@ -455,14 +456,15 @@
         </v-card-title>
 
         <v-card-text>
-          Are you sure you want to stop sharing your discovery? The plant will still show up in your wiki, but your friends won't see it.
+          Are you sure you want to stop sharing your discovery? The plant will still show up in your wiki, but your
+          friends won't see it.
         </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
 
           <v-btn
-              color= var(--dark-color)
+              color=var(--dark-color)
               text
               @click="updateCancelDialog = false; goToFeed()"
           >
@@ -470,7 +472,7 @@
           </v-btn>
 
           <v-btn
-              color= var(--dark-color)
+              color=var(--dark-color)
               text
               @click="updateCancelDialog = false"
           >
@@ -489,8 +491,8 @@ import leaf3 from "@/components/leaves/leaf3";
 import leaf4 from "@/components/leaves/leaf4";
 import leaf5 from "@/components/leaves/leaf5";
 import axios from "axios";
-import { required, max } from 'vee-validate/dist/rules'
-import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
+import {required, max} from 'vee-validate/dist/rules'
+import {extend, ValidationObserver, ValidationProvider, setInteractionMode} from 'vee-validate'
 import pictureSlideGroup from "@/components/pictureSlideGroup";
 import Avatar from "@/components/avatar";
 
@@ -530,14 +532,15 @@ export default {
     selectedImage: null,
     deleteImageDialog: false,
     steps: 1,
-    taggedFriends:[],
-    taggedFriendsId:[],
+    taggedFriends: [],
+    taggedFriendsId: [],
     loader: null,
     loading: false,
+    response: null,
   }),
 
-  watch:{
-    loader(){
+  watch: {
+    loader() {
       const l = this.loader
       this[l] = !this[l]
 
@@ -602,7 +605,7 @@ export default {
       this.updateFriends.splice(this.updateFriends.indexOf(user), 1);
       console.log(this.taggedFriendsId)
     },
-    removeTag : function (user){
+    removeTag: function (user) {
       this.updateFriends.push(user);
       this.taggedFriends.splice(this.taggedFriends.indexOf(user), 1);
       this.taggedFriendsId.splice(this.taggedFriendsId.indexOf(user.userId))
@@ -610,25 +613,28 @@ export default {
     },
     updateChallenges: function () {
       console.log(this.$store.getters.getLoggedInUserData[0].userId);
-      axios.post('/public/BadgeController/checkChallenges', {params: {userId: this.$store.getters.getLoggedInUserData[0].userId}});
+      axios.get('/public/BadgeController/checkChallenges', {params: {userId: this.$store.getters.getLoggedInUserData[0].userId}})
+          .then(response => {
+            this.response = response["data"]
+          });
     },
-    goToFeed(){
-      this.$router.push({path:'/'});
+    goToFeed() {
+      this.$router.push({path: '/'});
     },
-    updateTitle: function (value){
+    updateTitle: function (value) {
       this.$store.commit("updateTitle", value)
     },
   },
 
   computed: {
-    updateDiscoveryImages(){
+    updateDiscoveryImages() {
       return this.$store.getters.getDiscoveryImages;
     },
-    updateSnackBarMessage:{
-      get(){
+    updateSnackBarMessage: {
+      get() {
         return this.$store.getters.getSnackbarMessage;
       },
-      set(value){
+      set(value) {
         this.$store.commit('updateSnackbarMessage', value);
       }
     },
@@ -699,18 +705,18 @@ export default {
     updateFriends() {
       return this.$store.getters.getFriendsData;
     },
-    updateCancelDialog:{
-      get(){
+    updateCancelDialog: {
+      get() {
         return this.$store.getters.getCancelDialog;
       },
-      set(value){
+      set(value) {
         this.$store.commit('updateCancelDialog', value);
       }
     },
-    updateInformationCard(){
+    updateInformationCard() {
       return this.$store.getters.getInformationCards[this.updateCardId];
     },
-    updateCardId(){
+    updateCardId() {
       return this.$store.getters.getCardId;
     }
   }
@@ -727,7 +733,7 @@ export default {
   margin: auto;
 }
 
-.timeDateContainer{
+.timeDateContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 100%;
@@ -737,11 +743,11 @@ export default {
   "time date"
 }
 
-#time_field{
+#time_field {
   grid-area: time;
 }
 
-#date_field{
+#date_field {
   grid-area: date;
 }
 
@@ -770,15 +776,19 @@ export default {
 .leaf1 {
   grid-area: leaf1;
 }
+
 .leaf2 {
   grid-area: leaf2;
 }
+
 .leaf3 {
   grid-area: leaf3;
 }
+
 .leaf4 {
   grid-area: leaf4;
 }
+
 .leaf5 {
   grid-area: leaf5;
 }
@@ -790,7 +800,7 @@ export default {
   margin: auto;
 }
 
-.delete_button_container{
+.delete_button_container {
   position: absolute;
   top: 0;
   right: 0;
@@ -803,7 +813,7 @@ export default {
   height: auto;
 }
 
-.stepper_content{
+.stepper_content {
   height: calc(100vh - 83px - 56px - 24px);
   overflow: hidden;
   position: relative;
