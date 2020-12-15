@@ -177,8 +177,8 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch('fetchFriends');
     this.$store.dispatch('fetchFriendRequests');
+    this.$store.dispatch('fetchFriends');
   },
 
   methods: {

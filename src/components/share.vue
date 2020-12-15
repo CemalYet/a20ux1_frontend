@@ -421,8 +421,8 @@
                     elevation="2"
                     type="submit"
                     class=" white--text"
-                    :loading="loading"
-                    :disabled="(invalid || loading)"
+                    :loading="updateSaveLoading"
+                    :disabled="(invalid || updateSaveLoading)"
                     @click="updateChallenges"
                 >
                   finish
@@ -538,20 +538,7 @@ export default {
     steps: 1,
     taggedFriends:[],
     taggedFriendsId:[],
-    loader: null,
-    loading: false,
   }),
-
-  watch:{
-    loader(){
-      const l = this.loader
-      this[l] = !this[l]
-
-      setTimeout(() => (this[l] = false), 3000)
-
-      this.loader = null
-    }
-  },
 
   created() {
     this.getTime();
@@ -624,6 +611,9 @@ export default {
   },
 
   computed: {
+    updateSaveLoading(){
+      return this.$store.getters.getSaveLoading;
+    },
     updateDiscoveryImages(){
       return this.$store.getters.getDiscoveryImages;
     },

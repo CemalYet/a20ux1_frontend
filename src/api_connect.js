@@ -36,7 +36,7 @@ const api_scan = function(){
                         {percentage: null, show: false, title: null, subtitle: null, src: null, flex: 3, info: null}
                     ]
                     let i;
-                    for (i = 0; i < 4; i++) {
+                    for (i = 0; i < 4 && i<(datas.suggestions.length-1); i++) {
                         if (datas.suggestions[i].probability !== null) {
                             cards[i].percentage = Math.round(datas.suggestions[i].probability * 1000) / 10;
                         } else{

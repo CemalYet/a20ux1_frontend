@@ -50,6 +50,7 @@ const store = new Vuex.Store({
         snackbar_message: null,
         discoveryImages: [],
         cancelDialog: false,
+        saveLoading: false,
 
         // MAP PAGE /////
         map_center: {lat: 50.87959, lng: 4.70093}, //Leuven default value
@@ -223,6 +224,9 @@ const store = new Vuex.Store({
         },
         updateCancelDialog(state, value){
             state.cancelDialog = value;
+        },
+        updateSaveLoading(state,value){
+            state.saveLoading = value;
         },
 
         ///// MAP PAGE /////
@@ -419,6 +423,7 @@ const store = new Vuex.Store({
 
         ///// SHARE DISCOVERY /////
         sharePost(context, taggedFriendsId){
+            context.commit("updateSaveLoading",true);
             const json = JSON.stringify({
                 my_title: context.getters.getTitle,
                 my_time: context.getters.getTimestamp,
@@ -436,11 +441,12 @@ const store = new Vuex.Store({
                     headers: {'Content-Type': 'application/json'}
                     // eslint-disable-next-line no-unused-vars
                 }).then(response => {
-
+                context.commit("updateSaveLoading",false);
                 router.push({path: `/post/${response['data'][0].discoveryId}`});
             }).catch(error => {
                 if (error.response) {
                     context.commit('updateSnackbar', true);
+                    context.commit("updateSaveLoading",false);
                 }
                 });
         },
@@ -595,6 +601,9 @@ const store = new Vuex.Store({
         },
         getCancelDialog(state){
             return state.cancelDialog;
+        },
+        getSaveLoading(state){
+            return state.saveLoading;
         },
 
         ///// MAP PAGE /////

@@ -51,6 +51,7 @@
               <v-card
                   id="card-outer"
                   height="173"
+                  v-if="card.percentage !== null"
               >
                 <v-progress-linear
                     :value=card.percentage
