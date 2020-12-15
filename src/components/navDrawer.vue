@@ -15,11 +15,11 @@
 
         <!--Menu options-->
 
-          <v-list-item link :ripple="false">
+          <v-list-item link :ripple="false" @click="goToWiki">
             <v-list-item-icon>
               <v-icon large color=var(--main-color)>mdi-tree-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>My Discoveries</v-list-item-title>
+            <v-list-item-title>Wiki</v-list-item-title>
           </v-list-item>
           <v-list-item link :ripple="false" @click="goToFriends">
             <v-list-item-icon>
@@ -53,7 +53,7 @@
 
         <template v-slot:append>
           <div class="pa-2">
-            <v-btn text :ripple="false">
+            <v-btn text :ripple="false" @click="goToSettings">
               <v-icon large color=var(--main-color) left>mdi-cog-outline</v-icon>
               Settings
             </v-btn>
@@ -99,6 +99,9 @@ export default {
   },
 
   methods:{
+    goToWiki() {
+      this.$router.push({path:'wiki'})
+    },
     goToMap(){
       this.$router.push({path:'map'})
     },
@@ -112,7 +115,10 @@ export default {
     logOut() {
       this.$store.dispatch('logOut');
       this.$router.push({path: '/login'});
-    }
+    },
+    goToSettings(){
+      this.$router.push({path: "settings"});
+    },
   }
 }
 </script>

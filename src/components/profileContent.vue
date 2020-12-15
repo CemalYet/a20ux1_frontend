@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container style="padding-bottom: 0">
 
     <br>
     <div class="content">
@@ -208,7 +208,6 @@
           </div>
         </v-tab-item>
       </v-tabs-items>
-
     </div>
   </v-container>
 </template>
