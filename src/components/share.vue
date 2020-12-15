@@ -470,7 +470,7 @@
           <v-btn
               color= var(--dark-color)
               text
-              @click="updateCancelDialog = false"
+              @click="updateCancelDialog = false; goToFeed()"
           >
             cancel
           </v-btn>
@@ -478,7 +478,7 @@
           <v-btn
               color= var(--dark-color)
               text
-              @click="updateCancelDialog = false; goToFeed()"
+              @click="updateCancelDialog = false"
           >
             continue sharing
           </v-btn>

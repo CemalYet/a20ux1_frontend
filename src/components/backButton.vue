@@ -20,12 +20,16 @@ export default {
 
   methods:{
     goBack() {
-      if(this.prevRoute.path === '/share')
-      {
+      if (this.prevRoute == null){
         this.$router.push('/')
-      }
-      else {
-        window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
+      } else{
+        if(this.prevRoute.path === '/share')
+        {
+          this.$router.push('/')
+        }
+        else {
+          window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
+        }
       }
     }
   }
