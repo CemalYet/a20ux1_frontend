@@ -215,6 +215,9 @@ export default {
   },
 
   methods: {
+    getPinColor() {
+      return this.$store.getters.getTheme;
+    },
     selectSearch(search) {
       this.getDiscoInfo(search)
       this.getPhotos(search.discoveryId)
