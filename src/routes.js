@@ -17,7 +17,6 @@ import postContent from "@/components/postContent";
 import appBarPost from "@/components/appBarPost";
 import commentContent from "@/components/commentContent";
 import sharePostContent from "@/components/sharePostContent";
-import dropDownMenuED from "@/components/dropDownMenuED";
 import friends from "@/components/friends";
 import loginpage from "@/components/loginpage";
 import registerpage from "@/components/registerpage";
@@ -26,7 +25,10 @@ import snap from "@/components/snap";
 import cancelButton from "@/components/cancelButton";
 import editProfileButton from "@/components/editProfileButton";
 import logoutButton from "@/components/logoutButton";
+import deleteButton from "@/components/deleteButton";
 import errorMessage from "@/components/errorMessage";
+import wiki from "@/components/wiki";
+import settings from "@/components/settings";
 
 import store from './store.js';
 import axios from 'axios';
@@ -177,6 +179,62 @@ const router = new VueRouter({
             ],
         },
         {
+            path: '/wiki',
+            components:{
+                layout: defaultLayout,
+            },
+            children:[
+                {
+                    path: '',
+                    components:{
+                        appBar: appBar,
+                        pageContent: wiki,
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+                            },
+                        }
+                    ],
+                    props:{
+                        appBar:{
+                            title: "My Discoveries"
+                        }
+                    },
+                }
+            ],
+        },
+        {
+            path: '/settings',
+            components:{
+                layout: defaultLayout,
+            },
+            children:[
+                {
+                    path: '',
+                    components:{
+                        appBar: appBar,
+                        pageContent: settings,
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+                            },
+                        }
+                    ],
+                    props:{
+                        appBar:{
+                            title: "Settings"
+                        }
+                    },
+                }
+            ],
+        },
+        {
             path: '/map',
             components: {
                 layout: mapLayout,
@@ -267,7 +325,7 @@ const router = new VueRouter({
                             name: 'post',
                             components:{
                                 buttonLeft: backButton,
-                                buttonRight: dropDownMenuED
+                                buttonRight: deleteButton
                             }
                         }
                     ],
@@ -283,7 +341,7 @@ const router = new VueRouter({
                             path: '',
                             components:{
                                 buttonLeft: backButton,
-                                buttonRight: dropDownMenuED
+                                buttonRight: deleteButton
                             }
                         }
                     ],
@@ -299,7 +357,7 @@ const router = new VueRouter({
                             path: '',
                             components:{
                                 buttonLeft: backButton,
-                                buttonRight: dropDownMenuED
+                                buttonRight: deleteButton
 
                             }
                         }

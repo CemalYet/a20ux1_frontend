@@ -30,6 +30,12 @@
         </v-carousel>
       </div>
 
+      <div class="likes">
+        <p> {{ getLikes }} likes </p>
+      </div>
+
+
+
       <!-- Icons: like, comments, tags, share -->
       <div class="iconBox">
         <div class="icons1">
@@ -71,6 +77,9 @@
           </v-btn>
           <v-btn icon v-on:click="favorited = true" v-else>
             <v-icon large color="#5B5C5C">mdi-leaf</v-icon>
+          </v-btn>
+          <v-btn icon v-on:click="showOnMap">
+            <v-icon large color=var(--dark-color)>mdi-map-marker</v-icon>
           </v-btn>
           <v-btn icon class="icon" @click.stop="goToShare">
             <v-icon large color=var(--dark-color)>mdi-share-variant</v-icon>
@@ -229,6 +238,9 @@ export default {
     clearPrevDiscoveryData(){
       this.$store.commit('resetDiscoveryData');
     },
+    showOnMap(){
+
+    }
   },
 
   computed:{
@@ -237,6 +249,9 @@ export default {
     },
     getLikes(){
       return this.$store.getters.getLikes;
+    },
+    getHeartButton(){
+      return this.$store.getters.getHeartButton;
     },
     getComments(){
       return this.$store.getters.getComments;
@@ -289,9 +304,10 @@ export default {
   mounted() {
     this.$store.dispatch('fetchDiscoveryBasedOnId', this.$route.params.discovery_id);
     this.$store.dispatch('fetchDiscoveryPostPhotosOnId', this.$route.params.discovery_id);
-    this.$store.dispatch('fetchLikes', this.$route.params.discovery_id);
+    this.$store.dispatch('fetchNoOfLikes', this.$route.params.discovery_id);
     this.$store.dispatch('fetchComments', this.$route.params.discovery_id);
     this.$store.dispatch('getTaggedFriends', this.$route.params.discovery_id);
+    this.$store.dispatch('fetchHeartButton', this.$route.params.discovery_id);
   },
 
   beforeRouteEnter(to, from, next) {
@@ -365,6 +381,10 @@ export default {
 
 .wrap-text {
   -webkit-line-clamp: unset !important;
+}
+
+.likes {
+  margin: 10px 0 0 20px;
 }
 
 </style>
