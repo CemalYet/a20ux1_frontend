@@ -30,6 +30,12 @@
         </v-carousel>
       </div>
 
+      <div class="likes">
+        <p> {{ getLikes }} likes </p>
+      </div>
+
+
+
       <!-- Icons: like, comments, tags, share -->
       <div class="iconBox">
         <div class="icons1">
@@ -289,7 +295,7 @@ export default {
   mounted() {
     this.$store.dispatch('fetchDiscoveryBasedOnId', this.$route.params.discovery_id);
     this.$store.dispatch('fetchDiscoveryPostPhotosOnId', this.$route.params.discovery_id);
-    this.$store.dispatch('fetchLikes', this.$route.params.discovery_id);
+    this.$store.dispatch('fetchNoOfLikes', this.$route.params.discovery_id);
     this.$store.dispatch('fetchComments', this.$route.params.discovery_id);
     this.$store.dispatch('getTaggedFriends', this.$route.params.discovery_id);
   },
@@ -365,6 +371,10 @@ export default {
 
 .wrap-text {
   -webkit-line-clamp: unset !important;
+}
+
+.likes {
+  margin: 10px 0 0 20px;
 }
 
 </style>

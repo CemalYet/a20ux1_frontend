@@ -17,7 +17,6 @@ import postContent from "@/components/postContent";
 import appBarPost from "@/components/appBarPost";
 import commentContent from "@/components/commentContent";
 import sharePostContent from "@/components/sharePostContent";
-import dropDownMenuED from "@/components/dropDownMenuED";
 import friends from "@/components/friends";
 import loginpage from "@/components/loginpage";
 import registerpage from "@/components/registerpage";
@@ -29,6 +28,7 @@ import store from './store.js';
 import axios from 'axios';
 import editProfileButton from "@/components/editProfileButton";
 import logoutButton from "@/components/logoutButton";
+import deleteButton from "@/components/deleteButton";
 
 
 Vue.use(VueRouter);
@@ -264,7 +264,7 @@ const router = new VueRouter({
                             path: '',
                             components:{
                                 buttonLeft: backButton,
-                                buttonRight: dropDownMenuED
+                                buttonRight: deleteButton
                             }
                         }
                     ],
@@ -280,7 +280,7 @@ const router = new VueRouter({
                             path: '',
                             components:{
                                 buttonLeft: backButton,
-                                buttonRight: dropDownMenuED
+                                buttonRight: deleteButton
                             }
                         }
                     ],
@@ -296,7 +296,7 @@ const router = new VueRouter({
                             path: '',
                             components:{
                                 buttonLeft: backButton,
-                                buttonRight: dropDownMenuED
+                                buttonRight: deleteButton
 
                             }
                         }

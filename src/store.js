@@ -298,6 +298,9 @@ const store = new Vuex.Store({
         updateDiscoveryComments(state, value){
             state.discoveryComments = value;
         },
+        updateDiscoveryLikes(state, value){
+            state.discoveryLikes = value;
+        },
 
         updatePrevDiscoveryId(state, value){
             state.prevDiscoveryId = value;
@@ -493,6 +496,14 @@ const store = new Vuex.Store({
             axios.get('/public/discovery/getComments', {params: {data: discoveryId}}).then(response => {
                 context.commit("updateDiscoveryComments", response["data"])
             });
+        },
+        fetchNoOfLikes(context, discoveryId){
+            axios.get('/public/discovery/getNrOfLikes', {params: {data: discoveryId}}).then(response => {
+                context.commit("updateDiscoveryLikes", response["data"])
+            });
+        },
+        deleteDiscovery(context, discoveryId){
+            axios.get('/public/discovery/deletePost', {params: {data: discoveryId}});
         }
     },
 
