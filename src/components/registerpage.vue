@@ -429,7 +429,7 @@ export default {
   max-width: 276px;
   /*margin: auto auto 5px;*/
   position: fixed;
-  top: 600px;
+  top: 500px;
 }
 
 .buttons {
@@ -502,9 +502,9 @@ export default {
   }
 }
 
-@media(max-height: 600px) {
+@media(min-height: 610px) {
   .centerButtons {
-    top: 500px;
+    top: 600px;
   }
 }
 
