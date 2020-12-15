@@ -418,7 +418,7 @@
                     class=" white--text"
                     :loading="updateSaveLoading"
                     :disabled="(invalid || updateSaveLoading)"
-                    @click="updateChallenges; updateTitle(updateInformationCard.title)"
+                    @click="updateChallenges(); updateTitle(updateInformationCard.title)"
                 >
                   finish
                 </v-btn>

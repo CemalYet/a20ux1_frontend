@@ -49,7 +49,7 @@
 
       </v-list>
 
-      <!-- Settings button-->
+      <!-- Settings&logout button-->
 
         <template v-slot:append>
           <div class="pa-2">
@@ -58,9 +58,13 @@
               Settings
             </v-btn>
           </div>
+          <div class="pa-2">
+            <v-btn text :ripple="false" @click="logOut">
+              <v-icon large color=var(--main-color) left>mdi-logout</v-icon>
+              Logout
+            </v-btn>
+          </div>
         </template>
-
-
 
   </v-navigation-drawer>
 </template>

@@ -23,7 +23,6 @@ import information from "@/components/information";
 import snap from "@/components/snap";
 import cancelButton from "@/components/cancelButton";
 import editProfileButton from "@/components/editProfileButton";
-import logoutButton from "@/components/logoutButton";
 import deleteButton from "@/components/deleteButton";
 import errorMessage from "@/components/errorMessage";
 import wiki from "@/components/wiki";
@@ -273,7 +272,6 @@ const router = new VueRouter({
                             components:{
                                 buttonLeft: backButton,
                                 buttonRight: editProfileButton,
-                                buttonNextToRight: logoutButton
                             },
                         }
                     ],

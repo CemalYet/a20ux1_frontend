@@ -15,7 +15,6 @@
 
     <!--Profile icon-->
     <router-view name="buttonRight"></router-view>
-    <router-view name="buttonNextToRight"></router-view>
 
   </v-app-bar>
 </template>
