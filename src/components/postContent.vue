@@ -36,7 +36,7 @@
 
 
 
-      <!-- Icons: like, comments, tags, share -->
+      <!-- Icons: like, comments, tags -->
       <div class="iconBox">
         <div class="icons1">
           <!-- Like button clicked or not clicked, default values get sent to db, NOT IMPLEMENTED: showing the icon based on db information -->
@@ -68,8 +68,6 @@
             </v-list>
           </v-menu>
         </div>
-        <!-- Share icon -->
-        <!-- NOT IMPLEMENTED YET: link to /sharedisco page -->
         <div class="icons2">
           <!-- NOT IMPLEMENTED YET: saving to the db that this discovery is favorited -->
           <v-btn icon v-on:click="favorited = false" v-if="favorited">
@@ -80,9 +78,6 @@
           </v-btn>
           <v-btn icon v-on:click="showOnMap">
             <v-icon large color=var(--dark-color)>mdi-map-marker</v-icon>
-          </v-btn>
-          <v-btn icon class="icon" @click.stop="goToShare">
-            <v-icon large color=var(--dark-color)>mdi-share-variant</v-icon>
           </v-btn>
         </div>
       </div>
@@ -228,9 +223,6 @@ export default {
     goToPost(user_id){
       if(typeof(user_id)!=='undefined'){
         this.$router.push({path: `/profile/${user_id}`})}
-    },
-    goToShare(){
-      this.$router.push({path:`${this.$route.params.discovery_id}/share`});
     },
     closeDelete(){
       this.$store.commit('updateDeleteDialog', false);

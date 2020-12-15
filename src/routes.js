@@ -16,7 +16,6 @@ import editProfileContent from "@/components/editProfileContent";
 import postContent from "@/components/postContent";
 import appBarPost from "@/components/appBarPost";
 import commentContent from "@/components/commentContent";
-import sharePostContent from "@/components/sharePostContent";
 import friends from "@/components/friends";
 import loginpage from "@/components/loginpage";
 import registerpage from "@/components/registerpage";
@@ -342,23 +341,6 @@ const router = new VueRouter({
                             components:{
                                 buttonLeft: backButton,
                                 buttonRight: deleteButton
-                            }
-                        }
-                    ],
-                },
-                {
-                    path: 'share',
-                    components: {
-                        appBar: appBarPost,
-                        pageContent: sharePostContent,
-                    },
-                    children:[
-                        {
-                            path: '',
-                            components:{
-                                buttonLeft: backButton,
-                                buttonRight: deleteButton
-
                             }
                         }
                     ],
