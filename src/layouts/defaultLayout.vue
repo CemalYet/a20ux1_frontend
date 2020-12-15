@@ -42,23 +42,76 @@ export default {
     navDrawer
   },
 
+  methods: {
+    changeTheme() {
+      {
+        let theme = this.$store.getters.getTheme;
+        if (theme === "Seasons") {
+          let createSeasonResolver = require('date-season')
+          let seasonNorth = createSeasonResolver()
+          let date = new Date()
+          if (seasonNorth(date) === 'Summer') {
+            this.isSummer=true;
+            this.isFall=false;
+            this.isWinter=false;
+            this.isSpring=false;
+          }
+          if (seasonNorth(date) === 'Fall') {
+            this.isFall=true;
+            this.isSummer=false;
+            this.isWinter=false;
+            this.isSpring=false;
+          }
+          if (seasonNorth(date) === 'Winter') {
+            this.isWinter=true;
+            this.isSummer=false;
+            this.isFall=false;
+            this.isSpring=false;
+          }
+          if (seasonNorth(date) === 'Spring') {
+            this.isSpring=true;
+            this.isSummer=false;
+            this.isFall=false;
+            this.isWinter=false;
+          }
+        }
+        if (theme === "Summer") {
+          this.isSummer=true;
+          this.isFall=false;
+          this.isWinter=false;
+          this.isSpring=false;
+        }
+        if (theme === "Fall") {
+          this.isFall=true;
+          this.isSummer=false;
+          this.isWinter=false;
+          this.isSpring=false;
+        }
+        if (theme === "Winter") {
+          this.isWinter=true;
+          this.isSummer=false;
+          this.isFall=false;
+          this.isSpring=false;
+        }
+        if (theme === "Spring") {
+          this.isSpring=true;
+          this.isSummer=false;
+          this.isFall=false;
+          this.isWinter=false;
+        }
+      }
+    }
+  },
+
   mounted() {
-    let createSeasonResolver = require('date-season')
-    let seasonNorth = createSeasonResolver()
-    let date = new Date()
-    if (seasonNorth(date) === 'Summer') {
-      this.isSummer=true;
+    this.changeTheme();
+  },
+
+  watch: {
+    '$route'() {
+      this.changeTheme();
     }
-    if (seasonNorth(date) === 'Fall') {
-      this.isFall=true;
-    }
-    if (seasonNorth(date) === 'Winter') {
-      this.isWinter=true;
-    }
-    if (seasonNorth(date) === 'Spring') {
-      this.isSpring=true;
-    }
-  }
+  },
 }
 </script>
 

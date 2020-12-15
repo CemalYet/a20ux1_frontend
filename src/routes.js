@@ -29,6 +29,7 @@ import axios from 'axios';
 import editProfileButton from "@/components/editProfileButton";
 import logoutButton from "@/components/logoutButton";
 import wiki from "@/components/wiki";
+import settings from "@/components/settings";
 
 
 Vue.use(VueRouter);
@@ -197,6 +198,34 @@ const router = new VueRouter({
                     props:{
                         appBar:{
                             title: "My Discoveries"
+                        }
+                    },
+                }
+            ],
+        },
+        {
+            path: '/settings',
+            components:{
+                layout: defaultLayout,
+            },
+            children:[
+                {
+                    path: '',
+                    components:{
+                        appBar: appBar,
+                        pageContent: settings,
+                    },
+                    children:[
+                        {
+                            path: '',
+                            components:{
+                                buttonLeft: backButton,
+                            },
+                        }
+                    ],
+                    props:{
+                        appBar:{
+                            title: "Settings"
                         }
                     },
                 }

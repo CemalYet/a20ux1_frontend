@@ -260,6 +260,7 @@
                     outlined
                     color=var(--dark-color)
                     readonly
+                    hide-details
                     :error-messages="errors"
                 ></v-text-field>
 
