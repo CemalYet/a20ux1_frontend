@@ -23,12 +23,14 @@ import registerpage from "@/components/registerpage";
 import information from "@/components/information";
 import snap from "@/components/snap";
 import cancelButton from "@/components/cancelButton";
-
-import store from './store.js';
-import axios from 'axios';
 import editProfileButton from "@/components/editProfileButton";
 import logoutButton from "@/components/logoutButton";
 import deleteButton from "@/components/deleteButton";
+import errorMessage from "@/components/errorMessage";
+
+import store from './store.js';
+import axios from 'axios';
+
 
 
 Vue.use(VueRouter);
@@ -262,6 +264,7 @@ const router = new VueRouter({
                     children:[
                         {
                             path: '',
+                            name: 'post',
                             components:{
                                 buttonLeft: backButton,
                                 buttonRight: deleteButton
@@ -302,48 +305,6 @@ const router = new VueRouter({
                         }
                     ],
                 },
-                {
-                    path: '/information',
-                    components: {
-                        appBar: appBar,
-                        pageContent: information,
-                    },
-                    children:[
-                        {
-                            path: '',
-                            components:{
-                                buttonLeft: backButton,
-
-                            }
-                        }
-                    ],
-                    props:{
-                        appBar:{
-                            title: "New snAPP"
-                        }
-                    },
-                },
-                {
-                    path: '/snap',
-                    components: {
-                        appBar: appBar,
-                        pageContent: snap,
-                    },
-                    children:[
-                        {
-                            path: '',
-                            components:{
-                                buttonLeft: backButton,
-
-                            }
-                        }
-                    ],
-                    props:{
-                        appBar:{
-                            title: "New snAPP"
-                        }
-                    },
-                },
             ],
         },
         {
@@ -375,6 +336,12 @@ const router = new VueRouter({
                 }
 
             ]
+        },
+        {
+            path: '/error',
+            components: {
+                layout: errorMessage
+            },
         }
     ],
     scrollBehavior () {
@@ -389,7 +356,7 @@ router.beforeEach((to, from, next) => {
     //first check if userdata is 0. If it isn't no need to check any session data.
     if(store.getters.getLoggedInUserData.length === 0){
         //secondly check if the user is in the login or registration pages. No need check any data here.
-        if (to.path !== '/login' && to.path !== '/register'){
+        if (to.path !== '/login' && to.path !== '/register' && to.path !== '/error'){
             //check session data and wait for a response
             axios.get('/public/profile/getCurrentUserData').then(response => {
                 //store the response data in the userdata state
@@ -400,6 +367,11 @@ router.beforeEach((to, from, next) => {
                 }
                 else {
                     next();
+                }
+            }).catch(err =>{
+                //if userdata from database fetching goes wrong, go to error page
+                if(err.response){
+                    next({path :'/error'})
                 }
             })
         }
