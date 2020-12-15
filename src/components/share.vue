@@ -417,7 +417,7 @@
                     class=" white--text"
                     :loading="loading"
                     :disabled="(invalid || loading)"
-                    @click="updateChallenges; updateTitle(updateInformationCard.title)"
+                    @click="updateChallenges(); updateTitle(updateInformationCard.title)"
                 >
                   finish
                 </v-btn>
