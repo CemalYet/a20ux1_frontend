@@ -239,7 +239,7 @@ export default {
       this.$store.commit('resetDiscoveryData');
     },
     showOnMap(){
-
+      this.$router.push({path: '/map'});
     }
   },
 
