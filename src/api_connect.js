@@ -57,7 +57,7 @@ const api_scan = function(){
                         } else {
                             cards[i].info = "Unknown wiki info"
                         }
-                        if(datas.suggestions[i].similar_images !== null){
+                        if(datas.suggestions[i].similar_images.length !== 0){
                             cards[i].src = datas.suggestions[i].similar_images[0].url;
                         } else {
                             cards[i].src = store.getters.getDiscoveryImages[0].photoPath;
