@@ -13,7 +13,7 @@
                 outlined
                 small
                 color=var(--dark-color)
-            > See plant info </v-btn>
+            > {{ $t('postContent.plantInfo') }} </v-btn>
           </div>
         </div>
         <!-- Image from the discovery-->
@@ -77,7 +77,7 @@
       </div>
 
       <div class="likes">
-        <p> {{ getLikes }} likes </p>
+        <p> {{ getLikes }} {{ $t('postContent.likes') }} </p>
       </div>
 
       <!-- Comments -->
@@ -121,7 +121,7 @@
             <v-list-item v-if="getComments.length === 0">
               <v-list-item-content>
                 <v-list-item-subtitle @click="goToComments">
-                  No comments yet
+                  {{ $t('postContent.noComment') }}
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -135,11 +135,11 @@
       >
         <v-card>
           <v-card-title class="headline">
-            Are you sure you want to delete this post?
+            {{ $t('postContent.headerDel') }}
           </v-card-title>
 
           <v-card-text>
-            This action can not be undone and your friends can't see your awesome picture anymore :(
+            {{ $t('postContent.messageDel') }}
           </v-card-text>
 
           <v-card-actions>
@@ -150,7 +150,7 @@
                 text
                 @click="closeDelete"
             >
-              Cancel
+              {{ $t('buttons.cancel') }}
             </v-btn>
 
             <v-btn
@@ -158,7 +158,7 @@
                 text
                 @click="deletePost"
             >
-              Confirm
+              {{ $t('buttons.confirm') }}
             </v-btn>
           </v-card-actions>
         </v-card>

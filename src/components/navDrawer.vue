@@ -31,7 +31,7 @@
                   overlap
               ></v-badge>
             </v-list-item-icon>
-            <v-list-item-title>Friends</v-list-item-title>
+            <v-list-item-title>{{ $t('buttons.friends')}}</v-list-item-title>
           </v-list-item>
           <v-list-item link :ripple="false"  @click.native="goToBadges">
             <v-list-item-icon>
@@ -43,7 +43,7 @@
             <v-list-item-icon>
               <v-icon large color=var(--main-color)>mdi-map-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Map</v-list-item-title>
+            <v-list-item-title>{{ $t('buttons.map')}}</v-list-item-title>
           </v-list-item>
 
 
@@ -55,13 +55,13 @@
           <div class="pa-2">
             <v-btn text :ripple="false" @click="goToSettings">
               <v-icon large color=var(--main-color) left>mdi-cog-outline</v-icon>
-              Settings
+              {{ $t('buttons.settings')}}
             </v-btn>
           </div>
           <div class="pa-2">
             <v-btn text :ripple="false" @click="logOut">
               <v-icon large color=var(--main-color) left>mdi-logout</v-icon>
-              Logout
+              {{ $t('buttons.logout')}}
             </v-btn>
           </div>
         </template>

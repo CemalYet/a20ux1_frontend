@@ -34,7 +34,7 @@
             color=var(--dark-color)
             @click="goToShare"
         >
-          CONTINUE WITH THIS PLANT
+          {{ $t('buttons.cntWPlant') }}
         </v-btn>
       </v-card-actions>
       <p id="information_text">

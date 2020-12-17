@@ -6,7 +6,7 @@
           step="1"
           color=var(--dark-color)
       >
-        Registration
+        {{ $t('register.registration') }}
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
@@ -22,7 +22,7 @@
           step="3"
           color=var(--dark-color)
       >
-        Daily reminder
+        {{ $t('register.reminderTab') }}
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
@@ -122,7 +122,7 @@
                 v-bind="attrs"
                 @click="snackBar = false"
             >
-              Close
+              {{ $t('buttons.close') }}
             </v-btn>
           </template>
         </v-snackbar>

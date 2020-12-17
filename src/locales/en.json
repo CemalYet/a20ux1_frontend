@@ -2,8 +2,12 @@
   "login": {
     "loginB": "log in",
     "registerB": "register"
+
   },
   "register": {
+    "registration": "Registration",
+    "geoTag": "Geo tagging",
+    "reminderTab": "Daily reminder",
     "geoText": "In order to put your pictures on our Discovery map, we would need to use your location.",
     "reminder": "Would you like us to remind you to go on walks on certain days?",
     "enjoyM": "Enjoy your time using snAPP",
@@ -32,7 +36,20 @@
     "updatePass": "Update password",
     "changePass": "Change password",
     "goBack": "Go back",
-    "gotIt": "Got it!"
+    "gotIt": "Got it!",
+    "unFriend": "Unfriend",
+    "friends": "Friends",
+    "pending": "Pending",
+    "cntWPlant": "CONTINUE WITH THIS PLANT",
+    "mine": "Mine",
+    "popular": "Popular",
+    "map": "Map",
+    "settings": "Settings",
+    "logout": "Logout",
+    "close": "close",
+    "finish": "finish",
+    "ctnShare": "continue sharing"
+
   },
   "comments": {
     "message": "There seems to be nothing here. Tell your friends about your post!"
@@ -41,9 +58,38 @@
     "message": "Something went wrong connection to the server."
   },
   "feedPage": {
-    "message": "Go make some friends so you can enjoy there discoveries!"
+    "message": "Go make some friends so you can enjoy there discoveries!",
+    "header": "Your friends discoveries will show up here"
   },
   "friendsPage": {
-    "myFriend": "My friends"
+    "myFriend": "My friends",
+    "addFriend": "Add friend",
+    "friendReq": "Friend requests",
+    "friendReqMes": "New friend requests will show up here"
+
+  },
+  "loading": {
+    "message": "loading, please wait"
+  },
+  "postContent": {
+    "headerDel": " Are you sure you want to delete this post?",
+    "messageDel": "This action can not be undone and your friends can't see your awesome picture anymore :(",
+    "noComment": "No comments yet",
+    "likes": "likes",
+    "plantInfo": "See plant info"
+  },
+  "share": {
+    "addPic": "Add pictures",
+    "chooseLeaf": "Choose leaves",
+    "tagFriend": "Tag friends",
+    "info": "General info",
+    "picHead": "Add some nice pictures to your discovery!",
+    "picMess": " You can add up to 5 pictures. The last one show in the leaf on the feed.",
+    "leafHead": "Choose your favorite leaf shape!",
+    "leafMess": "This leaf shape will show up in your friends feed, so be sure to take a nice one that complements your first\npicture.",
+    "tagHeader": "Tagged Friend",
+    "tagMess": "Tagged friends will show up here",
+    "cancelSh": "Cancel sharing?",
+    "cancelMess": "Are you sure you want to stop sharing your discovery? The plant will still show up in your wiki, but your\nfriends won't see it."
   }
 }

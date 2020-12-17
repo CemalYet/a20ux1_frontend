@@ -12,7 +12,7 @@
     >
       <v-tabs-slider></v-tabs-slider>
       <v-tab>
-        My friends
+        {{ $t('friendsPage.myFriend') }}
         <v-icon color=var(--dark-color)>mdi-account-multiple-outline</v-icon>
         <v-badge
             color="red"
@@ -23,7 +23,7 @@
         ></v-badge>
       </v-tab>
       <v-tab>
-        Add friend
+        {{ $t('friendsPage.addFriend') }}
         <v-icon color=var(--dark-color)>mdi-account-plus-outline</v-icon>
       </v-tab>
     </v-tabs>
@@ -34,11 +34,11 @@
       <v-tab-item>
         <v-list subheader
                 class="list">
-          <v-header>Friend requests</v-header>
+          <v-header> {{ $t('friendsPage.friendReq') }}</v-header>
           <v-list-item
               v-if="updateFriendRequests.length === 0">
             <v-list-item-content>
-              <v-list-item-subtitle>New friend requests will show up here</v-list-item-subtitle>
+              <v-list-item-subtitle>{{ $t('friendsPage.friendReqMes') }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
           <v-list-item
@@ -76,7 +76,7 @@
           </v-list-item>
 
           <v-divider></v-divider>
-          <v-header>My friends</v-header>
+          <v-header> {{ $t('friendsPage.myFriend') }}</v-header>
 
           <v-list-item
               v-for="friend in updateFriends"
@@ -94,7 +94,7 @@
               <v-btn depressed
                      class="text-capitalize"
                      v-on:click="postUnFriendId(friend)">
-                Unfriend
+                {{ $t('buttons.unFriend') }}
               </v-btn>
             </v-list-item-icon>
           </v-list-item>
@@ -126,7 +126,7 @@
                   disabled
                   class="text-capitalize">
                 <!--@click="acceptRequest(friends)" -->
-                Friends
+                {{ $t('buttons.friends') }}
               </v-btn>
               <v-btn
                   v-else-if="parseInt(friend.state)===0"
@@ -135,7 +135,7 @@
                   outlined
                   class="text-capitalize">
                 <!--@click="acceptRequest(friends)" -->
-                Pending
+                {{ $t('buttons.pending') }}
               </v-btn>
               <v-btn
                   v-else
@@ -145,7 +145,7 @@
                   class="text-capitalize"
                   @click="postFriendId(friend)"
               >
-                Add Friend
+                {{ $t('friendsPage.addFriend') }}
               </v-btn>
             </v-list-item-icon>
           </v-list-item>
