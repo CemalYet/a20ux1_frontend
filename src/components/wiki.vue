@@ -25,7 +25,7 @@
             :key="i">
           <v-list-item-title
               v-text="plant.title"
-              v-on:click="getPictures(plant.title); updatePlant(plant.title); sheet = !sheet;">
+              v-on:click="getPictures(plant.title); updatePlant(plant.title); getSpots(plant.title);">
           </v-list-item-title>
         </v-list-item>
       </v-list>
@@ -40,7 +40,7 @@
         </v-card-title>
         <v-card-subtitle>
           <p class="font-italic" style="margin: 0">
-            spotted: ? times
+            spotted: {{spots.number}} time(s)
           </p>
         </v-card-subtitle>
         <div id="image_div">
@@ -64,7 +64,6 @@
     </div>
   </v-container>
 </template>
-
 <script>
 import axios from "axios";
 
@@ -76,6 +75,7 @@ export default {
     searchField: null,
     pictures: null,
     selected_plant: null,
+    spots: 0,
   }),
 
   methods: {
@@ -95,6 +95,12 @@ export default {
       axios.get('/public/wikicontroller/getPictures', {params: {search: plantName}})
           .then(response => {
             this.pictures = response["data"];
+          });
+    },
+    getSpots(plantName) {
+      axios.get('/public/wikicontroller/getSpots', {params: {plant: plantName}})
+          .then(response => {
+            this.spots = response["data"];
           });
     },
     openWikipedia: function (title) {
