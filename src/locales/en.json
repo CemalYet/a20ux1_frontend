@@ -42,5 +42,8 @@
   },
   "feedPage": {
     "message": "Go make some friends so you can enjoy there discoveries!"
+  },
+  "friendsPage": {
+    "myFriend": "My friends"
   }
 }
