@@ -17,7 +17,8 @@
             class="py-3"
         >
           <v-btn
-              class="white--text"
+              class="white--text hideButton"
+              id="btn"
               @click="scan"
               color=var(--dark-color)
               elevation="2"
@@ -26,8 +27,7 @@
               :loading="loading"
               :disabled="(updateDiscoveryImages.length === 0 || loading)"
           >
-            scan plant
-            <v-icon right color="white">mdi-magnify-scan</v-icon>
+            What plant is this?
           </v-btn>
         </v-row>
       </div>
@@ -138,7 +138,7 @@ export default {
     getInformationCards: function(){
       if (this.getInformationCards[0].title !== null)
         this.loading = false;
-    }
+    },
   },
 
   computed: {
@@ -159,6 +159,7 @@ export default {
     updateDiscoveryImages(){
       return this.$store.getters.getDiscoveryImages;
     },
+
   },
 
   methods: {
@@ -172,8 +173,9 @@ export default {
     },
     clearScanData(){
       this.$store.commit('clearScanData');
-    }
+    },
   },
+
 
   beforeRouteEnter(to, from, next){
     next(vm => {
@@ -185,58 +187,16 @@ export default {
 }
 </script>
 
-
 <style scoped>
+
 main {
   background-image: url(../leaves.png);
   background-repeat: repeat;
   background-position: center;
 }
 
-.my-span {
-  color: white;
-  font-weight: bold;
-  text-align: center;
-  margin: 10px 10px 0 0;
-}
-
-#video {
-  background-color: #000000;
-  max-width: 100%;
-  border-radius: 5px;
-}
-
-#canvas {
-  width: 100%;
-  display: none;
-}
-
-.headline {
-  margin: 2px 2px 2px 16px;
-}
-
 #card-outer {
   position: relative;
-}
-
-.card_wrapper{
-  display: grid;
-  grid-template-columns: 1fr 0.3fr;
-  grid-template-rows: repeat(4, 1fr);
-}
-
-#card_text{
-  grid-area: 1 / 1 / 5 / 2;
-}
-
-.image {
-  grid-area: 1 / 2 / 5 / 3;
-}
-
-#info_button {
-  position: absolute;
-  bottom: 15px;
-  margin-left: 16px;
 }
 
 </style>

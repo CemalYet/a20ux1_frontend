@@ -34,7 +34,7 @@
       <v-tab-item>
         <v-list subheader
                 class="list">
-          <v-subheader>Friend requests</v-subheader>
+          <v-header>Friend requests</v-header>
           <v-list-item
               v-if="updateFriendRequests.length === 0">
             <v-list-item-content>
@@ -76,7 +76,7 @@
           </v-list-item>
 
           <v-divider></v-divider>
-          <v-subheader>My friends</v-subheader>
+          <v-header>My friends</v-header>
 
           <v-list-item
               v-for="friend in updateFriends"

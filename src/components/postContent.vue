@@ -30,12 +30,6 @@
         </v-carousel>
       </div>
 
-      <div class="likes">
-        <p> {{ getLikes }} likes </p>
-      </div>
-
-
-
       <!-- Icons: like, comments, tags -->
       <div class="iconBox">
         <div class="icons1">
@@ -82,7 +76,9 @@
         </div>
       </div>
 
-      <br>
+      <div class="likes">
+        <p> {{ getLikes }} likes </p>
+      </div>
 
       <!-- Comments -->
       <div class="comments">
@@ -160,7 +156,7 @@
             <v-btn
                 color=var(--main-color)
                 text
-                @click="closeDelete"
+                @click="deletePost"
             >
               Confirm
             </v-btn>
@@ -232,6 +228,12 @@ export default {
     },
     showOnMap(){
       this.$router.push({path: '/map'});
+    },
+    deletePost() {
+      this.updateDeleteDialog = false;
+      this.$store.dispatch('deleteDiscovery', this.$route.params.discovery_id);
+      //Forward to feed
+      this.$router.push({path: '/'});
     }
   },
 

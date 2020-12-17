@@ -1,9 +1,13 @@
 <template>
   <v-btn
       icon
-      @click.native="deletePost">
+      @click.stop="openDialog"
+      v-if="this.$route.params.discovery_id === this.$store.getters.getLoggedInUserData[0].userId"
+  >
     <v-icon large color=var(--dark-color)>mdi-trash-can-outline</v-icon>
   </v-btn>
+
+
 </template>
 
 <script>
@@ -11,12 +15,11 @@ export default {
   name: "deleteButton",
 
   methods: {
-    deletePost() {
-      this.$store.dispatch('deleteDiscovery', this.$route.params.discovery_id);
-      //Forward to feed
-      this.$router.push({path: '/'});
+    openDialog() {
+      this.$store.commit('updateDeleteDialog', true);
     }
   }
+
 }
 </script>
 

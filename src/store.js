@@ -539,16 +539,12 @@ const store = new Vuex.Store({
         deleteDiscovery(context, discoveryId){
             axios.get('/public/discovery/deletePost', {params: {data: discoveryId}});
         },
-        fetchHeartButton(context, discoveryId, userId){
-            const params = {
-                discoId: discoveryId,
-                userId: userId
-            }
-            axios.get('/public/discovery/getHeartButton', params).then(response => {
-                if(response["data"] !== null){
-                    context.commit("updateDiscoveryLikes", true)
-                } else {
+        fetchHeartButton(context, discoveryId){
+            axios.get('/public/discovery/getHeartButton', {params: {data: discoveryId}}).then(response => {
+                if(response["data"].length === 0){
                     context.commit("updateDiscoveryLikes", false)
+                } else {
+                    context.commit("updateDiscoveryLikes", true)
                 }
 
             });

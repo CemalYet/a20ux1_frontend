@@ -49,7 +49,7 @@
                   clearable
                   color=var(--main-color);
                   background-color=white;
-                  @click:clear="reloadUserName"
+                  v-on:keyup.enter="checkRegData"
               ></v-text-field>
               <v-text-field
                   v-model="emailAddress"
@@ -60,6 +60,7 @@
                   outlined
                   color=var(--main-color);
                   background-color=white;
+                  v-on:keyup.enter="checkRegData"
               ></v-text-field>
               <v-text-field
                   v-model="password"
@@ -72,6 +73,7 @@
                   outlined
                   color=var(--main-color);
                   background-color=white;
+                  v-on:keyup.enter="checkRegData"
               ></v-text-field>
               <v-text-field
                   v-model="confirmPassword"
@@ -84,6 +86,7 @@
                   outlined
                   color=var(--main-color);
                   background-color=white;
+                  v-on:keyup.enter="checkRegData"
               ></v-text-field>
             </v-container>
           </v-form>
@@ -129,8 +132,7 @@
       <v-stepper-content step="2" class="background">
         <div class="content">
           <div class="paragraphbox">
-            <p> In order to put your pictures on our Discovery map, we would need to use your location. </p>
-            <p> Don't worry, we won't sell your location like those other nasty social media platforms ;) </p>
+            <p class="biggerFont"> In order to put your pictures on our Discovery map, we would need to use your location. </p>
           </div>
           <div class="checkbox">
             <v-checkbox
@@ -138,7 +140,7 @@
                 label="I agree to let this app use my location"
                 color=var(--dark-color)
                 value=var(--dark-color)
-                class="dark--text"
+                class="dark--text biggerFont"
             ></v-checkbox>
           </div>
         </div>
@@ -169,7 +171,7 @@
       <v-stepper-content step="3" class="background">
         <div class="content">
           <div class="paragraphbox">
-            <p class="text1"> Would you like us to remind you to go on walks on certain days? </p>
+            <p class="text1 biggerFont"> Would you like us to remind you to go on walks on certain days? </p>
           </div>
           <v-form>
             <v-container>
@@ -315,9 +317,6 @@ export default {
   }),
 
   methods: {
-    reloadUserName: function () {
-      this.userName = null;
-    },
     updateUserEmail: function () {
       this.$store.commit("updateUserEmail", this.emailAddress);
     },
@@ -489,6 +488,10 @@ export default {
 
 .dark--text /deep/ label {
   color: var(--dark-color);
+}
+
+.biggerFont {
+  font-size: 20px;
 }
 
 

@@ -5,7 +5,7 @@
     </div>
 
     <div class="form">
-      <v-form>
+      <v-form @submit.prevent="checkLogin">
         <v-container>
           <v-text-field
               v-model="emailAddress"
@@ -27,27 +27,28 @@
               style="max-width: 300px"
           ></v-text-field>
         </v-container>
+        <div class="loginButtons">
+          <v-btn
+              width="100px"
+              color=var(--dark-color)
+              class="white--text"
+              @click.native="goToRegister"
+          >
+            REGISTER
+          </v-btn>
+          <v-btn
+              width="100px"
+              color=var(--dark-color)
+              class="white--text"
+              type="submit"
+          >
+            LOGIN
+          </v-btn>
+        </div>
       </v-form>
     </div>
 
-    <div class="loginButtons">
-      <v-btn
-          width="100px"
-          color=var(--dark-color)
-          class="white--text"
-          @click.native="goToRegister"
-      >
-        REGISTER
-      </v-btn>
-      <v-btn
-          width="100px"
-          color=var(--dark-color)
-          class="white--text"
-          @click.native="checkLogin"
-      >
-        LOGIN
-      </v-btn>
-    </div>
+
     <v-snackbar
         v-model="snackBar"
         color="error"

@@ -3,7 +3,7 @@
     <br>
     <loader v-if="discoveriesData.length === 0 && feedDataLoading"></loader>
     <div v-if="discoveriesData.length === 0 && !feedDataLoading" style="text-align: center">
-      <div class="text-h3">Your friends discoveries will show up here</div>
+      <div class="text-h4">Your friends discoveries will show up here</div>
       <div class="text-subtitle-1">Go make some friends so you can enjoy there discoveries!</div>
     </div>
     <div class="leaf_grid"

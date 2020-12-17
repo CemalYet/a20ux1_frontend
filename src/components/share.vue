@@ -161,7 +161,7 @@
             step="3"
         >
 
-          <v-subheader>Tagged Friend</v-subheader>
+          <v-header>Tagged Friend</v-header>
           <v-list-item
               v-if="taggedFriends.length === 0">
             <v-list-item-content>
@@ -196,7 +196,7 @@
           </v-slide-group>
 
           <v-divider></v-divider>
-          <v-subheader>My friends</v-subheader>
+          <vheader>My friends</vheader>
 
           <v-virtual-scroll
               :items="updateFriends"
@@ -263,6 +263,7 @@
                   readonly
                   hide-details
                   :error-messages="errors"
+                  v-on:keyup.enter="updateChallenges(); updateTitle(updateInformationCard.title)"
               ></v-text-field>
 
               <div class="timeDateContainer">
@@ -377,6 +378,7 @@
                     color=var(--dark-color)
                     :counter="25"
                     :error-messages="errors"
+                    v-on:keyup.enter="updateChallenges(); updateTitle(updateInformationCard.title)"
                 ></v-text-field>
               </validation-provider>
 
