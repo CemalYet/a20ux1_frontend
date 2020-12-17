@@ -8,7 +8,7 @@
         :ripple="false"
         color="var(--dark-color)"
     >
-      <h3>CANCEL</h3>
+      <h3>{{ $t('buttons.cancel') }}</h3>
     </v-btn>
     <v-btn
         text
@@ -16,7 +16,7 @@
         color="var(--dark-color)"
         v-on:click="check_data"
     >
-      <h3>CONFIRM</h3>
+      <h3>{{ $t('buttons.confirm') }}</h3>
     </v-btn>
   </v-bottom-navigation>
 

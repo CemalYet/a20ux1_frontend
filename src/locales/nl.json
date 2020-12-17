@@ -1,0 +1,48 @@
+{
+  "login": {
+    "loginB": "inloggen",
+    "registerB": "inschrijven"
+
+  },
+  "register": {
+    "geoText": "Om uw foto's op onze ontdekkingskaart te plaatsen, hebben we uw locatie nodig.",
+    "reminder": "Wilt u dat wij u eraan herinneren om op bepaalde dagen te gaan wandelen?",
+    "enjoyM": "Geniet van uw tijd met snAPP",
+    "AllDone": "Helemaal klaar"
+
+  },
+  "days": {
+    "mo": "ma",
+    "tu": "di",
+    "we": "wo",
+    "th": "do",
+    "fr": "vr",
+    "sa": "za",
+    "su": "zo"
+
+  },
+  "badges": {
+    "noMessage": "U heeft deze badge nog niet ontvangen"
+  },
+  "buttons": {
+    "cancel": "annuleren",
+    "confirm": "bevestigen",
+    "back": "terug",
+    "continue": "doorgaan",
+    "updateProf": "Profiel bijwerken",
+    "updatePass": "Wachtwoord bijwerken",
+    "changePass": "Wachtwoord wijzigen",
+    "goBack": "Terug",
+    "gotIt": "snap het!"
+  },
+  "comments": {
+    "message": "Er lijkt hier niets te zijn. Vertel je vrienden over je bericht!"
+  },
+  "errorMessages":{
+  "message": "Er is iets misgegaan bij de verbinding met de server."
+},
+  "feedPage": {
+    "message": "Maak wat vrienden zodat je kunt genieten van hun ontdekkingen!"
+  }
+
+}

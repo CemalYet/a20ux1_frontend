@@ -37,7 +37,7 @@
               @click.native="updateProfile"
 
           >
-            Update profile
+            {{ $t('buttons.updateProf') }}
           </v-btn>
         </v-container>
       </v-form>
@@ -80,7 +80,7 @@
               @click.native="updatePassword"
 
           >
-            Update password
+            {{ $t('buttons.updatePass') }}
           </v-btn>
         </v-container>
       </v-form>
@@ -92,7 +92,7 @@
           @click.native="toggleChangePassword"
 
       >
-        Change password
+        {{ $t('buttons.changePass') }}
       </v-btn>
       <v-btn
           v-if="changePassword"
@@ -102,7 +102,7 @@
           @click.native="toggleChangePassword"
           
       >
-        Go back
+        {{ $t('buttons.goBack') }}
       </v-btn>
 
       <!-- Error dialog displays any potential error messages -->
@@ -111,7 +111,7 @@
           <v-card-text class="subheading">{{this.errorText}}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn @click="toggleDialog()" text>Got it!</v-btn>
+            <v-btn @click="toggleDialog()" text>{{ $t('buttons.gotIt') }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>

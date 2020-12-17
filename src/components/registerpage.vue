@@ -98,7 +98,7 @@
                 @click.native="goBackToLogin"
                 elevation="2"
             >
-              Back
+              {{ $t('buttons.back') }}
             </v-btn>
             <v-btn
                 class="buttons white--text"
@@ -106,7 +106,7 @@
                 elevation="2"
                 @click.native="checkRegData"
             >
-              Continue
+              {{ $t('buttons.continue') }}
             </v-btn>
           </div>
         </div>
@@ -132,7 +132,7 @@
       <v-stepper-content step="2" class="background">
         <div class="content">
           <div class="paragraphbox">
-            <p class="biggerFont"> In order to put your pictures on our Discovery map, we would need to use your location. </p>
+            <p class="biggerFont">  {{ $t('register.geoText') }} </p>
           </div>
           <div class="checkbox">
             <v-checkbox
@@ -151,7 +151,7 @@
                 @click="e1 = 1"
                 elevation="2"
             >
-              Back
+              {{ $t('buttons.back') }}
             </v-btn>
             <v-btn
                 color=var(--dark-color)
@@ -160,7 +160,7 @@
                 elevation="2"
                 @click.native="updateUserEmail"
             >
-              Continue
+              {{ $t('buttons.continue') }}
             </v-btn>
           </div>
         </div>
@@ -171,7 +171,7 @@
       <v-stepper-content step="3" class="background">
         <div class="content">
           <div class="paragraphbox">
-            <p class="text1 biggerFont"> Would you like us to remind you to go on walks on certain days? </p>
+            <p class="text1 biggerFont">  {{ $t('register.reminder') }} </p>
           </div>
           <v-form>
             <v-container>
@@ -188,49 +188,49 @@
                     elevation="2"
                     class="btn"
                 >
-                  Mo
+                  {{ $t('days.mo') }}
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="2"
                     class="btn"
                 >
-                  Tu
+                  {{ $t('days.tu') }}
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="3"
                     class="btn"
                 >
-                  We
+                  {{ $t('days.we') }}
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="4"
                     class="btn"
                 >
-                  Th
+                  {{ $t('days.th') }}
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="5"
                     class="btn"
                 >
-                  Fr
+                  {{ $t('days.fr') }}
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="6"
                     class="btn"
                 >
-                  Sa
+                  {{ $t('days.sa') }}
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="7"
                     class="btn"
                 >
-                  Su
+                  {{ $t('days.su') }}
                 </v-btn>
               </v-btn-toggle>
             </v-container>
@@ -243,7 +243,7 @@
                 @click="e1 = 2"
                 elevation="2"
             >
-              Back
+              {{ $t('buttons.back') }}
             </v-btn>
             <v-btn
                 color=var(--dark-color)
@@ -252,7 +252,7 @@
                 elevation="2"
                 @click.native="save"
             >
-              Continue
+              {{ $t('buttons.confirm') }}
             </v-btn>
           </div>
         </div>
@@ -262,9 +262,9 @@
 
       <v-stepper-content step="4" class="background">
         <div class="doneText">
-          <h1 class="bigText"> All done! </h1>
+          <h1 class="bigText"> {{ $t('register.AllDone') }} </h1>
           <br>
-          <p> Enjoy your time using snAPP </p>
+          <p> {{ $t('register.enjoyM') }} </p>
         </div>
         <div class="doneButton">
           <v-btn x-large>

@@ -29,22 +29,22 @@
         </v-container>
         <div class="loginButtons">
           <v-btn
-              width="100px"
+              width="115px"
               color=var(--dark-color)
               class="white--text"
               @click.native="goToRegister"
           >
-            REGISTER
+            {{ $t('login.registerB') }}
           </v-btn>
           <v-btn
-              width="100px"
+              width="115px"
               color=var(--dark-color)
               class="white--text"
               type="submit"
               :loading="updateLoginLoading"
               :disabled="updateLoginLoading"
           >
-            LOGIN
+            {{ $t('login.loginB') }}
           </v-btn>
         </div>
       </v-form>
