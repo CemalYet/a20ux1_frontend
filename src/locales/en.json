@@ -1,0 +1,46 @@
+{
+  "login": {
+    "loginB": "log in",
+    "registerB": "register"
+  },
+  "register": {
+    "geoText": "In order to put your pictures on our Discovery map, we would need to use your location.",
+    "reminder": "Would you like us to remind you to go on walks on certain days?",
+    "enjoyM": "Enjoy your time using snAPP",
+    "AllDone": "All Done"
+
+  },
+  "days": {
+    "mo": "mo",
+    "tu": "tu",
+    "we": "we",
+    "th": "th",
+    "fr": "fr",
+    "sa": "sa",
+    "su": "su"
+
+  },
+  "badges": {
+    "noMessage": "You didn\\'t receive this badge yet"
+  },
+  "buttons": {
+    "cancel": "cancel",
+    "confirm": "confirm",
+    "back": "back",
+    "continue": "continue",
+    "updateProf": "Update profile",
+    "updatePass": "Update password",
+    "changePass": "Change password",
+    "goBack": "Go back",
+    "gotIt": "Got it!"
+  },
+  "comments": {
+    "message": "There seems to be nothing here. Tell your friends about your post!"
+  },
+  "errorMessages":{
+    "message": "Something went wrong connection to the server."
+  },
+  "feedPage": {
+    "message": "Go make some friends so you can enjoy there discoveries!"
+  }
+}
