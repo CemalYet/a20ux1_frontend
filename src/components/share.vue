@@ -1,5 +1,5 @@
 <template>
-  <v-container style="height: calc(100vh - 56px)">
+  <v-container style="height: calc(100vh - 56px); min-height: 605px">
     <v-stepper
         alt-labels
         v-model="steps"
@@ -807,6 +807,7 @@ export default {
 
 .stepper_content {
   height: calc(100vh - 83px - 56px - 24px);
+  min-height: 500px;
   overflow: hidden;
   position: relative;
 }

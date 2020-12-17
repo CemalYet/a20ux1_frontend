@@ -2,7 +2,7 @@
   <v-btn
       icon
       @click.stop="openDialog"
-      v-if="this.$store.getters.getDiscoveryPostData[0].userId === this.$store.getters.getLoggedInUserData[0].userId"
+      v-if="checkPostOwner"
   >
     <v-icon large color=var(--dark-color)>mdi-trash-can-outline</v-icon>
   </v-btn>
@@ -18,7 +18,18 @@ export default {
     openDialog() {
       this.$store.commit('updateDeleteDialog', true);
     }
-  }
+  },
+
+  computed:{
+    checkPostOwner(){
+      if(this.$store.getters.getDiscoveryPostData.length !== 0){
+        if (this.$store.getters.getDiscoveryPostData[0].userId === this.$store.getters.getLoggedInUserData[0].userId){
+          return true;
+        }
+      }
+      return false;
+    }
+  },
 
 }
 </script>
