@@ -125,11 +125,7 @@ export default {
 
     updateUserEmail: function () {
       this.$store.commit("updateUserEmail", this.emailAddress);
-      this.fetchUserData();
     },
-    fetchUserData: function () {
-      this.$store.dispatch('fetchLoggedInUserData');
-    }
   },
 
   computed:{

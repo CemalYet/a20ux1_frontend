@@ -104,7 +104,7 @@
         <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
-            label="Search Friends"
+            label="Search users"
             single-line
             @keyup.enter="postQuery()"
         ></v-text-field>

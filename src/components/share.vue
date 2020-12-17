@@ -372,7 +372,7 @@
                 <v-text-field
                     class="text_field"
                     dense
-                    label="Location"
+                    label="Place of discovery"
                     v-model="updateLocation"
                     outlined
                     color=var(--dark-color)
