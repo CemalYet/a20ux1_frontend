@@ -158,7 +158,7 @@
                 text
                 @click="deletePost"
             >
-              Confirm
+              Delete
             </v-btn>
           </v-card-actions>
         </v-card>

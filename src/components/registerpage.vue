@@ -14,19 +14,11 @@
           step="2"
           color=var(--dark-color)
       >
-        Geo tagging
-      </v-stepper-step>
-      <v-divider></v-divider>
-      <v-stepper-step
-          :complete="e1 > 3"
-          step="3"
-          color=var(--dark-color)
-      >
         Daily reminder
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
-          step="4"
+          step="3"
           color=var(--dark-color)
       >
         Done
@@ -37,7 +29,7 @@
     <v-stepper-items>
       <v-stepper-content step="1" class="background">
         <div class="content">
-          <v-form>
+          <v-form @submit.prevent="checkRegData">
             <v-container style="max-width: 300px">
               <v-text-field
                   v-model="userName"
@@ -49,7 +41,6 @@
                   clearable
                   color=var(--main-color);
                   background-color=white;
-                  v-on:keyup.enter="checkRegData"
               ></v-text-field>
               <v-text-field
                   v-model="emailAddress"
@@ -60,7 +51,6 @@
                   outlined
                   color=var(--main-color);
                   background-color=white;
-                  v-on:keyup.enter="checkRegData"
               ></v-text-field>
               <v-text-field
                   v-model="password"
@@ -73,7 +63,6 @@
                   outlined
                   color=var(--main-color);
                   background-color=white;
-                  v-on:keyup.enter="checkRegData"
               ></v-text-field>
               <v-text-field
                   v-model="confirmPassword"
@@ -86,30 +75,31 @@
                   outlined
                   color=var(--main-color);
                   background-color=white;
-                  v-on:keyup.enter="checkRegData"
               ></v-text-field>
             </v-container>
+            <div class="coverButtons">
+              <div class="centerButtons">
+                <v-btn
+                    class="buttons"
+                    @click.native="goBackToLogin"
+                    elevation="2"
+                >
+                  Back
+                </v-btn>
+                <v-btn
+                    class="buttons white--text"
+                    color=var(--dark-color)
+                    elevation="2"
+                    type="submit"
+                    @click.native="checkRegData"
+                >
+                  Continue
+                </v-btn>
+              </div>
+            </div>
           </v-form>
         </div>
-        <div class="coverButtons">
-          <div class="centerButtons">
-            <v-btn
-                class="buttons"
-                @click.native="goBackToLogin"
-                elevation="2"
-            >
-              Back
-            </v-btn>
-            <v-btn
-                class="buttons white--text"
-                color=var(--dark-color)
-                elevation="2"
-                @click.native="checkRegData"
-            >
-              Continue
-            </v-btn>
-          </div>
-        </div>
+
 
         <v-snackbar
             v-model="snackBar"
@@ -130,45 +120,6 @@
 
 
       <v-stepper-content step="2" class="background">
-        <div class="content">
-          <div class="paragraphbox">
-            <p class="biggerFont"> In order to put your pictures on our Discovery map, we would need to use your location. </p>
-          </div>
-          <div class="checkbox">
-            <v-checkbox
-                v-model="checkbox"
-                label="I agree to let this app use my location"
-                color=var(--dark-color)
-                value=var(--dark-color)
-                class="dark--text biggerFont"
-            ></v-checkbox>
-          </div>
-        </div>
-        <div class="coverButtons">
-          <div class="centerButtons">
-            <v-btn
-                class="buttons"
-                @click="e1 = 1"
-                elevation="2"
-            >
-              Back
-            </v-btn>
-            <v-btn
-                color=var(--dark-color)
-                @click="e1 = 3"
-                class="buttons white--text"
-                elevation="2"
-                @click.native="updateUserEmail"
-            >
-              Continue
-            </v-btn>
-          </div>
-        </div>
-
-      </v-stepper-content>
-
-
-      <v-stepper-content step="3" class="background">
         <div class="content">
           <div class="paragraphbox">
             <p class="text1 biggerFont"> Would you like us to remind you to go on walks on certain days? </p>
@@ -240,14 +191,14 @@
           <div class="centerButtons">
             <v-btn
                 class="buttons"
-                @click="e1 = 2"
+                @click="e1 = 1"
                 elevation="2"
             >
               Back
             </v-btn>
             <v-btn
                 color=var(--dark-color)
-                @click="e1 = 4"
+                @click="e1 = 3"
                 class="buttons white--text"
                 elevation="2"
                 @click.native="save"
@@ -260,7 +211,7 @@
       </v-stepper-content>
 
 
-      <v-stepper-content step="4" class="background">
+      <v-stepper-content step="3" class="background">
         <div class="doneText">
           <h1 class="bigText"> All done! </h1>
           <br>
