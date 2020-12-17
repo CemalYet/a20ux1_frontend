@@ -33,14 +33,14 @@
       <!-- Icons: like, comments, tags -->
       <div class="iconBox">
         <div class="icons1">
-          <!-- Like button clicked or not clicked, default values get sent to db, NOT IMPLEMENTED: showing the icon based on db information -->
-          <v-btn icon v-on:click="likeClicked = false" v-if="likeClicked" class="icon">
+          <!-- Like button clicked or not clicked, NOT IMPLEMENTED: showing the icon based on db information -->
+          <v-btn icon v-on:click="likeClicked = false" v-if="getHeartButton" class="icon">
             <v-icon large color=var(--dark-color) @click="deleteLikeFromDb">mdi-heart</v-icon>
           </v-btn>
-          <v-btn icon v-on:click="likeClicked = true" v-else class="icon">
+          <v-btn icon v-on:click="likeClicked = true" v-if="!getHeartButton" class="icon">
             <v-icon large color=var(--dark-color) @click="sendLikeToDb">mdi-heart-outline</v-icon>
           </v-btn>
-          <!-- Comment button clicked or not clicked, NOT IMPLEMENTED YET: link to /comments page -->
+          <!-- Comment button -->
           <v-btn icon class="icon" @click.stop="goToComments">
             <v-icon large color=var(--dark-color)>mdi-comment-multiple-outline</v-icon>
           </v-btn>
@@ -88,7 +88,7 @@
 
               <v-list-item three-line>
                 <avatar :size="48" :user-name="updateDiscoveryData[0].userName" :picture="updateDiscoveryData[0].avatar"
-                        @click.native="goToPost(updateDiscoveryData[0].userId)"></avatar>
+                        @click.native="goToProfile(updateDiscoveryData[0].userId)"></avatar>
                 <v-list-item-content>
                   <v-list-item-title style="white-space: normal;">{{updateDiscoveryData[0].title}}</v-list-item-title>
                   <v-list-item-subtitle class="wrap-text"> {{ updateDiscoveryData[0].description }} </v-list-item-subtitle>
@@ -103,7 +103,7 @@
           <div class="infoBox text-truncate" v-if="getComments.length !== 0">
             <v-list-item three-line>
               <avatar :size="48" :user-name="getComments[0].userName" :picture="getComments[0].avatar"
-                      @click.native="goToPost(getComments[0].userId)"></avatar>
+                      @click.native="goToProfile(getComments[0].userId)"></avatar>
               <v-list-item-content>
                 <v-list-item-title style="white-space: normal;"> {{getComments[0].userName}} </v-list-item-title>
                 <v-list-item-subtitle>
@@ -199,6 +199,7 @@ export default {
           .catch(function(err){
             console.log(err);
           });
+      this.$store.commit('updateDiscoveryLikes', this.$store.getters.getLikes + 1);
     },
     deleteLikeFromDb: function() {
       const json = JSON.stringify({
@@ -212,13 +213,13 @@ export default {
           .catch(function(err){
             console.log(err);
           });
+      this.$store.commit('updateDiscoveryLikes', this.$store.getters.getLikes - 1);
     },
     goToComments(){
       this.$router.push({path:`${this.$route.params.discovery_id}/comments`});
     },
-    goToPost(user_id){
-      if(typeof(user_id)!=='undefined'){
-        this.$router.push({path: `/profile/${user_id}`})}
+    goToProfile(user_id){
+      this.$router.push({path: `/profile/${user_id}`});
     },
     closeDelete(){
       this.$store.commit('updateDeleteDialog', false);

@@ -263,7 +263,6 @@
                   readonly
                   hide-details
                   :error-messages="errors"
-                  v-on:keyup.enter="updateChallenges(); updateTitle(updateInformationCard.title)"
               ></v-text-field>
 
               <div class="timeDateContainer">
@@ -378,7 +377,6 @@
                     color=var(--dark-color)
                     :counter="25"
                     :error-messages="errors"
-                    v-on:keyup.enter="updateChallenges(); updateTitle(updateInformationCard.title)"
                 ></v-text-field>
               </validation-provider>
 

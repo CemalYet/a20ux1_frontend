@@ -5,7 +5,7 @@
 
       <div class="mx-auto" style="max-width: 100%">
         <div class="text-subtitle-1" style="text-align: center">
-          Add up to 5pictures to determine the type of plant. You can add nice pictures for posting your discovery later.
+          Add up to 5 pictures to determine the type of plant. You can add nice pictures for posting your discovery later.
         </div>
 
         <pictureSlideGroup></pictureSlideGroup>

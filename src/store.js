@@ -333,6 +333,9 @@ const store = new Vuex.Store({
             state.discoveryComments = [];
             state.taggedFriendsData = [];
         },
+        updateHeartButton(state, value){
+            state.heartButton = value;
+        },
 
         ///// COMMENTS /////
         appendNewComment(state, comment) {
@@ -541,10 +544,11 @@ const store = new Vuex.Store({
         },
         fetchHeartButton(context, discoveryId){
             axios.get('/public/discovery/getHeartButton', {params: {data: discoveryId}}).then(response => {
-                if(response["data"].length === 0){
-                    context.commit("updateDiscoveryLikes", false)
+                console.log(response["data"]);
+                if(response["data"].length !== 0){
+                    context.commit("updateHeartButton", true)
                 } else {
-                    context.commit("updateDiscoveryLikes", true)
+                    context.commit("updateHeartButton", false)
                 }
 
             });
