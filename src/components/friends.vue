@@ -117,7 +117,7 @@
                     @click.native="goToUser(friend.userId)"></avatar>
 
             <v-list-item-content>
-              <v-list-item-title v-text="friend.userName"></v-list-item-title>
+              <v-list-item-title @click.native="goToUser(friend.userId)" v-text="friend.userName"></v-list-item-title>
             </v-list-item-content>
 
             <v-list-item-icon>

@@ -1,14 +1,23 @@
 <template>
-  <v-btn
-      icon
-      @click.native="goToProfile">
-    <v-icon large color=var(--dark-color)>mdi-account-outline</v-icon>
-  </v-btn>
+  <avatar
+      :size="32"
+      :user-name="getUserData[0].userName"
+      :picture="getUserData[0].avatar"
+      @click.native="goToProfile"
+      style="margin-right: 0 !important;"
+  >
+
+  </avatar>
 </template>
 
 <script>
+import avatar from "@/components/avatar";
 export default {
   name: "profileButton",
+
+  components:{
+    avatar
+  },
 
   methods:{
     goToProfile(){
@@ -18,6 +27,9 @@ export default {
 
   computed:{
     getLoggedInUserData(){
+      return this.$store.getters.getLoggedInUserData;
+    },
+    getUserData(){
       return this.$store.getters.getLoggedInUserData;
     }
   }

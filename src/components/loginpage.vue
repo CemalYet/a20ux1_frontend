@@ -41,6 +41,8 @@
               color=var(--dark-color)
               class="white--text"
               type="submit"
+              :loading="updateLoginLoading"
+              :disabled="updateLoginLoading"
           >
             LOGIN
           </v-btn>
@@ -53,7 +55,7 @@
         v-model="snackBar"
         color="error"
     >
-      Login credentials are not valid. Try again.
+      {{this.snackBarText}}
       <template v-slot:action="{ attrs }">
         <v-btn
             text
@@ -78,6 +80,8 @@ export default {
     password: null,
     showPassword: false,
     snackBar: false,
+    snackBarText: null,
+    loginLoading: false,
   }),
 
   methods: {
@@ -87,13 +91,19 @@ export default {
 
     checkLogin: function () {
       if (this.checkTextFields()) {
+        this.updateLoginLoading = true;
         axios.get('register/checklogin', {
           params: {
             my_email: this.emailAddress,
             my_password: this.password
           }
-        }).then(response =>
-            (this.loggedIn(response["data"])));
+        }).then(response => {
+          this.loggedIn(response["data"]);
+          // eslint-disable-next-line no-unused-vars
+        }).catch(err => {
+          this.snackBarText = "Something is wrong with the server. Please try again later.";
+          this.updateLoginLoading = false;
+        })
       }
 
     },
@@ -102,6 +112,8 @@ export default {
       if (response === 'Password is valid') {
         this.$router.push({path: "/"});
       } else {
+        this.updateLoginLoading = false;
+        this.snackBarText = "Login credentials are not valid. Try again.";
         this.snackBar = true;
       }
       this.updateUserEmail();
@@ -118,6 +130,23 @@ export default {
     fetchUserData: function () {
       this.$store.dispatch('fetchLoggedInUserData');
     }
+  },
+
+  computed:{
+    updateLoginLoading:{
+      get(){
+        return this.loginLoading
+      },
+      set(value){
+        this.loginLoading = value
+      }
+    }
+  },
+
+  beforeRouteEnter(to, from, next){
+    next(vm => {
+      vm.loginLoading = false;
+    })
   }
 }
 

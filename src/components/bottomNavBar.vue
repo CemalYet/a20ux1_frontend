@@ -4,7 +4,7 @@
       grow
       extended>
     <v-btn color="white" :ripple="false" @click.native="goToBadges()">
-      <v-icon large color=var(--main-color)>mdi-shield-star-outline</v-icon>
+      <v-icon large color=var(--main-color)>mdi-medal-outline</v-icon>
     </v-btn>
 
     <v-btn color=var(--dark-color) :ripple="false" @click.native="goToCamera">
