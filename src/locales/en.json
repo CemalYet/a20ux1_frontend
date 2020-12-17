@@ -48,7 +48,10 @@
     "logout": "Logout",
     "close": "close",
     "finish": "finish",
-    "ctnShare": "continue sharing"
+    "ctnShare": "continue sharing",
+    "what": "What plant is this?",
+    "changeTh": "Change Theme",
+    "apply": "Apply"
 
   },
   "comments": {
@@ -91,5 +94,23 @@
     "tagMess": "Tagged friends will show up here",
     "cancelSh": "Cancel sharing?",
     "cancelMess": "Are you sure you want to stop sharing your discovery? The plant will still show up in your wiki, but your\nfriends won't see it."
+  },
+  "prContent":{
+    "tabPh": "My pictures",
+    "messagePh": " You don't have any discoveries yet! Be sure to go out in nature and make some snaps of nice plants!",
+    "messageTg": "None of your friends have tagged you yet :( Be sure to go out and explore with your friends"
+  },
+  "snap": {
+    "message": " You can add up to 5 pictures to scan"
+  },
+  "pageT": {
+    "friend": "Friends",
+    "share": "Share",
+    "disco": "My Discoveries",
+    "settings": "Settings",
+    "profile": "Profile",
+    "edit": "Edit profile",
+    "post": "Post"
+
   }
 }

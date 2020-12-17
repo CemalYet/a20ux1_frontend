@@ -5,7 +5,7 @@
 
       <div class="mx-auto" style="max-width: 100%">
         <div class="text-subtitle-1" style="text-align: center">
-          You can add up to 5 pictures to scan
+          '{{ $t('snap.message') }}'
         </div>
 
         <pictureSlideGroup></pictureSlideGroup>
@@ -27,7 +27,7 @@
               :loading="loading"
               :disabled="(updateDiscoveryImages.length === 0 || loading)"
           >
-            What plant is this?
+            {{ $t('buttons.what') }}
           </v-btn>
         </v-row>
       </div>

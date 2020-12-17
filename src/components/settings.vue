@@ -9,7 +9,7 @@
             v-bind="attrs"
             v-on="on"
         >
-          Change Theme
+          {{ $t('buttons.changeTh') }}
         </v-btn>
       </template>
       <v-list>
@@ -21,7 +21,7 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-btn @click="refresh">APPLY</v-btn>
+    <v-btn @click="refresh">{{ $t('buttons.apply') }}</v-btn>
   </div>
 </template>
 

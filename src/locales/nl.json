@@ -48,7 +48,10 @@
     "logout": "Uitloggen",
     "close": "afsluiten",
     "finish": "afwerken",
-    "ctnShare": "doorgaan"
+    "ctnShare": "doorgaan",
+    "what": "Welke plant is dit?",
+    "changeTh": "Thema wijzigen",
+    "apply": "toepassen"
   },
   "comments": {
     "message": "Er lijkt hier niets te zijn. Vertel je vrienden over je bericht!"
@@ -70,7 +73,7 @@
     "message": "Laden even geduld aub"
   },
   "postContent": {
-    "headerDel": " Are you sure you want to delete this post?",
+    "headerDel": " Bent u zeker dat u dit bericht wilt verwijderen?",
     "messageDel": "Deze actie kan niet ongedaan worden gemaakt en je vrienden kunnen je geweldige foto niet meer zien :(",
     "noComment": "Nog geen reacties",
     "likes": "likes",
@@ -90,6 +93,23 @@
     "tagMess": "Getagde vrienden worden hier weergegeven",
     "cancelSh": "Delen annuleren?",
     "cancelMess": "Weet u zeker dat u uw ontdekking niet meer wilt delen? De plant zal nog steeds in je wiki verschijnen, maar je\nvrienden zullen het niet zien."
-  }
+  },
+  "prContent":{
+    "tabPh": "Mijn foto's",
+    "messagePh": "Je hebt nog geen ontdekkingen! Ga zeker de natuur in en maak foto's van mooie planten!",
+    "messageTg": "Geen van je vrienden heeft je nog getagd :( Zorg ervoor dat je eropuit trekt met je vrienden"
+  },
+  "snap": {
+    "message": "U kunt maximaal 5 afbeeldingen toevoegen om te scannen"
+  },
+  "pageT": {
+    "friend": "Vrienden",
+    "share": "Deek",
+    "disco": "Mijn Ontdekkingen",
+    "settings": "Instellingen",
+    "profile": "Profiel",
+    "edit": "Bewerk profiel",
+    "post": "Post"
 
+  }
 }
