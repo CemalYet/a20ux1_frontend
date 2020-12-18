@@ -42,7 +42,7 @@
               <v-text-field
                   v-model="userName"
                   :rules="nameRules"
-                  label="Username"
+                  :label="$t('register.userNamLab')"
                   :counter=25
                   required
                   outlined
@@ -68,7 +68,7 @@
                   :append-icon="showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
                   @click:append="showPassword1 = !showPassword1"
                   :type="showPassword1 ? 'text' : 'password'"
-                  label="New password"
+                  :label="$t('register.passLab')"
                   required
                   outlined
                   color=var(--main-color);
@@ -81,7 +81,7 @@
                   :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
                   @click:append="showPassword2 = !showPassword2"
                   :type="showPassword2 ? 'text' : 'password'"
-                  label="Repeat new password"
+                  :label="$t('register.newpassLab')"
                   required
                   outlined
                   color=var(--main-color);
@@ -137,7 +137,7 @@
           <div class="checkbox">
             <v-checkbox
                 v-model="checkbox"
-                label="I agree to let this app use my location"
+                :label="$t('register.locationLab')"
                 color=var(--dark-color)
                 value=var(--dark-color)
                 class="dark--text biggerFont"
@@ -354,12 +354,12 @@ export default {
     },
     checkTextFields: function () {
       if (this.userName === null || this.password === null || this.confirmPassword === null || this.emailAddress === null) {
-        this.snackBarText = 'Please fill in all the text fields as required.';
+        this.snackBarText = this.$t('register.fillAll');
         this.snackBar = true;
         return false;
       } else {
         if (this.password !== this.confirmPassword) {
-          this.snackBarText = "Passwords don't match";
+          this.snackBarText = this.$t('register.passNoMa');
           this.snackBar = true;
           return false;
         } else {
@@ -369,7 +369,7 @@ export default {
               && (/.+@.+/.test(this.emailAddress))) {
             return true;
           } else {
-            this.snackBarText = 'Please fill in all the text fields as required.';
+            this.snackBarText = this.$t('register.fillAll');
             this.snackBar = true;
             return false
           }
@@ -381,7 +381,7 @@ export default {
       if (response.length === 0) {
         this.e1 = 2;
       } else {
-        this.snackBarText = 'This e-mail address is already in use.';
+        this.snackBarText = this.$t('register.alreadyUsed');
         this.snackBar = true;
       }
     }

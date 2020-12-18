@@ -1,7 +1,9 @@
 {
   "login": {
     "loginB": "log in",
-    "registerB": "register"
+    "registerB": "register",
+    "serverErr": "Something is wrong with the server. Please try again later.",
+    "notValid": "Login credentials are not valid. Try again."
 
   },
   "register": {
@@ -11,7 +13,18 @@
     "geoText": "In order to put your pictures on our Discovery map, we would need to use your location.",
     "reminder": "Would you like us to remind you to go on walks on certain days?",
     "enjoyM": "Enjoy your time using snAPP",
-    "AllDone": "All Done"
+    "AllDone": "All Done",
+    "locationLab": "I agree to let this app use my location",
+    "userNamLab": "Username",
+    "passLab": "passwoord",
+    "newpassLab": "New passwoord",
+    "passNoMa": "Passwords don't match",
+    "fillAll": "Please fill in all the text fields as required.",
+    "alreadyUsed": "This e-mail address is already in use.",
+    "currPass": "Current password",
+    "repNewPass": "Repeat new password"
+
+
 
   },
   "days": {
@@ -68,7 +81,8 @@
     "myFriend": "My friends",
     "addFriend": "Add friend",
     "friendReq": "Friend requests",
-    "friendReqMes": "New friend requests will show up here"
+    "friendReqMes": "New friend requests will show up here",
+    "searchField": "Search Friends"
 
   },
   "loading": {
@@ -80,6 +94,7 @@
     "noComment": "No comments yet",
     "likes": "likes",
     "plantInfo": "See plant info"
+
   },
   "share": {
     "addPic": "Add pictures",
@@ -93,15 +108,23 @@
     "tagHeader": "Tagged Friend",
     "tagMess": "Tagged friends will show up here",
     "cancelSh": "Cancel sharing?",
-    "cancelMess": "Are you sure you want to stop sharing your discovery? The plant will still show up in your wiki, but your\nfriends won't see it."
+    "cancelMess": "Are you sure you want to stop sharing your discovery? The plant will still show up in your wiki, but your\nfriends won't see it.",
+    "errorLeaf": "Please choose a leaf for your discovery",
+    "errorUpload": "Failed to upload. Please try again later."
   },
   "prContent":{
     "tabPh": "My pictures",
     "messagePh": " You don't have any discoveries yet! Be sure to go out in nature and make some snaps of nice plants!",
-    "messageTg": "None of your friends have tagged you yet :( Be sure to go out and explore with your friends"
+    "messageTg": "None of your friends have tagged you yet :( Be sure to go out and explore with your friends",
+    "passNotMatch": "New password and confirmed password don\\'t match!"
   },
   "snap": {
-    "message": " You can add up to 5 pictures to scan"
+    "message": " You can add up to 5 pictures to scan",
+    "errorM": "You need at least 1 image!",
+    "sizeError": "Your file is too big! Please select an image under 16MB",
+    "reminder": "Please choose an image file",
+    "info": "MORE INFORMATION",
+    "remark": "Click on a match to see more information and confirm the one you want to add to the discovery"
   },
   "pageT": {
     "friend": "Friends",
@@ -110,7 +133,8 @@
     "settings": "Settings",
     "profile": "Profile",
     "edit": "Edit profile",
-    "post": "Post"
+    "post": "Post",
+    "comment": "comments"
 
   }
 }

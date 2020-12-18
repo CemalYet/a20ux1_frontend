@@ -20,7 +20,7 @@
               :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="showPassword = !showPassword"
               :type="showPassword ? 'text' : 'password'"
-              label="Password"
+              :label="$t('register.passLab')"
               required
               outlined
               color=var(--main-color);
@@ -62,7 +62,7 @@
             v-bind="attrs"
             @click="snackBar = false"
         >
-          Close
+          {{ $t('buttons.close') }}
         </v-btn>
       </template>
     </v-snackbar>
@@ -101,7 +101,7 @@ export default {
           this.loggedIn(response["data"]);
           // eslint-disable-next-line no-unused-vars
         }).catch(err => {
-          this.snackBarText = "Something is wrong with the server. Please try again later.";
+          this.snackBarText =this.$t('login.serverErr') ;
           this.updateLoginLoading = false;
         })
       }
@@ -113,7 +113,7 @@ export default {
         this.$router.push({path: "/"});
       } else {
         this.updateLoginLoading = false;
-        this.snackBarText = "Login credentials are not valid. Try again.";
+        this.snackBarText = this.$t('login.notValid');
         this.snackBar = true;
       }
       this.updateUserEmail();

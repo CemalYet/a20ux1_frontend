@@ -17,7 +17,7 @@
           <v-text-field
               v-model="updatedUserData[0].userName"
               :rules="nameRules"
-              label="username"
+              :label="$t('register.userNamLab')"
               outlined
               :counter=25
               required
@@ -49,7 +49,7 @@
               :append-icon="showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="showPassword1 = !showPassword1"
               :type="showPassword1 ? 'text' : 'password'"
-              label="Current password"
+              :label="$t('register.currPass')"
               outlined
               required
           ></v-text-field>
@@ -59,7 +59,7 @@
               :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="showPassword2 = !showPassword2"
               :type="showPassword2 ? 'text' : 'password'"
-              label="New password"
+              :label="$t('register.newpassLab')"
               outlined
               required
           ></v-text-field>
@@ -69,7 +69,7 @@
               :append-icon="showPassword3 ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="showPassword3 = !showPassword3"
               :type="showPassword3 ? 'text' : 'password'"
-              label="Repeat new password"
+              :label="$t('register.repNewPass')"
               outlined
               required
           ></v-text-field>
@@ -222,7 +222,7 @@ export default {
 
       if (this.newPassword != this.confirmPassword){
         this.errorDialog = true
-        this.errorText = 'New password and confirmed password don\'t match!'
+        this.errorText = this.$t('prContent.passNotMatch')
       }
       else{
         let tmpData = {password: this.password, newPassword: this.newPassword}

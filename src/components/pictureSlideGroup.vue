@@ -77,11 +77,11 @@ export default {
         let size = imageFile.size / maxSize / maxSize
         if (!imageFile.type.match('image.*')) {
           // check whether the upload is an image
-          this.updateSnackBarMessage('Please choose an image file');
+          this.updateSnackBarMessage(this.$t('snap.reminder'));
           this.$store.commit('updateSnackbar', true);
         } else if (size>16) {
           // check whether the size is greater than the size limit
-          this.updateSnackBarMessage('Your file is too big! Please select an image under 16MB');
+          this.updateSnackBarMessage(this.$t('snap.sizeError'));
           this.$store.commit('updateSnackbar', true);
         } else {
           let newImage = {'photoPath': null};
@@ -97,7 +97,7 @@ export default {
     deleteImage(image){
       console.log(this.$store.getters.getDiscoveryImages.indexOf(image));
       if (this.$store.getters.getDiscoveryImages.length === 1){
-        this.updateSnackBarMessage('You need at least 1 image!');
+        this.updateSnackBarMessage(this.$t('snap.errorM'));
         this.$store.commit('updateSnackbar', true);
       }
       else{

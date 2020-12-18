@@ -160,7 +160,7 @@
             step="3"
         >
 
-          <v-header>{{ $t('share.tagHeader') }}</v-header>tagMess
+          <v-header>{{ $t('share.tagHeader') }}</v-header>
           <v-list-item
               v-if="taggedFriends.length === 0">
             <v-list-item-content>
@@ -579,10 +579,10 @@ export default {
     check_data: function () {
       this.loader = 'loading'
       if (this.$store.getters.getChosen_leaf === null) {
-        this.updateSnackBarMessage = "Please choose a leaf for your discovery";
+        this.updateSnackBarMessage = this.$t('share.errorLeaf');
         this.$store.commit('updateSnackbar', true);
       } else {
-        this.updateSnackBarMessage = "Failed to upload. Please try again later.";
+        this.updateSnackBarMessage = this.$t('share.errorUpload');
         this.$store.dispatch('sharePost', this.taggedFriendsId);
       }
     },

@@ -1,8 +1,9 @@
 {
   "login": {
     "loginB": "inloggen",
-    "registerB": "inschrijven"
-
+    "registerB": "inschrijven",
+    "serverErr": "Er is iets mis met de server. Probeer het later opnieuw.",
+    "notValid": "Inloggegevens zijn niet geldig. Probeer het opnieuw."
   },
   "register": {
     "registration": "Inschrijving",
@@ -11,7 +12,16 @@
     "geoText": "Om uw foto's op onze ontdekkingskaart te plaatsen, hebben we uw locatie nodig.",
     "reminder": "Wilt u dat wij u eraan herinneren om op bepaalde dagen te gaan wandelen?",
     "enjoyM": "Geniet van uw tijd met snAPP",
-    "AllDone": "Helemaal klaar"
+    "AllDone": "Helemaal klaar",
+    "locationLab": "Ik ga ermee akkoord dat deze app mijn locatie gebruikt",
+    "userNamLab": "Gebruikersnaam",
+    "passLab": "wachtwoord",
+    "newpassLab":"Nieuw wachtwoord",
+    "passNoMa": "Wachtwoorden komen niet overeen",
+    "fillAll": "Gelieve alle tekstvelden het invullen zoals vereist",
+    "alreadyUsed": "Dit e-mail adres is al in gebruik.",
+    "currPass": "Huidig wachtwoord",
+    "repNewPass": "Herhaal nieuw wachtwoord"
 
   },
   "days": {
@@ -67,7 +77,8 @@
     "myFriend": "Mijn vrienden",
     "addFriend": "Vriend toevoegen",
     "friendReq": "Vriendverzoeken",
-    "friendReqMes": "Nieuwe vriendsverzoeken worden hier weergegeven"
+    "friendReqMes": "Nieuwe vriendsverzoeken worden hier weergegeven",
+    "searchField": "Zoek vrienden"
   },
   "loading": {
     "message": "Laden even geduld aub"
@@ -92,15 +103,23 @@
     "tagHeader": "Tagged Vriend",
     "tagMess": "Getagde vrienden worden hier weergegeven",
     "cancelSh": "Delen annuleren?",
-    "cancelMess": "Weet u zeker dat u uw ontdekking niet meer wilt delen? De plant zal nog steeds in je wiki verschijnen, maar je\nvrienden zullen het niet zien."
+    "cancelMess": "Weet u zeker dat u uw ontdekking niet meer wilt delen? De plant zal nog steeds in je wiki verschijnen, maar je\nvrienden zullen het niet zien.",
+    "errorLeaf": "Kies een blad voor uw ontdekking",
+    "errorUpload": "Uploaden mislukt. Probeer het later opnieuw."
   },
   "prContent":{
     "tabPh": "Mijn foto's",
     "messagePh": "Je hebt nog geen ontdekkingen! Ga zeker de natuur in en maak foto's van mooie planten!",
-    "messageTg": "Geen van je vrienden heeft je nog getagd :( Zorg ervoor dat je eropuit trekt met je vrienden"
+    "messageTg": "Geen van je vrienden heeft je nog getagd :( Zorg ervoor dat je eropuit trekt met je vrienden",
+    "passNotMatch": "Nieuw wachtwoord en bevestigd wachtwoord komen niet overeen!"
   },
   "snap": {
-    "message": "U kunt maximaal 5 afbeeldingen toevoegen om te scannen"
+    "message": "U kunt maximaal 5 afbeeldingen toevoegen om te scannen",
+    "errorM": "You need at least 1 image!",
+    "sizeError": "Je bestand is te groot! Selecteer een afbeelding van minder dan 16 MB",
+    "reminder": "Kies een afbeeldingsbestand",
+    "info": "MEER INFORMATIE",
+    "remark": "Klik op een overeenkomst om meer informatie te zien en bevestig degene die u aan de ontdekking wilt toevoegen"
   },
   "pageT": {
     "friend": "Vrienden",
