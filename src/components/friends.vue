@@ -43,7 +43,7 @@
                       @click.native="goToUser(request.userId)">
               </avatar>
 
-              <v-list-item-content>
+              <v-list-item-content @click="goToUser(request.userId)">
                 <v-list-item-title v-text="request.userName"></v-list-item-title>
               </v-list-item-content>
 
@@ -83,7 +83,7 @@
                     @click.native="goToUser(friend.userId)"></avatar>
 
 
-            <v-list-item-content>
+            <v-list-item-content @click="goToUser(friend.userId)">
               <v-list-item-title v-text="friend.userName"></v-list-item-title>
             </v-list-item-content>
 
@@ -114,8 +114,8 @@
             <avatar :size="52" :user-name="friend.userName" :picture="friend.avatar"
                     @click.native="goToUser(friend.userId)"></avatar>
 
-            <v-list-item-content>
-              <v-list-item-title @click.native="goToUser(friend.userId)" v-text="friend.userName"></v-list-item-title>
+            <v-list-item-content @click="goToUser(friend.userId)">
+              <v-list-item-title v-text="friend.userName"></v-list-item-title>
             </v-list-item-content>
 
             <v-list-item-icon>

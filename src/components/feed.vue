@@ -109,6 +109,11 @@ export default {
   mounted() {
     this.$store.dispatch('fetchFriendRequestNotifications')
     this.$store.dispatch('fetchFriendsDiscoveries')
+  },
+
+  beforeRouteLeave(to, from, next){
+    this.$store.commit('updateDrawer', false);
+    next();
   }
 
 }

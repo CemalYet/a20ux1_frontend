@@ -118,7 +118,7 @@
           <div class="infoBox text-truncate" v-if="getComments.length !== 0">
             <v-list-item three-line>
               <avatar :size="48" :user-name="getComments[0].userName" :picture="getComments[0].avatar"
-                      @click.native="goToProfile(getComments[0].userId)"></avatar>
+                      @click.native="goToProfile(getComments[0].commentedByUserIdFk)"></avatar>
               <v-list-item-content>
                 <v-list-item-title style="white-space: normal;"> {{getComments[0].userName}} </v-list-item-title>
                 <v-list-item-subtitle>

@@ -23,7 +23,7 @@
         <v-card
             class="added_discovery_images ma-2"
             color=var(--light-color)
-            style="opacity: 50%; width: 160px"
+            style="width: 160px"
             ripple
             @click="$refs.camera.click()"
             :disabled="updateDiscoveryImages.length >= 5"

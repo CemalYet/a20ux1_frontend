@@ -26,7 +26,7 @@
         <div class="infoBox text-truncate">
           <v-list-item three-line dense>
             <avatar :size="48" :user-name="comment.userName" :picture="comment.avatar"
-                    @click.native="goToUser(comment.userId)"></avatar>
+                    @click.native="goToUser(comment.commentedByUserIdFk)"></avatar>
             <v-list-item-content>
               <v-list-item-title style="white-space: normal;"> {{comment.userName}} </v-list-item-title>
               <v-list-item-subtitle class="wrap-text"> {{ comment.comment }} </v-list-item-subtitle>
@@ -90,10 +90,7 @@ export default {
       this.newComment = null;
     },
     goToUser(user_id){
-      console.log(user_id);
-      if(typeof(user_id)!=='undefined'){
-        this.$router.push({path: `/profile/${user_id}`})}
-    }
+      this.$router.push({path: `/profile/${user_id}`})}
   },
 
   computed:{
