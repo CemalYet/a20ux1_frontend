@@ -61,7 +61,8 @@
     "ctnShare": "doorgaan",
     "what": "Welke plant is dit?",
     "changeTh": "Thema wijzigen",
-    "apply": "toepassen"
+    "apply": "toepassen",
+    "searchMap": "Zoek ontdekkingen"
   },
   "comments": {
     "message": "Er lijkt hier niets te zijn. Vertel je vrienden over je bericht!"
@@ -75,7 +76,7 @@
   },
   "friendsPage": {
     "myFriend": "Mijn vrienden",
-    "addFriend": "Vriend toevoegen",
+    "addFriend": "Toevoegen",
     "friendReq": "Vriendverzoeken",
     "friendReqMes": "Nieuwe vriendsverzoeken worden hier weergegeven",
     "searchField": "Zoek vrienden"

@@ -104,7 +104,7 @@
         <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
-            :label="$t('register.searchField')"
+            :label="$t('friendsPage.searchField')"
             single-line
             @keyup.enter="postQuery()"
         ></v-text-field>

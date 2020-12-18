@@ -25,7 +25,7 @@
         <template #activator="scope" style="margin-bottom: 6px">
           <v-text-field
               hide-details
-              label="Search discoveries"
+              :label="$t('buttons.searchMap')"
               solo
               clearable
               prepend-inner-icon='mdi-arrow-left'
