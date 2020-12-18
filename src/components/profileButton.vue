@@ -1,13 +1,23 @@
 <template>
-  <avatar
-      :size="32"
-      :user-name="getUserData[0].userName"
-      :picture="getUserData[0].avatar"
-      @click.native="goToProfile"
-      style="margin-right: 0 !important;"
-  >
-
-  </avatar>
+  <div>
+    <avatar
+        v-if="getUserData[0].avatar !== null"
+        :size="32"
+        :user-name="getUserData[0].userName"
+        :picture="getUserData[0].avatar"
+        @click.native="goToProfile"
+        style="margin-right: 0 !important;"
+    >
+    </avatar>
+    <v-btn
+        v-else
+        icon
+        @click.native="goToProfile"
+        style="margin-right: -12px !important;"
+    >
+      <v-icon large color=var(--dark-color)>mdi-account-circle-outline</v-icon>
+    </v-btn>
+  </div>
 </template>
 
 <script>

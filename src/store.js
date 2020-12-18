@@ -87,6 +87,7 @@ const store = new Vuex.Store({
 
         ///// FRIENDS /////
         friendsData: [],
+        friendsDataLoading: false,
         friendRequests: [],
         friendRequestNotifications: 0,
 
@@ -186,6 +187,9 @@ const store = new Vuex.Store({
             } else {
                 state.friendRequestNotifications = 0
             }
+        },
+        updateFriendsDataLoading(state, value){
+            state.friendsDataLoading = value;
         },
 
 
@@ -413,8 +417,10 @@ const store = new Vuex.Store({
 
         ///// FRIENDS /////
         fetchFriends(context) {
+            context.commit('updateFriendsDataLoading', true);
             axios.get('/public/friends/getFriends').then(response => {
-                context.commit('updateFriendsData', response["data"])
+                context.commit('updateFriendsData', response["data"]);
+                context.commit('updateFriendsDataLoading', false);
             })
         },
 
@@ -705,6 +711,9 @@ const store = new Vuex.Store({
         },
         getFriendRequestNotifications(state) {
             return state.friendRequestNotifications;
+        },
+        getFriendsDataLoading(state){
+            return state.friendsDataLoading;
         },
 
         /// INFORMATION PAGE//
