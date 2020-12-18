@@ -105,6 +105,7 @@
             v-model="search"
             append-icon="mdi-magnify"
             label="Search users"
+            color="var(--dark-color)"
             single-line
             @keyup.enter="postQuery()"
         ></v-text-field>
@@ -133,7 +134,7 @@
                   depressed
                   color=var(--main-color)
                   outlined
-                  class="text-capitalize">
+                  class="friend_request_button text-capitalize">
                 <!--@click="acceptRequest(friends)" -->
                 Pending
               </v-btn>
@@ -142,7 +143,7 @@
                   depressed
                   color=var(--main-color)
                   dark
-                  class="text-capitalize"
+                  class="friend_request_button text-capitalize"
                   @click="postFriendId(friend)"
               >
                 Add Friend
@@ -292,6 +293,10 @@ export default {
 }
 .list{
   background: transparent;
+}
+
+.friend_request_button {
+  width: 115px;
 }
 
 </style>

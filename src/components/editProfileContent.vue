@@ -5,7 +5,21 @@
 
       <image-input class="avatar" @input="changeAvatar($event)">
         <div slot="activator">
-          <avatar v-ripple :size="200" :user-name="updatedUserData[0].userName" :picture="updatedUserData[0].avatar"></avatar>
+          <v-btn
+              id="plus_icon"
+              size="50"
+              color=var(--main-color)
+              fab
+              icon
+          >
+            <v-icon size="50">
+              mdi-plus-circle
+            </v-icon>
+          </v-btn>
+          <avatar
+              id="big_circle"
+              v-ripple :size="200" :user-name="updatedUserData[0].userName"
+              :picture="updatedUserData[0].avatar"></avatar>
         </div>
       </image-input>
 
@@ -100,7 +114,7 @@
           color=var(--light-color)
           class="white--text"
           @click.native="toggleChangePassword"
-          
+
       >
         Go back
       </v-btn>
@@ -108,7 +122,7 @@
       <!-- Error dialog displays any potential error messages -->
       <v-dialog v-model="this.errorDialog" max-width="300">
         <v-card>
-          <v-card-text class="subheading">{{this.errorText}}</v-card-text>
+          <v-card-text class="subheading">{{ this.errorText }}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn @click="toggleDialog()" text>Got it!</v-btn>
@@ -128,7 +142,7 @@ import avatar from "@/components/avatar";
 export default {
   name: "editProfileContent",
 
-  components:{
+  components: {
     ImageInput,
     avatar
   },
@@ -138,7 +152,7 @@ export default {
     nameRules: [
       v => !!v || 'Name is required',
       v => v.length <= 25 || 'Name must be less than 25 characters',
-  ],
+    ],
     emailRules: [
       v => !!v || 'E-mail is required',
       v => /.+@.+/.test(v) || 'E-mail must be valid',
@@ -149,44 +163,44 @@ export default {
       v => v.length >= 6 || 'Must be longer than 6 characters',
     ],
 
-    showPassword1:false,
-    showPassword2:false,
-    showPassword3:false,
+    showPassword1: false,
+    showPassword2: false,
+    showPassword3: false,
 
-    changePassword:false,
+    changePassword: false,
 
     password: '',
     newPassword: '',
     confirmPassword: '',
 
     errorDialog: false,
-    errorText:'',
+    errorText: '',
 
     saving: false,
     saved: false,
     tab: 'update'
   }),
 
-  computed:{
-    updatedUserData(){
+  computed: {
+    updatedUserData() {
       return this.$store.getters.getLoggedInUserData;
     }
   },
 
-  mounted(){
+  mounted() {
     this.$store.dispatch('fetchLoggedInUserData')
   },
 
-  methods:{
-    toggleChangePassword(){
+  methods: {
+    toggleChangePassword() {
       this.changePassword = !this.changePassword
     },
 
-    toggleDialog(){
+    toggleDialog() {
       this.errorDialog = false
     },
 
-    changeAvatar(array){
+    changeAvatar(array) {
       this.updatedUserData[0].avatar = array
       this.$store.commit('updateUserAvatar', array)
     },
@@ -201,7 +215,7 @@ export default {
       this.saved = true
     },
 
-    updateProfile(){
+    updateProfile() {
       this.$store.dispatch('uploadLoggedInUserData', this.updatedUserData);
 
       let currentObj = this;
@@ -212,19 +226,20 @@ export default {
 
       this.errorDialog = true
 
-      axios.post('/public/profile/updateProfile', formData).then(function (response) {currentObj.errorText = response.data;}).catch(function (error) {
+      axios.post('/public/profile/updateProfile', formData).then(function (response) {
+        currentObj.errorText = response.data;
+      }).catch(function (error) {
         currentObj.errorText = error;
       });
     },
 
-    updatePassword(){
+    updatePassword() {
       let currentObj = this;
 
-      if (this.newPassword != this.confirmPassword){
+      if (this.newPassword != this.confirmPassword) {
         this.errorDialog = true
         this.errorText = 'New password and confirmed password don\'t match!'
-      }
-      else{
+      } else {
         let tmpData = {password: this.password, newPassword: this.newPassword}
 
         let rawData = JSON.stringify(tmpData)
@@ -234,8 +249,10 @@ export default {
 
         this.errorDialog = true
 
-        axios.post('/public/profile/updatePassword', formData).then(function (response) {currentObj.errorText = response.data;}).catch(function (error) {
-          currentObj.errorText =  error;
+        axios.post('/public/profile/updatePassword', formData).then(function (response) {
+          currentObj.errorText = response.data;
+        }).catch(function (error) {
+          currentObj.errorText = error;
         });
       }
     }
@@ -245,16 +262,24 @@ export default {
 
 <style scoped>
 
-.content{
+.content {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.avatar{
+.avatar {
   text-align: center;
   margin-bottom: 1rem;
+  position: relative;
 }
-
+#plus_icon {
+  position: absolute; bottom:75%; left:70%;
+  z-index: 100;
+}
+#big_circle {
+  display: block;
+  z-index: 80;
+}
 </style>

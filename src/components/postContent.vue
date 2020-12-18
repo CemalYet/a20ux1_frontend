@@ -19,7 +19,22 @@
         <!-- Image from the discovery-->
         <v-carousel
             hide-delimiters
+            :show-arrows=false
             :height="carouselHeight"
+            v-if="updateDiscoveryPostPhotos.length === 1"
+        >
+          <v-carousel-item
+              v-for="image in updateDiscoveryPostPhotos"
+              :key="image"
+              :src="image.PhotoPath"
+          >
+          </v-carousel-item>
+        </v-carousel>
+        <v-carousel
+            hide-delimiters
+            :show-arrows=true
+            :height="carouselHeight"
+            v-else
         >
           <v-carousel-item
               v-for="image in updateDiscoveryPostPhotos"

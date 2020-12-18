@@ -35,7 +35,7 @@
           </v-list-item>
           <v-list-item link :ripple="false"  @click.native="goToBadges">
             <v-list-item-icon>
-              <v-icon large color=var(--main-color)>mdi-shield-star-outline</v-icon>
+              <v-icon large color=var(--main-color)>mdi-medal-outline</v-icon>
             </v-list-item-icon>
             <h4>Badges</h4>
           </v-list-item>

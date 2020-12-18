@@ -11,7 +11,7 @@
         <avatar :size="70" :user-name="getUserData[0].userName" :picture="getUserData[0].avatar"></avatar>
         <v-list-item-content>
           <v-list-item-title>{{ getUserData[0].userName }}</v-list-item-title>
-          <v-list-item-subtitle>{{ getUserData[0].emailAddress }}</v-list-item-subtitle>
+          <v-list-item-subtitle>Observations: {{ updateProfileDiscoveries.length }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
@@ -19,7 +19,8 @@
           v-model="tab"
           background-color="transparent"
           fixed-tabs
-          color=var(--dark-color)>
+          color=var(--dark-color)
+          style="margin-top: 10px">
         <v-tab href="#pictures">
           My pictures
         </v-tab>
@@ -87,7 +88,8 @@
 
         <v-tab-item value="tags">
 
-          <loader v-if="updateProfileTaggedDiscoveries.length === 0 && updateProfileTaggedDiscoveriesLoading === true"></loader>
+          <loader
+              v-if="updateProfileTaggedDiscoveries.length === 0 && updateProfileTaggedDiscoveriesLoading === true"></loader>
 
           <div
               class="text-body-2"
@@ -188,7 +190,7 @@
                           color=var(--main-color)
                           height="30"
                       >
-                        <strong>  {{ Math.ceil(calculatePoints(badge)) }}%</strong>
+                        <strong> {{ Math.ceil(calculatePoints(badge)) }}%</strong>
                       </v-progress-linear>
                       <v-card-actions>
                         <v-spacer></v-spacer>
@@ -250,7 +252,7 @@ export default {
       return "12";
     },
     leafPosition() {
-      let leafPosition = (window.innerWidth /50) + 188 + 'px'
+      let leafPosition = (window.innerWidth / 50) + 188 + 'px'
       console.log(leafPosition)
       return leafPosition
     },
@@ -274,14 +276,14 @@ export default {
       return this.$store.getters.getProfileTaggedDiscoveriesLoading;
     },
 
-      tab: {
-        set (tab) {
-          this.$router.replace({ query: { ...this.$route.query, tab } })
-        },
-        get () {
-          return this.$route.query.tab
-        }
+    tab: {
+      set(tab) {
+        this.$router.replace({query: {...this.$route.query, tab}})
+      },
+      get() {
+        return this.$route.query.tab
       }
+    }
   },
 
   mounted() {
@@ -289,7 +291,7 @@ export default {
     //store a variable so that the page doesn't have to reload data all the time
     this.$store.commit('updatePrevProfileId', this.$route.params.id);
 
-    if (this.$route.params.id !== this.$store.getters.getLoggedInUserData[0].userId){
+    if (this.$route.params.id !== this.$store.getters.getLoggedInUserData[0].userId) {
       this.$store.dispatch('fetchUserDataById', this.$route.params.id);
     }
 
@@ -300,28 +302,28 @@ export default {
     this.$store.dispatch('fetchProfileTaggedDiscoveries', this.$route.params.id);
 
     //get badges
-    axios.get('/public/badgeController/showAllBadges', {params:{userId: this.$route.params.id}}).then(response => {
+    axios.get('/public/badgeController/showAllBadges', {params: {userId: this.$route.params.id}}).then(response => {
       this.badges = response["data"];
     })
   },
 
   methods: {
-    goToPost(discovery){
+    goToPost(discovery) {
       this.$router.push({path: `/post/${discovery.discoveryId}`})
     },
-    calculatePoints(badge){
-      if(badge.currentPoints > badge.reqPoints){
+    calculatePoints(badge) {
+      if (badge.currentPoints > badge.reqPoints) {
         return 100
-      }else {
-        return ( badge.currentPoints / badge.reqPoints) * (100)
+      } else {
+        return (badge.currentPoints / badge.reqPoints) * (100)
       }
     },
 
   },
 
-  beforeRouteUpdate(to, from, next){
+  beforeRouteUpdate(to, from, next) {
     console.log('checking user id' + to.params.id + ' and ' + this.$store.getters.getPrevProfileId)
-    if(to.params.id !== this.$store.getters.getPrevProfileId){
+    if (to.params.id !== this.$store.getters.getPrevProfileId) {
       console.log('clearing data')
       this.$store.commit('resetProfileContent');
     }
@@ -359,6 +361,7 @@ export default {
   padding: 0;
 
 }
+
 .leaves {
   width: 200px;
 

@@ -5,7 +5,7 @@
           v-if="updateDiscoveryImages.length === 0"
           class="added_discovery_images ma-2"
           color=var(--light-color)
-          style="opacity: 50%; width: 80vw; max-width: 350px"
+          style="width: 80vw; max-width: 350px"
           ripple
           @click="$refs.camera_no_pic.click()"
       >
