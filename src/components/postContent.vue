@@ -49,10 +49,10 @@
       <div class="iconBox">
         <div class="icons1">
           <!-- Like button clicked or not clicked, NOT IMPLEMENTED: showing the icon based on db information -->
-          <v-btn icon v-on:click="likeClicked = false" v-if="getHeartButton" class="icon">
+          <v-btn icon v-on:click="likeClicked = false" v-if="likeClicked" class="icon">
             <v-icon large color=var(--dark-color) @click="deleteLikeFromDb">mdi-heart</v-icon>
           </v-btn>
-          <v-btn icon v-on:click="likeClicked = true" v-if="!getHeartButton" class="icon">
+          <v-btn icon v-on:click="likeClicked = true" v-else class="icon">
             <v-icon large color=var(--dark-color) @click="sendLikeToDb">mdi-heart-outline</v-icon>
           </v-btn>
           <!-- Comment button -->

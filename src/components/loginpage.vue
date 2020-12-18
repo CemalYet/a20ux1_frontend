@@ -46,26 +46,25 @@
           >
             LOGIN
           </v-btn>
+          <v-snackbar
+              v-model="snackBar"
+              color="error"
+              centered
+          >
+            {{this.snackBarText}}
+            <template v-slot:action="{ attrs }">
+              <v-btn
+                  text
+                  v-bind="attrs"
+                  @click="snackBar = false"
+              >
+                Close
+              </v-btn>
+            </template>
+          </v-snackbar>
         </div>
       </v-form>
     </div>
-
-
-    <v-snackbar
-        v-model="snackBar"
-        color="error"
-    >
-      {{this.snackBarText}}
-      <template v-slot:action="{ attrs }">
-        <v-btn
-            text
-            v-bind="attrs"
-            @click="snackBar = false"
-        >
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
   </div>
 </template>
 
