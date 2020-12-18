@@ -11,28 +11,26 @@
          :style="{'grid-template-columns': itemsPerRow}"
     >
       <div class="discovery_container" v-for="j in discoveriesData.length" :key="j">
-
         <leaf1 class="leaf"
-               v-if="discoveriesData[j-1].leafId === '0'"
+               v-if="discoveriesData[j-1].leafId === '1'"
                v-bind:picture="discoveriesData[j-1].photoPath"
                @click.native="goToPost(discoveriesData[j-1].discoveryId)"/>
         <leaf2 class="leaf"
-               v-else-if="discoveriesData[j-1].leafId === '1'"
-               v-bind:picture="discoveriesData[j-1].photoPath"
-               @click.native="goToPost(discoveriesData[j-1].discoveryId)"/>
-        <leaf3 class="leaf"
                v-else-if="discoveriesData[j-1].leafId === '2'"
                v-bind:picture="discoveriesData[j-1].photoPath"
                @click.native="goToPost(discoveriesData[j-1].discoveryId)"/>
-        <leaf4 class="leaf"
+        <leaf3 class="leaf"
                v-else-if="discoveriesData[j-1].leafId === '3'"
                v-bind:picture="discoveriesData[j-1].photoPath"
                @click.native="goToPost(discoveriesData[j-1].discoveryId)"/>
-        <leaf5 class="leaf"
+        <leaf4 class="leaf"
                v-else-if="discoveriesData[j-1].leafId === '4'"
                v-bind:picture="discoveriesData[j-1].photoPath"
                @click.native="goToPost(discoveriesData[j-1].discoveryId)"/>
-
+        <leaf5 class="leaf"
+               v-else-if="discoveriesData[j-1].leafId === '5'"
+               v-bind:picture="discoveriesData[j-1].photoPath"
+               @click.native="goToPost(discoveriesData[j-1].discoveryId)"/>
         <v-list
             max-width="100%"
             class="info_container"

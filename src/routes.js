@@ -198,7 +198,7 @@ const router = new VueRouter({
                     ],
                     props:{
                         appBar:{
-                            title: "My Discoveries"
+                            title: "Wiki"
                         }
                     },
                 }

@@ -1,41 +1,35 @@
 <template>
-  <div class="text-center">
+  <v-container>
     <br>
-    <v-menu offset-y>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-            color=var(--main-color)
-            dark
-            v-bind="attrs"
-            v-on="on"
-        >
-          Change Theme
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item
-            v-for="(item, index) in items"
-            :key="index"
-        >
-          <v-list-item-title @click="updateTheme(item.title)">{{ item.title }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-    <v-btn @click="refresh">APPLY</v-btn>
+    <h4>Select a theme:</h4>
+  <div class="text-center">
+    <v-select
+        id="select"
+        v-model="select"
+        :items="items"
+        item-text="title"
+        return-object
+        single-line
+        :label="select.title"
+        color="var(--dark-color)">
+    </v-select>
+    <v-btn @click="updateTheme(select.title);refresh();">APPLY</v-btn>
   </div>
+  </v-container>
 </template>
 
 <script>
 export default {
-name: "settings",
+  name: "settings",
 
   data: () => ({
+    select: {title: null},
     items: [
-      { title: 'Summer' },
-      { title: 'Fall' },
-      { title: 'Winter' },
-      { title: 'Spring' },
-      { title: 'Seasons' },
+      {title: 'Summer'},
+      {title: 'Fall'},
+      {title: 'Winter'},
+      {title: 'Spring'},
+      {title: 'Seasons'},
     ],
   }),
 
@@ -46,10 +40,17 @@ name: "settings",
     refresh() {
       this.$router.back();
     },
+  },
+
+  mounted() {
+      this.select.title = this.$store.getters.getTheme;
   }
 }
 </script>
 
 <style scoped>
-
+#select {
+  width: 80vw;
+  max-width: 500px;
+}
 </style>
