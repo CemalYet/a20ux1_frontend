@@ -1,6 +1,6 @@
 <template>
   <v-stepper v-model="e1" class="stepper" alt-labels>
-    <v-stepper-header>
+    <v-stepper-header id="stepper_header">
       <v-stepper-step
           :complete="e1 > 1"
           step="1"
@@ -37,7 +37,7 @@
     <v-stepper-items>
       <v-stepper-content step="1" class="background">
         <div class="content">
-          <v-form>
+          <v-form @submit.prevent="checkRegData">
             <v-container style="max-width: 300px">
               <v-text-field
                   v-model="userName"
@@ -84,51 +84,34 @@
                   background-color=white;
               ></v-text-field>
             </v-container>
+            <div class="coverButtons">
+              <div class="centerButtons">
+                <v-btn
+                    class="buttons"
+                    @click.native="goBackToLogin"
+                    elevation="2"
+                >
+                  Back
+                </v-btn>
+                <v-btn
+                    class="buttons white--text"
+                    color=var(--dark-color)
+                    elevation="2"
+                    type="submit"
+                >
+                  Continue
+                </v-btn>
+              </div>
+            </div>
           </v-form>
         </div>
-        <div class="coverButtons">
-          <div class="centerButtons">
-            <v-btn
-                class="buttons"
-                @click.native="goBackToLogin"
-                elevation="2"
-            >
-              Back
-            </v-btn>
-            <v-btn
-                class="buttons white--text"
-                color=var(--dark-color)
-                elevation="2"
-                @click.native="checkRegData"
-            >
-              Continue
-            </v-btn>
-          </div>
-        </div>
-
-        <v-snackbar
-            v-model="snackBar"
-            color="error"
-        >
-          {{ snackBarText }}
-          <template v-slot:action="{ attrs }">
-            <v-btn
-                text
-                v-bind="attrs"
-                @click="snackBar = false"
-            >
-              Close
-            </v-btn>
-          </template>
-        </v-snackbar>
       </v-stepper-content>
 
 
       <v-stepper-content step="2" class="background">
         <div class="content">
           <div class="paragraphbox">
-            <p> In order to put your pictures on our Discovery map, we would need to use your location. </p>
-            <p> Don't worry, we won't sell your location like those other nasty social media platforms ;) </p>
+            <p class="biggerFont"> In order to put your pictures on our Discovery map, we would need to use your location. </p>
           </div>
           <div class="checkbox">
             <v-checkbox
@@ -136,7 +119,7 @@
                 label="I agree to let this app use my location"
                 color=var(--dark-color)
                 value=var(--dark-color)
-                class="dark--text"
+                class="dark--text biggerFont"
             ></v-checkbox>
           </div>
         </div>
@@ -167,7 +150,7 @@
       <v-stepper-content step="3" class="background">
         <div class="content">
           <div class="paragraphbox">
-            <p class="text1"> Would you like us to remind you to go on walks on certain days? </p>
+            <p class="text1 biggerFont"> Would you like us to remind you to go on walks on certain days? </p>
           </div>
           <v-form>
             <v-container>
@@ -243,12 +226,13 @@
             </v-btn>
             <v-btn
                 color=var(--dark-color)
-                @click="e1 = 4"
                 class="buttons white--text"
                 elevation="2"
                 @click.native="save"
+                :loading="updateRegisterLoading"
+                :disabled="updateRegisterLoading"
             >
-              Continue
+              Create profile
             </v-btn>
           </div>
         </div>
@@ -263,17 +247,38 @@
           <p> Enjoy your time using snAPP </p>
         </div>
         <div class="doneButton">
-          <v-btn x-large>
+          <v-btn
+              x-large
+              color=var(--dark-color)
+              class="buttons white--text"
+              @click.native="goToFeed()"
+          >
+            Take me to my feed
             <v-icon
                 x-large
-                color=var(--dark-color)
-                @click.native="fetchUserData(), goToFeed()"
+                right
             >
               mdi-check-bold
             </v-icon>
           </v-btn>
         </div>
       </v-stepper-content>
+      <v-snackbar
+          v-model="snackBar"
+          color="error"
+          centered
+      >
+        {{ snackBarText }}
+        <template v-slot:action="{ attrs }">
+          <v-btn
+              text
+              v-bind="attrs"
+              @click="snackBar = false"
+          >
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
     </v-stepper-items>
   </v-stepper>
 </template>
@@ -309,15 +314,24 @@ export default {
     passwordRules: [
       v => !!v || 'Field required',
       v => v.length >= 6 || 'Must be longer than 6 characters',
-    ]
+    ],
+    registerLoading: false,
   }),
+
+  computed:{
+    updateRegisterLoading:{
+      get(){
+        return this.registerLoading
+      },
+      set(value){
+        this.registerLoading = value;
+      }
+    }
+  },
 
   methods: {
     updateUserEmail: function () {
       this.$store.commit("updateUserEmail", this.emailAddress);
-    },
-    fetchUserData: function () {
-      this.$store.dispatch('fetchLoggedInUserData');
     },
 
     goBackToLogin: function () {
@@ -328,6 +342,7 @@ export default {
     },
 
     save: function () {
+      this.updateRegisterLoading = true;
       if (this.checkbox === false) {
         this.location = 0;
       } else {
@@ -340,7 +355,16 @@ export default {
         'my_location': this.location,
         'my_days': this.toggle_multiple
       });
-      axios.post('register/save', json);
+      // eslint-disable-next-line no-unused-vars
+      axios.post('register/save', json).then(response =>{
+        this.e1 = 4;
+        this.registerLoading = false;
+        // eslint-disable-next-line no-unused-vars
+      }).catch(err =>{
+        this.snackBarText = "Something went wrong at our site, please try again later!";
+        this.snackBar = true;
+        this.registerLoading = false;
+      });
     },
     checkRegData: function () {
       if (this.checkTextFields()) {
@@ -387,11 +411,19 @@ export default {
 
 <style scoped>
 
+.background {
+  background: transparent;
+}
+
+#stepper_header {
+  background: white;
+}
 
 .stepper {
   height: 100vh;
   margin: 0;
   padding: 0;
+  background: transparent;
 }
 
 .content {
@@ -414,8 +446,8 @@ export default {
   padding-bottom: 5px;
   max-width: 276px;
   /*margin: auto auto 5px;*/
-  position: absolute;
-  bottom: 0;
+  position: fixed;
+  top: 500px;
 }
 
 .buttons {
@@ -477,6 +509,10 @@ export default {
   color: var(--dark-color);
 }
 
+.biggerFont {
+  font-size: 20px;
+}
+
 
 @media (min-width: 960px) {
   .background {
@@ -488,4 +524,9 @@ export default {
   }
 }
 
+@media(min-height: 610px) {
+  .centerButtons {
+    top: 600px;
+  }
+}
 </style>

@@ -19,7 +19,7 @@
             <v-list-item-icon>
               <v-icon large color=var(--main-color)>mdi-tree-outline</v-icon>
             </v-list-item-icon>
-            <h4>Wiki</h4>
+            <v-list-item-title>Wiki</v-list-item-title>
           </v-list-item>
           <v-list-item link :ripple="false" @click="goToFriends">
             <v-list-item-icon>
@@ -31,19 +31,19 @@
                   overlap
               ></v-badge>
             </v-list-item-icon>
-            <h4>Friends</h4>
+            <v-list-item-title>Friends</v-list-item-title>
           </v-list-item>
           <v-list-item link :ripple="false"  @click.native="goToBadges">
             <v-list-item-icon>
-              <v-icon large color=var(--main-color)>mdi-shield-star-outline</v-icon>
+              <v-icon large color=var(--main-color)>mdi-medal-outline</v-icon>
             </v-list-item-icon>
-            <h4>Badges</h4>
+            <v-list-item-title >Badges</v-list-item-title >
           </v-list-item>
           <v-list-item link :ripple="false" @click.native="goToMap">
             <v-list-item-icon>
               <v-icon large color=var(--main-color)>mdi-map-outline</v-icon>
             </v-list-item-icon>
-            <h4>Map</h4>
+            <v-list-item-title>Map</v-list-item-title>
           </v-list-item>
 
 
