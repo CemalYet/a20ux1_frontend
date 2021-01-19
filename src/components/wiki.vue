@@ -5,7 +5,6 @@
       <v-menu offset-y max-height="80vh">
         <template #activator="scope" style="margin-bottom: 6px">
           <v-text-field
-              hide-details
               label="Search discoveries"
               outlined
               clearable
@@ -17,50 +16,62 @@
         </template>
       </v-menu>
 
-
-      <v-list class="list" dense>
-        <v-list-item
-            class="list"
+      <v-expansion-panels focusable>
+        <v-expansion-panel
             v-for="(plant,i) in plants"
-            :key="i">
-          <v-list-item-title
-              v-text="plant.title"
-              v-on:click="getPictures(plant.title); updatePlant(plant.title); getSpots(plant.title);">
-          </v-list-item-title>
-        </v-list-item>
-      </v-list>
+            :key="i"
+        >
+          <v-expansion-panel-header
+              expand-icon=""
+              v-on:click="updatePlant(plant.title);getSpots(plant.title);getPictures(plant.title);"
+          >
+            {{ plant.title }}
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <h1 style="margin-bottom: -2px"> {{ selected_plant }} </h1>
+            <p v-if="spots"> spotted: {{ spots.number }} time(s) </p>
 
-      <v-card
-          v-if="pictures != null"
-          id="card"
-          color="rgb(249 , 249, 249, 0.85)"
-      >
-        <v-card-title class="headline">
-          {{ selected_plant }}
-        </v-card-title>
-        <v-card-subtitle>
-          <p class="font-italic" style="margin: 0">
-            spotted: {{spots.number}} time(s)
-          </p>
-        </v-card-subtitle>
-        <div id="image_div">
-          <v-carousel cycle
-                      hide-delimiter-background
-                      show-arrows-on-hover>
-            <v-carousel-item
-                v-for="pic in pictures"
-                :key="pic"
-            >
-              <v-img :src="pic.photoPath"></v-img>
-            </v-carousel-item>
-          </v-carousel>
-        </div>
-        <v-card-actions class="justify-center">
-          <v-btn class="white--text"
-                 color=var(--dark-color)
-                 v-on:click="openWikipedia(selected_plant)">WIKIPEDIA</v-btn>
-        </v-card-actions>
-      </v-card>
+            <div class="text-center">
+              <v-skeleton-loader
+                  v-if="pictures===null"
+                  class="image_div"
+                  height="100%"
+                  width="100%"
+                  type="image">
+              </v-skeleton-loader>
+              <div v-else>
+                <v-carousel v-if="pictures.length === 1"
+                            :show-arrows=false
+                            class="image_div"
+                            cycle
+                            hide-delimiters>
+                  <v-carousel-item
+                      v-for="(pic,i) in pictures"
+                      :key="i"
+                  >
+                    <v-img aspect-ratio="1" :src="pic.photoPath"></v-img>
+                  </v-carousel-item>
+                </v-carousel>
+                <v-carousel v-else
+                            class="image_div"
+                            cycle
+                            hide-delimiters>
+                  <v-carousel-item
+                      v-for="(pic,i) in pictures"
+                      :key="i"
+                  >
+                    <v-img aspect-ratio="1" :src="pic.photoPath"></v-img>
+                  </v-carousel-item>
+                </v-carousel>
+              </div>
+              <v-btn id="wiki_button"
+                     color=var(--dark-color)
+                     v-on:click="openWikipedia(selected_plant)">WIKIPEDIA
+              </v-btn>
+            </div>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
     </div>
   </v-container>
 </template>
@@ -84,6 +95,7 @@ export default {
         this.plants = response["data"];
       });
       this.pictures = null;
+      this.spots = 0;
     },
     searchEnter() {
       axios.get('/public/wikicontroller/search', {params: {search: this.searchField}})
@@ -100,7 +112,7 @@ export default {
     getSpots(plantName) {
       axios.get('/public/wikicontroller/getSpots', {params: {plant: plantName}})
           .then(response => {
-            this.spots = response["data"];
+            this.spots = response["data"][0];
           });
     },
     openWikipedia: function (title) {
@@ -108,6 +120,7 @@ export default {
     },
     updatePlant(value) {
       this.selected_plant = value;
+      this.pictures = null;
     }
   },
 
@@ -118,9 +131,6 @@ export default {
 </script>
 
 <style scoped>
-.list {
-  background: transparent;
-}
 
 .Search_box {
   display: flex;
@@ -129,22 +139,14 @@ export default {
   margin: auto;
 }
 
-#card {
-  width: 90%;
-  max-width: 750px;
+.image_div {
+  max-height: 350px;
+  max-width: 350px;
   margin: auto;
-  height: auto;
-  padding-bottom: 2px;
 }
 
-#image {
-  max-height: 100%;
-  max-width: 100%;
-}
-
-#image_div {
-  width: 250px;
-  height: 250px;
-  margin: auto;
+#wiki_button {
+  color: white;
+  margin-top: 16px;
 }
 </style>
