@@ -137,5 +137,28 @@
     "post": "Post",
     "comment": "comments"
 
+  },
+  "routes": {
+    "information": "/information",
+    "friends": "/friends",
+    "share": "/share",
+    "wiki": "/wiki",
+    "settings": "/settings",
+    "map": "/map",
+    "profile": "/profile",
+    "edit": "/edit",
+    "comments": "/comments",
+    "login": "/login",
+    "register": "/register",
+    "error": "/error"
+  },
+  "titles": {
+    "snap": "New snAPP",
+    "friends": "Friends",
+    "share": "Share",
+    "wiki": "My discoveries",
+    "settings": "Settings",
+    "profile": "Profile",
+    "edit": "Edit profile"
   }
 }

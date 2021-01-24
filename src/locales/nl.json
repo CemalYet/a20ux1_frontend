@@ -131,5 +131,29 @@
     "edit": "Bewerk profiel",
     "post": "Post"
 
+  },
+  "routes": {
+    "information": "/informatie",
+    "friends": "/vrienden",
+    "share": "/delen",
+    "wiki": "/wiki",
+    "settings": "/instellingen",
+    "map": "/kaart",
+    "profile": "/profiel",
+    "edit": "/bewerk",
+    "comments": "/opmerkingen",
+    "login": "/inloggen",
+    "register": "/registreren",
+    "error": "/fout"
+  },
+  "titles": {
+    "snap": "Nieuwe snAPP",
+    "friends": "Vrienden",
+    "share": "Delen",
+    "wiki": "Mijn ontdekkingen",
+    "settings": "Instellingen",
+    "profile": "Profiel",
+    "edit": "Edit profile"
   }
+
 }

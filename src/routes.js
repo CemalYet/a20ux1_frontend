@@ -31,8 +31,7 @@ import settings from "@/components/settings";
 import store from './store.js';
 import axios from 'axios';
 
-
-
+import i18n from './i18n.js'
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -92,7 +91,7 @@ const router = new VueRouter({
                     ],
                     props:{
                         appBar:{
-                            title: "New snAPP"
+                            title: i18n.t('titles.snap', store.getters.getLanguage)
                         }
                     },
                 },
@@ -113,7 +112,7 @@ const router = new VueRouter({
                     ],
                     props:{
                         appBar:{
-                            title: "New snAPP"
+                            title: i18n.t('titles.snap', store.getters.getLanguage)
                         }
                     },
                 },
@@ -142,7 +141,7 @@ const router = new VueRouter({
                     ],
                     props:{
                         appBar:{
-                            title: "Friends"
+                            title: i18n.t('titles.friends', store.getters.getLanguage)
                         }
                     },
                 }
@@ -170,7 +169,7 @@ const router = new VueRouter({
                     ],
                     props:{
                         appBar:{
-                            title: "Share"
+                            title: i18n.t('titles.share', store.getters.getLanguage)
                         }
                     },
                 }
@@ -198,7 +197,7 @@ const router = new VueRouter({
                     ],
                     props:{
                         appBar:{
-                            title: "My Discoveries"
+                            title: i18n.t('titles.wiki', store.getters.getLanguage)
                         }
                     },
                 }
@@ -226,7 +225,7 @@ const router = new VueRouter({
                     ],
                     props:{
                         appBar:{
-                            title: "Settings"
+                            title: i18n.t('titles.settings', store.getters.getLanguage)
                         }
                     },
                 }
@@ -277,7 +276,7 @@ const router = new VueRouter({
                     ],
                     props:{
                         appBar:{
-                            title: "Profile"
+                            title: i18n.t('titles.profile', store.getters.getLanguage)
                         }
                     },
                 },
@@ -298,7 +297,7 @@ const router = new VueRouter({
                     ],
                     props:{
                         appBar:{
-                            title: "Edit profile"
+                            title: i18n.t('titles.edit', store.getters.getLanguage)
                         }
                     },
                 }

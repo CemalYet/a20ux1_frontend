@@ -1,6 +1,9 @@
 <template>
   <div class="text-center">
     <br>
+    <br>
+    <languageSwitch />
+    <br>
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -22,13 +25,17 @@
       </v-list>
     </v-menu>
     <v-btn @click="refresh">{{ $t('buttons.apply') }}</v-btn>
+    
   </div>
 </template>
 
 <script>
+import languageSwitch from "@/components/languageSwitch";
 export default {
 name: "settings",
-
+components: {
+  languageSwitch,
+},
   data: () => ({
     items: [
       { title: 'Summer' },

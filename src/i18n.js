@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
+import store from './store.js';
 
 Vue.use(VueI18n)
 
@@ -17,7 +18,7 @@ function loadLocaleMessages () {
 }
 
 export default new VueI18n({
-  locale:  'nl',
-  fallbackLocale:  'nl',
+  locale: store.getters.getLanguage,
+  fallbackLocale:  'en',
   messages: loadLocaleMessages()
 })
