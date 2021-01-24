@@ -4,6 +4,8 @@
       <h1> snAPP </h1>
     </div>
 
+    <languageSwitch/>
+
     <div class="form">
       <v-form @submit.prevent="checkLogin">
         <v-container>
@@ -71,9 +73,14 @@
 
 <script>
 import axios from "axios";
+import languageSwitch from "@/components/languageSwitch";
 
 export default {
   name: "loginpage.vue",
+
+  components: {
+    languageSwitch
+  },
 
   data: () => ({
     emailAddress: null,

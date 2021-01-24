@@ -30,7 +30,10 @@ export default {
 </script>
 
 <style>
+*{
+  margin: auto;
+},
 .flagImg {
-        margin-right: 1rem;
-    }
+    margin-right: 1rem;
+}
 </style>
