@@ -220,6 +220,7 @@ import Avatar from "@/components/avatar";
 import axios from "axios";
 import leafB from "@/components/leaves/leafB";
 import loader from "@/components/loader";
+import store from "@/store";
 
 export default {
   name: "profileContent",
@@ -302,7 +303,7 @@ export default {
     this.$store.dispatch('fetchProfileTaggedDiscoveries', this.$route.params.id);
 
     //get badges
-    axios.get('/public/badgeController/showAllBadges', {params: {userId: this.$route.params.id}}).then(response => {
+    axios.get('/public/badgeController/showAllBadges', {params: {userId: store.getters.getLoggedInUserData[0].userId}}).then(response => {
       this.badges = response["data"];
     })
   },
