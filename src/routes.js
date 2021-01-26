@@ -1,8 +1,9 @@
 import Vue from "vue";
 import VueRouter from 'vue-router';
-import appBar from "@/components/appBar";
-import navDrawer from "@/components/navDrawer";
-import feed from "@/components/feed";
+
+import appBar from '@/components/appBar';
+import navDrawer from '@/components/navDrawer';
+import feed from '@/components/feed';
 import bottomNavBar from "@/components/bottomNavBar";
 import hamburgerButton from "@/components/hamburgerButton";
 import backButton from "@/components/backButton";
@@ -27,6 +28,36 @@ import deleteButton from "@/components/deleteButton";
 import errorMessage from "@/components/errorMessage";
 import wiki from "@/components/wiki";
 import settings from "@/components/settings";
+
+/* tried adding this but performance decreased
+const appBar = ()=> import('@/components/appBar');
+const navDrawer = ()=> import('@/components/navDrawer');
+const feed = ()=> import('@/components/feed');
+const bottomNavBar = ()=> import('@/components/bottomNavBar');
+const hamburgerButton = ()=> import('@/components/hamburgerButton');
+const backButton = ()=> import('@/components/backButton');
+const share = ()=> import('@/components/share');
+const mapLayout = ()=> import('./layouts/mapLayout');
+const map = ()=> import('@/components/map');
+const defaultLayout = ()=> import('./layouts/defaultLayout');
+const profileContent = ()=> import('@/components/profileContent');
+const profileButton = ()=> import('@/components/profileButton');
+const editProfileContent = ()=> import('@/components/editProfileContent');
+const postContent = ()=> import('@/components/postContent');
+const appBarPost = ()=> import('@/components/appBarPost');
+const commentContent = ()=> import('@/components/commentContent');
+const friends = ()=> import('@/components/friends');
+const loginpage = ()=> import('@/components/loginpage');
+const registerpage = ()=> import('@/components/registerpage');
+const information = ()=> import('@/components/information');
+const snap = ()=> import('@/components/snap');
+const cancelButton = ()=> import('@/components/cancelButton');
+const editProfileButton = ()=> import('@/components/editProfileButton');
+const deleteButton = ()=> import('@/components/deleteButton');
+const errorMessage = ()=> import('@/components/errorMessage');
+const wiki = ()=> import('@/components/wiki');
+const settings = ()=> import('@/components/settings');
+ */
 
 import store from './store.js';
 import axios from 'axios';

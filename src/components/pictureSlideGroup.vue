@@ -10,7 +10,7 @@
           @click="$refs.camera_no_pic.click()"
       >
         <input type="file" ref="camera_no_pic" accept="image/*" capture="camera" style="display: none;"  @change="addImage"/>
-        <v-icon class="added_discovery_images" style="width: 80vw; max-width: 350px" size="68" color="white">
+        <v-icon class="add_photo_svg" style="width: 80vw; max-width: 350px" size="68" color="white">
           {{ mdiCameraPlus }}
         </v-icon>
       </v-card>
@@ -29,7 +29,7 @@
             :disabled="updateDiscoveryImages.length >= 5"
         >
           <input type="file" ref="camera" accept="image/*" capture="camera" style="display: none;"  @change="addImage"/>
-          <v-icon class="added_discovery_images" style="width: 160px" size="68" color="white">
+          <v-icon class="add_photo_svg" style="width: 160px" size="68" color="white">
             {{ mdiCameraPlus }}
           </v-icon>
         </v-card>
@@ -120,6 +120,13 @@ export default {
 </script>
 
 <style scoped>
+
+.add_photo_svg{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
 .added_discovery_images {
   width: 220px;

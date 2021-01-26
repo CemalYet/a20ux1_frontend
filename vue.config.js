@@ -1,4 +1,4 @@
-
+const webpack = require('webpack')
 module.exports = {
   "transpileDependencies": [
     "vuetify"
@@ -34,5 +34,6 @@ module.exports = {
   chainWebpack: config => {
     config.plugin('brotli-compression')
     config.plugin('gzip-compression')
-  }
+    config.plugin('preload')
+  },
 }
