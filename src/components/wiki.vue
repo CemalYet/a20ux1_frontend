@@ -77,6 +77,7 @@
 </template>
 <script>
 import axios from "axios";
+import store from "@/store";
 
 export default {
   name: "wiki",
@@ -91,26 +92,27 @@ export default {
 
   methods: {
     clearSearchResults() {
-      axios.get('/public/WikiController/getWikiData').then(response => {
+      axios.get('/public/WikiController/getWikiData', {params: {userId: store.getters.getLoggedInUserData[0].userId}})
+          .then(response => {
         this.plants = response["data"];
       });
       this.pictures = null;
       this.spots = 0;
     },
     searchEnter() {
-      axios.get('/public/wikicontroller/search', {params: {search: this.searchField}})
+      axios.get('/public/wikicontroller/search', {params: {search: this.searchField, userId: store.getters.getLoggedInUserData[0].userId}})
           .then(response => {
             this.plants = response["data"];
           });
     },
     getPictures(plantName) {
-      axios.get('/public/wikicontroller/getPictures', {params: {search: plantName}})
+      axios.get('/public/wikicontroller/getPictures', {params: {search: plantName, userId: store.getters.getLoggedInUserData[0].userId}})
           .then(response => {
             this.pictures = response["data"];
           });
     },
     getSpots(plantName) {
-      axios.get('/public/wikicontroller/getSpots', {params: {plant: plantName}})
+      axios.get('/public/wikicontroller/getSpots', {params: {plant: plantName, userId: store.getters.getLoggedInUserData[0].userId}})
           .then(response => {
             this.spots = response["data"][0];
           });
