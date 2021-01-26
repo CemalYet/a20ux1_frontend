@@ -117,7 +117,6 @@ const store = new Vuex.Store({
         },
         updateLoggedInUserData(state, userData) {
             state.loggedInUserData = userData;
-            // alert(JSON.stringify(this.getters.getLoggedInUserData[0].userId))
         },
         updateUserEmail(state, email) {
             state.userdata.emailAddress = email
@@ -427,11 +426,6 @@ const store = new Vuex.Store({
         fetchFriendRequests(context) {
             axios.get('/public/friends/getFriendRequest').then(response => (context.commit('updateFriendRequests', response["data"])))
         },
-        /*
-        uploadLoggedInUserData(context, updatedUserData) {
-            context.commit('updateLoggedInUserData', updatedUserData);
-        },
-        */
 
         fetchFriendRequestNotifications(context) {
             //axios post to request the amount of notifications from backend. Pass the userId of logged in user via the session in backend. writer trigger in database

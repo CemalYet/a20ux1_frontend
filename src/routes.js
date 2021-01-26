@@ -378,8 +378,17 @@ const router = new VueRouter({
         {
             path: '/error',
             components: {
-                layout: errorMessage
+                layout: mapLayout
             },
+            children:[
+                {
+                    path:'',
+                    components: {
+                        map: errorMessage
+                    }
+                }
+            ]
+
         }
     ],
     scrollBehavior () {

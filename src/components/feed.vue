@@ -75,7 +75,6 @@ export default {
 
   methods:{
     goToPost(discovery_id){
-      console.log(discovery_id);
       this.$router.push({path: `/post/${discovery_id}`});
     }
   },

@@ -123,7 +123,7 @@
                   v-if="parseInt(friend.state)===1"
                   disabled
                   class="text-capitalize">
-                <!--@click="acceptRequest(friends)" -->
+
                 Friends
               </v-btn>
               <v-btn
@@ -132,7 +132,7 @@
                   color=var(--main-color)
                   outlined
                   class="friend_request_button text-capitalize">
-                <!--@click="acceptRequest(friends)" -->
+
                 Pending
               </v-btn>
               <v-btn
@@ -199,7 +199,6 @@ export default {
         userId_2: user.userId
       });
 
-      // let currentObj = this;
       let formData = new FormData()
       formData.append('data', userId)
 
@@ -220,7 +219,6 @@ export default {
         search_string: this.search
       });
       console.log(search_string)
-      // let currentObj = this;
       let formData = new FormData()
       formData.append('data', search_string)
 
@@ -234,7 +232,6 @@ export default {
         userId_1: request.userId
       });
 
-      // let currentObj = this;
       let formData = new FormData()
       formData.append('data', friendId)
 
@@ -248,7 +245,6 @@ export default {
         userId: request.userId
       });
 
-      // let currentObj = this;
       let formData = new FormData()
       formData.append('data', friendId)
 

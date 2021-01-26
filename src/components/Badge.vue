@@ -29,9 +29,8 @@ export default {
 
 <style>
 .badge{
-    display: inline-block;
-    margin: 1rem;
-    margin-top: -1rem;
+  display: inline-block;
+  margin: -1rem 1rem 1rem;
 }
 
 .rounded-card {

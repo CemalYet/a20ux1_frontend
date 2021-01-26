@@ -56,12 +56,7 @@
             this.errorDialog = true
             this.errorText = 'Your file is too big! Please select an image under 16MB'
           } else {
-            // let formData = new FormData()
-            // let imageURL = URL.createObjectURL(imageFile)
-            // formData.append(fieldName, imageFile)
-
             reader.onload = e => this.$emit('input', e.target.result)
-
             reader.readAsDataURL(imageFile);
           }
         }

@@ -15,7 +15,3 @@ export default {
   name: "loader"
 }
 </script>
-
-<style scoped>
-
-</style>

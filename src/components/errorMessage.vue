@@ -1,7 +1,5 @@
 <template>
-  <v-app>
-    <v-main id="main">
-      <div style="padding-bottom: 58px">
+      <div class="error_container">
         <v-icon
             size="100"
             color=var(--light-color)>
@@ -10,8 +8,6 @@
         <div class="text-h2"> Woops...</div>
         <div class="text-subtitle-1">Something went wrong connection to the server.</div>
       </div>
-    </v-main>
-  </v-app>
 </template>
 
 <script>
@@ -22,10 +18,12 @@ export default {
 
 <style scoped>
 
-#main{
+.error_container{
   text-align: center;
-  align-items: center;
-  height: 100vh;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 </style>

@@ -189,12 +189,6 @@ export default {
 
 <style scoped>
 
-main {
-  background-image: url(../leaves.png);
-  background-repeat: repeat;
-  background-position: center;
-}
-
 #card-outer {
   position: relative;
 }
