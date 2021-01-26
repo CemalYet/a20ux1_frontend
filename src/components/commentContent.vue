@@ -41,7 +41,7 @@
             v-model = "newComment"
             label="Write a comment"
             clearable
-            append-icon="mdi-send"
+            :append-icon=mdiSend
             @click:append="sendCommentToDb"
         ></v-text-field>
       </div>
@@ -54,12 +54,14 @@
 
 import avatar from "@/components/avatar";
 import loader from "@/components/loader";
+import {mdiSend} from '@mdi/js';
 
 export default {
   name: "commentContent",
 
   data: () => ({
     newComment: null,
+    mdiSend: mdiSend
   }),
 
   components: {

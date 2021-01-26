@@ -13,7 +13,7 @@
               icon
           >
             <v-icon size="50">
-              mdi-plus-circle
+              {{ mdiPlusCircle }}
             </v-icon>
           </v-btn>
           <avatar
@@ -138,6 +138,7 @@
 import axios from "axios";
 import ImageInput from "@/components/ImageInput";
 import avatar from "@/components/avatar";
+import {mdiPlusCircle} from '@mdi/js';
 
 export default {
   name: "editProfileContent",
@@ -148,6 +149,7 @@ export default {
   },
 
   data: () => ({
+    mdiPlusCircle: mdiPlusCircle,
     valid: false,
     nameRules: [
       v => !!v || 'Name is required',

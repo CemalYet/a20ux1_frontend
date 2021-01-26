@@ -3,7 +3,7 @@
         <v-icon
             size="100"
             color=var(--light-color)>
-          mdi-robot-confused-outline
+          {{ mdiRobotConfusedOutline }}
         </v-icon>
         <div class="text-h2"> Woops...</div>
         <div class="text-subtitle-1">Something went wrong connection to the server.</div>
@@ -11,8 +11,13 @@
 </template>
 
 <script>
+import {mdiRobotConfusedOutline} from '@mdi/js';
 export default {
-  name: "errorMessage"
+  name: "errorMessage",
+
+  data:()=>({
+    mdiRobotConfusedOutline: mdiRobotConfusedOutline
+  })
 }
 </script>
 

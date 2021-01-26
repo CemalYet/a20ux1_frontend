@@ -1,5 +1,5 @@
 <template>
-  <svg viewBox="0 0 489.46 437.68">
+  <svg class="svg_leaf" viewBox="0 0 489.46 437.68">
     <defs>
       <clipPath id="leaf3">
         <path

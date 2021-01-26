@@ -17,7 +17,7 @@
           ></v-text-field>
           <v-text-field
               v-model="password"
-              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              :append-icon="showPassword ? mdiEye : mdiEyeOff"
               @click:append="showPassword = !showPassword"
               :type="showPassword ? 'text' : 'password'"
               label="Password"
@@ -70,6 +70,8 @@
 
 <script>
 import axios from "axios";
+import {mdiEye} from '@mdi/js';
+import {mdiEyeOff} from '@mdi/js';
 
 export default {
   name: "loginpage.vue",
@@ -81,6 +83,8 @@ export default {
     snackBar: false,
     snackBarText: null,
     loginLoading: false,
+    mdiEye: mdiEye,
+    mdiEyeOff: mdiEyeOff
   }),
 
   methods: {

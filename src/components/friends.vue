@@ -13,7 +13,7 @@
       <v-tabs-slider></v-tabs-slider>
       <v-tab>
         My friends
-        <v-icon color=var(--dark-color)>mdi-account-multiple-outline</v-icon>
+        <v-icon color=var(--dark-color)>{{ mdiAccountMultipleOutline }}</v-icon>
         <v-badge
             color="red"
             :content="updateFriendRequests.length"
@@ -24,7 +24,7 @@
       </v-tab>
       <v-tab>
         Add friend
-        <v-icon color=var(--dark-color)>mdi-account-plus-outline</v-icon>
+        <v-icon color=var(--dark-color)>{{mdiAccountPlusOutline}}</v-icon>
       </v-tab>
     </v-tabs>
 
@@ -55,7 +55,7 @@
                     dark
                     class="mr-4"
                     @click="declineRequest(request)">
-                  <v-icon>mdi-close</v-icon>
+                  <v-icon>{{ mdiClose }}</v-icon>
                 </v-btn>
                 <v-btn
                     depressed
@@ -63,7 +63,7 @@
                     dark
                     icon
                     @click="acceptRequest(request)">
-                  <v-icon>mdi-check</v-icon>
+                  <v-icon>{{ mdiCheck }}</v-icon>
                 </v-btn>
               </v-list-item-icon>
             </v-list-item>
@@ -161,6 +161,10 @@
 import avatar from "@/components/avatar";
 import loader from "@/components/loader";
 import axios from "axios";
+import {mdiAccountMultipleOutline} from '@mdi/js';
+import {mdiAccountPlusOutline} from '@mdi/js';
+import {mdiClose} from '@mdi/js';
+import {mdiCheck} from '@mdi/js';
 
 export default {
   name: "friends",
@@ -168,7 +172,11 @@ export default {
   data: () => ({
     search: '',
     searchResult: null,
-    tab: null
+    tab: null,
+    mdiAccountMultipleOutline: mdiAccountMultipleOutline,
+    mdiAccountPlusOutline: mdiAccountPlusOutline,
+    mdiClose: mdiClose,
+    mdiCheck: mdiCheck
   }),
 
   components: {

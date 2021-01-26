@@ -188,7 +188,7 @@
                       raised
                       @click="removeTag(taggedFriend)"
                   >
-                    <v-icon>mdi-delete</v-icon>
+                    <v-icon>{{ mdiDelete }}</v-icon>
                   </v-btn>
                 </div>
               </div>
@@ -495,6 +495,7 @@ import {required, max} from 'vee-validate/dist/rules'
 import {extend, ValidationObserver, ValidationProvider, setInteractionMode} from 'vee-validate'
 import pictureSlideGroup from "@/components/pictureSlideGroup";
 import Avatar from "@/components/avatar";
+import {mdiDelete} from '@mdi/js';
 
 setInteractionMode('eager')
 
@@ -535,6 +536,7 @@ export default {
     taggedFriends:[],
     taggedFriendsId:[],
     response: null,
+    mdiDelete: mdiDelete
   }),
 
   created() {

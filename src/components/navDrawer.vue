@@ -17,13 +17,13 @@
 
           <v-list-item link :ripple="false" @click="goToWiki">
             <v-list-item-icon>
-              <v-icon large color=var(--main-color)>mdi-tree-outline</v-icon>
+              <v-icon large color=var(--main-color)>{{ mdiTreeOutline }}</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Wiki</v-list-item-title>
           </v-list-item>
           <v-list-item link :ripple="false" @click="goToFriends">
             <v-list-item-icon>
-              <v-icon large color=var(--main-color)>mdi-account-plus-outline</v-icon>
+              <v-icon large color=var(--main-color)>{{ mdiAccountPlusOutline }}</v-icon>
               <v-badge
                   color="red"
                   :content="friendRequestNotifications"
@@ -35,13 +35,13 @@
           </v-list-item>
           <v-list-item link :ripple="false"  @click.native="goToBadges">
             <v-list-item-icon>
-              <v-icon large color=var(--main-color)>mdi-medal-outline</v-icon>
+              <v-icon large color=var(--main-color)>{{ mdiMedalOutline }}</v-icon>
             </v-list-item-icon>
             <v-list-item-title >Badges</v-list-item-title >
           </v-list-item>
           <v-list-item link :ripple="false" @click.native="goToMap">
             <v-list-item-icon>
-              <v-icon large color=var(--main-color)>mdi-map-outline</v-icon>
+              <v-icon large color=var(--main-color)>{{ mdiMapOutline }}</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Map</v-list-item-title>
           </v-list-item>
@@ -54,13 +54,13 @@
         <template v-slot:append>
           <div class="pa-2">
             <v-btn text :ripple="false" @click="goToSettings">
-              <v-icon large color=var(--main-color) left>mdi-cog-outline</v-icon>
+              <v-icon large color=var(--main-color) left>{{ mdiCogOutline }}</v-icon>
               Settings
             </v-btn>
           </div>
           <div class="pa-2">
             <v-btn text :ripple="false" @click="logOut">
-              <v-icon large color=var(--main-color) left>mdi-logout</v-icon>
+              <v-icon large color=var(--main-color) left>{{ mdiLogout }}</v-icon>
               Logout
             </v-btn>
           </div>
@@ -71,11 +71,23 @@
 
 <script>
 import userAvatarPlusInfo from "@/components/userAvatarPlusInfo";
+import {mdiTreeOutline} from '@mdi/js';
+import {mdiAccountPlusOutline} from '@mdi/js';
+import {mdiMapOutline} from '@mdi/js';
+import {mdiMedalOutline} from '@mdi/js';
+import {mdiCogOutline} from '@mdi/js';
+import {mdiLogout} from '@mdi/js';
 
 export default {
   name: "navDrawer",
   data: () => ({
-    userId:null
+    userId:null,
+    mdiTreeOutline: mdiTreeOutline,
+    mdiAccountPlusOutline: mdiAccountPlusOutline,
+    mdiMapOutline: mdiMapOutline,
+    mdiMedalOutline: mdiMedalOutline,
+    mdiCogOutline: mdiCogOutline,
+    mdiLogout: mdiLogout
   }),
 
   components:{

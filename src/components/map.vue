@@ -28,7 +28,7 @@
               label="Search discoveries"
               solo
               clearable
-              prepend-inner-icon='mdi-arrow-left'
+              :prepend-inner-icon= mdiArrowLeft
               color="var(--dark-color)"
               v-model="updateSearchField"
               @click:prepend-inner="goBack"
@@ -115,13 +115,13 @@
           </div>
           <div id="route_button">
             <v-btn
-                color="var(--main-color)"
+                color=var(--main-color)
                 dark
                 @click="openGoogleMap(getSelectedMarker)"
             >
               <v-icon
               left>
-                mdi-map-marker-radius-outline
+                {{ mdiMapMarkerRadiusOutline }}
               </v-icon>
               route
             </v-btn>
@@ -135,6 +135,8 @@
 <script>
 import GmapCustomMarker from 'vue2-gmap-custom-marker';
 import avatar from "@/components/avatar";
+import {mdiArrowLeft} from '@mdi/js';
+import {mdiMapMarkerRadiusOutline} from '@mdi/js';
 
 export default {
   name: "map",
@@ -145,6 +147,8 @@ export default {
         disableDefaultUI: true,
       },
       postToShow: null,
+      mdiArrowLeft: mdiArrowLeft,
+      mdiMapMarkerRadiusOutline: mdiMapMarkerRadiusOutline
     };
   },
 

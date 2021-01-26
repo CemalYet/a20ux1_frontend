@@ -11,7 +11,7 @@
       >
         <input type="file" ref="camera_no_pic" accept="image/*" capture="camera" style="display: none;"  @change="addImage"/>
         <v-icon class="added_discovery_images" style="width: 80vw; max-width: 350px" size="68" color="white">
-          mdi-camera-plus
+          {{ mdiCameraPlus }}
         </v-icon>
       </v-card>
     </div>
@@ -30,7 +30,7 @@
         >
           <input type="file" ref="camera" accept="image/*" capture="camera" style="display: none;"  @change="addImage"/>
           <v-icon class="added_discovery_images" style="width: 160px" size="68" color="white">
-            mdi-camera-plus
+            {{ mdiCameraPlus }}
           </v-icon>
         </v-card>
       </v-slide-item>
@@ -48,7 +48,7 @@
                 color="error"
                 raised
             >
-              <v-icon>mdi-delete</v-icon>
+              <v-icon>{{ mdiDelete }}</v-icon>
             </v-btn>
           </div>
           <v-img class="added_discovery_images ma-2" :src="image.photoPath"></v-img>
@@ -59,8 +59,15 @@
 </template>
 
 <script>
+import {mdiCameraPlus} from '@mdi/js';
+import {mdiDelete} from '@mdi/js';
 export default {
   name: "pictureSlideGroup",
+
+  data:()=>({
+    mdiCameraPlus: mdiCameraPlus,
+    mdiDelete: mdiDelete
+  }),
 
   computed:{
     updateDiscoveryImages(){

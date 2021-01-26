@@ -50,14 +50,14 @@
         <div class="icons1">
           <!-- Like button clicked or not clicked, NOT IMPLEMENTED: showing the icon based on db information -->
           <v-btn icon v-on:click="likeClicked = false" v-if="likeClicked" class="icon">
-            <v-icon large color=var(--dark-color) @click="deleteLikeFromDb">mdi-heart</v-icon>
+            <v-icon large color=var(--dark-color) @click="deleteLikeFromDb">{{ mdiHeart }}</v-icon>
           </v-btn>
           <v-btn icon v-on:click="likeClicked = true" v-else class="icon">
-            <v-icon large color=var(--dark-color) @click="sendLikeToDb">mdi-heart-outline</v-icon>
+            <v-icon large color=var(--dark-color) @click="sendLikeToDb">{{ mdiHeartOutline }}</v-icon>
           </v-btn>
           <!-- Comment button -->
           <v-btn icon class="icon" @click.stop="goToComments">
-            <v-icon large color=var(--dark-color)>mdi-comment-multiple-outline</v-icon>
+            <v-icon large color=var(--dark-color)>{{ mdiCommentMultipleOutline }}</v-icon>
           </v-btn>
           <!-- Tag button clicked or not clicked, with menu for the tags -->
           <v-menu offset-y top>
@@ -67,7 +67,7 @@
                      v-bind="attrs"
                      v-on="on"
               >
-                <v-icon large color=var(--dark-color)>mdi-tag-outline</v-icon>
+                <v-icon large color=var(--dark-color)>{{ mdiTagOutline }}</v-icon>
               </v-btn>
             </template>
             <v-list v-for="tag in getTaggedFriends" :key="tag" dense>
@@ -80,13 +80,13 @@
         <div class="icons2">
           <!-- NOT IMPLEMENTED YET: saving to the db that this discovery is favorited -->
           <v-btn icon v-on:click="favorited = false" v-if="favorited">
-            <v-icon large color=var(--dark-color)>mdi-leaf</v-icon>
+            <v-icon large color=var(--dark-color)>{{ mdiLeaf }}</v-icon>
           </v-btn>
           <v-btn icon v-on:click="favorited = true" v-else>
             <v-icon large color="#5B5C5C">mdi-leaf</v-icon>
           </v-btn>
           <v-btn icon v-on:click="showOnMap">
-            <v-icon large color=var(--dark-color)>mdi-map-marker</v-icon>
+            <v-icon large color=var(--dark-color)>{{ mdiMapMarker }}</v-icon>
           </v-btn>
         </div>
       </div>
@@ -187,6 +187,12 @@
 import axios from "axios";
 import avatar from "@/components/avatar";
 import loader from "@/components/loader";
+import {mdiHeart} from '@mdi/js';
+import {mdiHeartOutline} from '@mdi/js';
+import {mdiCommentMultipleOutline} from '@mdi/js';
+import {mdiTagOutline} from '@mdi/js';
+import {mdiLeaf} from '@mdi/js';
+import {mdiMapMarker} from '@mdi/js';
 
 export default {
   name: "postContent",
@@ -199,6 +205,12 @@ export default {
   data: () => ({
     likeClicked: false,
     favorited: false,
+    mdiHeart: mdiHeart,
+    mdiHeartOutline: mdiHeartOutline,
+    mdiCommentMultipleOutline: mdiCommentMultipleOutline,
+    mdiTagOutline: mdiTagOutline,
+    mdiLeaf: mdiLeaf,
+    mdiMapMarker: mdiMapMarker,
   }),
 
   methods: {

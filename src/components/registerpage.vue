@@ -62,7 +62,7 @@
               <v-text-field
                   v-model="password"
                   :rules="passwordRules"
-                  :append-icon="showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
+                  :append-icon="showPassword1 ? mdiEye : mdiEyeOff"
                   @click:append="showPassword1 = !showPassword1"
                   :type="showPassword1 ? 'text' : 'password'"
                   label="New password"
@@ -74,7 +74,7 @@
               <v-text-field
                   v-model="confirmPassword"
                   :rules="passwordRules"
-                  :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
+                  :append-icon="showPassword2 ? mdiEye : mdiEyeOff"
                   @click:append="showPassword2 = !showPassword2"
                   :type="showPassword2 ? 'text' : 'password'"
                   label="Repeat new password"
@@ -258,7 +258,7 @@
                 x-large
                 right
             >
-              mdi-check-bold
+              {{ mdiCheckBold }}
             </v-icon>
           </v-btn>
         </div>
@@ -285,11 +285,17 @@
 
 <script>
 import axios from "axios";
+import {mdiEye} from '@mdi/js';
+import {mdiEyeOff} from '@mdi/js';
+import {mdiCheckBold} from '@mdi/js';
 
 export default {
   name: "registerpage.vue",
 
   data: () => ({
+    mdiEye: mdiEye,
+    mdiEyeOff: mdiEyeOff,
+    mdiCheckBold: mdiCheckBold,
     e1: 1,
     userName: null,
     emailAddress: null,

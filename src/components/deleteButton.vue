@@ -4,15 +4,20 @@
       @click.stop="openDialog"
       v-if="checkPostOwner"
   >
-    <v-icon large color=var(--dark-color)>mdi-trash-can-outline</v-icon>
+    <v-icon large color=var(--dark-color)>{{ mdiTrashCanOutline }}</v-icon>
   </v-btn>
 
 
 </template>
 
 <script>
+import {mdiTrashCanOutline} from '@mdi/js';
 export default {
   name: "deleteButton",
+
+  date:()=>({
+    mdiTrashCanOutline: mdiTrashCanOutline
+  }),
 
   methods: {
     openDialog() {
