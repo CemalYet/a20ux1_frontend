@@ -14,7 +14,10 @@
             :marker="{lat: m.Latitude, lng: m.Longitude}"
             @click.native="getDiscoInfo(m); getPhotos(m.discoveryId)"
         >
-          <img class="custom_pin" src="../assets/pin.png" alt=""/>
+          <img v-if="theme === 'Summer'" class="custom_pin" src="../assets/summer_pin.png" alt=""/>
+          <img v-else-if="theme === 'Fall'" class="custom_pin" src="../assets/fall_pin.png" alt=""/>
+          <img v-else-if="theme === 'Winter'" class="custom_pin" src="../assets/winter_pin.png" alt=""/>
+          <img v-else-if="theme === 'Spring'" class="custom_pin" src="../assets/spring_pin.png" alt=""/>
         </gmap-custom-marker>
       </GmapMap>
     </div>
@@ -143,6 +146,7 @@ export default {
 
   data() {
     return {
+      theme: null,
       mapOptions: {
         disableDefaultUI: true,
       },
@@ -175,6 +179,25 @@ export default {
     } else{
       this.$store.dispatch('MapCenter');
       this.$store.dispatch('discoveriesMe');
+    }
+
+    this.theme = this.$store.getters.getTheme;
+    if (this.theme === 'Seasons') {
+      let createSeasonResolver = require('date-season')
+      let seasonNorth = createSeasonResolver()
+      let date = new Date()
+      if (seasonNorth(date) === 'Summer') {
+        this.theme = 'Summer';
+      }
+      if (seasonNorth(date) === 'Fall') {
+        this.theme = 'Fall';
+      }
+      if (seasonNorth(date) === 'Winter') {
+        this.theme = 'Winter';
+      }
+      if (seasonNorth(date) === 'Spring') {
+        this.theme = 'Spring';
+      }
     }
   },
 
@@ -219,9 +242,6 @@ export default {
   },
 
   methods: {
-    getPinColor() {
-      return this.$store.getters.getTheme;
-    },
     selectSearch(search) {
       this.getDiscoInfo(search)
       this.getPhotos(search.discoveryId)
