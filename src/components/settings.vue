@@ -1,6 +1,10 @@
 <template>
   <v-container>
     <br>
+    <br>
+    <br>
+    <languageSwitch />
+    <br>
     <h4>{{ $t('settings.selectTheme') }}</h4>
   <div class="text-center">
     <v-select
