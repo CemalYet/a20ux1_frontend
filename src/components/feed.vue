@@ -46,6 +46,20 @@
       </div>
     </div>
     <br>
+    <div class="center">
+    <v-btn
+        depressed
+        color=var(--main-color)
+        dark
+        class="text-capitalize"
+        @click="postFeedAmount"
+    >
+      {{ $t('buttons.loadMore') }}
+    </v-btn>
+    </div>
+    <br>
+    <br>
+    <br>
     <br>
   </v-container>
 </template>
@@ -58,6 +72,7 @@ import leaf4 from "@/components/leaves/leaf4";
 import leaf5 from "@/components/leaves/leaf5";
 import avatar from "@/components/avatar";
 import loader from "@/components/loader";
+
 
 export default {
   name: "feed",
@@ -80,6 +95,13 @@ export default {
   methods:{
     goToPost(discovery_id){
       this.$router.push({path: `/post/${discovery_id}`});
+    },
+    postFeedAmount(){
+      let updatedAmount=this.$store.getters.getAmountOfFeed
+      updatedAmount+=5
+      this.$store.commit('updateFeedAmount', updatedAmount)
+      console.log(this.$store.getters.getAmountOfFeed)
+      this.$store.dispatch('fetchFriendsDiscoveries')
     }
   },
 
@@ -87,7 +109,6 @@ export default {
     discoveriesData(){
       return this.$store.getters.getDiscoveries;
     },
-
     feedDataLoading(){
       return this.$store.getters.feedDataLoading;
     },
@@ -132,7 +153,6 @@ export default {
   justify-content: center;
 }
 
-
 .discovery_container {
   position: relative;
   width: 90%;
@@ -144,9 +164,11 @@ export default {
   top: 80%;
   background-color: rgba(255, 255, 255, 0.5);
 }
+.center{
+  text-align: center;
+}
 
 .leaf {
   margin: 6px;
 }
-
 </style>

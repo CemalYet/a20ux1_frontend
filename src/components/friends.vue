@@ -168,7 +168,7 @@
 
 <script>
 import avatar from "@/components/avatar";
-import loader from "@/components/loader";
+
 import axios from "axios";
 import {mdiAccountMultipleOutline} from '@mdi/js';
 import {mdiAccountPlusOutline} from '@mdi/js';
@@ -194,7 +194,6 @@ export default {
 
   components: {
     avatar,
-    loader
   },
 
   mounted() {

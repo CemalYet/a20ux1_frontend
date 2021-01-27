@@ -29,6 +29,7 @@ const store = new Vuex.Store({
         ///// FEED /////
         discoveries: [],
         feedDataLoading: false,
+        feedAmount:5,
 
         ///// PROFILE /////
         fetchedUserData: [],
@@ -168,6 +169,9 @@ const store = new Vuex.Store({
         },
         updateFeedDataLoading(state, value){
             state.feedDataLoading = value;
+        },
+        updateFeedAmount(state, value){
+            state.feedAmount = value;
         },
 
         ///// FRIENDS /////
@@ -425,13 +429,12 @@ const store = new Vuex.Store({
         ///// FEED /////
         fetchFriendsDiscoveries(context){
             context.commit('updateFeedDataLoading', true);
-            axios.get('/public/feedcontroller/getDiscoveries').then(response => {
+            let feedAmount=context.getters.getAmountOfFeed
+            axios.get('/public/feedcontroller/getDiscoveries',{params: {data:feedAmount}}).then(response => {
                 context.commit('updateDiscoveries', response["data"]);
                 context.commit('updateFeedDataLoading', false);
             })
         },
-
-
         ///// FRIENDS /////
         fetchFriends(context) {
             context.commit('updateFriendsDataLoading', true);
@@ -605,6 +608,9 @@ const store = new Vuex.Store({
         feedDataLoading(state){
             return state.feedDataLoading;
         },
+        getAmountOfFeed(state){
+            return state.feedAmount;
+        },
 
         ///// PROFILE /////
         getUserId(state) {
@@ -754,7 +760,9 @@ const store = new Vuex.Store({
         },
         getPrevDiscoveryId(state){
             return state.prevDiscoveryId;
-        }
+        },
+
+
     }
 })
 
