@@ -4,7 +4,7 @@
             <img class="badge_icon" src="../assets/badge_icon.png" >
             <spam class="badgeText">
                 <v-card-title class="badgeTitle">{{ title }}</v-card-title>
-                <v-card-subtitle class="badgeSubtitle"> {{ subtitle }} </v-card-subtitle>
+                <v-card-subtitle class="badgeSubtitle"> {{ $t('badges.noMessage') }} </v-card-subtitle>
             </spam>
         </div>
     </div>
@@ -17,10 +17,7 @@ export default {
       type: String,
       default: '',
     },
-    subtitle: {
-      type: String,
-      default: 'You didn\'t receive this badge yet',
-    },
+
   },
   
   // created: function() {}

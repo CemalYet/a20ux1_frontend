@@ -10,6 +10,8 @@ const store = new Vuex.Store({
     state: {
         theme: "Seasons",
 
+        language: localStorage.getItem("appLanguage") || process.env.VUE_APP_I18N_LOCALE || 'en',
+
         ///// USERDATA /////
         loggedInUserData: [],
 
@@ -100,6 +102,11 @@ const store = new Vuex.Store({
     mutations: {
         changeTheme(state, value) {
             state.theme = value;
+        },
+
+        changeLanguage(state, value) {
+            state.language = value;
+            localStorage.setItem("appLanguage", value); 
         },
 
         //change data
@@ -552,6 +559,11 @@ const store = new Vuex.Store({
                 }
 
             });
+        },
+
+        //////// SETTINGS /////
+        updateLanguage(context, lang){
+            context.commit('changeLanguage', lang);
         }
     },
 
@@ -559,6 +571,9 @@ const store = new Vuex.Store({
         getTheme(state) {
             console.log(state.theme);
             return state.theme;
+        },
+        getLanguage(state) {
+            return state.language;
         },
         //to get state data
         getDrawerState(state) {

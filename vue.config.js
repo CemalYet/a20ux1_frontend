@@ -3,6 +3,7 @@ module.exports = {
   "transpileDependencies": [
     "vuetify"
   ],
+
   publicPath: process.env.NODE_ENV === 'production'
   ? '/'
   : '/',
@@ -10,6 +11,12 @@ module.exports = {
   assetsDir: '../../public',
   indexPath: 'index.html',
   pluginOptions: {
+    i18n: {
+      locale: 'en',
+      fallbackLocale: 'en',
+      localeDir: 'locales',
+      enableInSFC: false
+    },
     webpackBundleAnalyzer: {
       openAnalyzer: true
     },
