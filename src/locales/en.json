@@ -160,5 +160,14 @@
     "settings": "Settings",
     "profile": "Profile",
     "edit": "Edit profile"
+  },
+  "settings": {
+    "selectTheme": "Select a theme:",
+    "applyBtn": "APPLY",
+    "summer": "Summer",
+    "winter": "Winter",
+    "fall": "Fall",
+    "spring": "Spring",
+    "seasons": "Seasons"
   }
 }

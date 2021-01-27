@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="languageContainer">
         <div>
-            <v-btn v-for="entry in languages" :key="entry.title" @click.native="changeLocale(entry.language)">
+            <v-btn class="languageBtn" v-for="entry in languages" :key="entry.title" @click.native="changeLocale(entry.language)">
                 <flag class="flagImg" :iso="entry.flag" v-bind:squared=false /> {{entry.title}}
             </v-btn>
         </div>
@@ -34,6 +34,14 @@ export default {
   margin: auto;
 },
 .flagImg {
-    margin-right: 1rem;
+  margin-right: 1rem;
 }
+.languageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* .languageBtn{
+  margin: 1rem;
+} */
 </style>

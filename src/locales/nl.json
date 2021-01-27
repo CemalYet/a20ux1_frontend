@@ -154,6 +154,15 @@
     "settings": "Instellingen",
     "profile": "Profiel",
     "edit": "Bewerk profiel"
+  },
+  "settings": {
+    "selectTheme": "Kies een thema:",
+    "applyBtn": "TOEPASSEN",
+    "summer": "Zomer",
+    "winter": "Winter",
+    "fall": "Herfst",
+    "spring": "Lente",
+    "seasons": "Seizoenen"
   }
 
 }

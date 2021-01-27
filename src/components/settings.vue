@@ -1,62 +1,75 @@
 <template>
-  <div class="text-center">
+  <v-container>
+    <br>
     <br>
     <br>
     <languageSwitch />
     <br>
-    <v-menu offset-y>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-            color=var(--main-color)
-            dark
-            v-bind="attrs"
-            v-on="on"
-        >
-          {{ $t('buttons.changeTh') }}
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item
-            v-for="(item, index) in items"
-            :key="index"
-        >
-          <v-list-item-title @click="updateTheme(item.title)">{{ item.title }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-    <v-btn @click="refresh">{{ $t('buttons.apply') }}</v-btn>
-    
+    <h4>{{ $t('settings.selectTheme') }}</h4>
+  <div class="text-center">
+    <v-select
+        id="select"
+        v-model="select"
+        :items="items"
+        item-text="title"
+        return-object
+        single-line
+        :label="select.title"
+        color="var(--dark-color)">
+    </v-select>
+    <v-btn @click="updateTheme(select.title);refresh();">{{ $t('settings.applyBtn') }}</v-btn>
   </div>
+  </v-container>
 </template>
+
+
 
 <script>
 import languageSwitch from "@/components/languageSwitch";
+import i18n from '../i18n.js';
+
 export default {
-name: "settings",
-components: {
-  languageSwitch,
-},
-  data: () => ({
-    items: [
-      { title: 'Summer' },
-      { title: 'Fall' },
-      { title: 'Winter' },
-      { title: 'Spring' },
-      { title: 'Seasons' },
-    ],
-  }),
+  name: "settings",
+  components: {
+    languageSwitch,
+  },
+  data() {
+    var language = 'en';
+    return {
+      select: {title: null},
+      items: [
+        {title: i18n.t('settings.summer', language)},
+        {title: i18n.t('settings.fall', language)},
+        {title: i18n.t('settings.winter', language)},
+        {title: i18n.t('settings.spring', language)},
+        {title: i18n.t('settings.seasons', language)}
+      ]
+    }
+  },
 
   methods: {
     updateTheme(season) {
       this.$store.commit("changeTheme", season);
+      this.updateLanguage();
     },
     refresh() {
       this.$router.back();
     },
+    updateLanguage(){
+      this.language = this.$store.getters.getLanguage;
+    }
+  },
+
+  mounted() {
+    this.select.title = this.$store.getters.getTheme;
+    this.updateLanguage();
   }
 }
 </script>
 
 <style scoped>
-
+#select {
+  width: 80vw;
+  max-width: 500px;
+}
 </style>
