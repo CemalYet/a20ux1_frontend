@@ -1,4 +1,4 @@
-const webpack = require('webpack')
+
 module.exports = {
   "transpileDependencies": [
     "vuetify"
@@ -29,11 +29,28 @@ module.exports = {
         include: /\.(js|css|html|svg|json)(\?.*)?$/i,
         minRatio: 0.8,
       }
-    }
+    },
   },
   chainWebpack: config => {
     config.plugin('brotli-compression')
     config.plugin('gzip-compression')
-    config.plugin('preload')
+
+
+    /*
+       Disable (or customize) prefetch, see:
+       https://cli.vuejs.org/guide/html-and-static-assets.html#prefetch
+
+    config.plugins.delete('prefetch')
+
+
+       Configure preload to load all chunks
+       NOTE: use `allChunks` instead of `all` (deprecated)
+
+    config.plugin('preload').tap((options) => {
+      options[0].include = 'allChunks'
+      return options
+    })
+
+     */
   },
 }
