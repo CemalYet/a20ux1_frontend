@@ -6,7 +6,7 @@
         color= var(--dark-color)
     >
     </v-progress-circular>
-    <div class="text-body-1 ma-2">Loading... Please wait.</div>
+    <div class="text-body-1 ma-2">{{$t('loading.message')}} </div>
   </div>
 </template>
 

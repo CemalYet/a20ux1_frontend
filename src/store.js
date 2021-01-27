@@ -10,6 +10,8 @@ const store = new Vuex.Store({
     state: {
         theme: "Seasons",
 
+        language: localStorage.getItem("appLanguage") || process.env.VUE_APP_I18N_LOCALE || 'en',
+
         ///// USERDATA /////
         loggedInUserData: [],
 
@@ -100,6 +102,11 @@ const store = new Vuex.Store({
     mutations: {
         changeTheme(state, value) {
             state.theme = value;
+        },
+
+        changeLanguage(state, value) {
+            state.language = value;
+            localStorage.setItem("appLanguage", value); 
         },
 
         //change data
@@ -368,6 +375,17 @@ const store = new Vuex.Store({
             })
         },
 
+        //settings
+        updateReminder(context, days) {
+            const json = JSON.stringify({
+                my_days: days,
+                my_id: context.getters.getLoggedInUserData[0].userId
+            });
+            axios.post('register/changeReminders', json).then(response => {
+                console.log(response);
+            })
+        },
+
         // current user's data
         fetchLoggedInUserData(context) {
             axios.get('/public/profile/getCurrentUserData').then(response => {
@@ -545,13 +563,18 @@ const store = new Vuex.Store({
         fetchHeartButton(context, discoveryId){
             axios.get('/public/discovery/getHeartButton', {params: {data: discoveryId}}).then(response => {
                 console.log(response["data"]);
-                if(response["data"].length !== 0){
-                    context.commit("updateHeartButton", true)
-                } else {
+                if(response["data"].length === []){
                     context.commit("updateHeartButton", false)
+                } else {
+                    context.commit("updateHeartButton", true)
                 }
 
             });
+        },
+
+        //////// SETTINGS /////
+        updateLanguage(context, lang){
+            context.commit('changeLanguage', lang);
         }
     },
 
@@ -559,6 +582,9 @@ const store = new Vuex.Store({
         getTheme(state) {
             console.log(state.theme);
             return state.theme;
+        },
+        getLanguage(state) {
+            return state.language;
         },
         //to get state data
         getDrawerState(state) {
