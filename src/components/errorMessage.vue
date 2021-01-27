@@ -6,7 +6,7 @@
           {{ mdiRobotConfusedOutline }}
         </v-icon>
         <div class="text-h2"> Woops...</div>
-        <div class="text-subtitle-1">Something went wrong connection to the server.</div>
+        <div class="text-subtitle-1">{{ $t('errorMessages.message') }}.</div>
       </div>
 </template>
 

@@ -5,7 +5,7 @@
 
       <div class="mx-auto" style="max-width: 100%">
         <div class="text-subtitle-1" style="text-align: center">
-          Add up to 5 pictures to determine the type of plant. You can add nice pictures for posting your discovery later.
+          '{{ $t('snap.message') }}'
         </div>
 
         <pictureSlideGroup></pictureSlideGroup>
@@ -27,7 +27,7 @@
               :loading="loading"
               :disabled="(updateDiscoveryImages.length === 0 || loading)"
           >
-            What plant is this?
+            {{ $t('buttons.what') }}
           </v-btn>
         </v-row>
       </div>
@@ -40,7 +40,7 @@
           v-if="getInformationCards[0].title !== null"
       >
         <div style="text-align: center">
-          <h3>Click on a match to see more information and confirm the one you want to add to the discovery.</h3>
+          <h3>{{ $t('snap.remark') }}</h3>
         </div>
         <v-row
             class="mx-auto"
@@ -72,7 +72,7 @@
                           small
                           @click="getInformation(i)"
                       >
-                        MORE INFORMATION
+                        {{ $t('snap.info') }}
                       </v-btn>
                     </v-card-actions>
                   </div>
@@ -107,7 +107,7 @@
             v-bind="attrs"
             @click="updateSnackbar = false"
         >
-          Close
+          {{ $t('buttons.close') }}
         </v-btn>
       </template>
     </v-snackbar>

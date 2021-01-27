@@ -4,6 +4,8 @@
       <h1> snAPP </h1>
     </div>
 
+    <languageSwitch/>
+
     <div class="form">
       <v-form @submit.prevent="checkLogin">
         <v-container>
@@ -20,7 +22,7 @@
               :append-icon="showPassword ? mdiEye : mdiEyeOff"
               @click:append="showPassword = !showPassword"
               :type="showPassword ? 'text' : 'password'"
-              label="Password"
+              :label="$t('register.passLab')"
               required
               outlined
               color=var(--main-color);
@@ -29,22 +31,22 @@
         </v-container>
         <div class="loginButtons">
           <v-btn
-              width="100px"
+              width="115px"
               color=var(--dark-color)
               class="white--text"
               @click.native="goToRegister"
           >
-            REGISTER
+            {{ $t('login.registerB') }}
           </v-btn>
           <v-btn
-              width="100px"
+              width="115px"
               color=var(--dark-color)
               class="white--text"
               type="submit"
               :loading="updateLoginLoading"
               :disabled="updateLoginLoading"
           >
-            LOGIN
+            {{ $t('login.loginB') }}
           </v-btn>
           <v-snackbar
               v-model="snackBar"
@@ -65,6 +67,23 @@
         </div>
       </v-form>
     </div>
+
+
+    <v-snackbar
+        v-model="snackBar"
+        color="error"
+    >
+      {{this.snackBarText}}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+            text
+            v-bind="attrs"
+            @click="snackBar = false"
+        >
+          {{ $t('buttons.close') }}
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -72,12 +91,17 @@
 import axios from "axios";
 import {mdiEye} from '@mdi/js';
 import {mdiEyeOff} from '@mdi/js';
+import languageSwitch from "@/components/languageSwitch";
 
 export default {
   name: "loginpage.vue",
 
   metaInfo:{
     title: "snAPP Login",
+  },
+
+  components: {
+    languageSwitch
   },
 
   data: () => ({
@@ -108,7 +132,7 @@ export default {
           this.loggedIn(response["data"]);
           // eslint-disable-next-line no-unused-vars
         }).catch(err => {
-          this.snackBarText = "Something is wrong with the server. Please try again later.";
+          this.snackBarText =this.$t('login.serverErr') ;
           this.updateLoginLoading = false;
         })
       }
@@ -120,7 +144,7 @@ export default {
         this.$router.push({path: "/"});
       } else {
         this.updateLoginLoading = false;
-        this.snackBarText = "Login credentials are not valid. Try again.";
+        this.snackBarText = this.$t('login.notValid');
         this.snackBar = true;
       }
       this.updateUserEmail();

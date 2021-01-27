@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app v-bind:class="{ summer: isSummer, fall: isFall, winter: isWinter, spring: isSpring }">
     <!--Bar at the top of the page-->
     <router-view name="appBar"></router-view>
 

@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app v-bind:class="{ summer: isSummer, fall: isFall, winter: isWinter, spring: isSpring }">
     <v-main v-bind:class="{ summer: isSummer, fall: isFall, winter: isWinter, spring: isSpring }">
       <router-view name="map"></router-view>
     </v-main>

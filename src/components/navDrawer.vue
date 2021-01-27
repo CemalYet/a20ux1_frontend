@@ -30,7 +30,7 @@
                 :value="friendRequestNotifications"
                 overlap
             ></v-badge>
-            Friends
+            {{ $t('buttons.friends')}}
           </v-btn>
         </div>
         <div class="pa-2">
@@ -42,7 +42,7 @@
         <div class="pa-2">
           <v-btn text :ripple="false" @click="goToMap">
             <v-icon large color=var(--main-color) left>{{ mdiMapOutline }}</v-icon>
-            Map
+            {{ $t('buttons.map')}}
           </v-btn>
         </div>
       </template>
@@ -53,13 +53,13 @@
         <div class="pa-2">
           <v-btn text :ripple="false" @click="goToSettings">
             <v-icon large color=var(--main-color) left>{{ mdiCogOutline }}</v-icon>
-            Settings
+            {{ $t('buttons.settings')}}
           </v-btn>
         </div>
         <div class="pa-2">
           <v-btn text :ripple="false" @click="logOut">
             <v-icon large color=var(--main-color) left>{{ mdiLogout }}</v-icon>
-            Logout
+            {{ $t('buttons.logout')}}
           </v-btn>
         </div>
       </template>
