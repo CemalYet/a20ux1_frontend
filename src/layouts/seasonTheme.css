@@ -1,3 +1,27 @@
+.summerColor {
+    --light-color: #bef67a;
+    --main-color: #8bc34a;
+    --dark-color: #5a9216;
+}
+
+.fallColor {
+    --light-color: #ffd149;
+    --main-color: #ffa000;
+    --dark-color: #c67100;
+}
+
+.winterColor {
+    --light-color: #39796b;
+    --main-color: #004d40;
+    --dark-color: #00251a;
+}
+
+.springColor {
+    --light-color: #80e27e;
+    --main-color: #4caf50;
+    --dark-color: #087f23;
+}
+
 .summer {
     background-image: url(../assets/summer.png);
     background-color: rgba(255, 255, 255, 0.4);
@@ -5,9 +29,6 @@
     background-repeat: repeat;
     background-position: center;
     background-size: 100vh;
-    --light-color: #bef67a;
-    --main-color: #8bc34a;
-    --dark-color: #5a9216;
 }
 
 .fall {
@@ -17,9 +38,6 @@
     background-repeat: repeat;
     background-position: center;
     background-size: 100vh;
-    --light-color: #ffd149;
-    --main-color: #ffa000;
-    --dark-color: #c67100;
 }
 
 .winter {
@@ -29,9 +47,6 @@
     background-repeat: repeat;
     background-position: center;
     background-size: 100vh;
-    --light-color: #39796b;
-    --main-color: #004d40;
-    --dark-color: #00251a;
 }
 
 .spring {
@@ -41,9 +56,6 @@
     background-repeat: repeat;
     background-position: center;
     background-size: 100vh;
-    --light-color: #80e27e;
-    --main-color: #4caf50;
-    --dark-color: #087f23;
 }
 
 @media (min-width: 900px) {

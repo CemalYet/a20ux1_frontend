@@ -3,6 +3,7 @@
     <div id="Discovery_map">
       <!--Google Maps map with custom markers-->
       <GmapMap
+          ref="mapRef"
           :center=getMapCenter
           :zoom=12
           style="width:100vw; height:100vh;"
@@ -250,12 +251,15 @@ export default {
     },
     getMyDiscoveries() {
       this.$store.dispatch('discoveriesMe');
+      this.$refs.mapRef.$mapPromise.then((map) => {map.setZoom(8);})
     },
     getFriendsDiscoveries() {
       this.$store.dispatch('discoveriesFriends');
+      this.$refs.mapRef.$mapPromise.then((map) => {map.setZoom(8);})
     },
     getPopularDiscoveries() {
       this.$store.dispatch('discoveriesPopular');
+      this.$refs.mapRef.$mapPromise.then((map) => {map.setZoom(8);})
     },
     searchEnter() {
       this.$store.dispatch('searchDiscoveries');

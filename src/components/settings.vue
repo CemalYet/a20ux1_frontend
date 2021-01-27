@@ -9,6 +9,7 @@
         id="select"
         v-model="select"
         item-text="title"
+        :items="items"
         return-object
         single-line
         :label="select.title"
