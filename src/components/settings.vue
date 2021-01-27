@@ -1,9 +1,7 @@
 <template>
   <v-container>
     <br>
-    <br>
-    <br>
-    <languageSwitch />
+    <v-row justify="center"> <languageSwitch /> </v-row>
     <br>
     <h4>{{ $t('settings.selectTheme') }}</h4>
   <div class="text-center">
@@ -19,7 +17,7 @@
     <v-btn @click="updateTheme(select.title);refresh();">{{ $t('settings.applyBtn') }}</v-btn>
   </div>
     <br>
-    <h4>Change the reminder settings:</h4>
+    <h4> {{ $t('settings.reminderChange') }} </h4>
       <v-btn-toggle
           v-model="toggle_multiple"
           multiple
@@ -33,61 +31,60 @@
             elevation="2"
             class="btn"
         >
-          Mo
+          {{ $t('days.mo') }}
         </v-btn>
         <v-btn
             elevation="2"
             value="2"
             class="btn"
         >
-          Tu
+          {{ $t('days.tu') }}
         </v-btn>
         <v-btn
             elevation="2"
             value="3"
             class="btn"
         >
-          We
+          {{ $t('days.we') }}
         </v-btn>
         <v-btn
             elevation="2"
             value="4"
             class="btn"
         >
-          Th
+          {{ $t('days.th') }}
         </v-btn>
         <v-btn
             elevation="2"
             value="5"
             class="btn"
         >
-          Fr
+          {{ $t('days.fr') }}
         </v-btn>
         <v-btn
             elevation="2"
             value="6"
             class="btn"
         >
-          Sa
+          {{ $t('days.sa') }}
         </v-btn>
         <v-btn
             elevation="2"
             value="7"
             class="btn"
         >
-          Su
+          {{ $t('days.su') }}
         </v-btn>
       </v-btn-toggle>
     <br>
     <div class="apply">
-      <v-btn @click="updateReminder">APPLY</v-btn>
+      <v-btn @click="updateReminder">{{ $t('settings.applyBtn') }}</v-btn>
     </div>
   </v-container>
 </template>
 
 <script>
 import languageSwitch from "@/components/languageSwitch";
-import i18n from '../i18n.js';
 
 export default {
   name: "settings",
@@ -100,25 +97,20 @@ export default {
     languageSwitch,
   },
 
-  data() {
-    var language = 'en';
-    return {
+  data: () => ({
       select: {title: null},
       items: [
-        {title: i18n.t('settings.summer', language)},
-        {title: i18n.t('settings.fall', language)},
-        {title: i18n.t('settings.winter', language)},
-        {title: i18n.t('settings.spring', language)},
-        {title: i18n.t('settings.seasons', language)}
+        {title: "Summer"},
+        {title: "Winter"},
+        {title: "Fall"},
+        {title: "Spring"},
+        {title: "Seasons"}
       ],
       toggle_multiple: []
-    }
-  },
-
+  }),
   methods: {
     updateTheme(season) {
       this.$store.commit("changeTheme", season);
-      this.updateLanguage();
     },
     updateReminder() {
       this.$store.dispatch("updateReminder", this.toggle_multiple);
@@ -126,14 +118,10 @@ export default {
     refresh() {
       this.$router.back();
     },
-    updateLanguage(){
-      this.language = this.$store.getters.getLanguage;
-    }
   },
 
   mounted() {
     this.select.title = this.$store.getters.getTheme;
-    this.updateLanguage();
   }
 }
 </script>
@@ -143,7 +131,6 @@ export default {
   width: 80vw;
   max-width: 500px;
 }
-
 .daybuttons {
   display: flex;
   justify-content: center;

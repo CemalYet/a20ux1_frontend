@@ -83,8 +83,9 @@
     "addFriend": "Add friend",
     "friendReq": "Friend requests",
     "friendReqMes": "New friend requests will show up here",
-    "searchField": "Search Friends"
-
+    "searchField": "Search Friends",
+    "noFriends": "No friends yet!",
+    "inviteSomeFriends": "Invite or add some of your nature loving friends on the app"
   },
   "loading": {
     "message": "loading, please wait"
@@ -168,6 +169,7 @@
     "winter": "Winter",
     "fall": "Fall",
     "spring": "Spring",
-    "seasons": "Seasons"
+    "seasons": "Seasons", 
+    "reminderChange": " Change the reminder settings:"
   }
 }

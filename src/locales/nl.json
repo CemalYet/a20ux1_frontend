@@ -79,7 +79,9 @@
     "addFriend": "Toevoegen",
     "friendReq": "Vriendverzoeken",
     "friendReqMes": "Nieuwe vriendverzoeken worden hier weergegeven",
-    "searchField": "Zoek vrienden"
+    "searchField": "Zoek vrienden",
+    "noFriends": "Nog geen vrienden!",
+    "inviteSomeFriends": "Nodig enkele van je natuurliefhebbende vrienden uit of voeg ze toe aan de app"
   },
   "loading": {
     "message": "Laden even geduld aub"
@@ -162,7 +164,8 @@
     "winter": "Winter",
     "fall": "Herfst",
     "spring": "Lente",
-    "seasons": "Seizoenen"
+    "seasons": "Seizoenen",
+    "reminderChange": "Wijzig de herinneringsinstellingen:"
   }
 
 }

@@ -29,19 +29,12 @@ export default {
 }
 </script>
 
-<style>
-*{
-  margin: auto;
-},
+<style scoped>
 .flagImg {
   margin-right: 1rem;
 }
 .languageContainer {
   display: flex;
-  align-items: center;
   justify-content: space-between;
 }
-/* .languageBtn{
-  margin: 1rem;
-} */
 </style>

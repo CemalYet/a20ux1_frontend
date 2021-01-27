@@ -78,6 +78,12 @@
           <v-divider></v-divider>
           <v-header> {{ $t('friendsPage.myFriend') }}</v-header>
 
+          <loader v-if="updateFriends.length === 0 && updateFriendsDataLoading"></loader>
+          <div  v-if="updateFriends.length === 0 && !updateFriendsDataLoading" style="padding-top: 16px; text-align: center">
+            <div class="text-h4"> {{ $t('friendsPage.noFriends') }}  </div>
+            <div class="text-subtitle-1"> {{ $t('friendsPage.inviteSomeFriends') }} </div> 
+          </div>
+
           <v-list-item
               v-for="friend in updateFriends"
               :key="friend.userName"
