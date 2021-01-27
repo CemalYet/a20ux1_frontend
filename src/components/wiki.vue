@@ -82,6 +82,10 @@ import store from "@/store";
 export default {
   name: "wiki",
 
+  metaInfo:{
+    title: "snAPP wiki",
+  },
+
   data: () => ({
     plants: null,
     searchField: null,

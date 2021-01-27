@@ -513,6 +513,10 @@ extend('max', {
 export default {
   name: "share",
 
+  metaInfo:{
+    title: "Share discovery",
+  },
+
   components: {
     Avatar,
     leaf1,

@@ -62,6 +62,10 @@ import loader from "@/components/loader";
 export default {
   name: "feed",
 
+  metaInfo:{
+    title: "Home feed",
+  },
+
   components: {
     leaf1,
     leaf2,

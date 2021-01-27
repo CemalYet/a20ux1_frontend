@@ -197,6 +197,10 @@ import {mdiMapMarker} from '@mdi/js';
 export default {
   name: "postContent",
 
+  metaInfo:{
+    title: "snAPP post",
+  },
+
   components: {
     avatar,
     loader

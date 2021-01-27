@@ -22,6 +22,10 @@
 export default {
   name: "settings",
 
+  metaInfo:{
+    title: "Settings",
+  },
+
   data: () => ({
     select: {title: null},
     items: [

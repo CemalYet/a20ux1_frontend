@@ -122,6 +122,10 @@ import pictureSlideGroup from "@/components/pictureSlideGroup";
 export default {
   name: "snap",
 
+  metaInfo:{
+    title: "scan a plant",
+  },
+
   components:{
     pictureSlideGroup
   },

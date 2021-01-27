@@ -292,6 +292,10 @@ import {mdiCheckBold} from '@mdi/js';
 export default {
   name: "registerpage.vue",
 
+  metaInfo:{
+    title: "snAPP registration",
+  },
+
   data: () => ({
     mdiEye: mdiEye,
     mdiEyeOff: mdiEyeOff,

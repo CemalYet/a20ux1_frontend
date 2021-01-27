@@ -12,59 +12,57 @@
       >
         <!--Avatar + name-->
         <userAvatarPlusInfo></userAvatarPlusInfo>
-
-        <!--Menu options-->
-
-          <v-list-item link :ripple="false" @click="goToWiki">
-            <v-list-item-icon>
-              <v-icon large color=var(--main-color)>{{ mdiTreeOutline }}</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Wiki</v-list-item-title>
-          </v-list-item>
-          <v-list-item link :ripple="false" @click="goToFriends">
-            <v-list-item-icon>
-              <v-icon large color=var(--main-color)>{{ mdiAccountPlusOutline }}</v-icon>
-              <v-badge
-                  color="red"
-                  :content="friendRequestNotifications"
-                  :value="friendRequestNotifications"
-                  overlap
-              ></v-badge>
-            </v-list-item-icon>
-            <v-list-item-title>Friends</v-list-item-title>
-          </v-list-item>
-          <v-list-item link :ripple="false"  @click.native="goToBadges">
-            <v-list-item-icon>
-              <v-icon large color=var(--main-color)>{{ mdiMedalOutline }}</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title >Badges</v-list-item-title >
-          </v-list-item>
-          <v-list-item link :ripple="false" @click.native="goToMap">
-            <v-list-item-icon>
-              <v-icon large color=var(--main-color)>{{ mdiMapOutline }}</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Map</v-list-item-title>
-          </v-list-item>
-
-
       </v-list>
+
+      <template>
+        <div class="pa-2">
+          <v-btn text :ripple="false" @click="goToWiki">
+            <v-icon large color=var(--main-color) left>{{ mdiTreeOutline }}</v-icon>
+            Wiki
+          </v-btn>
+        </div>
+        <div class="pa-2">
+          <v-btn text :ripple="false" @click="goToFriends">
+            <v-icon large color=var(--main-color) left>{{ mdiAccountPlusOutline }}</v-icon>
+            <v-badge
+                color="red"
+                :content="friendRequestNotifications"
+                :value="friendRequestNotifications"
+                overlap
+            ></v-badge>
+            Friends
+          </v-btn>
+        </div>
+        <div class="pa-2">
+          <v-btn text :ripple="false" @click="goToBadges">
+            <v-icon large color=var(--main-color) left>{{ mdiMedalOutline }}</v-icon>
+            Badges
+          </v-btn>
+        </div>
+        <div class="pa-2">
+          <v-btn text :ripple="false" @click="goToMap">
+            <v-icon large color=var(--main-color) left>{{ mdiMapOutline }}</v-icon>
+            Map
+          </v-btn>
+        </div>
+      </template>
 
       <!-- Settings&logout button-->
 
-        <template v-slot:append>
-          <div class="pa-2">
-            <v-btn text :ripple="false" @click="goToSettings">
-              <v-icon large color=var(--main-color) left>{{ mdiCogOutline }}</v-icon>
-              Settings
-            </v-btn>
-          </div>
-          <div class="pa-2">
-            <v-btn text :ripple="false" @click="logOut">
-              <v-icon large color=var(--main-color) left>{{ mdiLogout }}</v-icon>
-              Logout
-            </v-btn>
-          </div>
-        </template>
+      <template v-slot:append>
+        <div class="pa-2">
+          <v-btn text :ripple="false" @click="goToSettings">
+            <v-icon large color=var(--main-color) left>{{ mdiCogOutline }}</v-icon>
+            Settings
+          </v-btn>
+        </div>
+        <div class="pa-2">
+          <v-btn text :ripple="false" @click="logOut">
+            <v-icon large color=var(--main-color) left>{{ mdiLogout }}</v-icon>
+            Logout
+          </v-btn>
+        </div>
+      </template>
 
   </v-navigation-drawer>
 </template>

@@ -49,7 +49,11 @@
 export default {
   name: "information",
 
-  data: () => ({ //TODO: get the same data from the API as previous page instead of using dummy data
+  metaInfo:{
+    title: "Plant information",
+  },
+
+  data: () => ({
     cards: null,
   }),
 

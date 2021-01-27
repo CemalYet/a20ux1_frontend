@@ -6,6 +6,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import store from "@/store";
 import * as VueGoogleMaps from "vue2-google-maps";
+import Meta from 'vue-meta';
 
 Vue.use(VueGoogleMaps, {
   load: {
@@ -23,3 +24,4 @@ new Vue({
 }).$mount('#app')
 
 Vue.use(VueAxios, axios)
+Vue.use(Meta);

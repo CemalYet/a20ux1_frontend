@@ -141,6 +141,10 @@ import {mdiMapMarkerRadiusOutline} from '@mdi/js';
 export default {
   name: "map",
 
+  metaInfo:{
+    title: "snAPP map",
+  },
+
   data() {
     return {
       mapOptions: {
@@ -150,18 +154,6 @@ export default {
       mdiArrowLeft: mdiArrowLeft,
       mdiMapMarkerRadiusOutline: mdiMapMarkerRadiusOutline
     };
-  },
-
-  metaInfo() {
-    return {
-      title: "Google Maps Verify",
-      meta: [
-        {
-          name: "google-site-verification",
-          content:"xULstTpcIKRJ3vI6qaH7l8PIhDTlWZN4l55SYOlbADA",
-        }
-      ]
-    }
   },
 
   components: {

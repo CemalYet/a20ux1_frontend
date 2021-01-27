@@ -76,6 +76,10 @@ import {mdiEyeOff} from '@mdi/js';
 export default {
   name: "loginpage.vue",
 
+  metaInfo:{
+    title: "snAPP Login",
+  },
+
   data: () => ({
     emailAddress: null,
     password: null,

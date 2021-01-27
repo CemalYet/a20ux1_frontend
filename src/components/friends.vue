@@ -169,6 +169,10 @@ import {mdiCheck} from '@mdi/js';
 export default {
   name: "friends",
 
+  metaInfo:{
+    title: "Your friends",
+  },
+
   data: () => ({
     search: '',
     searchResult: null,

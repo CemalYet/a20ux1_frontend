@@ -225,6 +225,10 @@ import store from "@/store";
 export default {
   name: "profileContent",
 
+  metaInfo:{
+    title: "profile",
+  },
+
   components: {
     leafB,
     Avatar,
