@@ -445,7 +445,6 @@ export default {
   padding-top: 20px;
   padding-bottom: 5px;
   max-width: 276px;
-  /*margin: auto auto 5px;*/
   position: fixed;
   top: 500px;
 }
