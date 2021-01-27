@@ -8,7 +8,7 @@ image {
     height: 100%;
 }
 
-svg:hover > path {
+.svg_leaf:hover > path {
     fill: var(--light-color);
     stroke: var(--light-color);
     stroke-width: 10px;

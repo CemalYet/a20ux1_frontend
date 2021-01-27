@@ -18,7 +18,7 @@
 
       <!-- Comments -->
       <!-- NOT IMPLEMENTED YET: you have to refresh to see a new comment -->
-      <div class="text-body-1" v-if="getComments.length === 0" style="margin: 12px"> There seems to be nothing here. Tell your friends about your post!</div>
+      <div class="text-body-1" v-if="getComments.length === 0" style="margin: 12px"> {{ $t('comments.message') }}</div>
       <div
           class="commentBox"
           v-for="comment in getComments"
@@ -42,7 +42,7 @@
             v-model = "newComment"
             label="Write a comment"
             clearable
-            append-icon="mdi-send"
+            :append-icon=mdiSend
             @click:append="sendCommentToDb"
         ></v-text-field>
       </div>
@@ -55,12 +55,14 @@
 
 import avatar from "@/components/avatar";
 import loader from "@/components/loader";
+import {mdiSend} from '@mdi/js';
 
 export default {
   name: "commentContent",
 
   data: () => ({
     newComment: null,
+    mdiSend: mdiSend
   }),
 
   components: {

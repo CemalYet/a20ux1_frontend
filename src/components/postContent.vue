@@ -13,7 +13,7 @@
                 outlined
                 small
                 color=var(--dark-color)
-            > See plant info </v-btn>
+            > {{ $t('postContent.plantInfo') }} </v-btn>
           </div>
         </div>
         <!-- Image from the discovery-->
@@ -50,14 +50,14 @@
         <div class="icons1">
           <!-- Like button clicked or not clicked, NOT IMPLEMENTED: showing the icon based on db information -->
           <v-btn icon v-on:click="likeClicked = false" v-if="likeClicked" class="icon">
-            <v-icon large color=var(--dark-color) @click="deleteLikeFromDb">mdi-heart</v-icon>
+            <v-icon large color=var(--dark-color) @click="deleteLikeFromDb">{{ mdiHeart }}</v-icon>
           </v-btn>
           <v-btn icon v-on:click="likeClicked = true" v-else class="icon">
-            <v-icon large color=var(--dark-color) @click="sendLikeToDb">mdi-heart-outline</v-icon>
+            <v-icon large color=var(--dark-color) @click="sendLikeToDb">{{ mdiHeartOutline }}</v-icon>
           </v-btn>
           <!-- Comment button -->
           <v-btn icon class="icon" @click.stop="goToComments">
-            <v-icon large color=var(--dark-color)>mdi-comment-multiple-outline</v-icon>
+            <v-icon large color=var(--dark-color)>{{ mdiCommentMultipleOutline }}</v-icon>
           </v-btn>
           <!-- Tag button clicked or not clicked, with menu for the tags -->
           <v-menu offset-y top>
@@ -67,7 +67,7 @@
                      v-bind="attrs"
                      v-on="on"
               >
-                <v-icon large color=var(--dark-color)>mdi-tag-outline</v-icon>
+                <v-icon large color=var(--dark-color)>{{ mdiTagOutline }}</v-icon>
               </v-btn>
             </template>
             <v-list v-for="tag in getTaggedFriends" :key="tag" dense>
@@ -80,19 +80,19 @@
         <div class="icons2">
           <!-- NOT IMPLEMENTED YET: saving to the db that this discovery is favorited -->
           <v-btn icon v-on:click="favorited = false" v-if="favorited">
-            <v-icon large color=var(--dark-color)>mdi-leaf</v-icon>
+            <v-icon large color=var(--dark-color)>{{ mdiLeaf }}</v-icon>
           </v-btn>
           <v-btn icon v-on:click="favorited = true" v-else>
             <v-icon large color="#5B5C5C">mdi-leaf</v-icon>
           </v-btn>
           <v-btn icon v-on:click="showOnMap">
-            <v-icon large color=var(--dark-color)>mdi-map-marker</v-icon>
+            <v-icon large color=var(--dark-color)>{{ mdiMapMarker }}</v-icon>
           </v-btn>
         </div>
       </div>
 
       <div class="likes">
-        <p> {{ getLikes }} likes </p>
+        <p> {{ getLikes }} {{ $t('postContent.likes') }} </p>
       </div>
 
       <!-- Comments -->
@@ -136,7 +136,7 @@
             <v-list-item v-if="getComments.length === 0">
               <v-list-item-content>
                 <v-list-item-subtitle @click="goToComments">
-                  No comments yet
+                  {{ $t('postContent.noComment') }}
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -150,11 +150,11 @@
       >
         <v-card>
           <v-card-title class="headline">
-            Are you sure you want to delete this post?
+            {{ $t('postContent.headerDel') }}
           </v-card-title>
 
           <v-card-text>
-            This action can not be undone and your friends can't see your awesome picture anymore :(
+            {{ $t('postContent.messageDel') }}
           </v-card-text>
 
           <v-card-actions>
@@ -165,7 +165,7 @@
                 text
                 @click="closeDelete"
             >
-              Cancel
+              {{ $t('buttons.cancel') }}
             </v-btn>
 
             <v-btn
@@ -173,7 +173,7 @@
                 text
                 @click="deletePost"
             >
-              Delete
+              {{ $t('buttons.confirm') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -187,6 +187,12 @@
 import axios from "axios";
 import avatar from "@/components/avatar";
 import loader from "@/components/loader";
+import {mdiHeart} from '@mdi/js';
+import {mdiHeartOutline} from '@mdi/js';
+import {mdiCommentMultipleOutline} from '@mdi/js';
+import {mdiTagOutline} from '@mdi/js';
+import {mdiLeaf} from '@mdi/js';
+import {mdiMapMarker} from '@mdi/js';
 
 export default {
   name: "postContent",
@@ -199,6 +205,12 @@ export default {
   data: () => ({
     likeClicked: false,
     favorited: false,
+    mdiHeart: mdiHeart,
+    mdiHeartOutline: mdiHeartOutline,
+    mdiCommentMultipleOutline: mdiCommentMultipleOutline,
+    mdiTagOutline: mdiTagOutline,
+    mdiLeaf: mdiLeaf,
+    mdiMapMarker: mdiMapMarker,
   }),
 
   methods: {

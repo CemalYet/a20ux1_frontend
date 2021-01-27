@@ -1,0 +1,173 @@
+{
+  "login": {
+    "loginB": "log in",
+    "registerB": "register",
+    "serverErr": "Something is wrong with the server. Please try again later.",
+    "notValid": "Login credentials are not valid. Try again."
+
+  },
+  "register": {
+    "registration": "Registration",
+    "geoTag": "Geo tagging",
+    "reminderTab": "Daily reminder",
+    "geoText": "In order to put your pictures on our Discovery map, we would need to use your location.",
+    "reminder": "Would you like us to remind you to go on walks on certain days?",
+    "enjoyM": "Enjoy your time using snAPP",
+    "AllDone": "All Done",
+    "locationLab": "I agree to let this app use my location",
+    "userNamLab": "Username",
+    "passLab": "passwoord",
+    "newpassLab": "New passwoord",
+    "passNoMa": "Passwords don't match",
+    "fillAll": "Please fill in all the text fields as required.",
+    "alreadyUsed": "This e-mail address is already in use.",
+    "currPass": "Current password",
+    "repNewPass": "Repeat new password"
+
+
+
+  },
+  "days": {
+    "mo": "mo",
+    "tu": "tu",
+    "we": "we",
+    "th": "th",
+    "fr": "fr",
+    "sa": "sa",
+    "su": "su"
+
+  },
+  "badges": {
+    "noMessage": "You didn\\'t receive this badge yet"
+  },
+  "buttons": {
+    "cancel": "cancel",
+    "confirm": "confirm",
+    "back": "back",
+    "continue": "continue",
+    "updateProf": "Update profile",
+    "updatePass": "Update password",
+    "changePass": "Change password",
+    "goBack": "Go back",
+    "gotIt": "Got it!",
+    "unFriend": "Unfriend",
+    "friends": "Friends",
+    "pending": "Pending",
+    "cntWPlant": "CONTINUE WITH THIS PLANT",
+    "mine": "Mine",
+    "popular": "Popular",
+    "map": "Map",
+    "settings": "Settings",
+    "logout": "Logout",
+    "close": "close",
+    "finish": "finish",
+    "ctnShare": "continue sharing",
+    "what": "What plant is this?",
+    "changeTh": "Change Theme",
+    "apply": "Apply",
+    "searchMap": "Search discoveries"
+
+  },
+  "comments": {
+    "message": "There seems to be nothing here. Tell your friends about your post!"
+  },
+  "errorMessages":{
+    "message": "Something went wrong connection to the server."
+  },
+  "feedPage": {
+    "message": "Go make some friends so you can enjoy there discoveries!",
+    "header": "Your friends discoveries will show up here"
+  },
+  "friendsPage": {
+    "myFriend": "My friends",
+    "addFriend": "Add friend",
+    "friendReq": "Friend requests",
+    "friendReqMes": "New friend requests will show up here",
+    "searchField": "Search Friends"
+
+  },
+  "loading": {
+    "message": "loading, please wait"
+  },
+  "postContent": {
+    "headerDel": " Are you sure you want to delete this post?",
+    "messageDel": "This action can not be undone and your friends can't see your awesome picture anymore :(",
+    "noComment": "No comments yet",
+    "likes": "likes",
+    "plantInfo": "See plant info"
+
+  },
+  "share": {
+    "addPic": "Add pictures",
+    "chooseLeaf": "Choose leaves",
+    "tagFriend": "Tag friends",
+    "info": "General info",
+    "picHead": "Add some nice pictures to your discovery!",
+    "picMess": " You can add up to 5 pictures. The last one show in the leaf on the feed.",
+    "leafHead": "Choose your favorite leaf shape!",
+    "leafMess": "This leaf shape will show up in your friends feed, so be sure to take a nice one that complements your first\npicture.",
+    "tagHeader": "Tagged Friend",
+    "tagMess": "Tagged friends will show up here",
+    "cancelSh": "Cancel sharing?",
+    "cancelMess": "Are you sure you want to stop sharing your discovery? The plant will still show up in your wiki, but your\nfriends won't see it.",
+    "errorLeaf": "Please choose a leaf for your discovery",
+    "errorUpload": "Failed to upload. Please try again later."
+  },
+  "prContent":{
+    "tabPh": "My pictures",
+    "messagePh": " You don't have any discoveries yet! Be sure to go out in nature and make some snaps of nice plants!",
+    "messageTg": "None of your friends have tagged you yet :( Be sure to go out and explore with your friends",
+    "passNotMatch": "New password and confirmed password don\\'t match!"
+  },
+  "snap": {
+    "message": " You can add up to 5 pictures to scan",
+    "errorM": "You need at least 1 image!",
+    "sizeError": "Your file is too big! Please select an image under 16MB",
+    "reminder": "Please choose an image file",
+    "info": "MORE INFORMATION",
+    "remark": "Click on a match to see more information and confirm the one you want to add to the discovery"
+  },
+  "pageT": {
+    "friend": "Friends",
+    "share": "Share",
+    "disco": "My Discoveries",
+    "settings": "Settings",
+    "profile": "Profile",
+    "edit": "Edit profile",
+    "post": "Post",
+    "comment": "comments"
+
+  },
+  "routes": {
+    "information": "/information",
+    "friends": "/friends",
+    "share": "/share",
+    "wiki": "/wiki",
+    "settings": "/settings",
+    "map": "/map",
+    "profile": "/profile",
+    "edit": "/edit",
+    "comments": "/comments",
+    "login": "/login",
+    "register": "/register",
+    "error": "/error"
+  },
+  "titles": {
+    "snap": "New snAPP",
+    "friends": "Friends",
+    "share": "Share",
+    "wiki": "My discoveries",
+    "settings": "Settings",
+    "profile": "Profile",
+    "edit": "Edit profile"
+  },
+  "settings": {
+    "selectTheme": "Select a theme:",
+    "applyBtn": "APPLY",
+    "summer": "Summer",
+    "winter": "Winter",
+    "fall": "Fall",
+    "spring": "Spring",
+    "seasons": "Seasons"
+  }
+}

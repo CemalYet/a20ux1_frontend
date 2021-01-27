@@ -13,7 +13,7 @@
               icon
           >
             <v-icon size="50">
-              mdi-plus-circle
+              {{ mdiPlusCircle }}
             </v-icon>
           </v-btn>
           <avatar
@@ -31,7 +31,7 @@
           <v-text-field
               v-model="updatedUserData[0].userName"
               :rules="nameRules"
-              label="username"
+              :label="$t('register.userNamLab')"
               outlined
               :counter=25
               required
@@ -51,7 +51,7 @@
               @click.native="updateProfile"
 
           >
-            Update profile
+            {{ $t('buttons.updateProf') }}
           </v-btn>
         </v-container>
       </v-form>
@@ -63,7 +63,7 @@
               :append-icon="showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="showPassword1 = !showPassword1"
               :type="showPassword1 ? 'text' : 'password'"
-              label="Current password"
+              :label="$t('register.currPass')"
               outlined
               required
           ></v-text-field>
@@ -73,7 +73,7 @@
               :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="showPassword2 = !showPassword2"
               :type="showPassword2 ? 'text' : 'password'"
-              label="New password"
+              :label="$t('register.newpassLab')"
               outlined
               required
           ></v-text-field>
@@ -83,7 +83,7 @@
               :append-icon="showPassword3 ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="showPassword3 = !showPassword3"
               :type="showPassword3 ? 'text' : 'password'"
-              label="Repeat new password"
+              :label="$t('register.repNewPass')"
               outlined
               required
           ></v-text-field>
@@ -94,7 +94,7 @@
               @click.native="updatePassword"
 
           >
-            Update password
+            {{ $t('buttons.updatePass') }}
           </v-btn>
         </v-container>
       </v-form>
@@ -106,7 +106,7 @@
           @click.native="toggleChangePassword"
 
       >
-        Change password
+        {{ $t('buttons.changePass') }}
       </v-btn>
       <v-btn
           v-if="changePassword"
@@ -116,7 +116,7 @@
           @click.native="toggleChangePassword"
 
       >
-        Go back
+        {{ $t('buttons.goBack') }}
       </v-btn>
 
       <!-- Error dialog displays any potential error messages -->
@@ -125,7 +125,7 @@
           <v-card-text class="subheading">{{ this.errorText }}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn @click="toggleDialog()" text>Got it!</v-btn>
+            <v-btn @click="toggleDialog()" text>{{ $t('buttons.gotIt') }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -138,6 +138,7 @@
 import axios from "axios";
 import ImageInput from "@/components/ImageInput";
 import avatar from "@/components/avatar";
+import {mdiPlusCircle} from '@mdi/js';
 
 export default {
   name: "editProfileContent",
@@ -148,6 +149,7 @@ export default {
   },
 
   data: () => ({
+    mdiPlusCircle: mdiPlusCircle,
     valid: false,
     nameRules: [
       v => !!v || 'Name is required',
@@ -238,8 +240,9 @@ export default {
 
       if (this.newPassword != this.confirmPassword) {
         this.errorDialog = true
-        this.errorText = 'New password and confirmed password don\'t match!'
-      } else {
+        this.errorText = this.$t('prContent.passNotMatch')
+      }
+      else{
         let tmpData = {password: this.password, newPassword: this.newPassword}
 
         let rawData = JSON.stringify(tmpData)

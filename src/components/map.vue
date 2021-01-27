@@ -25,10 +25,10 @@
         <template #activator="scope" style="margin-bottom: 6px">
           <v-text-field
               hide-details
-              label="Search discoveries"
+              :label="$t('buttons.searchMap')"
               solo
               clearable
-              prepend-inner-icon='mdi-arrow-left'
+              :prepend-inner-icon= mdiArrowLeft
               color="var(--dark-color)"
               v-model="updateSearchField"
               @click:prepend-inner="goBack"
@@ -56,9 +56,9 @@
     <!-- top buttons -->
     <div class="chip_group_container">
       <v-chip-group mandatory>
-        <v-chip @click="getMyDiscoveries" color="var(--light-color)" text-color="white" label>Mine</v-chip>
-        <v-chip @click="getFriendsDiscoveries" color="var(--light-color)" text-color="white" label>Friends</v-chip>
-        <v-chip @click="getPopularDiscoveries" color="var(--light-color)" text-color="white" label>Popular</v-chip>
+        <v-chip @click="getMyDiscoveries" color="var(--light-color)" text-color="white" label> {{ $t('buttons.mine')}}</v-chip>
+        <v-chip @click="getFriendsDiscoveries" color="var(--light-color)" text-color="white" label>{{ $t('buttons.friends')}}</v-chip>
+        <v-chip @click="getPopularDiscoveries" color="var(--light-color)" text-color="white" label>{{ $t('buttons.popular')}}</v-chip>
       </v-chip-group>
     </div>
 
@@ -115,13 +115,13 @@
           </div>
           <div id="route_button">
             <v-btn
-                color="var(--main-color)"
+                color=var(--main-color)
                 dark
                 @click="openGoogleMap(getSelectedMarker)"
             >
               <v-icon
               left>
-                mdi-map-marker-radius-outline
+                {{ mdiMapMarkerRadiusOutline }}
               </v-icon>
               route
             </v-btn>
@@ -135,6 +135,8 @@
 <script>
 import GmapCustomMarker from 'vue2-gmap-custom-marker';
 import avatar from "@/components/avatar";
+import {mdiArrowLeft} from '@mdi/js';
+import {mdiMapMarkerRadiusOutline} from '@mdi/js';
 
 export default {
   name: "map",
@@ -145,6 +147,8 @@ export default {
         disableDefaultUI: true,
       },
       postToShow: null,
+      mdiArrowLeft: mdiArrowLeft,
+      mdiMapMarkerRadiusOutline: mdiMapMarkerRadiusOutline
     };
   },
 

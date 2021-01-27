@@ -1,5 +1,5 @@
 <template>
-  <svg viewBox="0 0 640 480"
+  <svg class="svg_leaf" viewBox="0 0 640 480"
        xmlns="http://www.w3.org/2000/svg"
        >
     <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->

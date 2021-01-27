@@ -10,6 +10,8 @@ const store = new Vuex.Store({
     state: {
         theme: "Seasons",
 
+        language: localStorage.getItem("appLanguage") || process.env.VUE_APP_I18N_LOCALE || 'en',
+
         ///// USERDATA /////
         loggedInUserData: [],
 
@@ -102,6 +104,11 @@ const store = new Vuex.Store({
             state.theme = value;
         },
 
+        changeLanguage(state, value) {
+            state.language = value;
+            localStorage.setItem("appLanguage", value); 
+        },
+
         //change data
         toggleDrawer(state) {
             state.drawer = !state.drawer;
@@ -117,7 +124,6 @@ const store = new Vuex.Store({
         },
         updateLoggedInUserData(state, userData) {
             state.loggedInUserData = userData;
-            // alert(JSON.stringify(this.getters.getLoggedInUserData[0].userId))
         },
         updateUserEmail(state, email) {
             state.userdata.emailAddress = email
@@ -438,11 +444,6 @@ const store = new Vuex.Store({
         fetchFriendRequests(context) {
             axios.get('/public/friends/getFriendRequest').then(response => (context.commit('updateFriendRequests', response["data"])))
         },
-        /*
-        uploadLoggedInUserData(context, updatedUserData) {
-            context.commit('updateLoggedInUserData', updatedUserData);
-        },
-        */
 
         fetchFriendRequestNotifications(context) {
             //axios post to request the amount of notifications from backend. Pass the userId of logged in user via the session in backend. writer trigger in database
@@ -569,6 +570,11 @@ const store = new Vuex.Store({
                 }
 
             });
+        },
+
+        //////// SETTINGS /////
+        updateLanguage(context, lang){
+            context.commit('changeLanguage', lang);
         }
     },
 
@@ -576,6 +582,9 @@ const store = new Vuex.Store({
         getTheme(state) {
             console.log(state.theme);
             return state.theme;
+        },
+        getLanguage(state) {
+            return state.language;
         },
         //to get state data
         getDrawerState(state) {

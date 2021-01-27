@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import hamburgerButton from "@/components/hamburgerButton";
 export default {
   name: "navBar",
 
@@ -28,14 +27,5 @@ export default {
     title: String
   },
 
-  components:{
-    // eslint-disable-next-line vue/no-unused-components
-    hamburgerButton
-  }
-
 }
 </script>
-
-<style scoped>
-
-</style>

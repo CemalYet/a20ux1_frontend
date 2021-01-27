@@ -3,8 +3,8 @@
     <br>
     <loader v-if="discoveriesData.length === 0 && feedDataLoading"></loader>
     <div v-if="discoveriesData.length === 0 && !feedDataLoading" style="text-align: center">
-      <div class="text-h4">Your friends discoveries will show up here</div>
-      <div class="text-subtitle-1">Go make some friends so you can enjoy there discoveries!</div>
+      <div class="text-h4">{{ $t('feedPage.header') }}</div>
+      <div class="text-subtitle-1">{{ $t('feedPage.message') }}</div>
     </div>
     <div class="leaf_grid"
          v-if="discoveriesData.length !== 0"
@@ -75,7 +75,6 @@ export default {
 
   methods:{
     goToPost(discovery_id){
-      console.log(discovery_id);
       this.$router.push({path: `/post/${discovery_id}`});
     }
   },

@@ -12,7 +12,7 @@
           window.location.href="/friendsAdd"
       >
         <router-link class="router" to="/friendsAdd">
-          <v-icon style="vertical-align: middle" x-large color=var(--main-color)>mdi-account-multiple-plus</v-icon>
+          <v-icon class="icon_vertical" x-large color=var(--main-color)>{{ mdiAccountMultiplePlus }}</v-icon>
         </router-link>
       </v-btn>
       <v-btn
@@ -21,7 +21,7 @@
           window.location.href="/friends"
       >
         <router-link class="router" to="/friends">
-          <v-icon style="vertical-align: middle" x-large color=var(--main-color)>mdi-account-multiple</v-icon>
+          <v-icon class="icon_vertical" x-large color=var(--main-color)>{{ mdiAccountMultiple }}</v-icon>
         </router-link>
       </v-btn>
       <v-btn
@@ -30,7 +30,7 @@
           window.location.href="/friendsRequest"
       >
         <router-link class="router" to="/friendsRequest">
-          <v-icon style="vertical-align: middle" x-large color=var(--main-color)>mdi-account-question</v-icon>
+          <v-icon class="icon_vertical" x-large color=var(--main-color)>{{ mdiAccountQuestion }}</v-icon>
         </router-link>
       </v-btn>
     </v-row>
@@ -86,13 +86,20 @@
 
 <script>
 import axios from "axios";
+import {mdiAccountMultiplePlus} from '@mdi/js';
+import {mdiAccountMultiple} from '@mdi/js';
+import {mdiAccountQuestion} from '@mdi/js';
+
 
 export default {
   name: "addFriends",
 
   data: () => ({
     friends:null,
-    requests:null
+    requests:null,
+    mdiAccountMultiplePlus: mdiAccountMultiplePlus,
+    mdiAccountMultiple: mdiAccountMultiple,
+    mdiAccountQuestion: mdiAccountQuestion
   }),
 
   mounted() {
@@ -146,4 +153,7 @@ export default {
   text-decoration: none;
 }
 
+.icon_vertical {
+  vertical-align: middle;
+}
 </style>

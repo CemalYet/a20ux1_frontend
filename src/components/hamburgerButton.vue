@@ -1,6 +1,6 @@
 <template>
   <v-app-bar-nav-icon @click.stop="toggleDrawer">
-    <v-icon large color=var(--dark-color)>mdi-menu</v-icon>
+    <v-icon large color=var(--dark-color)>{{ mdiMenu }}</v-icon>
     <v-badge
         color="red"
         :content="friendRequestNotifications"
@@ -11,8 +11,13 @@
 </template>
 
 <script>
+import {mdiMenu} from '@mdi/js';
 export default {
   name: "hamburgerButton",
+
+  data:()=>({
+    mdiMenu: mdiMenu
+  }),
 
   methods:{
     toggleDrawer(){
@@ -27,7 +32,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

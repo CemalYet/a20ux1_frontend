@@ -1,38 +1,69 @@
 import Vue from "vue";
 import VueRouter from 'vue-router';
-import appBar from "@/components/appBar";
-import navDrawer from "@/components/navDrawer";
-import feed from "@/components/feed";
-import bottomNavBar from "@/components/bottomNavBar";
-import hamburgerButton from "@/components/hamburgerButton";
-import backButton from "@/components/backButton";
+
+import feed from '@/components/feed';
 import share from "@/components/share";
 import mapLayout from "./layouts/mapLayout"
 import map from "@/components/map";
 import defaultLayout from "./layouts/defaultLayout"
 import profileContent from "@/components/profileContent";
-import profileButton from "@/components/profileButton";
 import editProfileContent from "@/components/editProfileContent";
 import postContent from "@/components/postContent";
-import appBarPost from "@/components/appBarPost";
 import commentContent from "@/components/commentContent";
 import friends from "@/components/friends";
 import loginpage from "@/components/loginpage";
 import registerpage from "@/components/registerpage";
 import information from "@/components/information";
 import snap from "@/components/snap";
-import cancelButton from "@/components/cancelButton";
-import editProfileButton from "@/components/editProfileButton";
-import deleteButton from "@/components/deleteButton";
-import errorMessage from "@/components/errorMessage";
 import wiki from "@/components/wiki";
 import settings from "@/components/settings";
+
+const appBar = ()=> import('@/components/appBar');
+const bottomNavBar = ()=> import('@/components/bottomNavBar');
+const navDrawer = ()=> import('@/components/navDrawer');
+const hamburgerButton = ()=> import('@/components/hamburgerButton');
+const backButton = ()=> import('@/components/backButton');
+const profileButton = ()=> import('@/components/profileButton');
+const appBarPost = ()=> import('@/components/appBarPost');
+const cancelButton = ()=> import('@/components/cancelButton');
+const editProfileButton = ()=> import('@/components/editProfileButton');
+const deleteButton = ()=> import('@/components/deleteButton');
+const errorMessage = ()=> import('@/components/errorMessage');
+
+/* tried adding this but performance decreased
+const appBar = ()=> import('@/components/appBar');
+const navDrawer = ()=> import('@/components/navDrawer');
+const feed = ()=> import('@/components/feed');
+const bottomNavBar = ()=> import('@/components/bottomNavBar');
+const hamburgerButton = ()=> import('@/components/hamburgerButton');
+const backButton = ()=> import('@/components/backButton');
+const share = ()=> import('@/components/share');
+const mapLayout = ()=> import('./layouts/mapLayout');
+const map = ()=> import('@/components/map');
+const defaultLayout = ()=> import('./layouts/defaultLayout');
+const profileContent = ()=> import('@/components/profileContent');
+const profileButton = ()=> import('@/components/profileButton');
+const editProfileContent = ()=> import('@/components/editProfileContent');
+const postContent = ()=> import('@/components/postContent');
+const appBarPost = ()=> import('@/components/appBarPost');
+const commentContent = ()=> import('@/components/commentContent');
+const friends = ()=> import('@/components/friends');
+const loginpage = ()=> import('@/components/loginpage');
+const registerpage = ()=> import('@/components/registerpage');
+const information = ()=> import('@/components/information');
+const snap = ()=> import('@/components/snap');
+const cancelButton = ()=> import('@/components/cancelButton');
+const editProfileButton = ()=> import('@/components/editProfileButton');
+const deleteButton = ()=> import('@/components/deleteButton');
+const errorMessage = ()=> import('@/components/errorMessage');
+const wiki = ()=> import('@/components/wiki');
+const settings = ()=> import('@/components/settings');
+ */
 
 import store from './store.js';
 import axios from 'axios';
 
-
-
+import i18n from './i18n.js'
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -92,7 +123,7 @@ const router = new VueRouter({
                     ],
                     props:{
                         appBar:{
-                            title: "New snAPP"
+                            title: i18n.t('titles.snap', store.getters.getLanguage)
                         }
                     },
                 },
@@ -113,7 +144,7 @@ const router = new VueRouter({
                     ],
                     props:{
                         appBar:{
-                            title: "New snAPP"
+                            title: i18n.t('titles.snap', store.getters.getLanguage)
                         }
                     },
                 },
@@ -142,7 +173,7 @@ const router = new VueRouter({
                     ],
                     props:{
                         appBar:{
-                            title: "Friends"
+                            title: i18n.t('titles.friends', store.getters.getLanguage)
                         }
                     },
                 }
@@ -170,7 +201,7 @@ const router = new VueRouter({
                     ],
                     props:{
                         appBar:{
-                            title: "Share"
+                            title: i18n.t('titles.share', store.getters.getLanguage)
                         }
                     },
                 }
@@ -198,7 +229,7 @@ const router = new VueRouter({
                     ],
                     props:{
                         appBar:{
-                            title: "Wiki"
+                            title: i18n.t('titles.wiki', store.getters.getLanguage)
                         }
                     },
                 }
@@ -226,7 +257,7 @@ const router = new VueRouter({
                     ],
                     props:{
                         appBar:{
-                            title: "Settings"
+                            title: i18n.t('titles.settings', store.getters.getLanguage)
                         }
                     },
                 }
@@ -277,7 +308,7 @@ const router = new VueRouter({
                     ],
                     props:{
                         appBar:{
-                            title: "Profile"
+                            title: i18n.t('titles.profile', store.getters.getLanguage)
                         }
                     },
                 },
@@ -298,7 +329,7 @@ const router = new VueRouter({
                     ],
                     props:{
                         appBar:{
-                            title: "Edit profile"
+                            title: i18n.t('titles.edit', store.getters.getLanguage)
                         }
                     },
                 }
@@ -378,8 +409,17 @@ const router = new VueRouter({
         {
             path: '/error',
             components: {
-                layout: errorMessage
+                layout: mapLayout
             },
+            children:[
+                {
+                    path:'',
+                    components: {
+                        map: errorMessage
+                    }
+                }
+            ]
+
         }
     ],
     scrollBehavior () {

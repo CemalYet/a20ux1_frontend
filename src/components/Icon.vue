@@ -24,8 +24,6 @@ export default {
       default: false,
     },
   },
-  
-  // created: function() {}
 }
 </script>
 

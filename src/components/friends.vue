@@ -12,7 +12,7 @@
     >
       <v-tabs-slider></v-tabs-slider>
       <v-tab>
-        My friends
+        {{ $t('friendsPage.myFriend') }}
         <v-icon color=var(--dark-color)>mdi-account-multiple-outline</v-icon>
         <v-badge
             color="red"
@@ -23,7 +23,7 @@
         ></v-badge>
       </v-tab>
       <v-tab>
-        Add friend
+        {{ $t('friendsPage.addFriend') }}
         <v-icon color=var(--dark-color)>mdi-account-plus-outline</v-icon>
       </v-tab>
     </v-tabs>
@@ -34,47 +34,50 @@
       <v-tab-item>
         <v-list subheader
                 class="list">
-          <div v-if="updateFriendRequests.length !== 0">
-            <v-subheader>Friend requests</v-subheader>
-            <v-list-item
-                v-for="request in updateFriendRequests"
-                :key="request">
-              <avatar :size="52" :user-name="request.userName" :picture="request.avatar"
-                      @click.native="goToUser(request.userId)">
-              </avatar>
+          <v-header> {{ $t('friendsPage.friendReq') }}</v-header>
+          <v-list-item
+              v-if="updateFriendRequests.length === 0">
+            <v-list-item-content>
+              <v-list-item-subtitle>{{ $t('friendsPage.friendReqMes') }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item
+              v-else
+              v-for="request in updateFriendRequests"
+              :key="request">
+            <avatar :size="52" :user-name="request.userName" :picture="request.avatar"
+                    @click.native="goToUser(request.userId)">
+                   </avatar>
 
-              <v-list-item-content @click="goToUser(request.userId)">
-                <v-list-item-title v-text="request.userName"></v-list-item-title>
-              </v-list-item-content>
 
-              <v-list-item-icon>
-                <v-btn
-                    depressed
-                    icon
-                    color="error"
-                    dark
-                    class="mr-4"
-                    @click="declineRequest(request)">
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-                <v-btn
-                    depressed
-                    color=var(--main-color)
-                    dark
-                    icon
-                    @click="acceptRequest(request)">
-                  <v-icon>mdi-check</v-icon>
-                </v-btn>
-              </v-list-item-icon>
-            </v-list-item>
-            <v-divider></v-divider>
-            <v-subheader>My friends</v-subheader>
-          </div>
-          <loader v-if="updateFriends.length === 0 && updateFriendsDataLoading"></loader>
-          <div  v-if="updateFriends.length === 0 && !updateFriendsDataLoading" style="padding-top: 16px; text-align: center">
-            <div class="text-h4">No friends yet!</div>
-            <div class="text-subtitle-1">Invite or add some of your nature loving friends on the app</div>
-          </div>
+            <v-list-item-content>
+              <v-list-item-title v-text="request.userName"></v-list-item-title>
+            </v-list-item-content>
+
+            <v-list-item-icon>
+              <v-btn
+                  depressed
+                  icon
+                  color="error"
+                  dark
+                  class="mr-4"
+                  @click="declineRequest(request)">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+              <v-btn
+                  depressed
+                  color=var(--main-color)
+                  dark
+                  icon
+                  @click="acceptRequest(request)">
+                <v-icon>mdi-check</v-icon>
+              </v-btn>
+            </v-list-item-icon>
+          </v-list-item>
+
+          <v-divider></v-divider>
+          <v-header> {{ $t('friendsPage.myFriend') }}</v-header>
+
           <v-list-item
               v-for="friend in updateFriends"
               :key="friend.userName"
@@ -91,7 +94,7 @@
               <v-btn depressed
                      class="text-capitalize"
                      v-on:click="postUnFriendId(friend)">
-                Unfriend
+                {{ $t('buttons.unFriend') }}
               </v-btn>
             </v-list-item-icon>
           </v-list-item>
@@ -101,8 +104,8 @@
         <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
-            label="Search users"
             color="var(--dark-color)"
+            :label="$t('friendsPage.searchField')"
             single-line
             @keyup.enter="postQuery()"
         ></v-text-field>
@@ -124,16 +127,16 @@
                   disabled
                   class="text-capitalize">
                 <!--@click="acceptRequest(friends)" -->
-                Friends
+                {{ $t('buttons.friends') }}
               </v-btn>
               <v-btn
                   v-else-if="parseInt(friend.state)===0"
                   depressed
                   color=var(--main-color)
                   outlined
-                  class="friend_request_button text-capitalize">
+                  class="text-capitalize">
                 <!--@click="acceptRequest(friends)" -->
-                Pending
+                {{ $t('buttons.pending') }}
               </v-btn>
               <v-btn
                   v-else
@@ -143,7 +146,7 @@
                   class="friend_request_button text-capitalize"
                   @click="postFriendId(friend)"
               >
-                Add Friend
+                {{ $t('friendsPage.addFriend') }}
               </v-btn>
             </v-list-item-icon>
           </v-list-item>
@@ -161,6 +164,10 @@
 import avatar from "@/components/avatar";
 import loader from "@/components/loader";
 import axios from "axios";
+import {mdiAccountMultipleOutline} from '@mdi/js';
+import {mdiAccountPlusOutline} from '@mdi/js';
+import {mdiClose} from '@mdi/js';
+import {mdiCheck} from '@mdi/js';
 
 export default {
   name: "friends",
@@ -168,7 +175,11 @@ export default {
   data: () => ({
     search: '',
     searchResult: null,
-    tab: null
+    tab: null,
+    mdiAccountMultipleOutline: mdiAccountMultipleOutline,
+    mdiAccountPlusOutline: mdiAccountPlusOutline,
+    mdiClose: mdiClose,
+    mdiCheck: mdiCheck
   }),
 
   components: {
@@ -199,7 +210,6 @@ export default {
         userId_2: user.userId
       });
 
-      // let currentObj = this;
       let formData = new FormData()
       formData.append('data', userId)
 
@@ -220,7 +230,6 @@ export default {
         search_string: this.search
       });
       console.log(search_string)
-      // let currentObj = this;
       let formData = new FormData()
       formData.append('data', search_string)
 
@@ -234,7 +243,6 @@ export default {
         userId_1: request.userId
       });
 
-      // let currentObj = this;
       let formData = new FormData()
       formData.append('data', friendId)
 
@@ -248,7 +256,6 @@ export default {
         userId: request.userId
       });
 
-      // let currentObj = this;
       let formData = new FormData()
       formData.append('data', friendId)
 

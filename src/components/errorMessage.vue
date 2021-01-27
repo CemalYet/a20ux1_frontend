@@ -1,31 +1,34 @@
 <template>
-  <v-app>
-    <v-main id="main">
-      <div style="padding-bottom: 58px">
+      <div class="error_container">
         <v-icon
             size="100"
             color=var(--light-color)>
-          mdi-robot-confused-outline
+          {{ mdiRobotConfusedOutline }}
         </v-icon>
         <div class="text-h2"> Woops...</div>
-        <div class="text-subtitle-1">Something went wrong connection to the server.</div>
+        <div class="text-subtitle-1">{{ $t('errorMessages.message') }}.</div>
       </div>
-    </v-main>
-  </v-app>
 </template>
 
 <script>
+import {mdiRobotConfusedOutline} from '@mdi/js';
 export default {
-  name: "errorMessage"
+  name: "errorMessage",
+
+  data:()=>({
+    mdiRobotConfusedOutline: mdiRobotConfusedOutline
+  })
 }
 </script>
 
 <style scoped>
 
-#main{
+.error_container{
   text-align: center;
-  align-items: center;
-  height: 100vh;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 </style>

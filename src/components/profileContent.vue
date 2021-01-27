@@ -22,7 +22,7 @@
           color=var(--dark-color)
           style="margin-top: 10px">
         <v-tab href="#pictures">
-          My pictures
+          {{ $t('prContent.tabPh') }}
         </v-tab>
         <v-tab href="#tags">
           Tags
@@ -43,7 +43,7 @@
               v-if="updateProfileDiscoveries.length === 0 && updateProfileDiscoveriesLoading === false"
               style="margin: 16px"
           >
-            You don't have any discoveries yet! Be sure to go out in nature and make some snaps of nice plants!
+            {{ $t('prContent.messagePh') }}
           </div>
 
           <v-container
@@ -96,7 +96,7 @@
               v-if="updateProfileTaggedDiscoveries.length === 0 && updateProfileTaggedDiscoveriesLoading === false"
               style="margin: 16px"
           >
-            None of your friends have tagged you yet :( Be sure to go out and explore with your friends
+            '{{ $t('prContent.messageTg') }}'
           </div>
 
           <v-container
@@ -199,7 +199,7 @@
                             text
                             @click="badge.show = false"
                         >
-                          Close
+                          {{ $t('buttons.close') }}
                         </v-btn>
                       </v-card-actions>
                     </v-card>

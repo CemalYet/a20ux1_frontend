@@ -6,7 +6,7 @@
           step="1"
           color=var(--dark-color)
       >
-        Registration
+        {{ $t('register.registration') }}
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
@@ -22,7 +22,7 @@
           step="3"
           color=var(--dark-color)
       >
-        Daily reminder
+        {{ $t('register.reminderTab') }}
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
@@ -42,7 +42,7 @@
               <v-text-field
                   v-model="userName"
                   :rules="nameRules"
-                  label="Username"
+                  :label="$t('register.userNamLab')"
                   :counter=25
                   required
                   outlined
@@ -62,10 +62,10 @@
               <v-text-field
                   v-model="password"
                   :rules="passwordRules"
-                  :append-icon="showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
+                  :append-icon="showPassword1 ? mdiEye : mdiEyeOff"
                   @click:append="showPassword1 = !showPassword1"
                   :type="showPassword1 ? 'text' : 'password'"
-                  label="New password"
+                  :label="$t('register.passLab')"
                   required
                   outlined
                   color=var(--main-color);
@@ -74,10 +74,10 @@
               <v-text-field
                   v-model="confirmPassword"
                   :rules="passwordRules"
-                  :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
+                  :append-icon="showPassword2 ? mdiEye : mdiEyeOff"
                   @click:append="showPassword2 = !showPassword2"
                   :type="showPassword2 ? 'text' : 'password'"
-                  label="Repeat new password"
+                  :label="$t('register.newpassLab')"
                   required
                   outlined
                   color=var(--main-color);
@@ -105,18 +105,53 @@
             </div>
           </v-form>
         </div>
+        <div class="coverButtons">
+          <div class="centerButtons">
+            <v-btn
+                class="buttons"
+                @click.native="goBackToLogin"
+                elevation="2"
+            >
+              {{ $t('buttons.back') }}
+            </v-btn>
+            <v-btn
+                class="buttons white--text"
+                color=var(--dark-color)
+                elevation="2"
+                @click.native="checkRegData"
+            >
+              {{ $t('buttons.continue') }}
+            </v-btn>
+          </div>
+        </div>
+
+        <v-snackbar
+            v-model="snackBar"
+            color="error"
+        >
+          {{ snackBarText }}
+          <template v-slot:action="{ attrs }">
+            <v-btn
+                text
+                v-bind="attrs"
+                @click="snackBar = false"
+            >
+              {{ $t('buttons.close') }}
+            </v-btn>
+          </template>
+        </v-snackbar>
       </v-stepper-content>
 
 
       <v-stepper-content step="2" class="background">
         <div class="content">
           <div class="paragraphbox">
-            <p class="biggerFont"> In order to put your pictures on our Discovery map, we would need to use your location. </p>
+            <p class="biggerFont">  {{ $t('register.geoText') }} </p>
           </div>
           <div class="checkbox">
             <v-checkbox
                 v-model="checkbox"
-                label="I agree to let this app use my location"
+                :label="$t('register.locationLab')"
                 color=var(--dark-color)
                 value=var(--dark-color)
                 class="dark--text biggerFont"
@@ -130,7 +165,7 @@
                 @click="e1 = 1"
                 elevation="2"
             >
-              Back
+              {{ $t('buttons.back') }}
             </v-btn>
             <v-btn
                 color=var(--dark-color)
@@ -139,7 +174,7 @@
                 elevation="2"
                 @click.native="updateUserEmail"
             >
-              Continue
+              {{ $t('buttons.continue') }}
             </v-btn>
           </div>
         </div>
@@ -150,7 +185,7 @@
       <v-stepper-content step="3" class="background">
         <div class="content">
           <div class="paragraphbox">
-            <p class="text1 biggerFont"> Would you like us to remind you to go on walks on certain days? </p>
+            <p class="text1 biggerFont">  {{ $t('register.reminder') }} </p>
           </div>
           <v-form>
             <v-container>
@@ -167,49 +202,49 @@
                     elevation="2"
                     class="btn"
                 >
-                  Mo
+                  {{ $t('days.mo') }}
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="2"
                     class="btn"
                 >
-                  Tu
+                  {{ $t('days.tu') }}
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="3"
                     class="btn"
                 >
-                  We
+                  {{ $t('days.we') }}
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="4"
                     class="btn"
                 >
-                  Th
+                  {{ $t('days.th') }}
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="5"
                     class="btn"
                 >
-                  Fr
+                  {{ $t('days.fr') }}
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="6"
                     class="btn"
                 >
-                  Sa
+                  {{ $t('days.sa') }}
                 </v-btn>
                 <v-btn
                     elevation="2"
                     value="7"
                     class="btn"
                 >
-                  Su
+                  {{ $t('days.su') }}
                 </v-btn>
               </v-btn-toggle>
             </v-container>
@@ -222,7 +257,7 @@
                 @click="e1 = 2"
                 elevation="2"
             >
-              Back
+              {{ $t('buttons.back') }}
             </v-btn>
             <v-btn
                 color=var(--dark-color)
@@ -232,7 +267,7 @@
                 :loading="updateRegisterLoading"
                 :disabled="updateRegisterLoading"
             >
-              Create profile
+              {{ $t('buttons.confirm') }}
             </v-btn>
           </div>
         </div>
@@ -242,9 +277,9 @@
 
       <v-stepper-content step="4" class="background">
         <div class="doneText">
-          <h1 class="bigText"> All done! </h1>
+          <h1 class="bigText"> {{ $t('register.AllDone') }} </h1>
           <br>
-          <p> Enjoy your time using snAPP </p>
+          <p> {{ $t('register.enjoyM') }} </p>
         </div>
         <div class="doneButton">
           <v-btn
@@ -258,7 +293,7 @@
                 x-large
                 right
             >
-              mdi-check-bold
+              {{ mdiCheckBold }}
             </v-icon>
           </v-btn>
         </div>
@@ -285,11 +320,17 @@
 
 <script>
 import axios from "axios";
+import {mdiEye} from '@mdi/js';
+import {mdiEyeOff} from '@mdi/js';
+import {mdiCheckBold} from '@mdi/js';
 
 export default {
   name: "registerpage.vue",
 
   data: () => ({
+    mdiEye: mdiEye,
+    mdiEyeOff: mdiEyeOff,
+    mdiCheckBold: mdiCheckBold,
     e1: 1,
     userName: null,
     emailAddress: null,
@@ -374,12 +415,12 @@ export default {
     },
     checkTextFields: function () {
       if (this.userName === null || this.password === null || this.confirmPassword === null || this.emailAddress === null) {
-        this.snackBarText = 'Please fill in all the text fields as required.';
+        this.snackBarText = this.$t('register.fillAll');
         this.snackBar = true;
         return false;
       } else {
         if (this.password !== this.confirmPassword) {
-          this.snackBarText = "Passwords don't match";
+          this.snackBarText = this.$t('register.passNoMa');
           this.snackBar = true;
           return false;
         } else {
@@ -389,7 +430,7 @@ export default {
               && (/.+@.+/.test(this.emailAddress))) {
             return true;
           } else {
-            this.snackBarText = 'Please fill in all the text fields as required.';
+            this.snackBarText = this.$t('register.fillAll');
             this.snackBar = true;
             return false
           }
@@ -401,7 +442,7 @@ export default {
       if (response.length === 0) {
         this.e1 = 2;
       } else {
-        this.snackBarText = 'This e-mail address is already in use.';
+        this.snackBarText = this.$t('register.alreadyUsed');
         this.snackBar = true;
       }
     }

@@ -15,15 +15,20 @@
         @click.native="goToProfile"
         style="margin-right: -12px !important;"
     >
-      <v-icon large color=var(--dark-color)>mdi-account-circle-outline</v-icon>
+      <v-icon large color=var(--dark-color)>{{ mdiAccountCircleOutline }}</v-icon>
     </v-btn>
   </div>
 </template>
 
 <script>
 import avatar from "@/components/avatar";
+import {mdiAccountCircleOutline} from '@mdi/js';
 export default {
   name: "profileButton",
+
+  data:()=>({
+    mdiAccountCircleOutline: mdiAccountCircleOutline,
+  }),
 
   components:{
     avatar
@@ -45,7 +50,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

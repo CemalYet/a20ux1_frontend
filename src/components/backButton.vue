@@ -1,15 +1,17 @@
 <template>
   <v-app-bar-nav-icon @click.stop="goBack">
-    <v-icon large color=var(--dark-color)>mdi-arrow-left</v-icon>
+    <v-icon large color=var(--dark-color)>{{ backButtonIcon }}</v-icon>
   </v-app-bar-nav-icon>
 </template>
 
 <script>
+import { mdiArrowLeft } from '@mdi/js';
 export default {
   name: "backButton",
 
   data:() =>({
     prevRoute: null,
+    backButtonIcon: mdiArrowLeft
   }),
 
   beforeRouteEnter(to, from, next) {

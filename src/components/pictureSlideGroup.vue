@@ -10,8 +10,8 @@
           @click="$refs.camera_no_pic.click()"
       >
         <input type="file" ref="camera_no_pic" accept="image/*" capture="camera" style="display: none;"  @change="addImage"/>
-        <v-icon class="added_discovery_images" style="width: 80vw; max-width: 350px" size="68" color="white">
-          mdi-camera-plus
+        <v-icon class="add_photo_svg" style="width: 80vw; max-width: 350px" size="68" color="white">
+          {{ mdiCameraPlus }}
         </v-icon>
       </v-card>
     </div>
@@ -29,8 +29,8 @@
             :disabled="updateDiscoveryImages.length >= 5"
         >
           <input type="file" ref="camera" accept="image/*" capture="camera" style="display: none;"  @change="addImage"/>
-          <v-icon class="added_discovery_images" style="width: 160px" size="68" color="white">
-            mdi-camera-plus
+          <v-icon class="add_photo_svg" style="width: 160px" size="68" color="white">
+            {{ mdiCameraPlus }}
           </v-icon>
         </v-card>
       </v-slide-item>
@@ -48,7 +48,7 @@
                 color="error"
                 raised
             >
-              <v-icon>mdi-delete</v-icon>
+              <v-icon>{{ mdiDelete }}</v-icon>
             </v-btn>
           </div>
           <v-img class="added_discovery_images ma-2" :src="image.photoPath"></v-img>
@@ -59,8 +59,15 @@
 </template>
 
 <script>
+import {mdiCameraPlus} from '@mdi/js';
+import {mdiDelete} from '@mdi/js';
 export default {
   name: "pictureSlideGroup",
+
+  data:()=>({
+    mdiCameraPlus: mdiCameraPlus,
+    mdiDelete: mdiDelete
+  }),
 
   computed:{
     updateDiscoveryImages(){
@@ -77,11 +84,11 @@ export default {
         let size = imageFile.size / maxSize / maxSize
         if (!imageFile.type.match('image.*')) {
           // check whether the upload is an image
-          this.updateSnackBarMessage('Please choose an image file');
+          this.updateSnackBarMessage(this.$t('snap.reminder'));
           this.$store.commit('updateSnackbar', true);
         } else if (size>16) {
           // check whether the size is greater than the size limit
-          this.updateSnackBarMessage('Your file is too big! Please select an image under 16MB');
+          this.updateSnackBarMessage(this.$t('snap.sizeError'));
           this.$store.commit('updateSnackbar', true);
         } else {
           let newImage = {'photoPath': null};
@@ -97,7 +104,7 @@ export default {
     deleteImage(image){
       console.log(this.$store.getters.getDiscoveryImages.indexOf(image));
       if (this.$store.getters.getDiscoveryImages.length === 1){
-        this.updateSnackBarMessage('You need at least 1 image!');
+        this.updateSnackBarMessage(this.$t('snap.errorM'));
         this.$store.commit('updateSnackbar', true);
       }
       else{
@@ -113,6 +120,13 @@ export default {
 </script>
 
 <style scoped>
+
+.add_photo_svg{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
 .added_discovery_images {
   width: 220px;

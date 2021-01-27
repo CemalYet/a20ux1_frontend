@@ -12,7 +12,7 @@
             :complete="steps > 1"
             color=var(--dark-color)
         >
-          Add pictures
+          {{ $t('share.addPic') }}
         </v-stepper-step>
 
         <v-divider></v-divider>
@@ -22,7 +22,7 @@
             :complete="steps > 2"
             color=var(--dark-color)
         >
-          Choose leaves
+          {{ $t('share.chooseLeaf') }}
         </v-stepper-step>
 
         <v-divider></v-divider>
@@ -32,7 +32,7 @@
             :complete="steps > 3"
             color=var(--dark-color)
         >
-          Tag friends
+          {{ $t('share.tagFriend') }}
         </v-stepper-step>
 
         <v-divider></v-divider>
@@ -41,7 +41,7 @@
             step="4"
             color=var(--dark-color)
         >
-          General info
+          {{ $t('share.info') }}
         </v-stepper-step>
       </v-stepper-header>
 
@@ -58,11 +58,11 @@
           <br>
 
           <div class="text-h5">
-            Add some nice pictures to your discovery!
+            {{ $t('share.info') }}
           </div>
           <br>
           <div class="text-body-1">
-            You can add up to 5 pictures. The last one show in the leaf on the feed.
+            {{ $t('share.picHead') }}
           </div>
 
           <div class="stepper_buttons_container">
@@ -72,7 +72,7 @@
                 dark
                 @click="steps = 2"
             >
-              Continue
+              {{ $t('buttons.continue') }}
             </v-btn>
           </div>
 
@@ -98,15 +98,14 @@
               class="placeholder_text_container text-h5"
               v-if="updateLeafShape === null"
           >
-            Choose your favorite leaf shape!
+            {{ $t('share.leafHead') }}
           </div>
           <br>
           <div
               class="placeholder_text_container text-b1"
               v-if="updateLeafShape === null"
           >
-            This leaf shape will show up in your friends feed, so be sure to take a nice one that complements your first
-            picture.
+            {{ $t('share.leafMess') }}.
           </div>
           <div class="leafId">
             <leaf1 class="small_leaf"
@@ -137,14 +136,14 @@
                 text
                 @click="steps--"
             >
-              go back
+              {{ $t('buttons.goBack') }}
             </v-btn>
             <v-btn
                 v-if="updateLeafShape === null"
                 disabled
                 @click="steps = 3"
             >
-              Continue
+              {{ $t('buttons.continue') }}
             </v-btn>
             <v-btn
                 v-else
@@ -152,7 +151,7 @@
                 dark
                 @click="steps = 3"
             >
-              Continue
+              {{ $t('buttons.continue') }}
             </v-btn>
           </div>
         </v-stepper-content>
@@ -161,11 +160,11 @@
             step="3"
         >
 
-          <v-header>Tagged Friend</v-header>
+          <v-header>{{ $t('share.tagHeader') }}</v-header>
           <v-list-item
               v-if="taggedFriends.length === 0">
             <v-list-item-content>
-              <v-list-item-subtitle style="height: 64px;">Tagged friends will show up here</v-list-item-subtitle>
+              <v-list-item-subtitle style="height: 64px;">{{ $t('share.tagMess') }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
 
@@ -188,7 +187,7 @@
                       raised
                       @click="removeTag(taggedFriend)"
                   >
-                    <v-icon>mdi-delete</v-icon>
+                    <v-icon>{{ mdiDelete }}</v-icon>
                   </v-btn>
                 </div>
               </div>
@@ -196,7 +195,7 @@
           </v-slide-group>
 
           <v-divider></v-divider>
-          <vheader>My friends</vheader>
+          <vheader>{{ $t('friendsPage.myFriend') }}</vheader>
 
           <v-virtual-scroll
               :items="updateFriends"
@@ -218,7 +217,7 @@
                       dark
                       class="text-capitalize"
                       @click="tagFriend(item)">
-                    Tag Friend
+                    {{ $t('share.tagFriend') }}
                   </v-btn>
                 </v-list-item-action>
               </v-list-item>
@@ -231,14 +230,14 @@
                 text
                 @click="steps--"
             >
-              go back
+              {{ $t('buttons.goBack') }}
             </v-btn>
             <v-btn
                 color=var(--dark-color)
                 dark
                 @click="steps = 4"
             >
-              Continue
+              {{ $t('buttons.continue') }}
             </v-btn>
           </div>
         </v-stepper-content>
@@ -302,7 +301,7 @@
                         color=var(--dark-color)
                         @click="time_modal = false"
                     >
-                      Cancel
+                      {{ $t('buttons.cancel') }}
                     </v-btn>
                     <v-btn
                         text
@@ -349,7 +348,7 @@
                         color=var(--dark-color)
                         @click="date_modal = false"
                     >
-                      Cancel
+                      {{ $t('buttons.cancel') }}
                     </v-btn>
                     <v-btn
                         text
@@ -408,7 +407,7 @@
                     text
                     @click="steps--"
                 >
-                  go back
+                  {{ $t('buttons.goBack') }}
                 </v-btn>
 
                 <v-btn
@@ -420,7 +419,7 @@
                     :disabled="(invalid || updateSaveLoading)"
                     @click="updateChallenges(); updateTitle(updateInformationCard.title)"
                 >
-                  finish
+                  {{ $t('buttons.finish') }}
                 </v-btn>
               </div>
             </form>
@@ -441,7 +440,7 @@
             v-bind="attrs"
             @click="updateSnackbar = false;"
         >
-          Close
+          {{ $t('buttons.close') }}
         </v-btn>
       </template>
     </v-snackbar>
@@ -452,12 +451,11 @@
     >
       <v-card>
         <v-card-title class="headline">
-          Cancel sharing?
+          {{ $t('share.cancelSh') }}
         </v-card-title>
 
         <v-card-text>
-          Are you sure you want to stop sharing your discovery? The plant will still show up in your wiki, but your
-          friends won't see it.
+          {{ $t('share.cancelMess') }}
         </v-card-text>
 
         <v-card-actions>
@@ -468,7 +466,7 @@
               text
               @click="updateCancelDialog = false; goToFeed()"
           >
-            cancel
+            {{ $t('buttons.cancel') }}
           </v-btn>
 
           <v-btn
@@ -476,7 +474,7 @@
               text
               @click="updateCancelDialog = false"
           >
-            continue sharing
+            {{ $t('buttons.ctnShare') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -495,6 +493,7 @@ import {required, max} from 'vee-validate/dist/rules'
 import {extend, ValidationObserver, ValidationProvider, setInteractionMode} from 'vee-validate'
 import pictureSlideGroup from "@/components/pictureSlideGroup";
 import Avatar from "@/components/avatar";
+import {mdiDelete} from '@mdi/js';
 
 setInteractionMode('eager')
 
@@ -535,6 +534,7 @@ export default {
     taggedFriends:[],
     taggedFriendsId:[],
     response: null,
+    mdiDelete: mdiDelete
   }),
 
   created() {
@@ -579,10 +579,10 @@ export default {
     check_data: function () {
       this.loader = 'loading'
       if (this.$store.getters.getChosen_leaf === null) {
-        this.updateSnackBarMessage = "Please choose a leaf for your discovery";
+        this.updateSnackBarMessage = this.$t('share.errorLeaf');
         this.$store.commit('updateSnackbar', true);
       } else {
-        this.updateSnackBarMessage = "Failed to upload. Please try again later.";
+        this.updateSnackBarMessage = this.$t('share.errorUpload');
         this.$store.dispatch('sharePost', this.taggedFriendsId);
       }
     },
