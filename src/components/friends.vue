@@ -13,7 +13,7 @@
       <v-tabs-slider></v-tabs-slider>
       <v-tab>
         {{ $t('friendsPage.myFriend') }}
-        <v-icon color=var(--dark-color)>mdi-account-multiple-outline</v-icon>
+        <v-icon color=var(--dark-color)>{{ mdiAccountMultipleOutline }}</v-icon>
         <v-badge
             color="red"
             :content="updateFriendRequests.length"
@@ -24,7 +24,7 @@
       </v-tab>
       <v-tab>
         {{ $t('friendsPage.addFriend') }}
-        <v-icon color=var(--dark-color)>mdi-account-plus-outline</v-icon>
+        <v-icon color=var(--dark-color)>{{mdiAccountPlusOutline}}</v-icon>
       </v-tab>
     </v-tabs>
 
@@ -62,7 +62,7 @@
                   dark
                   class="mr-4"
                   @click="declineRequest(request)">
-                <v-icon>mdi-close</v-icon>
+                <v-icon>{{ mdiClose }}</v-icon>
               </v-btn>
               <v-btn
                   depressed
@@ -70,7 +70,7 @@
                   dark
                   icon
                   @click="acceptRequest(request)">
-                <v-icon>mdi-check</v-icon>
+                <v-icon>{{ mdiCheck }}</v-icon>
               </v-btn>
             </v-list-item-icon>
           </v-list-item>

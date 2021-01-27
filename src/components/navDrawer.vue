@@ -28,7 +28,7 @@
                 color="red"
                 :content="friendRequestNotifications"
                 :value="friendRequestNotifications"
-                overlap
+                offset-x="20"
             ></v-badge>
             {{ $t('buttons.friends')}}
           </v-btn>
