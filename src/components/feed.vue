@@ -47,7 +47,7 @@
     </div>
     <br>
     <div class="center">
-    <v-btn
+    <v-btn v-if="discoveriesData.length >=5 && discoveriesData.length>=this.$store.getters.getAmountOfFeed "
         depressed
         color=var(--main-color)
         dark
