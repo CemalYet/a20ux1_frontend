@@ -96,7 +96,7 @@ export default {
 
   methods: {
     clearSearchResults() {
-      axios.get('/public/WikiController/getWikiData', {params: {userId: store.getters.getLoggedInUserData[0].userId}})
+      axios.get('/public/wikiController/getWikiData', {params: {userId: store.getters.getLoggedInUserData[0].userId}})
           .then(response => {
         this.plants = response["data"];
       });
@@ -104,19 +104,19 @@ export default {
       this.spots = 0;
     },
     searchEnter() {
-      axios.get('/public/wikicontroller/search', {params: {search: this.searchField, userId: store.getters.getLoggedInUserData[0].userId}})
+      axios.get('/public/wikiController/search', {params: {search: this.searchField, userId: store.getters.getLoggedInUserData[0].userId}})
           .then(response => {
             this.plants = response["data"];
           });
     },
     getPictures(plantName) {
-      axios.get('/public/wikicontroller/getPictures', {params: {search: plantName, userId: store.getters.getLoggedInUserData[0].userId}})
+      axios.get('/public/wikiController/getPictures', {params: {search: plantName, userId: store.getters.getLoggedInUserData[0].userId}})
           .then(response => {
             this.pictures = response["data"];
           });
     },
     getSpots(plantName) {
-      axios.get('/public/wikicontroller/getSpots', {params: {plant: plantName, userId: store.getters.getLoggedInUserData[0].userId}})
+      axios.get('/public/wikiController/getSpots', {params: {plant: plantName, userId: store.getters.getLoggedInUserData[0].userId}})
           .then(response => {
             this.spots = response["data"][0];
           });
